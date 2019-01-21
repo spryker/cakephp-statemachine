@@ -1,0 +1,210 @@
+<?php
+
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace StateMachine\Business\Logger;
+
+use Orm\Zed\StateMachine\Persistence\SpyStateMachineTransitionLog;
+use Spryker\Service\UtilNetwork\UtilNetworkServiceInterface;
+use StateMachine\Business\Process\EventInterface;
+use StateMachine\Dependency\CommandPluginInterface;
+use StateMachine\Dependency\ConditionPluginInterface;
+use StateMachine\Transfer\StateMachineItemTransfer;
+
+class TransitionLog implements TransitionLogInterface
+{
+    public const QUERY_STRING = 'QUERY_STRING';
+
+    /**
+     * @var \Orm\Zed\StateMachine\Persistence\SpyStateMachineTransitionLog[]
+     */
+    protected $logEntities;
+
+    /**
+     * @var \StateMachine\Business\Logger\PathFinderInterface
+     */
+    protected $pathFinder;
+
+    /**
+     * @var \Spryker\Service\UtilNetwork\UtilNetworkServiceInterface
+     */
+    protected $utilNetworkService;
+
+    /**
+     * @param \StateMachine\Business\Logger\PathFinderInterface $pathFinder
+     * @param \Spryker\Service\UtilNetwork\UtilNetworkServiceInterface $utilNetworkService
+     */
+    public function __construct(PathFinderInterface $pathFinder, UtilNetworkServiceInterface $utilNetworkService)
+    {
+        $this->pathFinder = $pathFinder;
+        $this->utilNetworkService = $utilNetworkService;
+    }
+
+    /**
+     * @param \StateMachine\Business\Process\EventInterface $event
+     *
+     * @return void
+     */
+    public function setEvent(EventInterface $event)
+    {
+        $nameEvent = $event->getName();
+        $nameEvent .= $event->getEventTypeLabel();
+
+        foreach ($this->logEntities as $logEntity) {
+            $logEntity->setEvent($nameEvent);
+        }
+    }
+
+    /**
+     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     *
+     * @return void
+     */
+    public function init(array $stateMachineItems)
+    {
+        $this->logEntities = [];
+        foreach ($stateMachineItems as $stateMachineItem) {
+            $logEntity = $this->initEntity($stateMachineItem);
+            $this->logEntities[$stateMachineItem->getIdentifier()] = $logEntity;
+        }
+    }
+
+    /**
+     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dependency\CommandPluginInterface $command
+     *
+     * @return void
+     */
+    public function addCommand(StateMachineItemTransfer $stateMachineItemTransfer, CommandPluginInterface $command)
+    {
+        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->setCommand(get_class($command));
+    }
+
+    /**
+     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dependency\ConditionPluginInterface $condition
+     *
+     * @return void
+     */
+    public function addCondition(StateMachineItemTransfer $stateMachineItemTransfer, ConditionPluginInterface $condition)
+    {
+        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->setCondition(get_class($condition));
+    }
+
+    /**
+     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param string $stateName
+     *
+     * @return void
+     */
+    public function addSourceState(StateMachineItemTransfer $stateMachineItemTransfer, $stateName)
+    {
+        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->setSourceState($stateName);
+    }
+
+    /**
+     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param string $stateName
+     *
+     * @return void
+     */
+    public function addTargetState(StateMachineItemTransfer $stateMachineItemTransfer, $stateName)
+    {
+        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->setTargetState($stateName);
+    }
+
+    /**
+     * @param bool $error
+     *
+     * @return void
+     */
+    public function setIsError($error)
+    {
+        foreach ($this->logEntities as $logEntity) {
+            $logEntity->setIsError($error);
+        }
+    }
+
+    /**
+     * @param string $errorMessage
+     *
+     * @return void
+     */
+    public function setErrorMessage($errorMessage)
+    {
+        foreach ($this->logEntities as $logEntity) {
+            $logEntity->setErrorMessage($errorMessage);
+        }
+    }
+
+    /**
+     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     *
+     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineTransitionLog
+     */
+    protected function initEntity(StateMachineItemTransfer $stateMachineItemTransfer)
+    {
+        $stateMachineTransitionLogEntity = $this->createStateMachineTransitionLogEntity();
+        $stateMachineTransitionLogEntity->setIdentifier($stateMachineItemTransfer->getIdentifier());
+        $stateMachineTransitionLogEntity->setFkStateMachineProcess(
+            $stateMachineItemTransfer->getIdStateMachineProcess()
+        );
+        $stateMachineTransitionLogEntity->setHostname($this->utilNetworkService->getHostName());
+
+        $path = $this->pathFinder->getCurrentExecutionPath();
+        $stateMachineTransitionLogEntity->setPath($path);
+
+        $params = [];
+        if (!empty($_SERVER[self::QUERY_STRING])) {
+            $params = $this->getParamsFromQueryString($_SERVER[self::QUERY_STRING]);
+        }
+
+        $stateMachineTransitionLogEntity->setParams($params);
+
+        return $stateMachineTransitionLogEntity;
+    }
+
+    /**
+     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     *
+     * @return void
+     */
+    public function save(StateMachineItemTransfer $stateMachineItemTransfer)
+    {
+        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->save();
+    }
+
+    /**
+     * @return void
+     */
+    public function saveAll()
+    {
+        foreach ($this->logEntities as $logEntity) {
+            if ($logEntity->isModified()) {
+                $logEntity->save();
+            }
+        }
+        $this->logEntities = [];
+    }
+
+    /**
+     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineTransitionLog
+     */
+    protected function createStateMachineTransitionLogEntity()
+    {
+        return new SpyStateMachineTransitionLog();
+    }
+
+    /**
+     * @param string $queryString
+     *
+     * @return array
+     */
+    protected function getParamsFromQueryString($queryString)
+    {
+        return explode('&', $queryString);
+    }
+}
