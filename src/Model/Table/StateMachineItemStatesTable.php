@@ -7,8 +7,10 @@
 
 namespace StateMachine\Model\Table;
 
+use Cake\Database\Expression\FieldTrait;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
+use StateMachine\Model\FieldNameTrait;
 use Tools\Model\Table\Table;
 
 /**
@@ -28,6 +30,8 @@ use Tools\Model\Table\Table;
  */
 class StateMachineItemStatesTable extends Table
 {
+    use FieldNameTrait;
+
     /**
      * Initialize method
      *

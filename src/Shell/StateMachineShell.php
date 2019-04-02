@@ -32,7 +32,7 @@ class StateMachineShell extends Shell
             $name = $this->in('Name', null, $name);
         }
 
-        $file = '....xml'
+        $file = '....xml';
         $this->out('Generated: ' . $file);
     }
 

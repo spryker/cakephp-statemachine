@@ -7,139 +7,97 @@
 
 namespace StateMachine\Model;
 
+use Cake\ORM\Query;
 use DateTime;
+use StateMachine\Transfer\StateMachineItemTransfer;
 
 interface QueryContainerInterface
 {
     /**
-     * @api
-     *
      * @param int $idState
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryStateByIdState($idState);
+    public function queryStateByIdState(int $idState): Query;
 
     /**
-     * @api
+     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
      *
-     * @param \Generated\Shared\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
-     *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryItemsWithExistingHistory(StateMachineItemTransfer $stateMachineItemTransfer);
+    public function queryItemsWithExistingHistory(StateMachineItemTransfer $stateMachineItemTransfer): Query;
 
     /**
-     * @api
-     *
      * @param \DateTime $expirationDate
      * @param string $stateMachineName
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineEventTimeoutQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryItemsWithExpiredTimeout(DateTime $expirationDate, $stateMachineName);
+    public function queryItemsWithExpiredTimeout(DateTime $expirationDate, string $stateMachineName): Query;
 
     /**
-     * @api
-     *
-     * @param int $identifier
+     * @param string $identifier
      * @param int $idStateMachineProcess
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateHistoryQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryItemHistoryByStateItemIdentifier($identifier, $idStateMachineProcess);
+    public function queryItemHistoryByStateItemIdentifier(string $identifier, int $idStateMachineProcess): Query;
 
     /**
-     * @api
-     *
      * @param string $stateMachineName
      * @param string $processName
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineProcessQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryProcessByStateMachineAndProcessName($stateMachineName, $processName);
+    public function queryProcessByStateMachineAndProcessName(string $stateMachineName, string $processName): Query;
 
     /**
-     * @api
-     *
      * @param string $stateMachineName
      * @param string $processName
-     * @param string[] $states
+     * @param array $states
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateQuery
+     * @return \Cake\ORM\Query
      */
     public function queryItemsByIdStateMachineProcessAndItemStates(
-        $stateMachineName,
-        $processName,
+        string $stateMachineName,
+        string $processName,
         array $states
-    );
+    ): Query;
 
     /**
-     * @api
-     *
      * @param int $idProcess
      * @param string $stateName
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryItemStateByIdProcessAndStateName($idProcess, $stateName);
+    public function queryItemStateByIdProcessAndStateName(int $idProcess, string $stateName): Query;
 
     /**
-     * @api
-     *
-     * @deprecated Not used, will be removed in the next major release.
-     *
-     * @param string $identifier
      * @param \DateTime $expirationDate
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineLockQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryLockedItemsByIdentifierAndExpirationDate($identifier, DateTime $expirationDate);
+    public function queryLockedItemsByExpirationDate(DateTime $expirationDate): Query;
 
     /**
-     * @api
-     *
-     * @param \DateTime $expirationDate
-     *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineLockQuery
-     */
-    public function queryLockedItemsByExpirationDate(DateTime $expirationDate);
-
-    /**
-     * @api
-     *
      * @param string $identifier
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineLockQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryLockItemsByIdentifier($identifier);
+    public function queryLockItemsByIdentifier(string $identifier): Query;
 
     /**
-     * @api
-     *
      * @param string $processName
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineProcessQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryProcessByProcessName($processName);
+    public function queryProcessByProcessName(string $processName): Query;
 
     /**
-     * @api
+     * @param string $identifier
+     * @param int $idProcess
      *
-     * @param int $identifier
-     * @param int $fkProcess
-     *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineEventTimeoutQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryEventTimeoutByIdentifierAndFkProcess($identifier, $fkProcess);
-
-    /**
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
-     * @param int $transitionToIdState
-     *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateHistoryQuery
-     */
-    public function queryLastHistoryItem(StateMachineItemTransfer $stateMachineItemTransfer, $transitionToIdState);
+    public function queryEventTimeoutByIdentifierAndFkProcess(string $identifier, int $idProcess): Query;
 }
