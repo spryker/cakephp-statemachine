@@ -12,6 +12,8 @@ use Spryker\Service\UtilNetwork\UtilNetworkServiceInterface;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Dependency\CommandPluginInterface;
 use StateMachine\Dependency\ConditionPluginInterface;
+use StateMachine\Model\Entity\StateMachineTransitionLog;
+use StateMachine\Model\Table\StateMachineTransitionLogsTable;
 use StateMachine\Transfer\StateMachineItemTransfer;
 
 class TransitionLog implements TransitionLogInterface
@@ -19,28 +21,22 @@ class TransitionLog implements TransitionLogInterface
     public const QUERY_STRING = 'QUERY_STRING';
 
     /**
-     * @var \Orm\Zed\StateMachine\Persistence\SpyStateMachineTransitionLog[]
+     * @var \StateMachine\Model\Entity\StateMachineTransitionLog[]
      */
     protected $logEntities;
 
     /**
-     * @var \StateMachine\Business\Logger\PathFinderInterface
+     * @var \StateMachine\Model\Table\StateMachineTransitionLogsTable
      */
-    protected $pathFinder;
+    protected $stateMachineTransitionLogsTable;
 
     /**
-     * @var \Spryker\Service\UtilNetwork\UtilNetworkServiceInterface
+     * @param \StateMachine\Model\Table\StateMachineTransitionLogsTable
      */
-    protected $utilNetworkService;
-
-    /**
-     * @param \StateMachine\Business\Logger\PathFinderInterface $pathFinder
-     * @param \Spryker\Service\UtilNetwork\UtilNetworkServiceInterface $utilNetworkService
-     */
-    public function __construct(PathFinderInterface $pathFinder, UtilNetworkServiceInterface $utilNetworkService)
-    {
-        $this->pathFinder = $pathFinder;
-        $this->utilNetworkService = $utilNetworkService;
+    public function __construct(
+        StateMachineTransitionLogsTable $stateMachineTransitionLogsTable
+    ) {
+        $this->stateMachineTransitionLogsTable = $stateMachineTransitionLogsTable;
     }
 
     /**
@@ -54,7 +50,7 @@ class TransitionLog implements TransitionLogInterface
         $nameEvent .= $event->getEventTypeLabel();
 
         foreach ($this->logEntities as $logEntity) {
-            $logEntity->setEvent($nameEvent);
+            $logEntity->event = $nameEvent;
         }
     }
 
@@ -91,7 +87,7 @@ class TransitionLog implements TransitionLogInterface
      */
     public function addCondition(StateMachineItemTransfer $stateMachineItemTransfer, ConditionPluginInterface $condition)
     {
-        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->setCondition(get_class($condition));
+        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->condition = get_class($condition);
     }
 
     /**
@@ -102,7 +98,7 @@ class TransitionLog implements TransitionLogInterface
      */
     public function addSourceState(StateMachineItemTransfer $stateMachineItemTransfer, $stateName)
     {
-        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->setSourceState($stateName);
+        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->source_state = $stateName;
     }
 
     /**
@@ -113,7 +109,7 @@ class TransitionLog implements TransitionLogInterface
      */
     public function addTargetState(StateMachineItemTransfer $stateMachineItemTransfer, $stateName)
     {
-        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->setTargetState($stateName);
+        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->target_state = $stateName;
     }
 
     /**
@@ -124,7 +120,7 @@ class TransitionLog implements TransitionLogInterface
     public function setIsError($error)
     {
         foreach ($this->logEntities as $logEntity) {
-            $logEntity->setIsError($error);
+            $logEntity->is_error = $error;
         }
     }
 
@@ -136,33 +132,27 @@ class TransitionLog implements TransitionLogInterface
     public function setErrorMessage($errorMessage)
     {
         foreach ($this->logEntities as $logEntity) {
-            $logEntity->setErrorMessage($errorMessage);
+            $logEntity->error_message = $errorMessage;
         }
     }
 
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineTransitionLog
+     * @return \StateMachine\Model\Entity\StateMachineTransitionLog
      */
     protected function initEntity(StateMachineItemTransfer $stateMachineItemTransfer)
     {
         $stateMachineTransitionLogEntity = $this->createStateMachineTransitionLogEntity();
-        $stateMachineTransitionLogEntity->setIdentifier($stateMachineItemTransfer->getIdentifier());
-        $stateMachineTransitionLogEntity->setFkStateMachineProcess(
-            $stateMachineItemTransfer->getIdStateMachineProcess()
-        );
-        $stateMachineTransitionLogEntity->setHostname($this->utilNetworkService->getHostName());
-
-        $path = $this->pathFinder->getCurrentExecutionPath();
-        $stateMachineTransitionLogEntity->setPath($path);
+        $stateMachineTransitionLogEntity->identifier = $stateMachineItemTransfer->getIdentifier();
+        $stateMachineTransitionLogEntity->state_machine_process_id = $stateMachineItemTransfer->getIdStateMachineProcess();
 
         $params = [];
-        if (!empty($_SERVER[self::QUERY_STRING])) {
-            $params = $this->getParamsFromQueryString($_SERVER[self::QUERY_STRING]);
+        if (!empty($_SERVER[static::QUERY_STRING])) {
+            $params = $this->getParamsFromQueryString($_SERVER[static::QUERY_STRING]);
         }
 
-        $stateMachineTransitionLogEntity->setParams($params);
+        $stateMachineTransitionLogEntity->params = $params;
 
         return $stateMachineTransitionLogEntity;
     }
@@ -174,7 +164,7 @@ class TransitionLog implements TransitionLogInterface
      */
     public function save(StateMachineItemTransfer $stateMachineItemTransfer)
     {
-        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->save();
+        $this->stateMachineTransitionLogsTable->save($this->logEntities[$stateMachineItemTransfer->getIdentifier()]);
     }
 
     /**
@@ -183,19 +173,19 @@ class TransitionLog implements TransitionLogInterface
     public function saveAll()
     {
         foreach ($this->logEntities as $logEntity) {
-            if ($logEntity->isModified()) {
-                $logEntity->save();
+            if ($logEntity->isDirty()) {
+                $this->stateMachineTransitionLogsTable->save($logEntity);
             }
         }
         $this->logEntities = [];
     }
 
     /**
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineTransitionLog
+     * @return \StateMachine\Model\Entity\StateMachineTransitionLog
      */
-    protected function createStateMachineTransitionLogEntity()
+    protected function createStateMachineTransitionLogEntity(): StateMachineTransitionLog
     {
-        return new SpyStateMachineTransitionLog();
+        return $this->stateMachineTransitionLogsTable->newEntity();
     }
 
     /**

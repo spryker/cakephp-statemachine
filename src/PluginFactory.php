@@ -73,7 +73,8 @@ class PluginFactory
     {
         return new ItemLock(
             $this->getQueryContainer(),
-            $this->getConfig()
+            $this->getConfig(),
+            $this->createStateMachineLocksTable()
         );
     }
 
@@ -146,8 +147,7 @@ class PluginFactory
     public function createLoggerTransitionLog()
     {
         return new TransitionLog(
-            $this->createPathFinder(),
-            $this->getUtilNetworkService()
+            $this->createStateMachineTransitionLogsTable()
         );
     }
 
@@ -156,7 +156,13 @@ class PluginFactory
      */
     public function createStateMachinePersistence()
     {
-        return new Persistence($this->getQueryContainer());
+        return new Persistence(
+            $this->getQueryContainer(),
+            $this->createStateMachineItemStateHistoryTable(),
+            $this->createStateMachineProcessesTable(),
+            $this->createStateMachineItemStatesTable(),
+            $this->createStateMachineTimeoutsTable()
+        );
     }
 
     /**

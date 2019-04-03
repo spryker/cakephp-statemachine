@@ -21,7 +21,6 @@ class StateMachineController extends AppController
      */
     public function index()
     {
-        var_dump($this->getFactory()->createStateMachineItemStatesTable()->getAlias());die;
         $stateMachines = [];
         foreach ($this->getFactory()->getStateMachineHandlers() as $stateMachineHandler) {
             $stateMachines[] = $stateMachineHandler->getStateMachineName();
