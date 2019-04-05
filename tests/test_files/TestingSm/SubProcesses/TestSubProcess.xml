@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<statemachine
+        xmlns="spryker:state-machine-01"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="spryker:state-machine-01 http://static.spryker.com/state-machine-01.xsd">
+
+    <process name="TestSubProcess">
+        <states>
+            <state name="sub process state"/>
+            <state name="sub process state 2"/>
+            <state name="done" />
+        </states>
+
+        <transitions>
+            <transition>
+                <source>sub process state</source>
+                <target>sub process state 2</target>
+                <event>action</event>
+            </transition>
+
+            <transition>
+                <source>sub process state 2</source>
+                <target>done</target>
+            </transition>
+        </transitions>
+
+        <events>
+            <event name="action" manual="true"/>
+        </events>
+
+    </process>
+
+</statemachine>
