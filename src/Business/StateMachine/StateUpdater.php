@@ -7,7 +7,6 @@
 
 namespace StateMachine\Business\StateMachine;
 
-use Spryker\Zed\PropelOrm\Business\Transaction\DatabaseTransactionHandlerTrait;
 use StateMachine\Business\Exception\StateMachineException;
 use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Model\QueryContainerInterface;
@@ -15,8 +14,6 @@ use StateMachine\Transfer\StateMachineItemTransfer;
 
 class StateUpdater implements StateUpdaterInterface
 {
-    use DatabaseTransactionHandlerTrait;
-
     /**
      * @var \StateMachine\Business\StateMachine\TimeoutInterface
      */
@@ -73,9 +70,7 @@ class StateUpdater implements StateUpdaterInterface
         }
 
         foreach ($stateMachineItems as $stateMachineItemTransfer) {
-            $this->handleDatabaseTransaction(function () use ($processes, $sourceStates, $stateMachineItemTransfer) {
-                $this->executeUpdateItemStateTransaction($processes, $sourceStates, $stateMachineItemTransfer);
-            });
+            $this->executeUpdateItemStateTransaction($processes, $sourceStates, $stateMachineItemTransfer);
         }
     }
 
@@ -102,14 +97,6 @@ class StateUpdater implements StateUpdaterInterface
         $targetState = $stateMachineItemTransfer->getStateName();
 
         $this->transitionState($sourceState, $targetState, $stateMachineItemTransfer, $process);
-    }
-
-    /**
-     * @return \Propel\Runtime\Connection\ConnectionInterface
-     */
-    protected function getConnection()
-    {
-        return $this->stateMachineQueryContainer->getConnection();
     }
 
     /**

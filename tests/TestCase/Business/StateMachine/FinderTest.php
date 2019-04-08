@@ -7,32 +7,21 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineItemState;
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateHistory;
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateQuery;
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineProcess;
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineProcessQuery;
-use Propel\Runtime\Collection\ObjectCollection;
+use Cake\TestSuite\TestCase;
+use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Business\Process\State;
 use StateMachine\Business\StateMachine\BuilderInterface;
 use StateMachine\Business\StateMachine\Finder;
 use StateMachine\Business\StateMachine\HandlerResolverInterface;
+use StateMachine\Dependency\StateMachineHandlerInterface;
+use StateMachine\Model\Entity\StateMachineItemState;
+use StateMachine\Model\Entity\StateMachineItemStateHistory;
+use StateMachine\Model\QueryContainer;
 use StateMachine\Model\QueryContainerInterface;
-use StateMachine\Test\TestCase\Mocks\StateMachineMocks;
 use StateMachine\Transfer\StateMachineItemTransfer;
 use StateMachine\Transfer\StateMachineProcessTransfer;
 
-/**
- * Auto-generated group annotations
- * @group SprykerTest
- * @group Zed
- * @group StateMachine
- * @group Business
- * @group StateMachine
- * @group FinderTest
- * Add your own group annotations below this line
- */
-class FinderTest extends StateMachineMocks
+class FinderTest extends TestCase
 {
     public const TEST_STATE_MACHINE_NAME = 'TestStateMachine';
 
@@ -120,36 +109,20 @@ class FinderTest extends StateMachineMocks
         $builderMock = $this->createBuilderMock();
         $builderMock->method('createProcess')->willReturn($processMock);
 
-        $stateMachineQueryContainerMock = $this->createStateMachineQueryContainerMock();
+        $stateMachineQueryContainer = $this->createStateMachineQueryContainer();
 
-        $stateMachineProcessQuery = $this->getMockBuilder(SpyStateMachineProcessQuery::class)->getMock();
-        $stateMachineProcessQuery->method('findOne')->willReturn(new SpyStateMachineProcess());
+        $stateMachineItemEntity = new StateMachineItemState();
+        $stateMachineItemEntity->id = 1;
+        $stateMachineItemEntity->state_machine_process_id = 1;
+        $stateMachineItemEntity->name = 'State';
 
-        $stateMachineQueryContainerMock->expects($this->once())
-            ->method('queryProcessByStateMachineAndProcessName')
-            ->willReturn($stateMachineProcessQuery);
+        $itemStateHistory = new StateMachineItemStateHistory();
 
-        $stateMachineItemStateQuery = $this->getMockBuilder(SpyStateMachineItemStateQuery::class)->getMock();
+        $stateHistories[] = $itemStateHistory;
 
-        $stateMachineItemEntity = new SpyStateMachineItemState();
-        $stateMachineItemEntity->setIdStateMachineItemState(1);
-        $stateMachineItemEntity->setFkStateMachineProcess(1);
-        $stateMachineItemEntity->setName('State');
+        $stateMachineItemEntity->state_machine_item_state_history = $stateHistories;
 
-        $itemStateHistory = new SpyStateMachineItemStateHistory();
-
-        $stateHistories = new ObjectCollection();
-        $stateHistories->append($itemStateHistory);
-
-        $stateMachineItemEntity->setStateHistories($stateHistories);
-
-        $stateMachineItemStateQuery->method('find')->willReturn([$stateMachineItemEntity]);
-
-        $stateMachineQueryContainerMock->expects($this->once())
-            ->method('queryItemsByIdStateMachineProcessAndItemStates')
-            ->willReturn($stateMachineItemStateQuery);
-
-        $finder = $this->createFinder(null, $builderMock, $stateMachineQueryContainerMock);
+        $finder = $this->createFinder(null, $builderMock, $stateMachineQueryContainer);
 
         $stateMachineProcessTransfer = new StateMachineProcessTransfer();
         $stateMachineProcessTransfer->setProcessName('Process1');
@@ -185,7 +158,7 @@ class FinderTest extends StateMachineMocks
         }
 
         if ($stateMachineQueryContainerMock === null) {
-            $stateMachineQueryContainerMock = $this->createStateMachineQueryContainerMock();
+            $stateMachineQueryContainerMock = $this->createStateMachineQueryContainer();
         }
 
         return new Finder(
@@ -193,5 +166,53 @@ class FinderTest extends StateMachineMocks
             $handlerResolverMock,
             $stateMachineQueryContainerMock
         );
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\StateMachineHandlerInterface
+     */
+    protected function createStateMachineHandlerMock()
+    {
+        $stateMachineHandlerMock = $this->getMockBuilder(StateMachineHandlerInterface::class)->getMock();
+
+        return $stateMachineHandlerMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\HandlerResolverInterface
+     */
+    protected function createHandlerResolverMock()
+    {
+        $handlerResolverMock = $this->getMockBuilder(HandlerResolverInterface::class)->getMock();
+
+        return $handlerResolverMock;
+    }
+
+    /**
+     * @return \StateMachine\Model\QueryContainerInterface
+     */
+    protected function createStateMachineQueryContainer(): QueryContainerInterface
+    {
+        return new QueryContainer();
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\BuilderInterface
+     */
+    public function createBuilderMock()
+    {
+        $builderMock = $this->getMockBuilder(BuilderInterface::class)->getMock();
+
+        return $builderMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\Process\ProcessInterface
+     */
+    protected function createProcessMock()
+    {
+        $processMock = $this->getMockBuilder(ProcessInterface::class)->getMock();
+
+        return $processMock;
     }
 }

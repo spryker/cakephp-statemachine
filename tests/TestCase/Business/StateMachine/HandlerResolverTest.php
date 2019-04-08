@@ -7,10 +7,10 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
+use Cake\TestSuite\TestCase;
 use StateMachine\Business\Exception\StateMachineHandlerNotFound;
 use StateMachine\Business\StateMachine\HandlerResolver;
 use StateMachine\Dependency\StateMachineHandlerInterface;
-use StateMachine\Test\TestCase\Mocks\StateMachineMocks;
 
 /**
  * Auto-generated group annotations
@@ -22,7 +22,7 @@ use StateMachine\Test\TestCase\Mocks\StateMachineMocks;
  * @group HandlerResolverTest
  * Add your own group annotations below this line
  */
-class HandlerResolverTest extends StateMachineMocks
+class HandlerResolverTest extends TestCase
 {
     public const TEST_HANDLER_NAME = 'testing state machine name';
 
@@ -55,5 +55,15 @@ class HandlerResolverTest extends StateMachineMocks
         $stateMachineHandlerMock->method('getStateMachineName')->willReturn(static::TEST_HANDLER_NAME);
 
         return new HandlerResolver([$stateMachineHandlerMock]);
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\StateMachineHandlerInterface
+     */
+    protected function createStateMachineHandlerMock()
+    {
+        $stateMachineHandlerMock = $this->getMockBuilder(StateMachineHandlerInterface::class)->getMock();
+
+        return $stateMachineHandlerMock;
     }
 }

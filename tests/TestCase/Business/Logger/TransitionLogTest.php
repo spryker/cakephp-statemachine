@@ -7,14 +7,16 @@
 
 namespace StateMachine\Test\TestCase\Business\Logger;
 
+use Cake\ORM\TableRegistry;
+use Cake\TestSuite\TestCase;
 use StateMachine\Business\Logger\TransitionLog;
 use StateMachine\Business\Process\Event;
-use StateMachine\Model\Entity\StateMachineTransitionLog;
+use StateMachine\Dependency\CommandPluginInterface;
+use StateMachine\Dependency\ConditionPluginInterface;
 use StateMachine\Model\Table\StateMachineTransitionLogsTable;
-use StateMachine\Test\TestCase\Mocks\StateMachineMocks;
 use StateMachine\Transfer\StateMachineItemTransfer;
 
-class TransitionLogTest extends StateMachineMocks
+class TransitionLogTest extends TestCase
 {
     protected const SOURCE_STATE = 'source state';
     protected const TARGET_STATE = 'target state';
@@ -23,25 +25,56 @@ class TransitionLogTest extends StateMachineMocks
     protected const STATE_NAME = 'state';
     protected const PROCESS_NAME = 'process';
 
+    /**
+     * @var \StateMachine\Model\Table\StateMachineTransitionLogsTable
+     */
+    public $StateMachineTransitionLogs;
+
+    /**
+     * @var array
+     */
+    public $fixtures = [
+        'plugin.StateMachine.StateMachineTransitionLogs',
+        'plugin.StateMachine.StateMachineProcesses',
+    ];
+
     protected const QUERY_DATA = [
         ['foo' => 'bar'],
         ['param' => 'value'],
     ];
 
     /**
+     * setUp method
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $config = TableRegistry::getTableLocator()->exists('StateMachineTransitionLogs') ? [] : ['className' => StateMachineTransitionLogsTable::class];
+        $this->StateMachineTransitionLogs = TableRegistry::getTableLocator()->get('StateMachineTransitionLogs', $config);
+    }
+
+    /**
+     * tearDown method
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        unset($this->StateMachineTransitionLogs);
+
+        parent::tearDown();
+    }
+
+    /**
      * @return void
      */
     public function testLoggerPersistsAllProvidedData()
     {
-        $stateMachineTransitionLogEntityMock = $this->createTransitionLogEntityMock();
-        $stateMachineTransitionLogsTable = $this->createTransitionLogTableMock();
-        $stateMachineTransitionLogsTable
-            ->method('save')
-            ->willReturn($stateMachineTransitionLogEntityMock);
-
         $stateMachineItemTransfer = $this->createItemTransfer();
 
-        $transitionLog = $this->createTransitionLog($stateMachineTransitionLogEntityMock);
+        $transitionLog = $this->createTransitionLog();
         $transitionLog->init([$stateMachineItemTransfer]);
 
         $commandMock = $this->createCommandMock();
@@ -64,11 +97,13 @@ class TransitionLogTest extends StateMachineMocks
         $transitionLog->save($stateMachineItemTransfer);
         $transitionLog->saveAll();
 
-        $this->assertEquals(get_class($commandMock), $stateMachineTransitionLogEntityMock->command);
-        $this->assertEquals(get_class($conditionMock), $stateMachineTransitionLogEntityMock->condition);
-        $this->assertEquals(static::SOURCE_STATE, $stateMachineTransitionLogEntityMock->source_state);
-        $this->assertEquals(static::TARGET_STATE, $stateMachineTransitionLogEntityMock->target_state);
-        $this->assertEquals($event->getName(), $stateMachineTransitionLogEntityMock->event);
+        $stateMachineTransitionLogEntity = $this->StateMachineTransitionLogs->find()->last();
+
+        $this->assertEquals(get_class($commandMock), $stateMachineTransitionLogEntity->command);
+        $this->assertEquals(get_class($conditionMock), $stateMachineTransitionLogEntity->condition);
+        $this->assertEquals(static::SOURCE_STATE, $stateMachineTransitionLogEntity->source_state);
+        $this->assertEquals(static::TARGET_STATE, $stateMachineTransitionLogEntity->target_state);
+        $this->assertEquals($event->getName(), $stateMachineTransitionLogEntity->event);
     }
 
     /**
@@ -76,14 +111,14 @@ class TransitionLogTest extends StateMachineMocks
      */
     public function testWhenNonCliRequestUsedShouldExtractOutputParamsAndPersist()
     {
-        $_SERVER[TransitionLog::QUERY_STRING] = $this->createQueryString([static::QUERY_DATA[0], static::QUERY_DATA[1]]);
-        $stateMachineTransitionLogEntityMock = $this->createTransitionLogEntityMock();
+        $_SERVER[TransitionLog::QUERY_STRING] = $this->createQueryString(array_merge(static::QUERY_DATA[0], static::QUERY_DATA[1]));
+        $stateMachineTransitionLogEntity = $this->StateMachineTransitionLogs->newEntity();
         $stateMachineItemTransfer = $this->createItemTransfer();
 
-        $transitionLog = $this->createTransitionLog($stateMachineTransitionLogEntityMock);
+        $transitionLog = $this->createTransitionLog();
         $transitionLog->init([$stateMachineItemTransfer]);
 
-        $storedParams = $stateMachineTransitionLogEntityMock->params;
+        $storedParams = $stateMachineTransitionLogEntity->params;
 
         $this->assertEquals($this->createQueryString(static::QUERY_DATA[0]), $storedParams[0]);
         $this->assertEquals($this->createQueryString(static::QUERY_DATA[1]), $storedParams[1]);
@@ -94,33 +129,9 @@ class TransitionLogTest extends StateMachineMocks
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\Logger\TransitionLog
      */
-    protected function createTransitionLog(StateMachineTransitionLog $stateMachineTransitionLogEntityMock)
+    protected function createTransitionLog()
     {
-        $partialTransitionLogMock = $this->getMockBuilder(TransitionLog::class)
-            ->setMethods(['createStateMachineTransitionLogEntity'])
-            ->setConstructorArgs([$this->createTransitionLogTableMock()])
-            ->getMock();
-
-        $partialTransitionLogMock->method('createStateMachineTransitionLogEntity')
-            ->willReturn($stateMachineTransitionLogEntityMock);
-
-        return $partialTransitionLogMock;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Model\Entity\StateMachineTransitionLog
-     */
-    protected function createTransitionLogEntityMock()
-    {
-        return $this->getMockBuilder(StateMachineTransitionLog::class)->getMock();
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Model\Table\StateMachineTransitionLogsTable
-     */
-    protected function createTransitionLogTableMock()
-    {
-        return $this->getMockBuilder(StateMachineTransitionLogsTable::class)->getMock();
+        return new TransitionLog($this->StateMachineTransitionLogs);
     }
 
     /**
@@ -155,5 +166,25 @@ class TransitionLogTest extends StateMachineMocks
     protected function createIdentifier(): string
     {
         return sha1(1);
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\CommandPluginInterface
+     */
+    protected function createCommandMock()
+    {
+        $commandMock = $this->getMockBuilder(CommandPluginInterface::class)->getMock();
+
+        return $commandMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\ConditionPluginInterface
+     */
+    protected function createConditionPluginMock()
+    {
+        $conditionPluginMock = $this->getMockBuilder(ConditionPluginInterface::class)->getMock();
+
+        return $conditionPluginMock;
     }
 }

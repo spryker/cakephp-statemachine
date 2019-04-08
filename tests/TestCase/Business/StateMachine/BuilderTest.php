@@ -20,9 +20,9 @@ use StateMachine\Transfer\StateMachineProcessTransfer;
 class BuilderTest extends TestCase
 {
     protected const STATES_COUNT = 14;
-    protected const STATE_NAME = 'complete';
+    protected const STATE_NAME = 'completed';
 
-    protected const TRANSITION_COUNT = 12;
+    protected const TRANSITION_COUNT = 22;
 
     protected const SUBPROCESSES_COUNT = 2;
 
@@ -189,7 +189,7 @@ class BuilderTest extends TestCase
     {
         $stateMachineConfigMock = $this->getMockBuilder(StateMachineConfig::class)->getMock();
 
-        $pathToStateMachineFixtures = realpath(__DIR__ . '/../../../test_files');
+        $pathToStateMachineFixtures = realpath(__DIR__ . '/../../../test_files') . DIRECTORY_SEPARATOR;
         $stateMachineConfigMock->method('getPathToStateMachineXmlFiles')->willReturn($pathToStateMachineFixtures);
         $stateMachineConfigMock->method('getSubProcessPrefixDelimiter')->willReturn(' - ');
 

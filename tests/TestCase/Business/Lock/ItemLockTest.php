@@ -8,13 +8,14 @@
 namespace StateMachine\Test\TestCase\Business\Lock;
 
 use Cake\ORM\Query;
+use Cake\TestSuite\TestCase;
 use StateMachine\Business\Lock\ItemLock;
 use StateMachine\Model\Entity\StateMachineLock;
 use StateMachine\Model\QueryContainerInterface;
 use StateMachine\Model\Table\StateMachineLocksTable;
-use StateMachine\Test\TestCase\Mocks\StateMachineMocks;
+use StateMachine\StateMachineConfig;
 
-class ItemLockTest extends StateMachineMocks
+class ItemLockTest extends TestCase
 {
     /**
      * @return void
@@ -42,15 +43,6 @@ class ItemLockTest extends StateMachineMocks
     public function testReleaseLockShouldDeleteLockFromDatabase()
     {
         $stateMachineQueryContainerMock = $this->createStateMachineQueryContainerMock();
-
-        $itemLockQuery = $this->createStateMachineQueryMock();
-        $itemLockQuery
-            ->expects($this->once())
-            ->method('delete');
-
-        $stateMachineQueryContainerMock->expects($this->once())
-            ->method('queryLockItemsByIdentifier')
-            ->willReturn($itemLockQuery);
 
         $itemLock = $this->createItemLock(null, $stateMachineQueryContainerMock);
 
@@ -105,20 +97,30 @@ class ItemLockTest extends StateMachineMocks
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Cake\ORM\Query
-     */
-    protected function createStateMachineQueryMock()
-    {
-        $query = $this->getMockBuilder(Query::class)->getMock();
-
-        return $query;
-    }
-
-    /**
      * @return string
      */
     protected function createIdentifier(): string
     {
         return sha1(1);
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\StateMachineConfig
+     */
+    protected function createStateMachineConfigMock()
+    {
+        $stateMachineConfigMock = $this->getMockBuilder(StateMachineConfig::class)->getMock();
+
+        return $stateMachineConfigMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Model\QueryContainerInterface
+     */
+    protected function createStateMachineQueryContainerMock()
+    {
+        $builderMock = $this->getMockBuilder(QueryContainerInterface::class)->getMock();
+
+        return $builderMock;
     }
 }

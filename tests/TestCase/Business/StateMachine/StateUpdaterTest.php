@@ -7,15 +7,14 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateHistory;
-use Propel\Runtime\Connection\ConnectionInterface;
+use Cake\TestSuite\TestCase;
 use StateMachine\Business\Process\Process;
 use StateMachine\Business\StateMachine\HandlerResolverInterface;
 use StateMachine\Business\StateMachine\PersistenceInterface;
 use StateMachine\Business\StateMachine\StateUpdater;
 use StateMachine\Business\StateMachine\TimeoutInterface;
-use StateMachine\Model\QueryContainerInterface;
-use StateMachine\Test\TestCase\Mocks\StateMachineMocks;
+use StateMachine\Dependency\StateMachineHandlerInterface;
+use StateMachine\Model\QueryContainer;
 use StateMachine\Transfer\StateMachineItemTransfer;
 
 /**
@@ -28,7 +27,7 @@ use StateMachine\Transfer\StateMachineItemTransfer;
  * @group StateUpdaterTest
  * Add your own group annotations below this line
  */
-class StateUpdaterTest extends StateMachineMocks
+class StateUpdaterTest extends TestCase
 {
     public const TEST_STATE_MACHINE_NAME = 'test state machine name';
 
@@ -117,7 +116,7 @@ class StateUpdaterTest extends StateMachineMocks
     }
 
     /**
-     * @return \Generated\Shared\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
      */
     protected function createStateMachineItems()
     {
@@ -171,15 +170,13 @@ class StateUpdaterTest extends StateMachineMocks
      * @param \StateMachine\Business\StateMachine\TimeoutInterface|null $timeoutMock
      * @param \StateMachine\Business\StateMachine\HandlerResolverInterface|null $handlerResolverMock
      * @param \StateMachine\Business\StateMachine\PersistenceInterface|null $stateMachinePersistenceMock
-     * @param \Propel\Runtime\Connection\ConnectionInterface|null $propelConnectionMock
      *
      * @return \StateMachine\Business\StateMachine\StateUpdater
      */
     protected function createStateUpdater(
         ?TimeoutInterface $timeoutMock = null,
         ?HandlerResolverInterface $handlerResolverMock = null,
-        ?PersistenceInterface $stateMachinePersistenceMock = null,
-        ?ConnectionInterface $propelConnectionMock = null
+        ?PersistenceInterface $stateMachinePersistenceMock = null
     ) {
 
         if ($timeoutMock === null) {
@@ -194,20 +191,10 @@ class StateUpdaterTest extends StateMachineMocks
         }
 
         if ($stateMachinePersistenceMock === null) {
-            $stateMachinePersistenceMock = $this->createStateMachinePersistenceMock();
+            $stateMachinePersistenceMock = $this->createPersistenceMock();
         }
 
-        if ($propelConnectionMock === null) {
-            $propelConnectionMock = $this->createPropelConnectionMock();
-        }
-
-        $queryContainerMock = $this->createQueryContainerMock();
-        $queryContainerMock->method('getConnection')
-            ->willReturn($propelConnectionMock);
-
-        $stateMachineMachineHistoryQueryMock = $this->createStateMachineHistoryQueryMock();
-        $queryContainerMock->method('queryLastHistoryItem')
-            ->willReturn($stateMachineMachineHistoryQueryMock);
+        $queryContainerMock = $this->createQueryContainer();
 
         return new StateUpdater(
             $timeoutMock,
@@ -218,18 +205,50 @@ class StateUpdaterTest extends StateMachineMocks
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Persistence\StateMachineQueryContainerInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Model\QueryContainerInterface
      */
-    protected function createQueryContainerMock()
+    protected function createQueryContainer()
     {
-        return $this->getMockBuilder(QueryContainerInterface::class)->getMock();
+        return new QueryContainer();
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateHistory
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\HandlerResolverInterface
      */
-    protected function createStateMachineHistoryQueryMock()
+    protected function createHandlerResolverMock()
     {
-        return $this->getMockBuilder(SpyStateMachineItemStateHistory::class)->getMock();
+        $handlerResolverMock = $this->getMockBuilder(HandlerResolverInterface::class)->getMock();
+
+        return $handlerResolverMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\PersistenceInterface
+     */
+    protected function createPersistenceMock()
+    {
+        $persistenceMock = $this->getMockBuilder(PersistenceInterface::class)->getMock();
+
+        return $persistenceMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\StateMachineHandlerInterface
+     */
+    protected function createStateMachineHandlerMock()
+    {
+        $stateMachineHandlerMock = $this->getMockBuilder(StateMachineHandlerInterface::class)->getMock();
+
+        return $stateMachineHandlerMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\TimeoutInterface
+     */
+    protected function createTimeoutMock()
+    {
+        $timeoutMock = $this->getMockBuilder(TimeoutInterface::class)->getMock();
+
+        return $timeoutMock;
     }
 }

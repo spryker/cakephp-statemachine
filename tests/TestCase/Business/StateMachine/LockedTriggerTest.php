@@ -7,11 +7,11 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
+use Cake\TestSuite\TestCase;
 use StateMachine\Business\Exception\LockException;
 use StateMachine\Business\Lock\ItemLockInterface;
 use StateMachine\Business\StateMachine\LockedTrigger;
 use StateMachine\Business\StateMachine\TriggerInterface;
-use StateMachine\Test\TestCase\Mocks\StateMachineMocks;
 use StateMachine\Transfer\StateMachineProcessTransfer;
 
 /**
@@ -24,7 +24,7 @@ use StateMachine\Transfer\StateMachineProcessTransfer;
  * @group LockedTriggerTest
  * Add your own group annotations below this line
  */
-class LockedTriggerTest extends StateMachineMocks
+class LockedTriggerTest extends TestCase
 {
     /**
      * @return void
@@ -82,5 +82,25 @@ class LockedTriggerTest extends StateMachineMocks
             $triggerMock,
             $itemLockMock
         );
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\TriggerInterface
+     */
+    protected function createTriggerMock()
+    {
+        $triggerLockMock = $this->getMockBuilder(TriggerInterface::class)->getMock();
+
+        return $triggerLockMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\Lock\ItemLockInterface
+     */
+    protected function createItemLockMock()
+    {
+        $itemLockMock = $this->getMockBuilder(ItemLockInterface::class)->getMock();
+
+        return $itemLockMock;
     }
 }

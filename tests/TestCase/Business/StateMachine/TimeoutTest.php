@@ -7,6 +7,7 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
+use Cake\TestSuite\TestCase;
 use DateTime;
 use StateMachine\Business\Process\Event;
 use StateMachine\Business\Process\Process;
@@ -14,7 +15,7 @@ use StateMachine\Business\Process\State;
 use StateMachine\Business\Process\Transition;
 use StateMachine\Business\StateMachine\PersistenceInterface;
 use StateMachine\Business\StateMachine\Timeout;
-use StateMachine\Test\TestCase\Mocks\StateMachineMocks;
+use StateMachine\Business\StateMachine\TimeoutInterface;
 use StateMachine\Transfer\StateMachineItemTransfer;
 
 /**
@@ -27,7 +28,7 @@ use StateMachine\Transfer\StateMachineItemTransfer;
  * @group TimeoutTest
  * Add your own group annotations below this line
  */
-class TimeoutTest extends StateMachineMocks
+class TimeoutTest extends TestCase
 {
     public const STATE_WITH_TIMEOUT = 'State with timeout';
 
@@ -112,14 +113,20 @@ class TimeoutTest extends StateMachineMocks
     /**
      * @param \StateMachine\Business\StateMachine\PersistenceInterface $persistenceMock
      *
-     * @return \StateMachine\Business\StateMachine\Timeout
+     * @return \StateMachine\Business\StateMachine\TimeoutInterface
      */
-    protected function createTimeout(PersistenceInterface $persistenceMock): Timeout
+    protected function createTimeout(PersistenceInterface $persistenceMock): TimeoutInterface
     {
-        if ($persistenceMock === null) {
-            $persistenceMock = $this->createPersistenceMock();
-        }
-
         return new Timeout($persistenceMock);
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\PersistenceInterface
+     */
+    protected function createPersistenceMock()
+    {
+        $persistenceMock = $this->getMockBuilder(PersistenceInterface::class)->getMock();
+
+        return $persistenceMock;
     }
 }

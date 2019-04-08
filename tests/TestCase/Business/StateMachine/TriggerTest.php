@@ -7,6 +7,7 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
+use Cake\TestSuite\TestCase;
 use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\Event;
 use StateMachine\Business\Process\Process;
@@ -18,7 +19,8 @@ use StateMachine\Business\StateMachine\HandlerResolverInterface;
 use StateMachine\Business\StateMachine\PersistenceInterface;
 use StateMachine\Business\StateMachine\StateUpdaterInterface;
 use StateMachine\Business\StateMachine\Trigger;
-use StateMachine\Test\TestCase\Mocks\StateMachineMocks;
+use StateMachine\Dependency\CommandPluginInterface;
+use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Transfer\StateMachineItemTransfer;
 use StateMachine\Transfer\StateMachineProcessTransfer;
 
@@ -32,7 +34,7 @@ use StateMachine\Transfer\StateMachineProcessTransfer;
  * @group TriggerTest
  * Add your own group annotations below this line
  */
-class TriggerTest extends StateMachineMocks
+class TriggerTest extends TestCase
 {
     public const ITEM_IDENTIFIER = 1985;
     public const TESTING_STATE_MACHINE = 'Testing state machine';
@@ -396,5 +398,85 @@ class TriggerTest extends StateMachineMocks
         $stateMachineItemTransfer->setProcessName(static::PROCESS_NAME);
 
         return $stateMachineItemTransfer;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\PersistenceInterface
+     */
+    protected function createPersistenceMock()
+    {
+        $persistenceMock = $this->getMockBuilder(PersistenceInterface::class)->getMock();
+
+        return $persistenceMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\Logger\TransitionLog
+     */
+    protected function createTransitionLogMock()
+    {
+        $transitionLogMock = $this->getMockBuilder(TransitionLogInterface::class)->getMock();
+
+        return $transitionLogMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\FinderInterface
+     */
+    protected function createFinderMock()
+    {
+        $finderMock = $this->getMockBuilder(FinderInterface::class)->getMock();
+
+        return $finderMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\HandlerResolverInterface
+     */
+    protected function createHandlerResolverMock()
+    {
+        $handlerResolverMock = $this->getMockBuilder(HandlerResolverInterface::class)->getMock();
+
+        return $handlerResolverMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\ConditionInterface
+     */
+    protected function createConditionMock()
+    {
+        $conditionMock = $this->getMockBuilder(ConditionInterface::class)->getMock();
+
+        return $conditionMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\CommandPluginInterface
+     */
+    protected function createCommandMock()
+    {
+        $commandMock = $this->getMockBuilder(CommandPluginInterface::class)->getMock();
+
+        return $commandMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\StateMachineHandlerInterface
+     */
+    protected function createStateMachineHandlerMock()
+    {
+        $stateMachineHandlerMock = $this->getMockBuilder(StateMachineHandlerInterface::class)->getMock();
+
+        return $stateMachineHandlerMock;
+    }
+
+    /**
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\StateUpdaterInterface
+     */
+    protected function createStateUpdaterMock()
+    {
+        $stateUpdaterMock = $this->getMockBuilder(StateUpdaterInterface::class)->getMock();
+
+        return $stateUpdaterMock;
     }
 }

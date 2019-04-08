@@ -7,8 +7,6 @@
 
 namespace StateMachine\Business\Logger;
 
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineTransitionLog;
-use Spryker\Service\UtilNetwork\UtilNetworkServiceInterface;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Dependency\CommandPluginInterface;
 use StateMachine\Dependency\ConditionPluginInterface;
@@ -76,7 +74,7 @@ class TransitionLog implements TransitionLogInterface
      */
     public function addCommand(StateMachineItemTransfer $stateMachineItemTransfer, CommandPluginInterface $command)
     {
-        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->setCommand(get_class($command));
+        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->command = get_class($command);
     }
 
     /**
@@ -152,7 +150,7 @@ class TransitionLog implements TransitionLogInterface
             $params = $this->getParamsFromQueryString($_SERVER[static::QUERY_STRING]);
         }
 
-        $stateMachineTransitionLogEntity->params = $params;
+        $stateMachineTransitionLogEntity->params = json_encode($params);
 
         return $stateMachineTransitionLogEntity;
     }
@@ -164,6 +162,7 @@ class TransitionLog implements TransitionLogInterface
      */
     public function save(StateMachineItemTransfer $stateMachineItemTransfer)
     {
+        //var_dump($this->logEntities[$stateMachineItemTransfer->getIdentifier()]);die;
         $this->stateMachineTransitionLogsTable->save($this->logEntities[$stateMachineItemTransfer->getIdentifier()]);
     }
 
