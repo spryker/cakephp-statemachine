@@ -32,11 +32,11 @@ class Timeout implements TimeoutInterface
     protected $stateMachinePersistence;
 
     /**
-     * @param \StateMachine\Business\StateMachine\PersistenceInterface $stateMachinePersitence
+     * @param \StateMachine\Business\StateMachine\PersistenceInterface $stateMachinePersistence
      */
-    public function __construct(PersistenceInterface $stateMachinePersitence)
+    public function __construct(PersistenceInterface $stateMachinePersistence)
     {
-        $this->stateMachinePersistence = $stateMachinePersitence;
+        $this->stateMachinePersistence = $stateMachinePersistence;
     }
 
     /**

@@ -7,13 +7,13 @@
 
 namespace StateMachine\Test\TestCase\Mocks;
 
-use Generated\Shared\Transfer\StateMachineItemTransfer;
-use StateMachine\Dependency\Plugin\CommandPluginInterface;
+use StateMachine\Dependency\CommandPluginInterface;
+use StateMachine\Transfer\StateMachineItemTransfer;
 
 class TestCommandPlugin implements CommandPluginInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
      *
      * @return bool
      */

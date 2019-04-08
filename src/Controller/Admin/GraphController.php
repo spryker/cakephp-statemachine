@@ -68,45 +68,4 @@ class GraphController extends AppController
 
         return $this->response->withStringBody($response);
     }
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function drawItemAction(Request $request)
-    {
-        $stateMachine = $this->request->getQuery(self::URL_PARAM_STATE_MACHINE);
-        $processName = $this->request->getQuery(self::URL_PARAM_PROCESS);
-        $highlightState = $this->request->getQuery(self::URL_PARAM_HIGHLIGHT_STATE);
-
-        $stateMachineBundleConfig = $this->getFactory()->getConfig();
-        $format = $this->request->getQuery(self::URL_PARAM_FORMAT, $stateMachineBundleConfig->getGraphDefaultFormat());
-        $fontSize = $this->request->getQueryInt(self::URL_PARAM_FONT_SIZE, $stateMachineBundleConfig->getGraphDefaultFontSize());
-
-        $stateMachineProcessTransfer = new StateMachineProcessTransfer();
-        $stateMachineProcessTransfer->setStateMachineName($stateMachine);
-        $stateMachineProcessTransfer->setProcessName($processName);
-
-        return new Response(
-            $this->getFacade()->drawProcess($stateMachineProcessTransfer, $highlightState, $format, $fontSize)
-        );
-    }
-
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function drawPreviewVersionAction(Request $request)
-    {
-        $processName = $this->request->getQuery(self::URL_PARAM_PROCESS);
-        if ($processName === null) {
-            return $this->redirectResponse(self::URL_STATE_MACHINE_LIST);
-        }
-
-        return $this->viewResponse([
-            'processName' => $processName,
-        ]);
-    }
 }
