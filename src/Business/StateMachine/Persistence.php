@@ -169,7 +169,12 @@ class Persistence implements PersistenceInterface
                 )->first();
 
             if ($stateMachineItemStateEntity === null) {
-                $stateMachineItemStateEntity = $this->saveStateMachineItemEntity($stateMachineItemTransfer, $stateName);
+                $this->saveStateMachineItemEntity($stateMachineItemTransfer, $stateName);
+                $stateMachineItemStateEntity = $this->stateMachineQueryContainer
+                    ->queryItemStateByIdProcessAndStateName(
+                        $stateMachineItemTransfer->getIdStateMachineProcess(),
+                        $stateName
+                    )->first();
             }
             $this->persistedStates[$stateName] = $stateMachineItemStateEntity;
         }

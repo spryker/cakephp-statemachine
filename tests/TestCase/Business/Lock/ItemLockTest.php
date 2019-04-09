@@ -7,10 +7,11 @@
 
 namespace StateMachine\Test\TestCase\Business\Lock;
 
-use Cake\ORM\Query;
+use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Lock\ItemLock;
-use StateMachine\Model\Entity\StateMachineLock;
+use StateMachine\Business\Lock\ItemLockInterface;
+use StateMachine\Model\QueryContainer;
 use StateMachine\Model\QueryContainerInterface;
 use StateMachine\Model\Table\StateMachineLocksTable;
 use StateMachine\StateMachineConfig;
@@ -18,19 +19,47 @@ use StateMachine\StateMachineConfig;
 class ItemLockTest extends TestCase
 {
     /**
+     * @var \StateMachine\Model\Table\StateMachineLocksTable
+     */
+    protected $StateMachineLocks;
+
+    /**
+     * @var array
+     */
+    public $fixtures = [
+        'plugin.StateMachine.StateMachineLocks',
+    ];
+
+    /**
+     * setUp method
+     *
      * @return void
      */
-    public function testAcquireLockShouldCreateItemWithLockInPersistence()
+    public function setUp(): void
     {
-        $stateMachineLockEntityMock = $this->createStateMachineItemLockEntityMock();
-        $stateMachineLockTableMock = $this->createStateMachineLockTableMock();
-        $stateMachineLockTableMock
-            ->method('saveOrFail')
-            ->willReturn($stateMachineLockEntityMock)
-            ->method('newEntity')
-            ->willReturn($stateMachineLockEntityMock);
+        parent::setUp();
+        $config = TableRegistry::getTableLocator()->exists('StateMachineLocks') ? [] : ['className' => StateMachineLocksTable::class];
+        $this->StateMachineLocks = TableRegistry::getTableLocator()->get('StateMachineLocks', $config);
+    }
 
-        $itemLock = $this->createItemLock($stateMachineLockEntityMock);
+    /**
+     * tearDown method
+     *
+     * @return void
+     */
+    public function tearDown(): void
+    {
+        unset($this->StateMachineLocks);
+
+        parent::tearDown();
+    }
+
+    /**
+     * @return void
+     */
+    public function testAcquireLockShouldCreateItemWithLockInPersistence(): void
+    {
+        $itemLock = $this->createItemLock();
 
         $lockResult = $itemLock->acquire($this->createIdentifier());
 
@@ -40,60 +69,23 @@ class ItemLockTest extends TestCase
     /**
      * @return void
      */
-    public function testReleaseLockShouldDeleteLockFromDatabase()
+    public function testReleaseLockShouldDeleteLockFromDatabase(): void
     {
-        $stateMachineQueryContainerMock = $this->createStateMachineQueryContainerMock();
-
-        $itemLock = $this->createItemLock(null, $stateMachineQueryContainerMock);
+        $itemLock = $this->createItemLock();
 
         $itemLock->release($this->createIdentifier());
+
+        $stateMachineItemLock = $this->createStateMachineQueryContainer()->queryLockItemsByIdentifier($this->createIdentifier())->first();
+
+        $this->assertNull($stateMachineItemLock);
     }
 
     /**
-     * @param \StateMachine\Model\Entity\StateMachineLock|null $stateMachineLockEntityMock
-     * @param \StateMachine\Model\QueryContainerInterface|null $stateMachineQueryContainerMock
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\Lock\ItemLockInterface
+     * @return \StateMachine\Business\Lock\ItemLockInterface
      */
-    protected function createItemLock(
-        ?StateMachineLock $stateMachineLockEntityMock = null,
-        ?QueryContainerInterface $stateMachineQueryContainerMock = null
-    ) {
-        if ($stateMachineQueryContainerMock === null) {
-            $stateMachineQueryContainerMock = $this->createStateMachineQueryContainerMock();
-        }
-
-        $stateMachineConfigMock = $this->createStateMachineConfigMock();
-        $stateMachineLockTableMock = $this->createStateMachineLockTableMock();
-
-        $itemLockPartialMock = $this->getMockBuilder(ItemLock::class)
-            ->setMethods(['createStateMachineLockEntity'])
-            ->setConstructorArgs([$stateMachineQueryContainerMock, $stateMachineConfigMock, $stateMachineLockTableMock])
-            ->getMock();
-
-        $itemLockPartialMock->method('createStateMachineLockEntity')->willReturn($stateMachineLockEntityMock);
-
-        return $itemLockPartialMock;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Model\Entity\StateMachineLock
-     */
-    protected function createStateMachineItemLockEntityMock()
+    protected function createItemLock(): ItemLockInterface
     {
-        $stateMachineLockEntityMock = $this->getMockBuilder(StateMachineLock::class)->getMock();
-
-        return $stateMachineLockEntityMock;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Model\Table\StateMachineLocksTable
-     */
-    protected function createStateMachineLockTableMock()
-    {
-        $stateMachineLockEntityMock = $this->getMockBuilder(StateMachineLocksTable::class)->getMock();
-
-        return $stateMachineLockEntityMock;
+        return new ItemLock($this->createStateMachineQueryContainer(), $this->createStateMachineConfigMock(), $this->StateMachineLocks);
     }
 
     /**
@@ -115,12 +107,10 @@ class ItemLockTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Model\QueryContainerInterface
+     * @return \StateMachine\Model\QueryContainerInterface
      */
-    protected function createStateMachineQueryContainerMock()
+    protected function createStateMachineQueryContainer(): QueryContainerInterface
     {
-        $builderMock = $this->getMockBuilder(QueryContainerInterface::class)->getMock();
-
-        return $builderMock;
+        return new QueryContainer();
     }
 }

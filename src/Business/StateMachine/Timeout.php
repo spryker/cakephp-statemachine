@@ -12,6 +12,7 @@ use DateTime;
 use StateMachine\Business\Exception\StateMachineException;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Business\Process\ProcessInterface;
+use StateMachine\Business\Process\StateInterface;
 use StateMachine\Transfer\StateMachineItemTransfer;
 
 class Timeout implements TimeoutInterface
@@ -45,7 +46,7 @@ class Timeout implements TimeoutInterface
      *
      * @return void
      */
-    public function setNewTimeout(ProcessInterface $process, StateMachineItemTransfer $stateMachineItemTransfer)
+    public function setNewTimeout(ProcessInterface $process, StateMachineItemTransfer $stateMachineItemTransfer): void
     {
         $targetState = $this->getStateFromProcess($stateMachineItemTransfer->getStateName(), $process);
         if (!$targetState->hasTimeoutEvent()) {
@@ -80,7 +81,7 @@ class Timeout implements TimeoutInterface
         ProcessInterface $process,
         $stateName,
         StateMachineItemTransfer $stateMachineItemTransfer
-    ) {
+    ): void {
         $sourceState = $this->getStateFromProcess($stateName, $process);
 
         if ($sourceState->hasTimeoutEvent()) {
@@ -94,7 +95,7 @@ class Timeout implements TimeoutInterface
      *
      * @return \DateTime
      */
-    protected function calculateTimeoutDateFromEvent(DateTime $currentTime, EventInterface $event)
+    protected function calculateTimeoutDateFromEvent(DateTime $currentTime, EventInterface $event): DateTime
     {
         if (!isset($this->eventToTimeoutBuffer[$event->getName()])) {
             $timeout = $event->getTimeout();
@@ -114,7 +115,7 @@ class Timeout implements TimeoutInterface
      *
      * @return \StateMachine\Business\Process\StateInterface
      */
-    protected function getStateFromProcess($stateName, ProcessInterface $process)
+    protected function getStateFromProcess($stateName, ProcessInterface $process): StateInterface
     {
         if (!isset($this->stateIdToModelBuffer[$stateName])) {
             $this->stateIdToModelBuffer[$stateName] = $process->getStateFromAllProcesses($stateName);
@@ -131,7 +132,7 @@ class Timeout implements TimeoutInterface
      *
      * @return int
      */
-    protected function validateTimeout(DateInterval $interval, $timeout)
+    protected function validateTimeout(DateInterval $interval, string $timeout): int
     {
         $intervalProperties = get_object_vars($interval);
         $intervalSum = 0;

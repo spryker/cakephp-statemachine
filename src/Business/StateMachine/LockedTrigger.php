@@ -34,11 +34,11 @@ class LockedTrigger implements TriggerInterface
 
     /**
      * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
-     * @param int $identifier
+     * @param string $identifier
      *
      * @return int
      */
-    public function triggerForNewStateMachineItem(StateMachineProcessTransfer $stateMachineProcessTransfer, $identifier)
+    public function triggerForNewStateMachineItem(StateMachineProcessTransfer $stateMachineProcessTransfer, string $identifier): int
     {
         $lockIdentifier = $this->buildLockIdentifier(
             $identifier,
@@ -65,7 +65,7 @@ class LockedTrigger implements TriggerInterface
      *
      * @return int
      */
-    public function triggerEvent($eventName, array $stateMachineItems)
+    public function triggerEvent(string $eventName, array $stateMachineItems): int
     {
         $identifier = $this->buildIdentifierForMultipleItemLock($stateMachineItems);
 
@@ -85,7 +85,7 @@ class LockedTrigger implements TriggerInterface
      *
      * @return int
      */
-    public function triggerConditionsWithoutEvent($stateMachineName)
+    public function triggerConditionsWithoutEvent(string $stateMachineName): int
     {
         return $this->stateMachineTrigger->triggerConditionsWithoutEvent($stateMachineName);
     }
@@ -95,7 +95,7 @@ class LockedTrigger implements TriggerInterface
      *
      * @return string
      */
-    protected function buildIdentifierForMultipleItemLock(array $stateMachineItems)
+    protected function buildIdentifierForMultipleItemLock(array $stateMachineItems): string
     {
         $identifier = '';
         foreach ($stateMachineItems as $stateMachineItemTransfer) {
@@ -117,7 +117,7 @@ class LockedTrigger implements TriggerInterface
      *
      * @return string
      */
-    protected function hashIdentifier($identifier)
+    protected function hashIdentifier(string $identifier): string
     {
         return hash('sha512', $identifier);
     }
@@ -127,7 +127,7 @@ class LockedTrigger implements TriggerInterface
      *
      * @return int
      */
-    public function triggerForTimeoutExpiredItems($stateMachineName)
+    public function triggerForTimeoutExpiredItems(string $stateMachineName): int
     {
         return $this->stateMachineTrigger->triggerForTimeoutExpiredItems($stateMachineName);
     }
@@ -139,7 +139,7 @@ class LockedTrigger implements TriggerInterface
      *
      * @return string
      */
-    protected function buildLockIdentifier($identifier, $stateMachineName, $processName)
+    protected function buildLockIdentifier(int $identifier, string $stateMachineName, string $processName): string
     {
         return $identifier . $stateMachineName . $processName;
     }

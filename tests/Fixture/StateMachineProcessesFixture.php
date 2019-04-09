@@ -11,6 +11,10 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 class StateMachineProcessesFixture extends TestFixture
 {
+    public const DEFAULT_TEST_STATE_MACHINE_NAME = 'TestingSm';
+    public const PROCESS_NAME_1 = 'TestProcess';
+    public const PROCESS_NAME_2 = 'Process2';
+
     /**
      * Fields
      *
@@ -39,8 +43,8 @@ class StateMachineProcessesFixture extends TestFixture
     public $records = [
             [
                 'id' => 1,
-                'name' => 'Lorem ipsum dolor sit amet',
-                'state_machine' => 'Lorem ipsum dolor sit amet',
+                'name' => self::PROCESS_NAME_1,
+                'state_machine' => self::DEFAULT_TEST_STATE_MACHINE_NAME,
                 'created' => '2018-06-08 22:35:57',
                 'modified' => '2018-06-08 22:35:57',
             ],

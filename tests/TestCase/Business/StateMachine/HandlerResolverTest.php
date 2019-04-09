@@ -10,18 +10,9 @@ namespace StateMachine\Test\TestCase\Business\StateMachine;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Exception\StateMachineHandlerNotFound;
 use StateMachine\Business\StateMachine\HandlerResolver;
+use StateMachine\Business\StateMachine\HandlerResolverInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 
-/**
- * Auto-generated group annotations
- * @group SprykerTest
- * @group Zed
- * @group StateMachine
- * @group Business
- * @group StateMachine
- * @group HandlerResolverTest
- * Add your own group annotations below this line
- */
 class HandlerResolverTest extends TestCase
 {
     public const TEST_HANDLER_NAME = 'testing state machine name';
@@ -29,7 +20,7 @@ class HandlerResolverTest extends TestCase
     /**
      * @return void
      */
-    public function testHandlerResolverShouldReturnInstanceOfHandlerWhenCorrectNameGiven()
+    public function testHandlerResolverShouldReturnInstanceOfHandlerWhenCorrectNameGiven(): void
     {
         $handlerResolver = $this->createHandlerResolver()->get(static::TEST_HANDLER_NAME);
 
@@ -39,7 +30,7 @@ class HandlerResolverTest extends TestCase
     /**
      * @return void
      */
-    public function testHandlerResolverWhenRequestedNonExistentShouldThrowException()
+    public function testHandlerResolverWhenRequestedNonExistentShouldThrowException(): void
     {
         $this->expectException(StateMachineHandlerNotFound::class);
 
@@ -49,7 +40,7 @@ class HandlerResolverTest extends TestCase
     /**
      * @return \StateMachine\Business\StateMachine\HandlerResolver
      */
-    protected function createHandlerResolver()
+    protected function createHandlerResolver(): HandlerResolverInterface
     {
         $stateMachineHandlerMock = $this->createStateMachineHandlerMock();
         $stateMachineHandlerMock->method('getStateMachineName')->willReturn(static::TEST_HANDLER_NAME);

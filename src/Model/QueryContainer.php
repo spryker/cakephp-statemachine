@@ -134,14 +134,14 @@ class QueryContainer implements QueryContainerInterface
         return $stateMachineItemStatesTable
             ->find()
             ->matching($stateMachineItemStateHistoryTable->getAlias())
-            ->matching($stateMachineProcessesTable->getAlias(), function (Query $query) use ($stateMachineName, $processName) {
+            ->matching($stateMachineProcessesTable->getAlias(), function (Query $query) use ($stateMachineName, $processName, $stateMachineProcessesTable) {
                 return $query->where([
-                    'state_machine' => $stateMachineName,
-                    'name' => $processName,
+                    $stateMachineProcessesTable->getFullFieldName('state_machine') => $stateMachineName,
+                    $stateMachineProcessesTable->getFullFieldName('name') => $processName,
                 ]);
             })
             ->where([
-                $stateMachineItemStatesTable->getFullFieldName('name') => $states,
+                $stateMachineItemStatesTable->getFullFieldName('name') . ' IN ' => $states,
             ])
             ->order([
                 $stateMachineItemStatesTable->getFullFieldName('id') => 'ASC',

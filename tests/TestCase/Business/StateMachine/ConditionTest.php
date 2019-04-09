@@ -7,59 +7,109 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
+use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\State;
+use StateMachine\Business\Process\StateInterface;
 use StateMachine\Business\Process\Transition;
+use StateMachine\Business\Process\TransitionInterface;
 use StateMachine\Business\StateMachine\Condition;
+use StateMachine\Business\StateMachine\ConditionInterface;
 use StateMachine\Business\StateMachine\FinderInterface;
 use StateMachine\Business\StateMachine\HandlerResolverInterface;
+use StateMachine\Business\StateMachine\Persistence;
 use StateMachine\Business\StateMachine\PersistenceInterface;
+use StateMachine\Business\StateMachine\StateUpdater;
 use StateMachine\Business\StateMachine\StateUpdaterInterface;
+use StateMachine\Business\StateMachine\Timeout;
+use StateMachine\Business\StateMachine\TimeoutInterface;
 use StateMachine\Dependency\ConditionPluginInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
-use StateMachine\Test\TestCase\Mocks\StateMachineMocks;
+use StateMachine\Model\QueryContainer;
+use StateMachine\Model\QueryContainerInterface;
+use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
+use StateMachine\Model\Table\StateMachineItemStatesTable;
+use StateMachine\Model\Table\StateMachineProcessesTable;
+use StateMachine\Model\Table\StateMachineTimeoutsTable;
 use StateMachine\Transfer\StateMachineItemTransfer;
 
-/**
- * Auto-generated group annotations
- * @group SprykerTest
- * @group Zed
- * @group StateMachine
- * @group Business
- * @group StateMachine
- * @group ConditionTest
- * Add your own group annotations below this line
- */
 class ConditionTest extends TestCase
 {
     /**
+     * @var \StateMachine\Model\Table\StateMachineItemStateHistoryTable
+     */
+    protected $StateMachineItemStateHistory;
+
+    /**
+     * @var \StateMachine\Model\Table\StateMachineProcessesTable
+     */
+    protected $StateMachineProcesses;
+
+    /**
+     * @var \StateMachine\Model\Table\StateMachineItemStatesTable
+     */
+    protected $StateMachineItemStates;
+
+    /**
+     * @var \StateMachine\Model\Table\StateMachineTimeoutsTable
+     */
+    protected $StateMachineTimeouts;
+
+    /**
+     * @var array
+     */
+    public $fixtures = [
+        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineProcesses',
+        'plugin.StateMachine.StateMachineItemStates',
+        'plugin.StateMachine.StateMachineTimeouts',
+    ];
+
+    /**
+     * setUp method
+     *
      * @return void
      */
-    public function testCheckConditionForTransitionShouldReturnTargetStateOfGivenTransition()
+    public function setUp(): void
     {
-        $stateMachineHandlerResolverMock = $this->createStateMachineResolverMock(true);
+        parent::setUp();
+        $config = TableRegistry::getTableLocator()->exists('StateMachineItemStateHistory') ? [] : ['className' => StateMachineItemStateHistoryTable::class];
+        $this->StateMachineItemStateHistory = TableRegistry::getTableLocator()->get('StateMachineItemStateHistory', $config);
 
-        $condition = new Condition(
-            $this->createTransitionLogMock(),
-            $stateMachineHandlerResolverMock,
-            $this->createFinderMock(),
-            $this->createPersistenceMock(),
-            $this->createStateUpdaterMock()
-        );
+        $config = TableRegistry::getTableLocator()->exists('StateMachineProcesses') ? [] : ['className' => StateMachineProcessesTable::class];
+        $this->StateMachineProcesses = TableRegistry::getTableLocator()->get('StateMachineProcesses', $config);
 
-        $transitions = [];
-        $sourceState = new State();
-        $sourceState->setName('source state');
+        $config = TableRegistry::getTableLocator()->exists('StateMachineItemStates') ? [] : ['className' => StateMachineItemStatesTable::class];
+        $this->StateMachineItemStates = TableRegistry::getTableLocator()->get('StateMachineItemStates', $config);
 
-        $targetState = new State();
-        $targetState->setName('target state');
+        $config = TableRegistry::getTableLocator()->exists('StateMachineTimeouts') ? [] : ['className' => StateMachineTimeoutsTable::class];
+        $this->StateMachineTimeouts = TableRegistry::getTableLocator()->get('StateMachineTimeouts', $config);
+    }
 
-        $transition = new Transition();
-        $transition->setCondition('condition');
-        $transition->setSourceState($sourceState);
-        $transition->setTargetState($targetState);
-        $transitions[] = $transition;
+    /**
+     * tearDown method
+     *
+     * @return void
+     */
+    public function tearDown(): void
+    {
+        unset($this->StateMachineItemStateHistory, $this->StateMachineProcesses, $this->StateMachineItemStates, $this->StateMachineTimeouts);
+
+        parent::tearDown();
+    }
+
+    /**
+     * @return void
+     */
+    public function testCheckConditionForTransitionShouldReturnTargetStateOfGivenTransition(): void
+    {
+        $condition = $this->createCondition(true);
+
+        $sourceState = $this->createState('source state');
+        $targetState = $this->createState('target state');
+
+        $transitions[] = $this->createTransition($sourceState, $targetState);
 
         $processedTargetState = $condition->getTargetStatesFromTransitions(
             $transitions,
@@ -74,33 +124,16 @@ class ConditionTest extends TestCase
     /**
      * @return void
      */
-    public function testCheckConditionForTransitionWhenConditionReturnsFalseShouldReturnSourceState()
+    public function testCheckConditionForTransitionWhenConditionReturnsFalseShouldReturnSourceState(): void
     {
-        $stateMachineHandlerResolverMock = $this->createStateMachineResolverMock(false);
+        $condition = $this->createCondition(false);
 
-        $condition = new Condition(
-            $this->createTransitionLogMock(),
-            $stateMachineHandlerResolverMock,
-            $this->createFinderMock(),
-            $this->createPersistenceMock(),
-            $this->createStateUpdaterMock()
-        );
+        $sourceState = $this->createState('source state');
+        $targetState = $this->createState('target state');
 
-        $transitions = [];
-        $sourceState = new State();
-        $sourceState->setName('source state');
+        $transitions[] = $this->createTransition($sourceState, $targetState);
 
-        $targetState = new State();
-        $targetState->setName('target state');
-
-        $transition = new Transition();
-        $transition->setCondition('condition');
-        $transition->setSourceState($sourceState);
-        $transition->setTargetState($targetState);
-        $transitions[] = $transition;
-
-        $sourceState = new State();
-        $sourceState->setName('initial source');
+        $sourceState = $this->createState('initial source');
 
         $processedTargetState = $condition->getTargetStatesFromTransitions(
             $transitions,
@@ -115,9 +148,54 @@ class ConditionTest extends TestCase
     /**
      * @param bool $conditionCheckResult
      *
+     * @return \StateMachine\Business\StateMachine\ConditionInterface
+     */
+    protected function createCondition(bool $conditionCheckResult): ConditionInterface
+    {
+        return new Condition(
+            $this->createTransitionLogMock(),
+            $this->createStateMachineResolverMock($conditionCheckResult),
+            $this->createFinderMock(),
+            $this->createPersistence(),
+            $this->createStateUpdater()
+        );
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return \StateMachine\Business\Process\StateInterface
+     */
+    protected function createState(string $name): StateInterface
+    {
+        $state = new State();
+        $state->setName($name);
+
+        return $state;
+    }
+
+    /**
+     * @param \StateMachine\Business\Process\StateInterface $sourceState
+     * @param \StateMachine\Business\Process\StateInterface $targetState
+     *
+     * @return \StateMachine\Business\Process\TransitionInterface
+     */
+    protected function createTransition(StateInterface $sourceState, StateInterface $targetState): TransitionInterface
+    {
+        $transition = new Transition();
+        $transition->setCondition('condition');
+        $transition->setSourceState($sourceState);
+        $transition->setTargetState($targetState);
+
+        return $transition;
+    }
+
+    /**
+     * @param bool $conditionCheckResult
+     *
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\HandlerResolverInterface
      */
-    protected function createStateMachineResolverMock($conditionCheckResult)
+    protected function createStateMachineResolverMock(bool $conditionCheckResult)
     {
         $conditionPluginMock = $this->createConditionPluginMock();
         $conditionPluginMock->expects($this->once())
@@ -190,22 +268,45 @@ class ConditionTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\PersistenceInterface
+     * @return \StateMachine\Model\QueryContainerInterface
      */
-    protected function createPersistenceMock()
+    protected function createQueryContainer(): QueryContainerInterface
     {
-        $persistenceMock = $this->getMockBuilder(PersistenceInterface::class)->getMock();
-
-        return $persistenceMock;
+        return new QueryContainer();
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\StateUpdaterInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\PersistenceInterface
      */
-    protected function createStateUpdaterMock()
+    protected function createPersistence(): PersistenceInterface
     {
-        $stateUpdaterMock = $this->getMockBuilder(StateUpdaterInterface::class)->getMock();
+        return new Persistence(
+            $this->createQueryContainer(),
+            $this->StateMachineItemStateHistory,
+            $this->StateMachineProcesses,
+            $this->StateMachineItemStates,
+            $this->StateMachineTimeouts
+        );
+    }
 
-        return $stateUpdaterMock;
+    /**
+     * @return \StateMachine\Business\StateMachine\StateUpdaterInterface
+     */
+    protected function createStateUpdater(): StateUpdaterInterface
+    {
+        return new StateUpdater(
+            $this->createTimeout(),
+            $this->createHandlerResolverMock(),
+            $this->createPersistence(),
+            $this->createQueryContainer()
+        );
+    }
+
+    /**
+     * @return \StateMachine\Business\StateMachine\TimeoutInterface
+     */
+    protected function createTimeout(): TimeoutInterface
+    {
+        return new Timeout($this->createPersistence());
     }
 }

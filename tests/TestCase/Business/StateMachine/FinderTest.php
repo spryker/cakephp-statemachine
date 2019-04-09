@@ -7,49 +7,89 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
+use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Business\Process\State;
+use StateMachine\Business\Process\StateInterface;
 use StateMachine\Business\StateMachine\BuilderInterface;
 use StateMachine\Business\StateMachine\Finder;
+use StateMachine\Business\StateMachine\FinderInterface;
 use StateMachine\Business\StateMachine\HandlerResolverInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
-use StateMachine\Model\Entity\StateMachineItemState;
-use StateMachine\Model\Entity\StateMachineItemStateHistory;
 use StateMachine\Model\QueryContainer;
 use StateMachine\Model\QueryContainerInterface;
+use StateMachine\Model\Table\StateMachineProcessesTable;
+use StateMachine\Test\Fixture\StateMachineItemStatesFixture;
+use StateMachine\Test\Fixture\StateMachineProcessesFixture;
 use StateMachine\Transfer\StateMachineItemTransfer;
 use StateMachine\Transfer\StateMachineProcessTransfer;
 
 class FinderTest extends TestCase
 {
-    public const TEST_STATE_MACHINE_NAME = 'TestStateMachine';
+    /**
+     * @var \StateMachine\Model\Table\StateMachineProcessesTable
+     */
+    protected $StateMachineProcesses;
+
+    /**
+     * @var array
+     */
+    public $fixtures = [
+        'plugin.StateMachine.StateMachineProcesses',
+        'plugin.StateMachine.StateMachineItemStates',
+        'plugin.StateMachine.StateMachineItemStateHistory',
+    ];
+
+    /**
+     * setUp method
+     *
+     * @return void
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+        $config = TableRegistry::getTableLocator()->exists('StateMachineProcesses') ? [] : ['className' => StateMachineProcessesTable::class];
+        $this->StateMachineProcesses = TableRegistry::getTableLocator()->get('StateMachineProcesses', $config);
+    }
+
+    /**
+     * tearDown method
+     *
+     * @return void
+     */
+    public function tearDown(): void
+    {
+        unset($this->StateMachineProcesses);
+
+        parent::tearDown();
+    }
 
     /**
      * @return void
      */
-    public function testGetActiveProcessShouldReturnProcessesRegisteredByHandler()
+    public function testGetActiveProcessShouldReturnProcessesRegisteredByHandler(): void
     {
-        $statemachineHandlerMock = $this->createStateMachineHandlerMock();
-        $statemachineHandlerMock->expects($this->once())
+        $stateMachineHandlerMock = $this->createStateMachineHandlerMock();
+        $stateMachineHandlerMock->expects($this->once())
             ->method('getActiveProcesses')
-            ->willReturn(['Process1', 'Process2']);
+            ->willReturn([StateMachineProcessesFixture::PROCESS_NAME_1, StateMachineProcessesFixture::PROCESS_NAME_2]);
 
         $handlerResolverMock = $this->createHandlerResolverMock();
         $handlerResolverMock->expects($this->once())
             ->method('get')
-            ->willReturn($statemachineHandlerMock);
+            ->willReturn($stateMachineHandlerMock);
 
         $finder = $this->createFinder($handlerResolverMock);
 
-        $subProcesses = $finder->getProcesses(static::TEST_STATE_MACHINE_NAME);
+        $subProcesses = $finder->getProcesses(StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME);
 
         $this->assertCount(2, $subProcesses);
 
         $subProcess = array_pop($subProcesses);
         $this->assertInstanceOf(StateMachineProcessTransfer::class, $subProcess);
-        $this->assertEquals(static::TEST_STATE_MACHINE_NAME, $subProcess->getStateMachineName());
-        $this->assertEquals('Process2', $subProcess->getProcessName());
+        $this->assertEquals(StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME, $subProcess->getStateMachineName());
+        $this->assertEquals(StateMachineProcessesFixture::PROCESS_NAME_2, $subProcess->getProcessName());
     }
 
     /**
@@ -57,7 +97,7 @@ class FinderTest extends TestCase
      *
      * @return void
      */
-    public function testGetManualEventsForStateMachineItemsShouldReturnManualEventsForGivenItems()
+    public function testGetManualEventsForStateMachineItemsShouldReturnManualEventsForGivenItems(): void
     {
         $manualEvents = [
            'state name' => [
@@ -77,7 +117,7 @@ class FinderTest extends TestCase
         $stateMachineItems = [];
 
         $stateMachineItemTransfer = new StateMachineItemTransfer();
-        $stateMachineItemTransfer->setProcessName('Process1');
+        $stateMachineItemTransfer->setProcessName(StateMachineProcessesFixture::PROCESS_NAME_1);
         $stateMachineItemTransfer->setStateName('state name');
 
         $stateMachineItems[] = $stateMachineItemTransfer;
@@ -90,16 +130,12 @@ class FinderTest extends TestCase
     /**
      * @return void
      */
-    public function testGetItemWithFlagShouldReturnStatesMarkedWithGivenFlag()
+    public function testGetItemWithFlagShouldReturnStatesMarkedWithGivenFlag(): void
     {
-        $states = [];
-        $state = new State();
-        $state->addFlag('test');
-        $states[] = $state;
-
-        $state = new State();
-        $state->addFlag('test2');
-        $states[] = $state;
+        $states = [
+            $this->createState(StateMachineItemStatesFixture::DEFAULT_STATE_ITEM_NAME, 'test'),
+            $this->createState('random', 'test2'),
+        ];
 
         $processMock = $this->createProcessMock();
         $processMock->expects($this->once())
@@ -111,22 +147,11 @@ class FinderTest extends TestCase
 
         $stateMachineQueryContainer = $this->createStateMachineQueryContainer();
 
-        $stateMachineItemEntity = new StateMachineItemState();
-        $stateMachineItemEntity->id = 1;
-        $stateMachineItemEntity->state_machine_process_id = 1;
-        $stateMachineItemEntity->name = 'State';
-
-        $itemStateHistory = new StateMachineItemStateHistory();
-
-        $stateHistories[] = $itemStateHistory;
-
-        $stateMachineItemEntity->state_machine_item_state_history = $stateHistories;
-
         $finder = $this->createFinder(null, $builderMock, $stateMachineQueryContainer);
 
         $stateMachineProcessTransfer = new StateMachineProcessTransfer();
-        $stateMachineProcessTransfer->setProcessName('Process1');
-        $stateMachineProcessTransfer->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
+        $stateMachineProcessTransfer->setProcessName(StateMachineProcessesFixture::PROCESS_NAME_1);
+        $stateMachineProcessTransfer->setStateMachineName(StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME);
 
         $stateMachineItems = $finder->getItemsWithFlag($stateMachineProcessTransfer, 'test');
 
@@ -137,17 +162,32 @@ class FinderTest extends TestCase
     }
 
     /**
+     * @param string $name
+     * @param string $flag
+     *
+     * @return \StateMachine\Business\Process\StateInterface
+     */
+    protected function createState(string $name, string $flag): StateInterface
+    {
+        $state = new State();
+        $state->setName($name);
+        $state->addFlag($flag);
+
+        return $state;
+    }
+
+    /**
      * @param \StateMachine\Business\StateMachine\HandlerResolverInterface|null $handlerResolverMock
      * @param \StateMachine\Business\StateMachine\BuilderInterface|null $builderMock
-     * @param \StateMachine\Model\QueryContainerInterface|null $stateMachineQueryContainerMock
+     * @param \StateMachine\Model\QueryContainerInterface|null $stateMachineQueryContainer
      *
-     * @return \StateMachine\Business\StateMachine\Finder
+     * @return \StateMachine\Business\StateMachine\FinderInterface
      */
     protected function createFinder(
         ?HandlerResolverInterface $handlerResolverMock = null,
         ?BuilderInterface $builderMock = null,
-        ?QueryContainerInterface $stateMachineQueryContainerMock = null
-    ) {
+        ?QueryContainerInterface $stateMachineQueryContainer = null
+    ): FinderInterface {
 
         if ($builderMock === null) {
             $builderMock = $this->createBuilderMock();
@@ -157,14 +197,14 @@ class FinderTest extends TestCase
             $handlerResolverMock = $this->createHandlerResolverMock();
         }
 
-        if ($stateMachineQueryContainerMock === null) {
-            $stateMachineQueryContainerMock = $this->createStateMachineQueryContainer();
+        if ($stateMachineQueryContainer === null) {
+            $stateMachineQueryContainer = $this->createStateMachineQueryContainer();
         }
 
         return new Finder(
             $builderMock,
             $handlerResolverMock,
-            $stateMachineQueryContainerMock
+            $stateMachineQueryContainer
         );
     }
 

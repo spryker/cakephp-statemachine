@@ -10,48 +10,54 @@ namespace StateMachine\Test\TestCase\Business\Process;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Process\Event;
 use StateMachine\Business\Process\Process;
+use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Business\Process\Transition;
 
 class ProcessTest extends TestCase
 {
+    protected const MANUALLY_EXECUTABLE_EVENTS = 2;
+    protected const EVENT_NAME_DEFAULT = 'default';
+    protected const EVENT_NAME_MANUAL = 'manual';
+    protected const EVENT_NAME_ONENTER = 'onenter';
+
     /**
      * @return void
      */
-    public function testThatManualEventsIncludeOnEnterEvents()
+    public function testThatManualEventsIncludeOnEnterEvents(): void
     {
         $process = $this->createProcess();
         $process->setTransitions($this->getTransitionsWithManualAndOnEnterEvents());
 
         $result = $process->getManuallyExecutableEvents();
-        $this->assertSame(2, count($result));
+        $this->assertSame(static::MANUALLY_EXECUTABLE_EVENTS, count($result));
 
-        $this->assertSame('manual', $result[0]->getName());
-        $this->assertSame('onenter', $result[1]->getName());
+        $this->assertSame(static::EVENT_NAME_MANUAL, $result[0]->getName());
+        $this->assertSame(static::EVENT_NAME_ONENTER, $result[1]->getName());
     }
 
     /**
      * @return array
      */
-    protected function getTransitionsWithManualAndOnEnterEvents()
+    protected function getTransitionsWithManualAndOnEnterEvents(): array
     {
         $transitions = [];
 
         $transition = new Transition();
         $event = new Event();
-        $event->setName('default');
+        $event->setName(static::EVENT_NAME_DEFAULT);
         $transition->setEvent($event);
         $transitions[] = $transition;
 
         $transition = new Transition();
         $event = new Event();
-        $event->setName('manual');
+        $event->setName(static::EVENT_NAME_MANUAL);
         $event->setManual(true);
         $transition->setEvent($event);
         $transitions[] = $transition;
 
         $transition = new Transition();
         $event = new Event();
-        $event->setName('onenter');
+        $event->setName(static::EVENT_NAME_ONENTER);
         $event->setOnEnter(true);
         $transition->setEvent($event);
         $transitions[] = $transition;
@@ -60,9 +66,9 @@ class ProcessTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Business\Process\Process
+     * @return \StateMachine\Business\Process\ProcessInterface
      */
-    protected function createProcess()
+    protected function createProcess(): ProcessInterface
     {
         return new Process();
     }

@@ -12,9 +12,9 @@ use ArrayObject;
 use Exception;
 use InvalidArgumentException;
 use Serializable;
-use Spryker\Shared\Kernel\Transfer\Exception\ArrayAccessReadyOnlyException;
-use Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException;
-use Spryker\Shared\Kernel\Transfer\Exception\TransferUnserializationException;
+use StateMachine\Transfer\Exception\ArrayAccessReadyOnlyException;
+use StateMachine\Transfer\Exception\RequiredTransferPropertyException;
+use StateMachine\Transfer\Exception\TransferUnserializationException;
 
 abstract class AbstractTransfer implements Serializable, ArrayAccess
 {

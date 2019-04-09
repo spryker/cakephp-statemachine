@@ -14,16 +14,6 @@ use StateMachine\Business\StateMachine\LockedTrigger;
 use StateMachine\Business\StateMachine\TriggerInterface;
 use StateMachine\Transfer\StateMachineProcessTransfer;
 
-/**
- * Auto-generated group annotations
- * @group SprykerTest
- * @group Zed
- * @group StateMachine
- * @group Business
- * @group StateMachine
- * @group LockedTriggerTest
- * Add your own group annotations below this line
- */
 class LockedTriggerTest extends TestCase
 {
     /**
@@ -63,21 +53,13 @@ class LockedTriggerTest extends TestCase
     }
 
     /**
-     * @param \StateMachine\Business\StateMachine\TriggerInterface|null $triggerMock
-     * @param \StateMachine\Business\Lock\ItemLockInterface|null $itemLockMock
+     * @param \StateMachine\Business\StateMachine\TriggerInterface $triggerMock
+     * @param \StateMachine\Business\Lock\ItemLockInterface $itemLockMock
      *
-     * @return \StateMachine\Business\StateMachine\LockedTrigger
+     * @return \StateMachine\Business\StateMachine\TriggerInterface
      */
-    public function createLockedTrigger(?TriggerInterface $triggerMock = null, ?ItemLockInterface $itemLockMock = null)
+    public function createLockedTrigger(TriggerInterface $triggerMock, ItemLockInterface $itemLockMock): TriggerInterface
     {
-        if ($triggerMock === null) {
-            $triggerMock = $this->createTriggerMock();
-        }
-
-        if ($itemLockMock === null) {
-            $itemLockMock = $this->createItemLockMock();
-        }
-
         return new LockedTrigger(
             $triggerMock,
             $itemLockMock

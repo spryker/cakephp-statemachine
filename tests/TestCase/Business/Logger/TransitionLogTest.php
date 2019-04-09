@@ -10,6 +10,7 @@ namespace StateMachine\Test\TestCase\Business\Logger;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Logger\TransitionLog;
+use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\Event;
 use StateMachine\Dependency\CommandPluginInterface;
 use StateMachine\Dependency\ConditionPluginInterface;
@@ -48,7 +49,7 @@ class TransitionLogTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('StateMachineTransitionLogs') ? [] : ['className' => StateMachineTransitionLogsTable::class];
@@ -60,7 +61,7 @@ class TransitionLogTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->StateMachineTransitionLogs);
 
@@ -70,7 +71,7 @@ class TransitionLogTest extends TestCase
     /**
      * @return void
      */
-    public function testLoggerPersistsAllProvidedData()
+    public function testLoggerPersistsAllProvidedData(): void
     {
         $stateMachineItemTransfer = $this->createItemTransfer();
 
@@ -109,27 +110,25 @@ class TransitionLogTest extends TestCase
     /**
      * @return void
      */
-    public function testWhenNonCliRequestUsedShouldExtractOutputParamsAndPersist()
+    public function testWhenNonCliRequestUsedShouldExtractOutputParamsAndPersist(): void
     {
         $_SERVER[TransitionLog::QUERY_STRING] = $this->createQueryString(array_merge(static::QUERY_DATA[0], static::QUERY_DATA[1]));
-        $stateMachineTransitionLogEntity = $this->StateMachineTransitionLogs->newEntity();
         $stateMachineItemTransfer = $this->createItemTransfer();
 
         $transitionLog = $this->createTransitionLog();
         $transitionLog->init([$stateMachineItemTransfer]);
 
-        $storedParams = $stateMachineTransitionLogEntity->params;
-
+        $transitionLog->save($stateMachineItemTransfer);
+        $stateMachineTransitionLogEntity = $this->StateMachineTransitionLogs->find()->last();
+        $storedParams = json_decode($stateMachineTransitionLogEntity->params);
         $this->assertEquals($this->createQueryString(static::QUERY_DATA[0]), $storedParams[0]);
         $this->assertEquals($this->createQueryString(static::QUERY_DATA[1]), $storedParams[1]);
     }
 
     /**
-     * @param \StateMachine\Model\Entity\StateMachineTransitionLog $stateMachineTransitionLogEntityMock
-     *
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\Logger\TransitionLog
+     * @return \StateMachine\Business\Logger\TransitionLogInterface
      */
-    protected function createTransitionLog()
+    protected function createTransitionLog(): TransitionLogInterface
     {
         return new TransitionLog($this->StateMachineTransitionLogs);
     }

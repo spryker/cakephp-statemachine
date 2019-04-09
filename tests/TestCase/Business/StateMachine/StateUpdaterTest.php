@@ -7,29 +7,90 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
+use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Process\Process;
 use StateMachine\Business\StateMachine\HandlerResolverInterface;
+use StateMachine\Business\StateMachine\Persistence;
 use StateMachine\Business\StateMachine\PersistenceInterface;
 use StateMachine\Business\StateMachine\StateUpdater;
+use StateMachine\Business\StateMachine\StateUpdaterInterface;
 use StateMachine\Business\StateMachine\TimeoutInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Model\QueryContainer;
+use StateMachine\Model\QueryContainerInterface;
+use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
+use StateMachine\Model\Table\StateMachineItemStatesTable;
+use StateMachine\Model\Table\StateMachineProcessesTable;
+use StateMachine\Model\Table\StateMachineTimeoutsTable;
 use StateMachine\Transfer\StateMachineItemTransfer;
 
-/**
- * Auto-generated group annotations
- * @group SprykerTest
- * @group Zed
- * @group StateMachine
- * @group Business
- * @group StateMachine
- * @group StateUpdaterTest
- * Add your own group annotations below this line
- */
 class StateUpdaterTest extends TestCase
 {
-    public const TEST_STATE_MACHINE_NAME = 'test state machine name';
+    protected const TEST_STATE_MACHINE_NAME = 'test state machine name';
+
+    /**
+     * @var \StateMachine\Model\Table\StateMachineItemStateHistoryTable
+     */
+    protected $StateMachineItemStateHistory;
+
+    /**
+     * @var \StateMachine\Model\Table\StateMachineProcessesTable
+     */
+    protected $StateMachineProcesses;
+
+    /**
+     * @var \StateMachine\Model\Table\StateMachineItemStatesTable
+     */
+    protected $StateMachineItemStates;
+
+    /**
+     * @var \StateMachine\Model\Table\StateMachineTimeoutsTable
+     */
+    protected $StateMachineTimeouts;
+
+    /**
+     * @var array
+     */
+    public $fixtures = [
+        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineProcesses',
+        'plugin.StateMachine.StateMachineItemStates',
+        'plugin.StateMachine.StateMachineTimeouts',
+    ];
+
+    /**
+     * setUp method
+     *
+     * @return void
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+        $config = TableRegistry::getTableLocator()->exists('StateMachineItemStateHistory') ? [] : ['className' => StateMachineItemStateHistoryTable::class];
+        $this->StateMachineItemStateHistory = TableRegistry::getTableLocator()->get('StateMachineItemStateHistory', $config);
+
+        $config = TableRegistry::getTableLocator()->exists('StateMachineProcesses') ? [] : ['className' => StateMachineProcessesTable::class];
+        $this->StateMachineProcesses = TableRegistry::getTableLocator()->get('StateMachineProcesses', $config);
+
+        $config = TableRegistry::getTableLocator()->exists('StateMachineItemStates') ? [] : ['className' => StateMachineItemStatesTable::class];
+        $this->StateMachineItemStates = TableRegistry::getTableLocator()->get('StateMachineItemStates', $config);
+
+        $config = TableRegistry::getTableLocator()->exists('StateMachineTimeouts') ? [] : ['className' => StateMachineTimeoutsTable::class];
+        $this->StateMachineTimeouts = TableRegistry::getTableLocator()->get('StateMachineTimeouts', $config);
+    }
+
+    /**
+     * tearDown method
+     *
+     * @return void
+     */
+    public function tearDown(): void
+    {
+        unset($this->StateMachineItemStateHistory, $this->StateMachineProcesses, $this->StateMachineItemStates, $this->StateMachineTimeouts);
+
+        parent::tearDown();
+    }
 
     /**
      * @return void
@@ -97,16 +158,7 @@ class StateUpdaterTest extends TestCase
      */
     public function testStateMachineUpdaterShouldPersistStateHistory()
     {
-        $persistenceMock = $this->createPersistenceMock();
-        $persistenceMock->expects($this->once())->method('saveItemStateHistory')->with(
-            $this->isInstanceOf(StateMachineItemTransfer::class)
-        );
-
-        $stateUpdater = $this->createStateUpdater(
-            null,
-            null,
-            $persistenceMock
-        );
+        $stateUpdater = $this->createStateUpdater();
 
         $stateUpdater->updateStateMachineItemState(
             $this->createStateMachineItems(),
@@ -169,15 +221,13 @@ class StateUpdaterTest extends TestCase
     /**
      * @param \StateMachine\Business\StateMachine\TimeoutInterface|null $timeoutMock
      * @param \StateMachine\Business\StateMachine\HandlerResolverInterface|null $handlerResolverMock
-     * @param \StateMachine\Business\StateMachine\PersistenceInterface|null $stateMachinePersistenceMock
      *
-     * @return \StateMachine\Business\StateMachine\StateUpdater
+     * @return \StateMachine\Business\StateMachine\StateUpdaterInterface
      */
     protected function createStateUpdater(
         ?TimeoutInterface $timeoutMock = null,
-        ?HandlerResolverInterface $handlerResolverMock = null,
-        ?PersistenceInterface $stateMachinePersistenceMock = null
-    ) {
+        ?HandlerResolverInterface $handlerResolverMock = null
+    ): StateUpdaterInterface {
 
         if ($timeoutMock === null) {
             $timeoutMock = $this->createTimeoutMock();
@@ -190,24 +240,18 @@ class StateUpdaterTest extends TestCase
             $handlerResolverMock->method('get')->willReturn($handlerMock);
         }
 
-        if ($stateMachinePersistenceMock === null) {
-            $stateMachinePersistenceMock = $this->createPersistenceMock();
-        }
-
-        $queryContainerMock = $this->createQueryContainer();
-
         return new StateUpdater(
             $timeoutMock,
             $handlerResolverMock,
-            $stateMachinePersistenceMock,
-            $queryContainerMock
+            $this->createPersistence(),
+            $this->createQueryContainer()
         );
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Model\QueryContainerInterface
+     * @return \StateMachine\Model\QueryContainerInterface
      */
-    protected function createQueryContainer()
+    protected function createQueryContainer(): QueryContainerInterface
     {
         return new QueryContainer();
     }
@@ -223,13 +267,17 @@ class StateUpdaterTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\PersistenceInterface
+     * @return \StateMachine\Business\StateMachine\PersistenceInterface
      */
-    protected function createPersistenceMock()
+    protected function createPersistence(): PersistenceInterface
     {
-        $persistenceMock = $this->getMockBuilder(PersistenceInterface::class)->getMock();
-
-        return $persistenceMock;
+        return new Persistence(
+            $this->createQueryContainer(),
+            $this->StateMachineItemStateHistory,
+            $this->StateMachineProcesses,
+            $this->StateMachineItemStates,
+            $this->StateMachineTimeouts
+        );
     }
 
     /**

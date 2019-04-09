@@ -10,10 +10,15 @@ namespace StateMachine\Test\TestCase\Business\StateMachine;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Exception\StateMachineException;
 use StateMachine\Business\Process\Event;
+use StateMachine\Business\Process\EventInterface;
 use StateMachine\Business\Process\Process;
+use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Business\Process\State;
+use StateMachine\Business\Process\StateInterface;
 use StateMachine\Business\Process\Transition;
+use StateMachine\Business\Process\TransitionInterface;
 use StateMachine\Business\StateMachine\Builder;
+use StateMachine\Business\StateMachine\BuilderInterface;
 use StateMachine\StateMachineConfig;
 use StateMachine\Transfer\StateMachineProcessTransfer;
 
@@ -38,7 +43,7 @@ class BuilderTest extends TestCase
         $stateMachineProcessTransfer = $this->createStateMachineProcessTransfer();
         $process = $builder->createProcess($stateMachineProcessTransfer);
 
-        $this->assertInstanceOf(Process::class, $process);
+        $this->assertInstanceOf(ProcessInterface::class, $process);
     }
 
     /**
@@ -137,9 +142,9 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Business\StateMachine\Builder
+     * @return \StateMachine\Business\StateMachine\BuilderInterface
      */
-    protected function createBuilder(): Builder
+    protected function createBuilder(): BuilderInterface
     {
         return new Builder(
             $this->createEvent(),
@@ -151,33 +156,33 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Business\Process\Event
+     * @return \StateMachine\Business\Process\EventInterface
      */
-    protected function createEvent(): Event
+    protected function createEvent(): EventInterface
     {
         return new Event();
     }
 
     /**
-     * @return \StateMachine\Business\Process\State
+     * @return \StateMachine\Business\Process\StateInterface
      */
-    protected function createState(): State
+    protected function createState(): StateInterface
     {
         return new State();
     }
 
     /**
-     * @return \StateMachine\Business\Process\Transition
+     * @return \StateMachine\Business\Process\TransitionInterface
      */
-    protected function createTransition(): Transition
+    protected function createTransition(): TransitionInterface
     {
         return new Transition();
     }
 
     /**
-     * @return \StateMachine\Business\Process\Process
+     * @return \StateMachine\Business\Process\ProcessInterface
      */
-    protected function createProcess(): Process
+    protected function createProcess(): ProcessInterface
     {
         return new Process();
     }
