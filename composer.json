@@ -18,9 +18,10 @@
 		"phpdocumentor/graphviz": "*"
 	},
 	"require-dev": {
+        "dereuromark/cakephp-dto":"@stable",
 		"phpunit/phpunit": "^5.0.0|^6.0.0",
 		"spryker/code-sniffer": "*",
-		"phpstan/phpstan-shim": "^0.10.7"
+		"phpstan/phpstan-shim": "^0.11"
 	},
 	"autoload": {
 		"psr-4": {

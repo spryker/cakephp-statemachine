@@ -38,5 +38,6 @@ Let's hook them up to the PHP counterpart then.
 We are looking forward to your contributions.
 
 There are a few guidelines to follow:
-* Coding standards (`composer cs-check` to check and `composer cs-fix` to fix)
 * Passing tests (`composer test`) - Travis will also automatically check those for any PR then
+* Coding standards (`composer cs-check` to check and `composer cs-fix` to fix)
+* PHPStan (`composer phpstan`) -  The higher level, the better
