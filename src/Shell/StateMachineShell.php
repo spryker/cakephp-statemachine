@@ -33,17 +33,17 @@ class StateMachineShell extends Shell
      *
      * @return void
      */
-    public function checkTimeouts($stateMachineName = null): void
+    public function checkTimeouts(string $stateMachineName): void
     {
         $this->CheckTimeout->check($stateMachineName);
     }
 
     /**
-     * @param string|null $stateMachineName
+     * @param string $stateMachineName
      *
      * @return void
      */
-    public function checkConditions($stateMachineName = null): void
+    public function checkConditions(string $stateMachineName): void
     {
         $this->CheckCondition->check($stateMachineName);
     }
@@ -64,12 +64,12 @@ class StateMachineShell extends Shell
         $parser = parent::getOptionParser();
 
         $parser->addSubcommand('checkConditions', [
-            'help' => 'Check if any conditions match. Please provide valid state machine name as an argument.',
+            'help' => 'Check if any conditions match.',
             'parser' => $this->CheckCondition->getOptionParser(),
         ]);
 
         $parser->addSubcommand('checkTimeouts', [
-            'help' => 'Check if any timeouts match. Please provide valid state machine name as an argument.',
+            'help' => 'Check if any timeouts match.',
             'parser' => $this->CheckTimeout->getOptionParser(),
         ]);
 

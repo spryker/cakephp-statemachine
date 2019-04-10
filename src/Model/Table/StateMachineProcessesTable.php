@@ -8,7 +8,6 @@
 namespace StateMachine\Model\Table;
 
 use Cake\Validation\Validator;
-use StateMachine\Model\FieldNameTrait;
 use Tools\Model\Table\Table;
 
 /**
@@ -30,8 +29,6 @@ use Tools\Model\Table\Table;
  */
 class StateMachineProcessesTable extends Table
 {
-    use FieldNameTrait;
-
     /**
      * Initialize method
      *

@@ -12,6 +12,7 @@ use StateMachine\Business\Exception\LockException;
 use StateMachine\Business\Lock\ItemLockInterface;
 use StateMachine\Business\StateMachine\LockedTrigger;
 use StateMachine\Business\StateMachine\TriggerInterface;
+use StateMachine\Test\Fixture\StateMachineProcessesFixture;
 use StateMachine\Transfer\StateMachineProcessTransfer;
 
 class LockedTriggerTest extends TestCase
@@ -31,7 +32,13 @@ class LockedTriggerTest extends TestCase
             ->willThrowException(new LockException());
 
         $lockedTrigger = $this->createLockedTrigger($triggerMock, $itemLockMock);
-        $lockedTrigger->triggerForNewStateMachineItem(new StateMachineProcessTransfer(), 1);
+        $lockedTrigger->triggerForNewStateMachineItem(
+            $this->createStateMachineProcessTransfer(
+                StateMachineProcessesFixture::PROCESS_NAME_1,
+                StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME
+            ),
+            1
+        );
     }
 
     /**
@@ -84,5 +91,20 @@ class LockedTriggerTest extends TestCase
         $itemLockMock = $this->getMockBuilder(ItemLockInterface::class)->getMock();
 
         return $itemLockMock;
+    }
+
+    /**
+     * @param string $processName
+     * @param string $stateMachineName
+     *
+     * @return \StateMachine\Transfer\StateMachineProcessTransfer
+     */
+    protected function createStateMachineProcessTransfer(string $processName, string $stateMachineName): StateMachineProcessTransfer
+    {
+        $stateMachineProcessTransfer = new StateMachineProcessTransfer();
+        $stateMachineProcessTransfer->setProcessName($processName);
+        $stateMachineProcessTransfer->setStateMachineName($stateMachineName);
+
+        return $stateMachineProcessTransfer;
     }
 }

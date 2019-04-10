@@ -1,11 +1,8 @@
 <?php
 namespace StateMachine\Model\Table;
 
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use StateMachine\Model\FieldNameTrait;
 
 /**
  * StateMachineLocks Model
@@ -23,8 +20,6 @@ use StateMachine\Model\FieldNameTrait;
  */
 class StateMachineLocksTable extends Table
 {
-    use FieldNameTrait;
-
     /**
      * Initialize method
      *

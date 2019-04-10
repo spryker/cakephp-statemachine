@@ -29,7 +29,7 @@ class QueryContainer implements QueryContainerInterface
         return $stateMachineItemStatesTable
             ->find()
             ->matching($this->getFactory()->createStateMachineProcessesTable()->getAlias())
-            ->where([$stateMachineItemStatesTable->getFullFieldName('id') => $idState]);
+            ->where([$stateMachineItemStatesTable->aliasField('id') => $idState]);
     }
 
     /**
@@ -48,7 +48,7 @@ class QueryContainer implements QueryContainerInterface
             ->matching($this->getFactory()->createStateMachineItemStateHistoryTable()->getAlias(), function(Query $query) use ($stateMachineItemTransfer) {
                 return $query->where(['identifier' => $stateMachineItemTransfer->getIdentifier()]);
             })
-            ->where([$stateMachineItemStatesTable->getFullFieldName('id') => $stateMachineItemTransfer->getIdItemState()]);
+            ->where([$stateMachineItemStatesTable->aliasField('id') => $stateMachineItemTransfer->getIdItemState()]);
     }
 
     /**
@@ -67,8 +67,8 @@ class QueryContainer implements QueryContainerInterface
             ->matching($this->getFactory()->createStateMachineItemStatesTable()->getAlias())
             ->matching($stateMachineProcessesTable->getAlias())
             ->where([
-                $stateMachineTimeoutsTable->getFullFieldName('timeout') . ' < ' => $expirationDate->format('Y-m-d H:i:s'),
-                $stateMachineProcessesTable->getFullFieldName('state_machine') => $stateMachineName,
+                $stateMachineTimeoutsTable->aliasField('timeout') . ' < ' => $expirationDate->format('Y-m-d H:i:s'),
+                $stateMachineProcessesTable->aliasField('state_machine') => $stateMachineName,
             ]);
     }
 
@@ -89,11 +89,11 @@ class QueryContainer implements QueryContainerInterface
                 return $query->where(['state_machine_process_id' => $idStateMachineProcess]);
             })
             ->where([
-                $stateMachineItemStateHistoryTable->getFullFieldName('identifier') => $identifier
+                $stateMachineItemStateHistoryTable->aliasField('identifier') => $identifier
             ])
             ->order([
-                $stateMachineItemStateHistoryTable->getFullFieldName('created') => 'ASC',
-                $stateMachineItemStateHistoryTable->getFullFieldName('id') => 'ASC',
+                $stateMachineItemStateHistoryTable->aliasField('created') => 'ASC',
+                $stateMachineItemStateHistoryTable->aliasField('id') => 'ASC',
             ]);
     }
 
@@ -110,8 +110,8 @@ class QueryContainer implements QueryContainerInterface
         return $stateMachineProcessesTable
             ->find()
             ->where([
-                $stateMachineProcessesTable->getFullFieldName('name') => $processName,
-                $stateMachineProcessesTable->getFullFieldName('state_machine') => $stateMachineName,
+                $stateMachineProcessesTable->aliasField('name') => $processName,
+                $stateMachineProcessesTable->aliasField('state_machine') => $stateMachineName,
             ]);
     }
 
@@ -131,20 +131,21 @@ class QueryContainer implements QueryContainerInterface
         $stateMachineItemStateHistoryTable = $this->getFactory()->createStateMachineItemStateHistoryTable();
         $stateMachineProcessesTable = $this->getFactory()->createStateMachineProcessesTable();
 
+        $states = $states ?: [-1];
         return $stateMachineItemStatesTable
             ->find()
             ->matching($stateMachineItemStateHistoryTable->getAlias())
             ->matching($stateMachineProcessesTable->getAlias(), function (Query $query) use ($stateMachineName, $processName, $stateMachineProcessesTable) {
                 return $query->where([
-                    $stateMachineProcessesTable->getFullFieldName('state_machine') => $stateMachineName,
-                    $stateMachineProcessesTable->getFullFieldName('name') => $processName,
+                    $stateMachineProcessesTable->aliasField('state_machine') => $stateMachineName,
+                    $stateMachineProcessesTable->aliasField('name') => $processName,
                 ]);
             })
             ->where([
-                $stateMachineItemStatesTable->getFullFieldName('name') . ' IN ' => $states,
+                $stateMachineItemStatesTable->aliasField('name') . ' IN ' => $states,
             ])
             ->order([
-                $stateMachineItemStatesTable->getFullFieldName('id') => 'ASC',
+                $stateMachineItemStatesTable->aliasField('id') => 'ASC',
             ]);
     }
 
@@ -161,8 +162,8 @@ class QueryContainer implements QueryContainerInterface
         return $stateMachineItemStatesTable
             ->find()
             ->where([
-                $stateMachineItemStatesTable->getFullFieldName('name') => $stateName,
-                $stateMachineItemStatesTable->getFullFieldName('state_machine_process_id') => $idProcess,
+                $stateMachineItemStatesTable->aliasField('name') => $stateName,
+                $stateMachineItemStatesTable->aliasField('state_machine_process_id') => $idProcess,
             ]);
     }
 
@@ -178,7 +179,7 @@ class QueryContainer implements QueryContainerInterface
         return $stateMachineLocksTable
             ->find()
             ->where([
-                $stateMachineLocksTable->getFullFieldName('expires') . ' <= ' => $expirationDate
+                $stateMachineLocksTable->aliasField('expires') . ' <= ' => $expirationDate
             ]);
     }
 
@@ -194,7 +195,7 @@ class QueryContainer implements QueryContainerInterface
         return $stateMachineLocksTable
             ->find()
             ->where([
-                $stateMachineLocksTable->getFullFieldName('identifier') => $identifier
+                $stateMachineLocksTable->aliasField('identifier') => $identifier
             ]);
     }
 
@@ -210,7 +211,7 @@ class QueryContainer implements QueryContainerInterface
         return $stateMachineProcessesTable
             ->find()
             ->where([
-                $stateMachineProcessesTable->getFullFieldName('name') => $processName,
+                $stateMachineProcessesTable->aliasField('name') => $processName,
             ]);
     }
 
@@ -227,8 +228,8 @@ class QueryContainer implements QueryContainerInterface
         return $stateMachineTimeoutsTable
             ->find()
             ->where([
-                $stateMachineTimeoutsTable->getFullFieldName('identifier') => $identifier,
-                $stateMachineTimeoutsTable->getFullFieldName('state_machine_process_id') => $idProcess,
+                $stateMachineTimeoutsTable->aliasField('identifier') => $identifier,
+                $stateMachineTimeoutsTable->aliasField('state_machine_process_id') => $idProcess,
             ]);
     }
 }
