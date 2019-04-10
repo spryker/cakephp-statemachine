@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \Cake\Datasource\EntityInterface[]|\Cake\Collection\CollectionInterface $stateMachineProcesses
+ * @var \StateMachine\Model\Entity\StateMachineProcess[]|\Cake\Collection\CollectionInterface $stateMachineProcesses
  */
 ?>
 <nav class="actions large-3 medium-4 columns col-sm-4 col-xs-12" id="actions-sidebar">

@@ -29,7 +29,7 @@ class TransitionLog implements TransitionLogInterface
     protected $stateMachineTransitionLogsTable;
 
     /**
-     * @param \StateMachine\Model\Table\StateMachineTransitionLogsTable
+     * @param \StateMachine\Model\Table\StateMachineTransitionLogsTable $stateMachineTransitionLogsTable
      */
     public function __construct(
         StateMachineTransitionLogsTable $stateMachineTransitionLogsTable

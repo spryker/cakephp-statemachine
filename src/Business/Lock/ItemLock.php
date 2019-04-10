@@ -36,7 +36,7 @@ class ItemLock implements ItemLockInterface
     /**
      * @param \StateMachine\Model\QueryContainerInterface $queryContainer
      * @param \StateMachine\StateMachineConfig $stateMachineConfig
-     * @param \StateMachine\Model\Table\StateMachineLocksTable
+     * @param \StateMachine\Model\Table\StateMachineLocksTable $stateMachineLocksTable
      */
     public function __construct(
         QueryContainerInterface $queryContainer,
