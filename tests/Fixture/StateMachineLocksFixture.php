@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace StateMachine\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
@@ -40,7 +46,7 @@ class StateMachineLocksFixture extends TestFixture
                 'id' => 1,
                 'identifier' => 'Lorem ipsum dolor sit amet',
                 'expires' => '2019-04-02 11:35:48',
-                'created' => '2019-04-02 11:35:48'
+                'created' => '2019-04-02 11:35:48',
             ],
         ];
         parent::init();

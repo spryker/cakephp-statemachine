@@ -7,7 +7,6 @@
 
 namespace StateMachine;
 
-use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\ORM\Locator\LocatorInterface;
 use Cake\ORM\TableRegistry;

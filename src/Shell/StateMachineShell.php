@@ -29,7 +29,7 @@ class StateMachineShell extends Shell
     ];
 
     /**
-     * @param string|null $stateMachineName
+     * @param string $stateMachineName
      *
      * @return void
      */

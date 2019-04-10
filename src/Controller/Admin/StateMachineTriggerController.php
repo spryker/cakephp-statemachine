@@ -14,7 +14,7 @@ use StateMachine\FacadeAwareTrait;
 use StateMachine\Transfer\StateMachineItemTransfer;
 use StateMachine\Transfer\StateMachineProcessTransfer;
 
-class StateMachineTriggerController  extends AppController
+class StateMachineTriggerController extends AppController
 {
     use FacadeAwareTrait;
 

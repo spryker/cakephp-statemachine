@@ -7,6 +7,8 @@
 
 namespace StateMachine\Transfer\Exception;
 
-class ArrayAccessReadyOnlyException extends \Exception
+use Exception;
+
+class ArrayAccessReadyOnlyException extends Exception
 {
 }

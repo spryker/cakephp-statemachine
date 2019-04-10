@@ -20,6 +20,8 @@ class CheckConditionTask extends Shell
 
     /**
      * @param string $stateMachineName
+     *
+     * @return void
      */
     public function check(string $stateMachineName): void
     {

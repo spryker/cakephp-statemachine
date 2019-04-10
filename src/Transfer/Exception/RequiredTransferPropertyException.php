@@ -7,6 +7,8 @@
 
 namespace StateMachine\Transfer\Exception;
 
-class RequiredTransferPropertyException extends \Exception
+use Exception;
+
+class RequiredTransferPropertyException extends Exception
 {
 }

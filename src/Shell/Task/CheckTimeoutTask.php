@@ -25,7 +25,7 @@ class CheckTimeoutTask extends Shell
      */
     public function check(string $stateMachineName): void
     {
-        $this->validateStateMachineName($stateMachineName) ;
+        $this->validateStateMachineName($stateMachineName);
 
         $this->getFacade()->checkTimeouts($stateMachineName);
     }

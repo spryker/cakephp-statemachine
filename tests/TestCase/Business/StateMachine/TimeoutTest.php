@@ -153,6 +153,7 @@ class TimeoutTest extends TestCase
 
         return $state;
     }
+
     /**
      * @return \StateMachine\Business\Process\TransitionInterface
      */

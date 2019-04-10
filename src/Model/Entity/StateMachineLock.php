@@ -31,6 +31,6 @@ class StateMachineLock extends Entity
     protected $_accessible = [
         'identifier' => true,
         'expires' => true,
-        'created' => true
+        'created' => true,
     ];
 }

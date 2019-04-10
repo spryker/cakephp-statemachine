@@ -8,8 +8,6 @@
 namespace StateMachine\Business\StateMachine;
 
 use Cake\ORM\ResultSet;
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineItemState;
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineProcess;
 use StateMachine\Business\Exception\StateMachineException;
 use StateMachine\Model\Entity\StateMachineItemState;
 use StateMachine\Model\Entity\StateMachineProcess;

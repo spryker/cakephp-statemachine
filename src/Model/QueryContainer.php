@@ -45,7 +45,7 @@ class QueryContainer implements QueryContainerInterface
         return $stateMachineItemStatesTable
             ->find()
             ->matching($this->getFactory()->createStateMachineProcessesTable()->getAlias())
-            ->matching($this->getFactory()->createStateMachineItemStateHistoryTable()->getAlias(), function(Query $query) use ($stateMachineItemTransfer) {
+            ->matching($this->getFactory()->createStateMachineItemStateHistoryTable()->getAlias(), function (Query $query) use ($stateMachineItemTransfer) {
                 return $query->where(['identifier' => $stateMachineItemTransfer->getIdentifier()]);
             })
             ->where([$stateMachineItemStatesTable->aliasField('id') => $stateMachineItemTransfer->getIdItemState()]);
@@ -89,7 +89,7 @@ class QueryContainer implements QueryContainerInterface
                 return $query->where(['state_machine_process_id' => $idStateMachineProcess]);
             })
             ->where([
-                $stateMachineItemStateHistoryTable->aliasField('identifier') => $identifier
+                $stateMachineItemStateHistoryTable->aliasField('identifier') => $identifier,
             ])
             ->order([
                 $stateMachineItemStateHistoryTable->aliasField('created') => 'ASC',
@@ -179,7 +179,7 @@ class QueryContainer implements QueryContainerInterface
         return $stateMachineLocksTable
             ->find()
             ->where([
-                $stateMachineLocksTable->aliasField('expires') . ' <= ' => $expirationDate
+                $stateMachineLocksTable->aliasField('expires') . ' <= ' => $expirationDate,
             ]);
     }
 
@@ -195,7 +195,7 @@ class QueryContainer implements QueryContainerInterface
         return $stateMachineLocksTable
             ->find()
             ->where([
-                $stateMachineLocksTable->aliasField('identifier') => $identifier
+                $stateMachineLocksTable->aliasField('identifier') => $identifier,
             ]);
     }
 

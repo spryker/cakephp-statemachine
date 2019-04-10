@@ -1,7 +1,11 @@
 <?php
 
-namespace StateMachine\Business;
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
 
+namespace StateMachine\Business;
 
 use StateMachine\FactoryTrait;
 use StateMachine\Transfer\StateMachineItemTransfer;

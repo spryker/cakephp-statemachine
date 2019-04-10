@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace StateMachine\Test\TestCase\Model\Table;
 
 use Cake\ORM\TableRegistry;
@@ -23,7 +29,7 @@ class StateMachineLocksTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.StateMachine.StateMachineLocks'
+        'plugin.StateMachine.StateMachineLocks',
     ];
 
     /**
