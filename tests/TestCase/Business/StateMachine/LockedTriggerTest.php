@@ -19,7 +19,7 @@ class LockedTriggerTest extends TestCase
     /**
      * @return void
      */
-    public function testTriggerForNewItemWhenLockedShouldThrowException()
+    public function testTriggerForNewStateMachineItemWhenLockedShouldThrowException()
     {
         $this->expectException(LockException::class);
 

@@ -7,86 +7,75 @@
 
 namespace StateMachine\Shell;
 
+use Cake\Console\ConsoleOptionParser;
 use Cake\Console\Shell;
 
 /**
  * @author Mark Scherer
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
  *
- * @property \StateMachine\Model\Table\StateMachinesTable $StateMachines
+ * @property \StateMachine\Shell\Task\CheckConditionTask $CheckCondition
+ * @property \StateMachine\Shell\Task\CheckTimeoutTask $CheckTimeout
+ * @property \StateMachine\Shell\Task\ClearLocksTask $ClearLocks
  */
 class StateMachineShell extends Shell
 {
     /**
-     * @var string
+     * @var array
      */
-    public $modelClass = 'StateMachine.StateMachines';
+    public $tasks = [
+        'StateMachine.CheckCondition',
+        'StateMachine.CheckTimeout',
+        'StateMachine.ClearLocks',
+    ];
 
     /**
-     * @param string|null $name
+     * @param string|null $stateMachineName
+     *
      * @return void
      */
-    public function init($name = null)
+    public function checkTimeouts($stateMachineName = null): void
     {
-        if (!$name) {
-            $name = $this->in('Name', null, $name);
-        }
+        $this->CheckTimeout->check($stateMachineName);
+    }
 
-        $file = '....xml';
-        $this->out('Generated: ' . $file);
+    /**
+     * @param string|null $stateMachineName
+     *
+     * @return void
+     */
+    public function checkConditions($stateMachineName = null): void
+    {
+        $this->CheckCondition->check($stateMachineName);
     }
 
     /**
      * @return void
      */
-    public function checkTimeouts()
+    public function clearLocks(): void
     {
-    }
-
-    /**
-     * @return void
-     */
-    public function checkConditions()
-    {
-    }
-
-    /**
-     * @return void
-     */
-    public function clearLogs()
-    {
-    }
-
-    /**
-     * @return void
-     */
-    public function reset()
-    {
-        if (!$this->param('quiet')) {
-            $in = $this->in('Sure?', ['Y', 'n'], 'n');
-            if ($in !== 'Y') {
-                $this->abort('Aborted!');
-            }
-        }
-
-        //$this->StateMachines->truncate();
-        $this->info('Reset done');
+        $this->ClearLocks->main();
     }
 
     /**
      * @return \Cake\Console\ConsoleOptionParser
      */
-    public function getOptionParser()
+    public function getOptionParser(): ConsoleOptionParser
     {
         $parser = parent::getOptionParser();
+
         $parser->addSubcommand('checkConditions', [
-            'help' => 'Check if any conditions match',
+            'help' => 'Check if any conditions match. Please provide valid state machine name as an argument.',
+            'parser' => $this->CheckCondition->getOptionParser(),
         ]);
+
         $parser->addSubcommand('checkTimeouts', [
-            'help' => 'Check if any timeouts match',
+            'help' => 'Check if any timeouts match. Please provide valid state machine name as an argument.',
+            'parser' => $this->CheckTimeout->getOptionParser(),
         ]);
-        $parser->addSubcommand('reset', [
-            'help' => 'Resets the database, truncates all data. Use -q to skip confirmation.',
+
+        $parser->addSubcommand('clearLocks', [
+            'help' => 'Clear expired locks from lock table.',
+            'parser' => $this->ClearLocks->getOptionParser(),
         ]);
 
         return $parser;
