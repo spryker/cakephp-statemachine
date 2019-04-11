@@ -8,6 +8,7 @@
 namespace StateMachine\Business\StateMachine;
 
 use DateTime;
+use StateMachine\Model\Entity\StateMachineTimeout;
 use StateMachine\Transfer\StateMachineItemTransfer;
 use StateMachine\Transfer\StateMachineProcessTransfer;
 
@@ -18,7 +19,7 @@ interface PersistenceInterface
      *
      * @return int
      */
-    public function getProcessId(StateMachineProcessTransfer $stateMachineProcessTransfer);
+    public function getProcessId(StateMachineProcessTransfer $stateMachineProcessTransfer): int;
 
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
@@ -26,7 +27,7 @@ interface PersistenceInterface
      *
      * @return int
      */
-    public function getInitialStateIdByStateName(StateMachineItemTransfer $stateMachineItemTransfer, $stateName);
+    public function getInitialStateIdByStateName(StateMachineItemTransfer $stateMachineItemTransfer, string $stateName): int;
 
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
@@ -34,37 +35,36 @@ interface PersistenceInterface
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer
      */
-    public function saveStateMachineItem(StateMachineItemTransfer $stateMachineItemTransfer, $stateName);
+    public function saveStateMachineItem(StateMachineItemTransfer $stateMachineItemTransfer, string $stateName): StateMachineItemTransfer;
 
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[]
      */
-    public function updateStateMachineItemsFromPersistence(array $stateMachineItems);
+    public function updateStateMachineItemsFromPersistence(array $stateMachineItems): array;
 
     /**
-     * @param int $itemIdentifier
+     * @param string $itemIdentifier
      * @param int $idStateMachineProcess
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[]
      */
-    public function getStateHistoryByStateItemIdentifier($itemIdentifier, $idStateMachineProcess);
+    public function getStateHistoryByStateItemIdentifier(string $itemIdentifier, int $idStateMachineProcess): array;
 
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer
      */
-    public function getProcessedStateMachineItemTransfer(StateMachineItemTransfer $stateMachineItemTransfer
-    );
+    public function getProcessedStateMachineItemTransfer(StateMachineItemTransfer $stateMachineItemTransfer): StateMachineItemTransfer;
 
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[]
      */
-    public function getProcessedStateMachineItems(array $stateMachineItems);
+    public function getProcessedStateMachineItems(array $stateMachineItems): array;
 
     /**
      * @param string $processName
@@ -74,10 +74,10 @@ interface PersistenceInterface
      * @return int[]
      */
     public function getStateMachineItemIdsByStatesProcessAndStateMachineName(
-        $processName,
-        $stateMachineName,
+        string $processName,
+        string $stateMachineName,
         array $states
-    );
+    ): array;
 
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
@@ -91,27 +91,25 @@ interface PersistenceInterface
      * @param \DateTime $timeoutDate
      * @param string $eventName
      *
-     * @throws \Propel\Runtime\Exception\PropelException
-     *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineEventTimeout
+     * @return \StateMachine\Model\Entity\StateMachineTimeout
      */
     public function saveStateMachineItemTimeout(
         StateMachineItemTransfer $stateMachineItemTransfer,
         DateTime $timeoutDate,
-        $eventName
-    );
+        string $eventName
+    ): StateMachineTimeout;
 
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
      *
      * @return void
      */
-    public function dropTimeoutByItem(StateMachineItemTransfer $stateMachineItemTransfer);
+    public function dropTimeoutByItem(StateMachineItemTransfer $stateMachineItemTransfer): void;
 
     /**
      * @param string $stateMachineName
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[] $expiredStateMachineItemsTransfer
      */
-    public function getItemsWithExpiredTimeouts($stateMachineName);
+    public function getItemsWithExpiredTimeouts($stateMachineName): array;
 }

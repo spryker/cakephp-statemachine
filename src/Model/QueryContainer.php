@@ -28,7 +28,7 @@ class QueryContainer implements QueryContainerInterface
 
         return $stateMachineItemStatesTable
             ->find()
-            ->matching($this->getFactory()->createStateMachineProcessesTable()->getAlias())
+            ->contain($this->getFactory()->createStateMachineProcessesTable()->getAlias())
             ->where([$stateMachineItemStatesTable->aliasField('id') => $idState]);
     }
 
@@ -44,8 +44,8 @@ class QueryContainer implements QueryContainerInterface
 
         return $stateMachineItemStatesTable
             ->find()
-            ->matching($this->getFactory()->createStateMachineProcessesTable()->getAlias())
-            ->matching($this->getFactory()->createStateMachineItemStateHistoryTable()->getAlias(), function (Query $query) use ($stateMachineItemTransfer) {
+            ->contain($this->getFactory()->createStateMachineProcessesTable()->getAlias())
+            ->contain($this->getFactory()->createStateMachineItemStateHistoryTable()->getAlias(), function (Query $query) use ($stateMachineItemTransfer) {
                 return $query->where(['identifier' => $stateMachineItemTransfer->getIdentifier()]);
             })
             ->where([$stateMachineItemStatesTable->aliasField('id') => $stateMachineItemTransfer->getIdItemState()]);
@@ -64,8 +64,9 @@ class QueryContainer implements QueryContainerInterface
 
         return $stateMachineTimeoutsTable
             ->find()
-            ->matching($this->getFactory()->createStateMachineItemStatesTable()->getAlias())
-            ->matching($stateMachineProcessesTable->getAlias())
+            ->contain($this->getFactory()->createStateMachineItemStatesTable()->getAlias(), function(Query $query) use ($stateMachineProcessesTable) {
+                return $query->contain($stateMachineProcessesTable->getAlias());
+            })
             ->where([
                 $stateMachineTimeoutsTable->aliasField('timeout') . ' < ' => $expirationDate->format('Y-m-d H:i:s'),
                 $stateMachineProcessesTable->aliasField('state_machine') => $stateMachineName,
@@ -82,11 +83,14 @@ class QueryContainer implements QueryContainerInterface
     {
         $stateMachineItemStateHistoryTable = $this->getFactory()->createStateMachineItemStateHistoryTable();
         $stateMachineItemStateTable = $this->getFactory()->createStateMachineItemStatesTable();
+        $stateMachineProcessesTable = $this->getFactory()->createStateMachineProcessesTable();
 
         return $stateMachineItemStateHistoryTable
             ->find()
-            ->matching($stateMachineItemStateTable->getAlias(), function (Query $query) use ($idStateMachineProcess) {
-                return $query->where(['state_machine_process_id' => $idStateMachineProcess]);
+            ->contain($stateMachineItemStateTable->getAlias(), function (Query $query) use ($idStateMachineProcess, $stateMachineProcessesTable) {
+                return $query
+                    ->contain($stateMachineProcessesTable->getAlias())
+                    ->where(['state_machine_process_id' => $idStateMachineProcess]);
             })
             ->where([
                 $stateMachineItemStateHistoryTable->aliasField('identifier') => $identifier,
@@ -134,8 +138,8 @@ class QueryContainer implements QueryContainerInterface
         $states = $states ?: [-1];
         return $stateMachineItemStatesTable
             ->find()
-            ->matching($stateMachineItemStateHistoryTable->getAlias())
-            ->matching($stateMachineProcessesTable->getAlias(), function (Query $query) use ($stateMachineName, $processName, $stateMachineProcessesTable) {
+            ->contain($stateMachineItemStateHistoryTable->getAlias())
+            ->contain($stateMachineProcessesTable->getAlias(), function (Query $query) use ($stateMachineName, $processName, $stateMachineProcessesTable) {
                 return $query->where([
                     $stateMachineProcessesTable->aliasField('state_machine') => $stateMachineName,
                     $stateMachineProcessesTable->aliasField('name') => $processName,
@@ -158,9 +162,11 @@ class QueryContainer implements QueryContainerInterface
     public function queryItemStateByIdProcessAndStateName(int $idProcess, string $stateName): Query
     {
         $stateMachineItemStatesTable = $this->getFactory()->createStateMachineItemStatesTable();
+        $stateMachineProcessesTable = $this->getFactory()->createStateMachineProcessesTable();
 
         return $stateMachineItemStatesTable
             ->find()
+            ->contain($stateMachineProcessesTable->getAlias())
             ->where([
                 $stateMachineItemStatesTable->aliasField('name') => $stateName,
                 $stateMachineItemStatesTable->aliasField('state_machine_process_id') => $idProcess,

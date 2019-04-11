@@ -7,6 +7,8 @@
 
 namespace StateMachine;
 
+use Cake\Core\Configure;
+
 class StateMachineConfig
 {
     public const GRAPH_NAME = 'Statemachine';
@@ -37,7 +39,7 @@ class StateMachineConfig
      */
     public function getPathToStateMachineXmlFiles()
     {
-        return ROOT . DS . 'config' . DS . 'StateMachines' . DS;
+        return Configure::read('StateMachine.pathToXml', ROOT . DS . 'config' . DS . 'StateMachines' . DS);
     }
 
     /**

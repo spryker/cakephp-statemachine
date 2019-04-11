@@ -12,7 +12,8 @@ use StateMachine\Transfer\StateMachineItemTransfer;
 interface ConditionPluginInterface
 {
     /**
-     * This method is called when transition in SM xml file have concrete condition assigned.
+     * Specification:
+     * - This method is called when transition in SM xml file have concrete condition assigned.
      *
      * @api
      *
@@ -20,5 +21,5 @@ interface ConditionPluginInterface
      *
      * @return bool
      */
-    public function check(StateMachineItemTransfer $stateMachineItemTransfer);
+    public function check(StateMachineItemTransfer $stateMachineItemTransfer): bool;
 }

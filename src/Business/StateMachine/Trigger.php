@@ -402,6 +402,7 @@ class Trigger implements TriggerInterface
             ->getProcessName();
 
         $stateMachineItemTransfer = new StateMachineItemTransfer();
+        $stateMachineProcessTransfer->setStateMachineName($stateMachineProcessTransfer->getStateMachineName());
         $stateMachineItemTransfer->setProcessName($processName);
         $stateMachineItemTransfer->setIdentifier($identifier);
 
