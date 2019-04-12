@@ -13,6 +13,11 @@ StateMachine engine for CakePHP applications.
 
 ## Install
 
+### Requirements
+
+StateMachine plugin requires GraphViz. 
+Please check https://graphviz.gitlab.io/download/ in order to install it for your system.
+
 ### Composer (preferred)
 ```
 composer require spryker/cakephp-statemachine
