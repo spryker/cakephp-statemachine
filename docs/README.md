@@ -41,3 +41,9 @@ There are a few guidelines to follow:
 * Passing tests (`composer test`) - Travis will also automatically check those for any PR then
 * Coding standards (`composer cs-check` to check and `composer cs-fix` to fix)
 * PHPStan (`composer phpstan`) -  The higher level, the better
+
+You can check coverage using
+```
+composer test-coverage
+```
+and then browse to the index.html in tmp/coverage/ folder.
