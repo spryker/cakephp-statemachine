@@ -7,8 +7,8 @@
 
 namespace StateMachine\Business\StateMachine;
 
+use Cake\I18n\FrozenTime;
 use DateInterval;
-use DateTime;
 use StateMachine\Business\Exception\StateMachineException;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Business\Process\ProcessInterface;
@@ -18,7 +18,7 @@ use StateMachine\Transfer\StateMachineItemTransfer;
 class Timeout implements TimeoutInterface
 {
     /**
-     * @var \DateTime[]
+     * @var \Cake\I18n\FrozenTime[]
      */
     protected $eventToTimeoutBuffer = [];
 
@@ -55,7 +55,7 @@ class Timeout implements TimeoutInterface
 
         $events = $targetState->getTimeoutEvents();
         $handledEvents = [];
-        $currentTime = new DateTime('now');
+        $currentTime = new FrozenTime('now');
         foreach ($events as $event) {
             if (in_array($event->getName(), $handledEvents)) {
                 continue;
@@ -90,12 +90,12 @@ class Timeout implements TimeoutInterface
     }
 
     /**
-     * @param \DateTime $currentTime
+     * @param \Cake\I18n\FrozenTime $currentTime
      * @param \StateMachine\Business\Process\EventInterface $event
      *
-     * @return \DateTime
+     * @return \Cake\I18n\FrozenTime
      */
-    protected function calculateTimeoutDateFromEvent(DateTime $currentTime, EventInterface $event): DateTime
+    protected function calculateTimeoutDateFromEvent(FrozenTime $currentTime, EventInterface $event): FrozenTime
     {
         if (!isset($this->eventToTimeoutBuffer[$event->getName()])) {
             $timeout = $event->getTimeout();

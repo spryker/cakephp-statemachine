@@ -76,7 +76,7 @@ class Finder implements FinderInterface
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
      *
-     * @return string[]
+     * @return string[][]
      */
     public function getManualEventsForStateMachineItems(array $stateMachineItems)
     {
@@ -95,7 +95,7 @@ class Finder implements FinderInterface
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
      *
-     * @return array
+     * @return string[]
      */
     public function getManualEventsForStateMachineItem(StateMachineItemTransfer $stateMachineItemTransfer)
     {
@@ -112,13 +112,13 @@ class Finder implements FinderInterface
 
         $process = $processBuilder->createProcess($stateMachineProcessTransfer);
         $manualEvents = $process->getManuallyExecutableEventsBySource();
-
         $stateName = $stateMachineItemTransfer->getStateName();
-        if (isset($manualEvents[$stateName])) {
-            return $manualEvents[$stateName];
+
+        if (!isset($manualEvents[$stateName])) {
+            return [];
         }
 
-        return [];
+        return $manualEvents[$stateName];
     }
 
     /**
@@ -211,7 +211,7 @@ class Finder implements FinderInterface
      * @param \StateMachine\Business\Process\ProcessInterface[] $processes
      * @param array $sourceStates
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Transfer\StateMachineItemTransfer[][]
      */
     public function filterItemsWithOnEnterEvent(
         array $stateMachineItems,
@@ -329,7 +329,6 @@ class Finder implements FinderInterface
         StateMachineItemState $stateMachineItemEntity,
         StateMachineProcess $stateMachineProcessEntity
     ): StateMachineItemTransfer {
-
         $stateMachineItemTransfer = new StateMachineItemTransfer();
         $stateMachineItemTransfer->setProcessName($stateMachineProcessTransfer->getProcessName());
         $stateMachineItemTransfer->setIdItemState($stateMachineItemEntity->id);
@@ -367,6 +366,7 @@ class Finder implements FinderInterface
      */
     protected function getFlaggedStateMachineItems(StateMachineProcessTransfer $stateMachineProcessTransfer, array $statesByFlag): ResultSet
     {
+        /** @var \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\ORM\ResultSet $itemStateCollection */
         $itemStateCollection = $this->queryContainer->queryItemsByIdStateMachineProcessAndItemStates(
             $stateMachineProcessTransfer->getStateMachineName(),
             $stateMachineProcessTransfer->getProcessName(),

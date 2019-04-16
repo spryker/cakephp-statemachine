@@ -10,7 +10,6 @@ namespace StateMachine\Test\TestCase\Business\StateMachine;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Process\Process;
-use StateMachine\Business\StateMachine\HandlerResolver;
 use StateMachine\Business\StateMachine\HandlerResolverInterface;
 use StateMachine\Business\StateMachine\Persistence;
 use StateMachine\Business\StateMachine\PersistenceInterface;

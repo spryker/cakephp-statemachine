@@ -38,7 +38,7 @@ class Graph implements GraphInterface
      *
      * @throws \Exception
      *
-     * @return $this
+     * @return static
      */
     public static function create($name, array $attributes = [], $directed = true, $strict = true)
     {

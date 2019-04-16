@@ -1,3 +1,7 @@
 parameters:
     autoload_files:
         - %rootDir%/../../../../tests/bootstrap.php
+    excludes_analyse:
+            - %rootDir%/../../../../src/Transfer/*
+    ignoreErrors:
+        - '#Method .+::.+Table\(\) should return .+Table but returns Cake\\ORM\\Table.#'

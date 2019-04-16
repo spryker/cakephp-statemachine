@@ -7,8 +7,8 @@
 
 namespace StateMachine\Model;
 
+use Cake\I18n\FrozenTime;
 use Cake\ORM\Query;
-use DateTime;
 use StateMachine\Transfer\StateMachineItemTransfer;
 
 interface QueryContainerInterface
@@ -28,12 +28,12 @@ interface QueryContainerInterface
     public function queryItemsWithExistingHistory(StateMachineItemTransfer $stateMachineItemTransfer): Query;
 
     /**
-     * @param \DateTime $expirationDate
+     * @param \Cake\I18n\FrozenTime $expirationDate
      * @param string $stateMachineName
      *
      * @return \Cake\ORM\Query
      */
-    public function queryItemsWithExpiredTimeout(DateTime $expirationDate, string $stateMachineName): Query;
+    public function queryItemsWithExpiredTimeout(FrozenTime $expirationDate, string $stateMachineName): Query;
 
     /**
      * @param string $identifier
@@ -73,11 +73,11 @@ interface QueryContainerInterface
     public function queryItemStateByIdProcessAndStateName(int $idProcess, string $stateName): Query;
 
     /**
-     * @param \DateTime $expirationDate
+     * @param \Cake\I18n\FrozenTime $expirationDate
      *
      * @return \Cake\ORM\Query
      */
-    public function queryLockedItemsByExpirationDate(DateTime $expirationDate): Query;
+    public function queryLockedItemsByExpirationDate(FrozenTime $expirationDate): Query;
 
     /**
      * @param string $identifier

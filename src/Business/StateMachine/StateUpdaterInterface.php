@@ -12,7 +12,7 @@ interface StateUpdaterInterface
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
      * @param \StateMachine\Business\Process\ProcessInterface[] $processes
-     * @param array $sourceStates
+     * @param string[] $sourceStates
      *
      * @return void
      */

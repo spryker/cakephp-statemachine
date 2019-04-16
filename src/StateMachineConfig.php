@@ -51,11 +51,11 @@ class StateMachineConfig
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getGraphDefaultFontSize()
     {
-        return '14';
+        return 14;
     }
 
     /**

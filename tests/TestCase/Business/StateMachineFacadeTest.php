@@ -9,13 +9,11 @@ namespace StateMachine\Test\TestCase\Business\Business;
 
 use App\Business\TestStateMachineHandler;
 use Cake\Core\Configure;
+use Cake\I18n\FrozenTime;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use DateTime;
 use StateMachine\Business\StateMachineFacade;
 use StateMachine\Business\StateMachineFacadeInterface;
-use StateMachine\Dependency\CommandPluginInterface;
-use StateMachine\Dependency\ConditionPluginInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
@@ -552,7 +550,7 @@ class StateMachineFacadeTest extends TestCase
             ])
             ->first();
 
-        $stateMachineItemEventTimeoutEntity->timeout = new DateTime('1985-07-01');
+        $stateMachineItemEventTimeoutEntity->timeout = new FrozenTime('1985-07-01');
         $this->StateMachineTimeouts->save($stateMachineItemEventTimeoutEntity);
 
         $affectedItems = $stateMachineFacade->checkTimeouts(static::TESTING_SM);
@@ -647,7 +645,7 @@ class StateMachineFacadeTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Dependency\StateMachineHandlerInterface
+     * @return \App\Business\TestStateMachineHandler
      */
     protected function createTestStateMachineHandler(): StateMachineHandlerInterface
     {

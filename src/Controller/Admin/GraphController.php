@@ -32,7 +32,7 @@ class GraphController extends AppController
         }
 
         $format = $this->request->getQuery(self::URL_PARAM_FORMAT);
-        $fontSize = $this->request->getQuery(self::URL_PARAM_FONT_SIZE);
+        $fontSize = (int)$this->request->getQuery(self::URL_PARAM_FONT_SIZE);
         $highlightState = $this->request->getQuery(self::URL_PARAM_HIGHLIGHT_STATE);
         $stateMachine = $this->request->getQuery(self::URL_PARAM_STATE_MACHINE);
 

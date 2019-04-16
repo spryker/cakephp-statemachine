@@ -156,12 +156,12 @@ class Builder implements BuilderInterface
      */
     protected function recursiveMerge($fromXmlElement, $intoXmlNode, $prefix = null)
     {
+        /** @var \SimpleXMLElement[] $xmlElements */
         $xmlElements = $fromXmlElement->children();
         if (!$xmlElements) {
             return;
         }
 
-        /** @var \SimpleXMLElement $xmlElement */
         foreach ($xmlElements as $xmlElement) {
             $xmlElement = $this->prefixSubProcessElementValue($xmlElement, $prefix);
             $xmlElement = $this->prefixSubProcessElementAttributes($xmlElement, $prefix);
@@ -424,11 +424,15 @@ class Builder implements BuilderInterface
      */
     protected function addFlags(SimpleXMLElement $xmlState, StateInterface $state)
     {
-        if ($xmlState->flag) {
-            $flags = $xmlState->children();
-            foreach ($flags->flag as $flag) {
-                $state->addFlag((string)$flag);
-            }
+        /** @var bool $flag */
+        $flag = $xmlState->flag;
+        if (!$flag) {
+            return $state;
+        }
+
+        $flags = $xmlState->children();
+        foreach ($flags->flag as $flag) {
+            $state->addFlag((string)$flag);
         }
 
         return $state;
@@ -503,7 +507,6 @@ class Builder implements BuilderInterface
         $sourceName,
         TransitionInterface $transition
     ) {
-
         $sourceProcess = $stateToProcessMap[$sourceName];
         $sourceState = $sourceProcess->getState($sourceName);
         $transition->setSourceState($sourceState);

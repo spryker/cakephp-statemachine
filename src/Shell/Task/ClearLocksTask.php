@@ -15,10 +15,12 @@ class ClearLocksTask extends Shell
     use FacadeAwareTrait;
 
     /**
-     * @return void
+     * @return bool|int|null
      */
-    public function main(): void
+    public function main()
     {
         $this->getFacade()->clearLocks();
+
+        return null;
     }
 }

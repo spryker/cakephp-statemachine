@@ -188,7 +188,6 @@ class FinderTest extends TestCase
         ?BuilderInterface $builderMock = null,
         ?QueryContainerInterface $stateMachineQueryContainer = null
     ): FinderInterface {
-
         if ($builderMock === null) {
             $builderMock = $this->createBuilderMock();
         }

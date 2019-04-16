@@ -10,7 +10,6 @@ namespace StateMachine\Business\Lock;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\Exception\PersistenceFailedException;
 use DateInterval;
-use DateTime;
 use StateMachine\Business\Exception\LockException;
 use StateMachine\Model\Entity\StateMachineLock;
 use StateMachine\Model\QueryContainerInterface;
@@ -97,7 +96,7 @@ class ItemLock implements ItemLockInterface
     public function clearLocks()
     {
         $this->queryContainer
-            ->queryLockedItemsByExpirationDate(new DateTime('now'))
+            ->queryLockedItemsByExpirationDate(new FrozenTime('now'))
             ->delete();
     }
 

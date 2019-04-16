@@ -64,7 +64,6 @@ class StateUpdater implements StateUpdaterInterface
         array $processes,
         array $sourceStates
     ) {
-
         if (count($stateMachineItems) === 0) {
             return;
         }

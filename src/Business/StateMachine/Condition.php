@@ -163,7 +163,7 @@ class Condition implements ConditionInterface
      * @param string $stateMachineName
      * @param string $processName
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[] $itemsWithOnEnterEvent
+     * @return \StateMachine\Transfer\StateMachineItemTransfer[][] $itemsWithOnEnterEvent
      */
     public function getOnEnterEventsForStatesWithoutTransition($stateMachineName, $processName)
     {
@@ -208,7 +208,6 @@ class Condition implements ConditionInterface
         array $states,
         ProcessInterface $process
     ) {
-
         $stateMachineItemStateIds = $this->stateMachinePersistence->getStateMachineItemIdsByStatesProcessAndStateMachineName(
             $process->getName(),
             $stateMachineName,
@@ -330,7 +329,7 @@ class Condition implements ConditionInterface
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return string[]
      */
     protected function createStateMap(array $stateMachineItems)
     {

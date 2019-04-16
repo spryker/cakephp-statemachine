@@ -397,7 +397,6 @@ class Trigger implements TriggerInterface
         StateMachineProcessTransfer $stateMachineProcessTransfer,
         string $identifier
     ): StateMachineItemTransfer {
-
         $processName = $stateMachineProcessTransfer->requireProcessName()
             ->getProcessName();
 

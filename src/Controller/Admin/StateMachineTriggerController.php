@@ -40,7 +40,7 @@ class StateMachineTriggerController extends AppController
         $stateMachineProcessTransfer->setProcessName($processName);
         $stateMachineProcessTransfer->setStateMachineName($stateMachineName);
 
-        $identifier = $this->castId($this->request->getParam(static::URL_PARAM_IDENTIFIER));
+        $identifier = $this->request->getParam(static::URL_PARAM_IDENTIFIER);
         $this->getFacade()->triggerForNewStateMachineItem($stateMachineProcessTransfer, $identifier);
 
         $redirect = $this->request->getParam(static::URL_PARAM_REDIRECT, static::DEFAULT_REDIRECT_URL);
@@ -53,7 +53,7 @@ class StateMachineTriggerController extends AppController
      */
     public function triggerEventAction(): ?Response
     {
-        $identifier = $this->castId($this->request->getParam(self::URL_PARAM_IDENTIFIER));
+        $identifier = $this->request->getParam(self::URL_PARAM_IDENTIFIER);
         $idState = $this->castId($this->request->getParam(self::URL_PARAM_ID_STATE));
 
         $stateMachineItemTransfer = new StateMachineItemTransfer();

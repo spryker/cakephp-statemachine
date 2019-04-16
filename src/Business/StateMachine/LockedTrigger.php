@@ -133,13 +133,13 @@ class LockedTrigger implements TriggerInterface
     }
 
     /**
-     * @param int $identifier
+     * @param string $identifier
      * @param string $stateMachineName
      * @param string $processName
      *
      * @return string
      */
-    protected function buildLockIdentifier(int $identifier, string $stateMachineName, string $processName): string
+    protected function buildLockIdentifier(string $identifier, string $stateMachineName, string $processName): string
     {
         return $identifier . $stateMachineName . $processName;
     }
