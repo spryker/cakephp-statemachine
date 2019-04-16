@@ -198,7 +198,7 @@ class Persistence implements PersistenceInterface
         $stateMachineItemStateHistory = $this->stateMachineItemStateHistoryTable->newEntity();
         $stateMachineItemStateHistory->identifier = $stateMachineItemTransfer->getIdentifier();
         $stateMachineItemStateHistory->state_machine_item_state_id = $stateMachineItemTransfer->getIdItemState();
-        $this->stateMachineItemStateHistoryTable->save($stateMachineItemStateHistory);
+        $this->stateMachineItemStateHistoryTable->saveOrFail($stateMachineItemStateHistory);
     }
 
     /**
@@ -405,7 +405,7 @@ class Persistence implements PersistenceInterface
         $stateMachineItemTimeoutEntity->state_machine_process_id = $stateMachineItemTransfer->getIdStateMachineProcess();
         $stateMachineItemTimeoutEntity->event = $eventName;
 
-        $this->stateMachineTimeoutsTable->save($stateMachineItemTimeoutEntity);
+        $this->stateMachineTimeoutsTable->saveOrFail($stateMachineItemTimeoutEntity);
 
         return $stateMachineItemTimeoutEntity;
     }
@@ -435,7 +435,7 @@ class Persistence implements PersistenceInterface
         $stateMachineProcessEntity->name = $stateMachineProcessTransfer->getProcessName();
         $stateMachineProcessEntity->state_machine = $stateMachineProcessTransfer->getStateMachineName();
 
-        $this->stateMachineProcessesTable->save($stateMachineProcessEntity);
+        $this->stateMachineProcessesTable->saveOrFail($stateMachineProcessEntity);
 
         return $stateMachineProcessEntity;
     }
@@ -452,7 +452,7 @@ class Persistence implements PersistenceInterface
         $stateMachineItemStateEntity->name = $stateName;
         $stateMachineItemStateEntity->state_machine_process_id = $stateMachineItemTransfer->getIdStateMachineProcess();
 
-        $this->stateMachineItemStatesTable->save($stateMachineItemStateEntity);
+        $this->stateMachineItemStatesTable->saveOrFail($stateMachineItemStateEntity);
 
         return $stateMachineItemStateEntity;
     }

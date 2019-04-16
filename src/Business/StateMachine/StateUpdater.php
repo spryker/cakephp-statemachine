@@ -86,7 +86,6 @@ class StateUpdater implements StateUpdaterInterface
         array $sourceStates,
         StateMachineItemTransfer $stateMachineItemTransfer
     ) {
-
         $this->assertStateMachineItemHaveRequiredData($stateMachineItemTransfer);
 
         $process = $processes[$stateMachineItemTransfer->getProcessName()];

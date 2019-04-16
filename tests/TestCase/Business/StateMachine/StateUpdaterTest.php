@@ -10,6 +10,7 @@ namespace StateMachine\Test\TestCase\Business\StateMachine;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Process\Process;
+use StateMachine\Business\StateMachine\HandlerResolver;
 use StateMachine\Business\StateMachine\HandlerResolverInterface;
 use StateMachine\Business\StateMachine\Persistence;
 use StateMachine\Business\StateMachine\PersistenceInterface;
@@ -95,15 +96,21 @@ class StateUpdaterTest extends TestCase
     /**
      * @return void
      */
-    public function testStateUpdaterShouldUpdateStateInTransaction()
+    public function testStateUpdaterShouldUpdateStateSameWithoutLog()
     {
         $stateUpdater = $this->createStateUpdater();
+
+        $stateMachineItemStateHistoryCount = $this->StateMachineItemStateHistory->find()->count();
+        $this->assertSame(1, $stateMachineItemStateHistoryCount);
 
         $stateUpdater->updateStateMachineItemState(
             [$this->createStateMachineItems()[0]],
             $this->createProcesses(),
             $this->createSourceStateBuffer()
         );
+
+        $stateMachineItemStateHistoryCount = $this->StateMachineItemStateHistory->find()->count();
+        $this->assertSame(1, $stateMachineItemStateHistoryCount);
     }
 
     /**
@@ -160,11 +167,41 @@ class StateUpdaterTest extends TestCase
     {
         $stateUpdater = $this->createStateUpdater();
 
+        $stateMachineItemStateHistoryCount = $this->StateMachineItemStateHistory->find()->count();
+        $this->assertSame(1, $stateMachineItemStateHistoryCount);
+
         $stateUpdater->updateStateMachineItemState(
-            $this->createStateMachineItems(),
+            [$this->createStateMachineItems()[1]],
             $this->createProcesses(),
             $this->createSourceStateBuffer()
         );
+
+        $stateMachineItemStateHistoryCount = $this->StateMachineItemStateHistory->find()->count();
+        $this->assertSame(2, $stateMachineItemStateHistoryCount);
+    }
+
+    /**
+     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     */
+    protected function createStateMachineItemsSame()
+    {
+        $items = [];
+
+        $stateMachineItemTransfer = new StateMachineItemTransfer();
+        $stateMachineItemTransfer->setProcessName('Test');
+        $stateMachineItemTransfer->setIdentifier('1');
+        $stateMachineItemTransfer->setStateName('source');
+        $stateMachineItemTransfer->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
+        $items[] = $stateMachineItemTransfer;
+
+        $stateMachineItemTransfer = new StateMachineItemTransfer();
+        $stateMachineItemTransfer->setProcessName('Test');
+        $stateMachineItemTransfer->setIdentifier('2');
+        $stateMachineItemTransfer->setStateName('source');
+        $stateMachineItemTransfer->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
+        $items[] = $stateMachineItemTransfer;
+
+        return $items;
     }
 
     /**
@@ -176,16 +213,18 @@ class StateUpdaterTest extends TestCase
 
         $stateMachineItemTransfer = new StateMachineItemTransfer();
         $stateMachineItemTransfer->setProcessName('Test');
-        $stateMachineItemTransfer->setIdentifier(1);
-        $stateMachineItemTransfer->setStateName('target');
+        $stateMachineItemTransfer->setIdentifier('1');
+        $stateMachineItemTransfer->setStateName('source');
         $stateMachineItemTransfer->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
+        $stateMachineItemTransfer->setIdItemState(1);
         $items[] = $stateMachineItemTransfer;
 
         $stateMachineItemTransfer = new StateMachineItemTransfer();
         $stateMachineItemTransfer->setProcessName('Test');
-        $stateMachineItemTransfer->setIdentifier(2);
+        $stateMachineItemTransfer->setIdentifier('2');
         $stateMachineItemTransfer->setStateName('target');
         $stateMachineItemTransfer->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
+        $stateMachineItemTransfer->setIdItemState(2);
         $items[] = $stateMachineItemTransfer;
 
         return $items;
@@ -212,37 +251,36 @@ class StateUpdaterTest extends TestCase
     {
         $sourceStates = [];
 
-        $sourceStates[1] = 'target';
-        $sourceStates[2] = 'updated';
+        $sourceStates['1'] = 'source';
+        $sourceStates['2'] = 'source';
 
         return $sourceStates;
     }
 
     /**
-     * @param \StateMachine\Business\StateMachine\TimeoutInterface|null $timeoutMock
-     * @param \StateMachine\Business\StateMachine\HandlerResolverInterface|null $handlerResolverMock
+     * @param \StateMachine\Business\StateMachine\TimeoutInterface|null $timeout
+     * @param \StateMachine\Business\StateMachine\HandlerResolverInterface|null $handlerResolver
      *
      * @return \StateMachine\Business\StateMachine\StateUpdaterInterface
      */
     protected function createStateUpdater(
-        ?TimeoutInterface $timeoutMock = null,
-        ?HandlerResolverInterface $handlerResolverMock = null
+        ?TimeoutInterface $timeout = null,
+        ?HandlerResolverInterface $handlerResolver = null
     ): StateUpdaterInterface {
-
-        if ($timeoutMock === null) {
-            $timeoutMock = $this->createTimeoutMock();
+        if ($timeout === null) {
+            $timeout = $this->createTimeoutMock();
         }
 
-        if ($handlerResolverMock === null) {
-            $handlerResolverMock = $this->createHandlerResolverMock();
+        if ($handlerResolver === null) {
+            $handlerResolver = $this->createHandlerResolverMock();
 
             $handlerMock = $this->createStateMachineHandlerMock();
-            $handlerResolverMock->method('get')->willReturn($handlerMock);
+            $handlerResolver->method('get')->willReturn($handlerMock);
         }
 
         return new StateUpdater(
-            $timeoutMock,
-            $handlerResolverMock,
+            $timeout,
+            $handlerResolver,
             $this->createPersistence(),
             $this->createQueryContainer()
         );

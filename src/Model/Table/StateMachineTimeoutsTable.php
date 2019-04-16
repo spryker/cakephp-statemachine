@@ -97,8 +97,8 @@ class StateMachineTimeoutsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['state_machine_item_state_id'], 'StateMachineItemStates'));
-        $rules->add($rules->existsIn(['state_machine_process_id'], 'StateMachineProcesses'));
+        //$rules->add($rules->existsIn(['state_machine_item_state_id'], 'StateMachineItemStates'));
+        //$rules->add($rules->existsIn(['state_machine_process_id'], 'StateMachineProcesses'));
         return $rules;
     }
 }

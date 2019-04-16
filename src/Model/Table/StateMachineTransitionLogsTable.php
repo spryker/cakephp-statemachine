@@ -128,7 +128,7 @@ class StateMachineTransitionLogsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['state_machine_process_id'], 'StateMachineProcesses'));
+        //$rules->add($rules->existsIn(['state_machine_process_id'], 'StateMachineProcesses'));
         return $rules;
     }
 }

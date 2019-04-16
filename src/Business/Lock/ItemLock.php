@@ -7,6 +7,7 @@
 
 namespace StateMachine\Business\Lock;
 
+use Cake\I18n\FrozenTime;
 use Cake\ORM\Exception\PersistenceFailedException;
 use DateInterval;
 use DateTime;
@@ -101,14 +102,14 @@ class ItemLock implements ItemLockInterface
     }
 
     /**
-     * @return \DateTime
+     * @return \Cake\I18n\FrozenTime
      */
     protected function createExpirationDate()
     {
         $dateInterval = DateInterval::createFromDateString(
             $this->stateMachineConfig->getStateMachineItemLockExpirationInterval()
         );
-        $expirationDate = new DateTime();
+        $expirationDate = new FrozenTime();
         $expirationDate->add($dateInterval);
 
         return $expirationDate;
