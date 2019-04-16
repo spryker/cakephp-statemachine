@@ -12,32 +12,32 @@ use StateMachine\Transfer\StateMachineItemTransfer;
 interface StateMachineHandlerInterface
 {
     /**
-     * List of command plugins for this state machine for all processes. Array key is identifier in SM xml file.
+     * List of command classes for this state machine for all processes. Array key is identifier in SM XML file.
      *
      * [
-     *   'Command/Plugin' => new Command(),
-     *   'Command/Plugin2' => new Command2(),
+     *   'Prefix/OneCommand' => new OneCommand(),
+     *   'Prefix/TwoCommand' => new TwoCommand(),
      * ]
      *
      * @api
      *
      * @return array
      */
-    public function getCommandPlugins(): array;
+    public function getCommands(): array;
 
     /**
-     * List of condition plugins for this state machine for all processes. Array key is identifier in SM xml file.
+     * List of condition classes for this state machine for all processes. Array key is identifier in SM XML file.
      *
      *  [
-     *   'Condition/Plugin' => new Condition(),
-     *   'Condition/Plugin2' => new Condition2(),
+     *   'Prefix/OneCondition' => new OneCondition(),
+     *   'Prefix/TwoCondition' => new TwoCondition(),
      * ]
      *
      * @api
      *
      * @return array
      */
-    public function getConditionPlugins(): array;
+    public function getConditions(): array;
 
     /**
      * Name of state machine used by this handler.

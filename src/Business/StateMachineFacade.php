@@ -44,7 +44,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @return int
      */
-    public function triggerEvent($eventName, StateMachineItemTransfer $stateMachineItemTransfer): int
+    public function triggerEvent(string $eventName, StateMachineItemTransfer $stateMachineItemTransfer): int
     {
         return $this->getFactory()
             ->createLockedStateMachineTrigger()
@@ -109,7 +109,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @return bool
      */
-    public function stateMachineExists($stateMachineName): bool
+    public function stateMachineExists(string $stateMachineName): bool
     {
         return $this->getFactory()
             ->createStateMachineFinder()

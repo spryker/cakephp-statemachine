@@ -302,7 +302,7 @@ class Condition implements ConditionInterface
 
         $this->assertConditionIsSet($conditionString, $stateMachineHandler);
 
-        return $stateMachineHandler->getConditionPlugins()[$conditionString];
+        return $stateMachineHandler->getConditions()[$conditionString];
     }
 
     /**
@@ -315,10 +315,10 @@ class Condition implements ConditionInterface
      */
     protected function assertConditionIsSet($conditionString, StateMachineHandlerInterface $stateMachineHandler)
     {
-        if (!isset($stateMachineHandler->getConditionPlugins()[$conditionString])) {
+        if (!isset($stateMachineHandler->getConditions()[$conditionString])) {
             throw new ConditionNotFoundException(
                 sprintf(
-                    'Condition plugin "%s" not registered in "%s" class. Please add it to getConditionPlugins method.',
+                    'Condition "%s" not registered in "%s" class. Please add it to getConditions() method.',
                     $conditionString,
                     get_class($this->stateMachineHandlerResolver)
                 )

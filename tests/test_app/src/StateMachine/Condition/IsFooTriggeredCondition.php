@@ -1,6 +1,11 @@
 <?php
 
-namespace App\StateMachine\Command;
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
+namespace App\StateMachine\Condition;
 
 use StateMachine\Dependency\ConditionPluginInterface;
 use StateMachine\Transfer\StateMachineItemTransfer;
@@ -21,6 +26,6 @@ class IsFooTriggeredCondition implements ConditionPluginInterface
             return false;
         }
 
-        return (bool)file_get_contents(TMP . 'triggered.txt', date(FORMAT_DB_DATETIME));
+        return (bool)file_get_contents(TMP . 'triggered.txt');
     }
 }

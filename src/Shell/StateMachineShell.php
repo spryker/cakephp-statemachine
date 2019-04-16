@@ -9,43 +9,34 @@ namespace StateMachine\Shell;
 
 use Cake\Console\ConsoleOptionParser;
 use Cake\Console\Shell;
+use StateMachine\FacadeAwareTrait;
 
-/**
- * @author Mark Scherer
- *
- * @property \StateMachine\Shell\Task\CheckConditionTask $CheckCondition
- * @property \StateMachine\Shell\Task\CheckTimeoutTask $CheckTimeout
- * @property \StateMachine\Shell\Task\ClearLocksTask $ClearLocks
- */
 class StateMachineShell extends Shell
 {
-    /**
-     * @var array
-     */
-    public $tasks = [
-        'StateMachine.CheckCondition',
-        'StateMachine.CheckTimeout',
-        'StateMachine.ClearLocks',
-    ];
+    use FacadeAwareTrait;
 
     /**
-     * @param string $stateMachineName
+     * @param string $stateMachine
      *
      * @return void
      */
-    public function checkTimeouts(string $stateMachineName): void
+    public function checkTimeouts(string $stateMachine): void
     {
-        $this->CheckTimeout->check($stateMachineName);
+        $this->validateStateMachineName($stateMachine);
+
+        $this->getFacade()->checkTimeouts($stateMachine);
     }
 
     /**
-     * @param string $stateMachineName
+     * @param string $stateMachine
      *
      * @return void
      */
-    public function checkConditions(string $stateMachineName): void
+    public function checkConditions(string $stateMachine): void
     {
-        $this->CheckCondition->check($stateMachineName);
+        $this->validateStateMachineName($stateMachine);
+
+        $this->getFacade()->checkConditions($stateMachine);
     }
 
     /**
@@ -53,7 +44,19 @@ class StateMachineShell extends Shell
      */
     public function clearLocks(): void
     {
-        $this->ClearLocks->main();
+        $this->getFacade()->clearLocks();
+    }
+
+    /**
+     * @param string $stateMachineName
+     *
+     * @return void
+     */
+    protected function validateStateMachineName(string $stateMachineName): void
+    {
+        if (!$this->getFacade()->stateMachineExists($stateMachineName)) {
+            $this->abort(sprintf('State machine "%s" was not found.', $stateMachineName));
+        }
     }
 
     /**
@@ -65,17 +68,30 @@ class StateMachineShell extends Shell
 
         $parser->addSubcommand('checkConditions', [
             'help' => 'Check if any conditions match.',
-            'parser' => $this->CheckCondition->getOptionParser(),
+            'parser' => [
+                'arguments' => [
+                    'stateMachine' => [
+                        'help' => 'State machine name',
+                        'required' => true,
+                    ],
+                ],
+            ],
         ]);
 
         $parser->addSubcommand('checkTimeouts', [
             'help' => 'Check if any timeouts match.',
-            'parser' => $this->CheckTimeout->getOptionParser(),
+            'parser' => [
+                'arguments' => [
+                    'stateMachine' => [
+                        'help' => 'State machine name',
+                        'required' => true,
+                    ],
+                ],
+            ],
         ]);
 
         $parser->addSubcommand('clearLocks', [
             'help' => 'Clear expired locks from lock table.',
-            'parser' => $this->ClearLocks->getOptionParser(),
         ]);
 
         return $parser;

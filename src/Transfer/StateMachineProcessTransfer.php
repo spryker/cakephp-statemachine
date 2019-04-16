@@ -58,13 +58,11 @@ class StateMachineProcessTransfer extends AbstractTransfer
     ];
 
     /**
-     * @module StateMachine
-     *
-     * @param string $processName
+     * @param string|null $processName
      *
      * @return $this
      */
-    public function setProcessName($processName)
+    public function setProcessName(?string $processName)
     {
         $this->processName = $processName;
         $this->modifiedProperties[self::PROCESS_NAME] = true;
@@ -73,18 +71,14 @@ class StateMachineProcessTransfer extends AbstractTransfer
     }
 
     /**
-     * @module StateMachine
-     *
-     * @return string
+     * @return string|null
      */
-    public function getProcessName()
+    public function getProcessName(): ?string
     {
         return $this->processName;
     }
 
     /**
-     * @module StateMachine
-     *
      * @return $this
      */
     public function requireProcessName()

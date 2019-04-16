@@ -1,43 +1,40 @@
 <?php
 
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace App\StateMachine;
 
 use App\StateMachine\Command\TriggerFooCommand;
+use App\StateMachine\Condition\IsFooTriggeredCondition;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Transfer\StateMachineItemTransfer;
 
+/**
+ * Real classes for controller test cases.
+ */
 class DemoStateMachineHandler implements StateMachineHandlerInterface
 {
     /**
-     * List of command plugins for this state machine for all processes. Array key is identifier in SM xml file.
-     *
-     * [
-     *   'Command/Plugin' => new Command(),
-     *   'Command/Plugin2' => new Command2(),
-     * ]
-     *
-     * @return array
+     * @inheritDoc
      */
-    public function getCommandPlugins(): array
+    public function getCommands(): array
     {
         return [
-            'Trigger/Foo' => new TriggerFooCommand(),
+            'Test/Command' => new TriggerFooCommand(),
         ];
     }
 
     /**
-     * List of condition plugins for this state machine for all processes. Array key is identifier in SM xml file.
-     *
-     *  [
-     *   'Condition/Plugin' => new Condition(),
-     *   'Condition/Plugin2' => new Condition2(),
-     * ]
-     *
-     * @return array
+     * @inheritDoc
      */
-    public function getConditionPlugins(): array
+    public function getConditions(): array
     {
-        return [];
+        return [
+            'Test/Condition' => new IsFooTriggeredCondition(),
+        ];
     }
 
     /**
@@ -76,7 +73,7 @@ class DemoStateMachineHandler implements StateMachineHandlerInterface
      */
     public function getInitialStateForProcess(string $processName): string
     {
-        return 'draft';
+        return 'new';
     }
 
     /**

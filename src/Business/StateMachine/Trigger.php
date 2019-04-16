@@ -371,7 +371,7 @@ class Trigger implements TriggerInterface
 
         $this->assertCommandIsSet($commandString, $stateMachineHandler);
 
-        return $stateMachineHandler->getCommandPlugins()[$commandString];
+        return $stateMachineHandler->getCommands()[$commandString];
     }
 
     /**
@@ -502,10 +502,10 @@ class Trigger implements TriggerInterface
      */
     protected function assertCommandIsSet($commandString, StateMachineHandlerInterface $stateMachineHandler)
     {
-        if (!isset($stateMachineHandler->getCommandPlugins()[$commandString])) {
+        if (!isset($stateMachineHandler->getCommands()[$commandString])) {
             throw new CommandNotFoundException(
                 sprintf(
-                    'Command plugin "%s" not registered in "%s" class. Please add it to getCommandPlugins method.',
+                    'Command "%s" not registered in "%s" class. Please add it to getCommands() method.',
                     $commandString,
                     get_class($stateMachineHandler)
                 )

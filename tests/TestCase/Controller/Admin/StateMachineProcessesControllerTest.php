@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace StateMachine\Test\TestCase\Controller;
+namespace StateMachine\Test\TestCase\Controller\Admin;
 
 use Cake\TestSuite\IntegrationTestCase;
 

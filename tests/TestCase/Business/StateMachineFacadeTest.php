@@ -7,7 +7,7 @@
 
 namespace StateMachine\Test\TestCase\Business\Business;
 
-use App\Business\TestStateMachineHandler;
+use App\StateMachine\TestStateMachineHandler;
 use Cake\Core\Configure;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\TableRegistry;

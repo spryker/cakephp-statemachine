@@ -14,58 +14,74 @@ use StateMachine\FacadeAwareTrait;
 use StateMachine\Transfer\StateMachineItemTransfer;
 use StateMachine\Transfer\StateMachineProcessTransfer;
 
-class StateMachineTriggerController extends AppController
+class TriggerController extends AppController
 {
     use FacadeAwareTrait;
 
     public const URL_PARAM_IDENTIFIER = 'identifier';
     public const URL_PARAM_ID_STATE = 'id-state';
     public const URL_PARAM_ID_PROCESS = 'id-process';
-    public const URL_PARAM_STATE_MACHINE_NAME = 'state-machine-name';
-    public const URL_PARAM_PROCESS_NAME = 'process-name';
+    public const URL_PARAM_STATE_MACHINE = 'state-machine';
+    public const URL_PARAM_PROCESS = 'process';
     public const URL_PARAM_REDIRECT = 'redirect';
     public const URL_PARAM_EVENT = 'event';
 
-    public const DEFAULT_REDIRECT_URL = '/state-machine/list';
+    public const DEFAULT_REDIRECT_URL = [
+        'controller' => 'StateMachine',
+        'action' => 'index',
+    ];
 
     /**
      * @return \Cake\Http\Response|null
      */
-    public function triggerEventForNewItemAction(): ?Response
+    public function eventForNewItem(): ?Response
     {
-        $stateMachineName = $this->request->getParam(static::URL_PARAM_STATE_MACHINE_NAME);
-        $processName = $this->request->getParam(self::URL_PARAM_PROCESS_NAME);
+        $stateMachineName = $this->request->getQuery(static::URL_PARAM_STATE_MACHINE);
+        $processName = $this->request->getQuery(self::URL_PARAM_PROCESS);
 
         $stateMachineProcessTransfer = new StateMachineProcessTransfer();
         $stateMachineProcessTransfer->setProcessName($processName);
         $stateMachineProcessTransfer->setStateMachineName($stateMachineName);
 
-        $identifier = $this->request->getParam(static::URL_PARAM_IDENTIFIER);
+        $identifier = $this->request->getQuery(static::URL_PARAM_IDENTIFIER);
         $this->getFacade()->triggerForNewStateMachineItem($stateMachineProcessTransfer, $identifier);
 
-        $redirect = $this->request->getParam(static::URL_PARAM_REDIRECT, static::DEFAULT_REDIRECT_URL);
+        $redirect = $this->request->getQuery(static::URL_PARAM_REDIRECT, static::DEFAULT_REDIRECT_URL);
+        if (!$redirect) {
+            $this->autoRender = false;
+            return null;
+        }
 
-        return $this->redirect(htmlentities($redirect));
+        return $this->redirect($redirect);
     }
 
     /**
      * @return \Cake\Http\Response|null
      */
-    public function triggerEventAction(): ?Response
+    public function event(): ?Response
     {
-        $identifier = $this->request->getParam(self::URL_PARAM_IDENTIFIER);
-        $idState = $this->castId($this->request->getParam(self::URL_PARAM_ID_STATE));
+        $identifier = $this->request->getQuery(self::URL_PARAM_IDENTIFIER);
+        $idState = $this->castId($this->request->getQuery(self::URL_PARAM_ID_STATE));
 
         $stateMachineItemTransfer = new StateMachineItemTransfer();
         $stateMachineItemTransfer->setIdentifier($identifier);
         $stateMachineItemTransfer->setIdItemState($idState);
 
-        $eventName = $this->request->getParam(self::URL_PARAM_EVENT);
+        $stateMachineName = $this->request->getQuery(static::URL_PARAM_STATE_MACHINE);
+        $stateMachineItemTransfer->setStateMachineName($stateMachineName);
+        $processName = $this->request->getQuery(self::URL_PARAM_PROCESS);
+        $stateMachineItemTransfer->setProcessName($processName);
+
+        $eventName = $this->request->getQuery(self::URL_PARAM_EVENT);
         $this->getFacade()->triggerEvent($eventName, $stateMachineItemTransfer);
 
-        $redirect = $this->request->getParam(self::URL_PARAM_REDIRECT, self::DEFAULT_REDIRECT_URL);
+        $redirect = $this->request->getQuery(self::URL_PARAM_REDIRECT, self::DEFAULT_REDIRECT_URL);
+        if (!$redirect) {
+            $this->autoRender = false;
+            return null;
+        }
 
-        return $this->redirect(htmlentities($redirect));
+        return $this->redirect($redirect);
     }
 
     /**

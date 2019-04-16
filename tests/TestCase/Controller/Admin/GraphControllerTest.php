@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace StateMachine\Test\TestCase\Controller;
+namespace StateMachine\Test\TestCase\Controller\Admin;
 
 use App\StateMachine\DemoStateMachineHandler;
 use Cake\Core\Configure;
@@ -32,7 +32,7 @@ class GraphControllerTest extends IntegrationTestCase
     {
         Configure::write('StateMachine.pathToXml', TESTS . 'test_files' . DS);
         Configure::write('StateMachine.handlers', [
-            DemoStateMachineHandler::class
+            DemoStateMachineHandler::class,
         ]);
 
         $this->disableErrorHandlerMiddleware();

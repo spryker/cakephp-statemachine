@@ -204,7 +204,7 @@ class ConditionTest extends TestCase
 
         $stateMachineHandler = $this->createStateMachineHandlerMock();
         $stateMachineHandler->expects($this->exactly(2))
-            ->method('getConditionPlugins')
+            ->method('getConditions')
             ->willReturn([
                     'condition' => $conditionPluginMock,
                 ]);

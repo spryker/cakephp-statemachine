@@ -333,7 +333,7 @@ class Drawer implements DrawerInterface
         if ($transition->hasCondition()) {
             $conditionLabel = $transition->getCondition();
 
-            if (!isset($this->stateMachineHandler->getConditionPlugins()[$transition->getCondition()])) {
+            if (!isset($this->stateMachineHandler->getConditions()[$transition->getCondition()])) {
                 $conditionLabel .= ' ' . $this->notImplemented;
             }
 
@@ -367,7 +367,7 @@ class Drawer implements DrawerInterface
             if ($event->hasCommand()) {
                 $commandLabel = 'command:' . $event->getCommand();
 
-                if (!isset($this->stateMachineHandler->getCommandPlugins()[$event->getCommand()])) {
+                if (!isset($this->stateMachineHandler->getCommands()[$event->getCommand()])) {
                     $commandLabel .= ' ' . $this->notImplemented;
                 }
                 $label[] = $commandLabel;

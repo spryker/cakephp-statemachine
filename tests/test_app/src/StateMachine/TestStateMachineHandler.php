@@ -5,13 +5,16 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace App\Business;
+namespace App\StateMachine;
 
 use StateMachine\Dependency\CommandPluginInterface;
 use StateMachine\Dependency\ConditionPluginInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Transfer\StateMachineItemTransfer;
 
+/**
+ * Mocked version
+ */
 class TestStateMachineHandler implements StateMachineHandlerInterface
 {
     /**
@@ -25,23 +28,21 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     protected static $stateMachineItemsByStateIds = [];
 
     /**
-     * @return array
+     * @inheritDoc
      */
-    public function getCommandPlugins(): array
+    public function getCommands(): array
     {
         return [
-            'Test/CreateInvoice' => $this->createCommandPlugin(),
-            'Test/SendInvoice' => $this->createCommandPlugin(),
+            'Test/Command' => $this->createCommandPlugin(),
         ];
     }
 
     /**
-     * @return array
+     * @inheritDoc
      */
-    public function getConditionPlugins(): array
+    public function getConditions(): array
     {
         return [
-            'Test/IsInvoiceSent' => $this->createConditionPlugin(),
             'Test/Condition' => $this->createConditionPlugin(),
         ];
     }
