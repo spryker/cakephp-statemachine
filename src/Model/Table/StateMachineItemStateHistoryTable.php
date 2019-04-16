@@ -67,8 +67,8 @@ class StateMachineItemStateHistoryTable extends Table
 
         $validator
             ->scalar('identifier')
-            ->maxLength('identifier')
-            ->requirePresence('identifier')
+            //->maxLength('identifier')
+            ->requirePresence('identifier', 'create')
             ->notEmpty('identifier');
 
         return $validator;
@@ -84,7 +84,7 @@ class StateMachineItemStateHistoryTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['state_machine_item_state_id'], 'StateMachineItemStates'));
+        //$rules->add($rules->existsIn(['state_machine_item_state_id'], 'StateMachineItemStates'));
         return $rules;
     }
 }

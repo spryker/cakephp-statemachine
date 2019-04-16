@@ -7,177 +7,235 @@
 
 namespace StateMachine\Model;
 
-use DateTime;
+use Cake\I18n\FrozenTime;
+use Cake\ORM\Query;
+use StateMachine\FactoryTrait;
+use StateMachine\Transfer\StateMachineItemTransfer;
 
 class QueryContainer implements QueryContainerInterface
 {
+    use FactoryTrait;
+
     /**
-     * @api
-     *
      * @param int $idState
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryStateByIdState($idState)
+    public function queryStateByIdState(int $idState): Query
     {
-        // TODO: Implement queryStateByIdState() method.
+        $stateMachineItemStatesTable = $this->getFactory()
+            ->createStateMachineItemStatesTable();
+
+        return $stateMachineItemStatesTable
+            ->find()
+            ->contain($this->getFactory()->createStateMachineProcessesTable()->getAlias())
+            ->where([$stateMachineItemStatesTable->aliasField('id') => $idState]);
     }
 
     /**
-     * @api
+     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
      *
-     * @param \Generated\Shared\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
-     *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryItemsWithExistingHistory(StateMachineItemTransfer $stateMachineItemTransfer)
+    public function queryItemsWithExistingHistory(StateMachineItemTransfer $stateMachineItemTransfer): Query
     {
-        // TODO: Implement queryItemsWithExistingHistory() method.
+        $stateMachineItemStatesTable = $this->getFactory()
+            ->createStateMachineItemStatesTable();
+
+        return $stateMachineItemStatesTable
+            ->find()
+            ->contain($this->getFactory()->createStateMachineProcessesTable()->getAlias())
+            ->contain($this->getFactory()->createStateMachineItemStateHistoryTable()->getAlias(), function (Query $query) use ($stateMachineItemTransfer) {
+                return $query->where(['identifier' => $stateMachineItemTransfer->getIdentifier()]);
+            })
+            ->where([$stateMachineItemStatesTable->aliasField('id') => $stateMachineItemTransfer->getIdItemState()]);
     }
 
     /**
-     * @api
-     *
-     * @param \DateTime $expirationDate
+     * @param \Cake\I18n\FrozenTime $expirationDate
      * @param string $stateMachineName
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineEventTimeoutQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryItemsWithExpiredTimeout(DateTime $expirationDate, $stateMachineName)
+    public function queryItemsWithExpiredTimeout(FrozenTime $expirationDate, string $stateMachineName): Query
     {
-        // TODO: Implement queryItemsWithExpiredTimeout() method.
+        $stateMachineTimeoutsTable = $this->getFactory()->createStateMachineTimeoutsTable();
+        $stateMachineProcessesTable = $this->getFactory()->createStateMachineProcessesTable();
+
+        return $stateMachineTimeoutsTable
+            ->find()
+            ->contain($this->getFactory()->createStateMachineItemStatesTable()->getAlias(), function (Query $query) use ($stateMachineProcessesTable) {
+                return $query->contain($stateMachineProcessesTable->getAlias());
+            })
+            ->where([
+                $stateMachineTimeoutsTable->aliasField('timeout') . ' < ' => $expirationDate->format('Y-m-d H:i:s'),
+                $stateMachineProcessesTable->aliasField('state_machine') => $stateMachineName,
+            ]);
     }
 
     /**
-     * @api
-     *
-     * @param int $identifier
+     * @param string $identifier
      * @param int $idStateMachineProcess
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateHistoryQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryItemHistoryByStateItemIdentifier($identifier, $idStateMachineProcess)
+    public function queryItemHistoryByStateItemIdentifier(string $identifier, int $idStateMachineProcess): Query
     {
-        // TODO: Implement queryItemHistoryByStateItemIdentifier() method.
+        $stateMachineItemStateHistoryTable = $this->getFactory()->createStateMachineItemStateHistoryTable();
+        $stateMachineItemStateTable = $this->getFactory()->createStateMachineItemStatesTable();
+        $stateMachineProcessesTable = $this->getFactory()->createStateMachineProcessesTable();
+
+        return $stateMachineItemStateHistoryTable
+            ->find()
+            ->contain($stateMachineItemStateTable->getAlias(), function (Query $query) use ($idStateMachineProcess, $stateMachineProcessesTable) {
+                return $query
+                    ->contain($stateMachineProcessesTable->getAlias())
+                    ->where(['state_machine_process_id' => $idStateMachineProcess]);
+            })
+            ->where([
+                $stateMachineItemStateHistoryTable->aliasField('identifier') => $identifier,
+            ])
+            ->order([
+                $stateMachineItemStateHistoryTable->aliasField('created') => 'ASC',
+                $stateMachineItemStateHistoryTable->aliasField('id') => 'ASC',
+            ]);
     }
 
     /**
-     * @api
-     *
      * @param string $stateMachineName
      * @param string $processName
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineProcessQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryProcessByStateMachineAndProcessName($stateMachineName, $processName)
+    public function queryProcessByStateMachineAndProcessName(string $stateMachineName, string $processName): Query
     {
-        // TODO: Implement queryProcessByStateMachineAndProcessName() method.
+        $stateMachineProcessesTable = $this->getFactory()->createStateMachineProcessesTable();
+
+        return $stateMachineProcessesTable
+            ->find()
+            ->where([
+                $stateMachineProcessesTable->aliasField('name') => $processName,
+                $stateMachineProcessesTable->aliasField('state_machine') => $stateMachineName,
+            ]);
     }
 
     /**
-     * @api
-     *
      * @param string $stateMachineName
      * @param string $processName
-     * @param string[] $states
+     * @param array $states
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateQuery
+     * @return \Cake\ORM\Query
      */
     public function queryItemsByIdStateMachineProcessAndItemStates(
-        $stateMachineName,
-        $processName,
+        string $stateMachineName,
+        string $processName,
         array $states
-    ) {
-        // TODO: Implement queryItemsByIdStateMachineProcessAndItemStates() method.
+    ): Query {
+        $stateMachineItemStatesTable = $this->getFactory()->createStateMachineItemStatesTable();
+        $stateMachineItemStateHistoryTable = $this->getFactory()->createStateMachineItemStateHistoryTable();
+        $stateMachineProcessesTable = $this->getFactory()->createStateMachineProcessesTable();
+
+        $states = $states ?: [-1];
+        return $stateMachineItemStatesTable
+            ->find()
+            ->contain($stateMachineItemStateHistoryTable->getAlias())
+            ->contain($stateMachineProcessesTable->getAlias(), function (Query $query) use ($stateMachineName, $processName, $stateMachineProcessesTable) {
+                return $query->where([
+                    $stateMachineProcessesTable->aliasField('state_machine') => $stateMachineName,
+                    $stateMachineProcessesTable->aliasField('name') => $processName,
+                ]);
+            })
+            ->where([
+                $stateMachineItemStatesTable->aliasField('name') . ' IN ' => $states,
+            ])
+            ->order([
+                $stateMachineItemStatesTable->aliasField('id') => 'ASC',
+            ]);
     }
 
     /**
-     * @api
-     *
      * @param int $idProcess
      * @param string $stateName
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryItemStateByIdProcessAndStateName($idProcess, $stateName)
+    public function queryItemStateByIdProcessAndStateName(int $idProcess, string $stateName): Query
     {
-        // TODO: Implement queryItemStateByIdProcessAndStateName() method.
+        $stateMachineItemStatesTable = $this->getFactory()->createStateMachineItemStatesTable();
+        $stateMachineProcessesTable = $this->getFactory()->createStateMachineProcessesTable();
+
+        return $stateMachineItemStatesTable
+            ->find()
+            ->contain($stateMachineProcessesTable->getAlias())
+            ->where([
+                $stateMachineItemStatesTable->aliasField('name') => $stateName,
+                $stateMachineItemStatesTable->aliasField('state_machine_process_id') => $idProcess,
+            ]);
     }
 
     /**
-     * @api
+     * @param \Cake\I18n\FrozenTime $expirationDate
      *
-     * @deprecated Not used, will be removed in the next major release.
-     *
-     * @param string $identifier
-     * @param \DateTime $expirationDate
-     *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineLockQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryLockedItemsByIdentifierAndExpirationDate($identifier, DateTime $expirationDate)
+    public function queryLockedItemsByExpirationDate(FrozenTime $expirationDate): Query
     {
-        // TODO: Implement queryLockedItemsByIdentifierAndExpirationDate() method.
+        $stateMachineLocksTable = $this->getFactory()->createStateMachineLocksTable();
+
+        return $stateMachineLocksTable
+            ->find()
+            ->where([
+                $stateMachineLocksTable->aliasField('expires') . ' <= ' => $expirationDate,
+            ]);
     }
 
     /**
-     * @api
-     *
-     * @param \DateTime $expirationDate
-     *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineLockQuery
-     */
-    public function queryLockedItemsByExpirationDate(DateTime $expirationDate)
-    {
-        // TODO: Implement queryLockedItemsByExpirationDate() method.
-    }
-
-    /**
-     * @api
-     *
      * @param string $identifier
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineLockQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryLockItemsByIdentifier($identifier)
+    public function queryLockItemsByIdentifier(string $identifier): Query
     {
-        // TODO: Implement queryLockItemsByIdentifier() method.
+        $stateMachineLocksTable = $this->getFactory()->createStateMachineLocksTable();
+
+        return $stateMachineLocksTable
+            ->find()
+            ->where([
+                $stateMachineLocksTable->aliasField('identifier') => $identifier,
+            ]);
     }
 
     /**
-     * @api
-     *
      * @param string $processName
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineProcessQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryProcessByProcessName($processName)
+    public function queryProcessByProcessName(string $processName): Query
     {
-        // TODO: Implement queryProcessByProcessName() method.
+        $stateMachineProcessesTable = $this->getFactory()->createStateMachineProcessesTable();
+
+        return $stateMachineProcessesTable
+            ->find()
+            ->where([
+                $stateMachineProcessesTable->aliasField('name') => $processName,
+            ]);
     }
 
     /**
-     * @api
+     * @param string $identifier
+     * @param int $idProcess
      *
-     * @param int $identifier
-     * @param int $fkProcess
-     *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineEventTimeoutQuery
+     * @return \Cake\ORM\Query
      */
-    public function queryEventTimeoutByIdentifierAndFkProcess($identifier, $fkProcess)
+    public function queryEventTimeoutByIdentifierAndFkProcess(string $identifier, int $idProcess): Query
     {
-        // TODO: Implement queryEventTimeoutByIdentifierAndFkProcess() method.
-    }
+        $stateMachineTimeoutsTable = $this->getFactory()->createStateMachineTimeoutsTable();
 
-    /**
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
-     * @param int $transitionToIdState
-     *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateHistoryQuery
-     */
-    public function queryLastHistoryItem(StateMachineItemTransfer $stateMachineItemTransfer, $transitionToIdState)
-    {
-        // TODO: Implement queryLastHistoryItem() method.
+        return $stateMachineTimeoutsTable
+            ->find()
+            ->where([
+                $stateMachineTimeoutsTable->aliasField('identifier') => $identifier,
+                $stateMachineTimeoutsTable->aliasField('state_machine_process_id') => $idProcess,
+            ]);
     }
 }

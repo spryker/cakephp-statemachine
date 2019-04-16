@@ -12,13 +12,14 @@ use StateMachine\Transfer\StateMachineItemTransfer;
 interface CommandPluginInterface
 {
     /**
-     * This method is called when event have concrete command assigned.
+     * Specification:
+     * - This method is called when event have concrete command assigned.
      *
      * @api
      *
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
      *
-     * @return void
+     * @return bool
      */
-    public function run(StateMachineItemTransfer $stateMachineItemTransfer);
+    public function run(StateMachineItemTransfer $stateMachineItemTransfer): bool;
 }

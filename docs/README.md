@@ -31,6 +31,12 @@ Let's hook them up to the PHP counterpart then.
 
 ...
 
+### Admin backend
+
+If you want to use the admin CRUD backend, make sure to load the required helpers in your AppView:
+```php
+$this->loadHelper('Tools.Format');
+```
 
 ## Contributing
 
@@ -38,5 +44,12 @@ Let's hook them up to the PHP counterpart then.
 We are looking forward to your contributions.
 
 There are a few guidelines to follow:
-* Coding standards (`composer cs-check` to check and `composer cs-fix` to fix)
 * Passing tests (`composer test`) - Travis will also automatically check those for any PR then
+* Coding standards (`composer cs-check` to check and `composer cs-fix` to fix)
+* PHPStan (`composer phpstan`) -  The higher level, the better
+
+You can check coverage using
+```
+composer test-coverage
+```
+and then browse to the index.html in tmp/coverage/ folder.

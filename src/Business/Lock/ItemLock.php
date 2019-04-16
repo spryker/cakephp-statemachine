@@ -7,12 +7,13 @@
 
 namespace StateMachine\Business\Lock;
 
+use Cake\I18n\FrozenTime;
+use Cake\ORM\Exception\PersistenceFailedException;
 use DateInterval;
-use DateTime;
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineLock;
-use Propel\Runtime\Exception\PropelException;
 use StateMachine\Business\Exception\LockException;
+use StateMachine\Model\Entity\StateMachineLock;
 use StateMachine\Model\QueryContainerInterface;
+use StateMachine\Model\Table\StateMachineLocksTable;
 use StateMachine\StateMachineConfig;
 
 class ItemLock implements ItemLockInterface
@@ -28,15 +29,23 @@ class ItemLock implements ItemLockInterface
     protected $stateMachineConfig;
 
     /**
+     * @var \StateMachine\Model\Table\StateMachineLocksTable
+     */
+    protected $stateMachineLocksTable;
+
+    /**
      * @param \StateMachine\Model\QueryContainerInterface $queryContainer
      * @param \StateMachine\StateMachineConfig $stateMachineConfig
+     * @param \StateMachine\Model\Table\StateMachineLocksTable $stateMachineLocksTable
      */
     public function __construct(
         QueryContainerInterface $queryContainer,
-        StateMachineConfig $stateMachineConfig
+        StateMachineConfig $stateMachineConfig,
+        StateMachineLocksTable $stateMachineLocksTable
     ) {
         $this->queryContainer = $queryContainer;
         $this->stateMachineConfig = $stateMachineConfig;
+        $this->stateMachineLocksTable = $stateMachineLocksTable;
     }
 
     /**
@@ -50,16 +59,15 @@ class ItemLock implements ItemLockInterface
     {
         $stateMachineLockEntity = $this->createStateMachineLockEntity();
 
-        $stateMachineLockEntity->setIdentifier($identifier);
-        $expirationDate = $this->createExpirationDate();
-        $stateMachineLockEntity->setExpires($expirationDate);
+        $stateMachineLockEntity->identifier = $identifier;
+        $stateMachineLockEntity->expires = $this->createExpirationDate();
 
         try {
-            $affectedRows = $stateMachineLockEntity->save();
-        } catch (PropelException $exception) {
+            $this->stateMachineLocksTable->saveOrFail($stateMachineLockEntity);
+        } catch (PersistenceFailedException $exception) {
             throw new LockException(
                 sprintf(
-                    'State machine trigger is locked. Propel exception: %s',
+                    'State machine trigger is locked. DB exception: %s',
                     $exception->getMessage()
                 ),
                 $exception->getCode(),
@@ -67,7 +75,7 @@ class ItemLock implements ItemLockInterface
             );
         }
 
-        return $affectedRows > 0;
+        return true;
     }
 
     /**
@@ -85,32 +93,32 @@ class ItemLock implements ItemLockInterface
     /**
      * @return void
      */
-    public function clearLocks()
+    public function clearLocks(): void
     {
         $this->queryContainer
-            ->queryLockedItemsByExpirationDate(new DateTime('now'))
+            ->queryLockedItemsByExpirationDate(new FrozenTime('now'))
             ->delete();
     }
 
     /**
-     * @return \DateTime
+     * @return \Cake\I18n\FrozenTime
      */
     protected function createExpirationDate()
     {
         $dateInterval = DateInterval::createFromDateString(
             $this->stateMachineConfig->getStateMachineItemLockExpirationInterval()
         );
-        $expirationDate = new DateTime();
+        $expirationDate = new FrozenTime();
         $expirationDate->add($dateInterval);
 
         return $expirationDate;
     }
 
     /**
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineLock
+     * @return \StateMachine\Model\Entity\StateMachineLock
      */
-    protected function createStateMachineLockEntity()
+    protected function createStateMachineLockEntity(): StateMachineLock
     {
-        return new SpyStateMachineLock();
+        return $this->stateMachineLocksTable->newEntity();
     }
 }

@@ -67,48 +67,48 @@ class StateMachineTransitionLogsTable extends Table
 
         $validator
             ->scalar('identifier')
-            ->maxLength('identifier')
-            ->requirePresence('identifier')
+            //->maxLength('identifier')
+            ->requirePresence('identifier', 'create')
             ->notEmpty('identifier');
 
         $validator
             ->boolean('locked')
-            ->requirePresence('locked')
+            ->requirePresence('locked', 'create')
             ->notEmpty('locked');
 
         $validator
             ->scalar('event')
-            ->maxLength('event')
+            //->maxLength('event')
             ->allowEmpty('event');
 
         $validator
             ->scalar('params')
-            ->maxLength('params')
+            //->maxLength('params')
             ->allowEmpty('params');
 
         $validator
             ->scalar('source_state')
-            ->maxLength('source_state')
+            //->maxLength('source_state')
             ->allowEmpty('source_state');
 
         $validator
             ->scalar('target_state')
-            ->maxLength('target_state')
+            //->maxLength('target_state')
             ->allowEmpty('target_state');
 
         $validator
             ->scalar('command')
-            ->maxLength('command')
+            //->maxLength('command')
             ->allowEmpty('command');
 
         $validator
             ->scalar('condition')
-            ->maxLength('condition')
+            //->maxLength('condition')
             ->allowEmpty('condition');
 
         $validator
             ->boolean('is_error')
-            ->requirePresence('is_error')
+            ->requirePresence('is_error', 'create')
             ->notEmpty('is_error');
 
         $validator
@@ -128,7 +128,7 @@ class StateMachineTransitionLogsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['state_machine_process_id'], 'StateMachineProcesses'));
+        //$rules->add($rules->existsIn(['state_machine_process_id'], 'StateMachineProcesses'));
         return $rules;
     }
 }

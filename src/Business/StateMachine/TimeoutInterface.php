@@ -16,8 +16,6 @@ interface TimeoutInterface
      * @param \StateMachine\Business\Process\ProcessInterface $process
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
      *
-     * @throws \Propel\Runtime\Exception\PropelException
-     *
      * @return void
      */
     public function setNewTimeout(ProcessInterface $process, StateMachineItemTransfer $stateMachineItemTransfer);
@@ -26,8 +24,6 @@ interface TimeoutInterface
      * @param \StateMachine\Business\Process\ProcessInterface $process
      * @param string $stateName
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
-     *
-     * @throws \Propel\Runtime\Exception\PropelException
      *
      * @return void
      */

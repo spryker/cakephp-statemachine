@@ -7,6 +7,8 @@
 
 namespace StateMachine;
 
+use Cake\Core\Configure;
+
 class StateMachineConfig
 {
     public const GRAPH_NAME = 'Statemachine';
@@ -14,7 +16,7 @@ class StateMachineConfig
     /**
      * @return array
      */
-    public function getGraphDefaults()
+    public function getGraphDefaults(): array
     {
         return [
             'fontname' => 'Verdana',
@@ -27,39 +29,39 @@ class StateMachineConfig
     /**
      * @return string
      */
-    public function getStateMachineItemLockExpirationInterval()
+    public function getStateMachineItemLockExpirationInterval(): string
     {
-        return '1 minutes';
+        return '1 minute';
     }
 
     /**
      * @return string
      */
-    public function getPathToStateMachineXmlFiles()
+    public function getPathToStateMachineXmlFiles(): string
     {
-        return ROOT . DS . 'config' . DS . 'StateMachines' . DS;
+        return Configure::read('StateMachine.pathToXml', ROOT . DS . 'config' . DS . 'StateMachines' . DS);
     }
 
     /**
      * @return string
      */
-    public function getGraphDefaultFormat()
+    public function getGraphDefaultFormat(): string
     {
         return 'svg';
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getGraphDefaultFontSize()
+    public function getGraphDefaultFontSize(): int
     {
-        return '14';
+        return 14;
     }
 
     /**
      * @return string[]
      */
-    public function getGraphFormatContentTypes()
+    public function getGraphFormatContentTypes(): array
     {
         return [
             'jpg' => 'image/jpeg',
@@ -70,7 +72,7 @@ class StateMachineConfig
     /**
      * @return string
      */
-    public function getSubProcessPrefixDelimiter()
+    public function getSubProcessPrefixDelimiter(): string
     {
         return ' - ';
     }

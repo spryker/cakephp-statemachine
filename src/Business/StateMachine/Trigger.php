@@ -85,14 +85,14 @@ class Trigger implements TriggerInterface
 
     /**
      * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
-     * @param int $identifier
+     * @param string $identifier
      *
      * @return int
      */
     public function triggerForNewStateMachineItem(
         StateMachineProcessTransfer $stateMachineProcessTransfer,
-        $identifier
-    ) {
+        string $identifier
+    ): int {
         $stateMachineProcessTransfer->requireStateMachineName()
             ->requireProcessName();
 
@@ -113,7 +113,7 @@ class Trigger implements TriggerInterface
      *
      * @return int
      */
-    public function triggerEvent($eventName, array $stateMachineItems)
+    public function triggerEvent(string $eventName, array $stateMachineItems): int
     {
         if ($this->checkForEventRepetitions($eventName) === false) {
             return 0;
@@ -158,7 +158,7 @@ class Trigger implements TriggerInterface
      *
      * @return int
      */
-    public function triggerConditionsWithoutEvent($stateMachineName)
+    public function triggerConditionsWithoutEvent(string $stateMachineName): int
     {
         $stateMachineHandler = $this->stateMachineHandlerResolver->get($stateMachineName);
         foreach ($stateMachineHandler->getActiveProcesses() as $processName) {
@@ -177,7 +177,7 @@ class Trigger implements TriggerInterface
      *
      * @return int
      */
-    public function triggerForTimeoutExpiredItems($stateMachineName)
+    public function triggerForTimeoutExpiredItems(string $stateMachineName): int
     {
         $stateMachineItems = $this->stateMachinePersistence->getItemsWithExpiredTimeouts($stateMachineName);
 
@@ -194,7 +194,7 @@ class Trigger implements TriggerInterface
      *
      * @return array
      */
-    protected function groupItemsByEvent(array $stateMachineItems)
+    protected function groupItemsByEvent(array $stateMachineItems): array
     {
         $groupedStateMachineItems = [];
         foreach ($stateMachineItems as $stateMachineItemTransfer) {
@@ -371,7 +371,7 @@ class Trigger implements TriggerInterface
 
         $this->assertCommandIsSet($commandString, $stateMachineHandler);
 
-        return $stateMachineHandler->getCommandPlugins()[$commandString];
+        return $stateMachineHandler->getCommands()[$commandString];
     }
 
     /**
@@ -389,19 +389,19 @@ class Trigger implements TriggerInterface
 
     /**
      * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
-     * @param int $identifier
+     * @param string $identifier
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer
      */
     protected function createItemTransferForNewProcess(
         StateMachineProcessTransfer $stateMachineProcessTransfer,
-        $identifier
-    ) {
-
+        string $identifier
+    ): StateMachineItemTransfer {
         $processName = $stateMachineProcessTransfer->requireProcessName()
             ->getProcessName();
 
         $stateMachineItemTransfer = new StateMachineItemTransfer();
+        $stateMachineProcessTransfer->setStateMachineName($stateMachineProcessTransfer->getStateMachineName());
         $stateMachineItemTransfer->setProcessName($processName);
         $stateMachineItemTransfer->setIdentifier($identifier);
 
@@ -502,10 +502,10 @@ class Trigger implements TriggerInterface
      */
     protected function assertCommandIsSet($commandString, StateMachineHandlerInterface $stateMachineHandler)
     {
-        if (!isset($stateMachineHandler->getCommandPlugins()[$commandString])) {
+        if (!isset($stateMachineHandler->getCommands()[$commandString])) {
             throw new CommandNotFoundException(
                 sprintf(
-                    'Command plugin "%s" not registered in "%s" class. Please add it to getCommandPlugins method.',
+                    'Command "%s" not registered in "%s" class. Please add it to getCommands() method.',
                     $commandString,
                     get_class($stateMachineHandler)
                 )

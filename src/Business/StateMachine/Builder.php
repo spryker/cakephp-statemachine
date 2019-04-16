@@ -156,12 +156,12 @@ class Builder implements BuilderInterface
      */
     protected function recursiveMerge($fromXmlElement, $intoXmlNode, $prefix = null)
     {
+        /** @var \SimpleXMLElement[] $xmlElements */
         $xmlElements = $fromXmlElement->children();
-        if ($xmlElements === null) {
+        if (!$xmlElements) {
             return;
         }
 
-        /** @var \SimpleXMLElement $xmlElement */
         foreach ($xmlElements as $xmlElement) {
             $xmlElement = $this->prefixSubProcessElementValue($xmlElement, $prefix);
             $xmlElement = $this->prefixSubProcessElementAttributes($xmlElement, $prefix);
@@ -226,14 +226,14 @@ class Builder implements BuilderInterface
      *
      * @return \SimpleXMLElement
      */
-    protected function loadXmlFromFileName($pathToXml, $fileName)
+    protected function loadXmlFromFileName(string $pathToXml, string $fileName)
     {
         $pathToXml = $pathToXml . $fileName . '.xml';
 
         if (!file_exists($pathToXml)) {
             throw new StateMachineException(
                 sprintf(
-                    'State machine xml file not found in "%s".',
+                    'State machine XML file not found in "%s".',
                     $pathToXml
                 )
             );
@@ -250,7 +250,7 @@ class Builder implements BuilderInterface
      *
      * @return \SimpleXMLElement
      */
-    protected function loadXmlFromProcessName($pathToXml, $processName)
+    protected function loadXmlFromProcessName(string $pathToXml, string $processName)
     {
         return $this->loadXmlFromFileName($pathToXml, $processName);
     }
@@ -260,7 +260,7 @@ class Builder implements BuilderInterface
      *
      * @return \SimpleXMLElement
      */
-    protected function loadXml($xml)
+    protected function loadXml(string $xml)
     {
         return new SimpleXMLElement($xml);
     }
@@ -424,11 +424,15 @@ class Builder implements BuilderInterface
      */
     protected function addFlags(SimpleXMLElement $xmlState, StateInterface $state)
     {
-        if ($xmlState->flag) {
-            $flags = $xmlState->children();
-            foreach ($flags->flag as $flag) {
-                $state->addFlag((string)$flag);
-            }
+        /** @var bool $flag */
+        $flag = $xmlState->flag;
+        if (!$flag) {
+            return $state;
+        }
+
+        $flags = $xmlState->children();
+        foreach ($flags->flag as $flag) {
+            $state->addFlag((string)$flag);
         }
 
         return $state;
@@ -503,7 +507,6 @@ class Builder implements BuilderInterface
         $sourceName,
         TransitionInterface $transition
     ) {
-
         $sourceProcess = $stateToProcessMap[$sourceName];
         $sourceState = $sourceProcess->getState($sourceName);
         $transition->setSourceState($sourceState);
@@ -607,7 +610,7 @@ class Builder implements BuilderInterface
      *
      * @return string
      */
-    protected function buildPathToXml(StateMachineProcessTransfer $stateMachineProcessTransfer)
+    protected function buildPathToXml(StateMachineProcessTransfer $stateMachineProcessTransfer): string
     {
         $stateMachineProcessTransfer->requireStateMachineName();
 

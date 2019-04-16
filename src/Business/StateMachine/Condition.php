@@ -163,7 +163,7 @@ class Condition implements ConditionInterface
      * @param string $stateMachineName
      * @param string $processName
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[] $itemsWithOnEnterEvent
+     * @return \StateMachine\Transfer\StateMachineItemTransfer[][] $itemsWithOnEnterEvent
      */
     public function getOnEnterEventsForStatesWithoutTransition($stateMachineName, $processName)
     {
@@ -208,10 +208,9 @@ class Condition implements ConditionInterface
         array $states,
         ProcessInterface $process
     ) {
-
         $stateMachineItemStateIds = $this->stateMachinePersistence->getStateMachineItemIdsByStatesProcessAndStateMachineName(
-            $stateMachineName,
             $process->getName(),
+            $stateMachineName,
             array_keys($states)
         );
 
@@ -303,7 +302,7 @@ class Condition implements ConditionInterface
 
         $this->assertConditionIsSet($conditionString, $stateMachineHandler);
 
-        return $stateMachineHandler->getConditionPlugins()[$conditionString];
+        return $stateMachineHandler->getConditions()[$conditionString];
     }
 
     /**
@@ -316,10 +315,10 @@ class Condition implements ConditionInterface
      */
     protected function assertConditionIsSet($conditionString, StateMachineHandlerInterface $stateMachineHandler)
     {
-        if (!isset($stateMachineHandler->getConditionPlugins()[$conditionString])) {
+        if (!isset($stateMachineHandler->getConditions()[$conditionString])) {
             throw new ConditionNotFoundException(
                 sprintf(
-                    'Condition plugin "%s" not registered in "%s" class. Please add it to getConditionPlugins method.',
+                    'Condition "%s" not registered in "%s" class. Please add it to getConditions() method.',
                     $conditionString,
                     get_class($this->stateMachineHandlerResolver)
                 )
@@ -330,7 +329,7 @@ class Condition implements ConditionInterface
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return string[]
      */
     protected function createStateMap(array $stateMachineItems)
     {

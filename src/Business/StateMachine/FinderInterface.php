@@ -61,7 +61,7 @@ interface FinderInterface
      * @param \StateMachine\Business\Process\ProcessInterface[] $processes
      * @param array $sourceStates
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Transfer\StateMachineItemTransfer[][]
      */
     public function filterItemsWithOnEnterEvent(
         array $stateMachineItems,

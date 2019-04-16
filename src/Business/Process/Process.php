@@ -148,7 +148,7 @@ class Process implements ProcessInterface
      *
      * @return bool
      */
-    public function hasState($stateId)
+    public function hasState($stateId): bool
     {
         return array_key_exists($stateId, $this->states);
     }
@@ -160,7 +160,7 @@ class Process implements ProcessInterface
      *
      * @return \StateMachine\Business\Process\StateInterface
      */
-    public function getStateFromAllProcesses($stateName)
+    public function getStateFromAllProcesses($stateName): StateInterface
     {
         $processes = $this->getAllProcesses();
         foreach ($processes as $process) {
@@ -180,7 +180,7 @@ class Process implements ProcessInterface
     /**
      * @return \StateMachine\Business\Process\StateInterface[]
      */
-    public function getStates()
+    public function getStates(): array
     {
         return $this->states;
     }
@@ -188,7 +188,7 @@ class Process implements ProcessInterface
     /**
      * @return bool
      */
-    public function hasStates()
+    public function hasStates(): bool
     {
         return (bool)$this->states;
     }
@@ -216,7 +216,7 @@ class Process implements ProcessInterface
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getTransitions()
+    public function getTransitions(): array
     {
         return $this->transitions;
     }
@@ -224,7 +224,7 @@ class Process implements ProcessInterface
     /**
      * @return bool
      */
-    public function hasTransitions()
+    public function hasTransitions(): bool
     {
         return (bool)$this->transitions;
     }
@@ -232,7 +232,7 @@ class Process implements ProcessInterface
     /**
      * @return \StateMachine\Business\Process\StateInterface[]
      */
-    public function getAllStates()
+    public function getAllStates(): array
     {
         $states = [];
         if ($this->hasStates()) {
@@ -256,7 +256,7 @@ class Process implements ProcessInterface
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getAllTransitions()
+    public function getAllTransitions(): array
     {
         $transitions = [];
         if ($this->hasTransitions()) {
@@ -274,7 +274,7 @@ class Process implements ProcessInterface
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getAllTransitionsWithoutEvent()
+    public function getAllTransitionsWithoutEvent(): array
     {
         $transitions = [];
         $allTransitions = $this->getAllTransitions();
@@ -293,7 +293,7 @@ class Process implements ProcessInterface
      *
      * @return \StateMachine\Business\Process\EventInterface[]
      */
-    public function getManuallyExecutableEvents()
+    public function getManuallyExecutableEvents(): array
     {
         $manuallyExecutableEventList = [];
         $transitions = $this->getAllTransitions();
@@ -310,9 +310,9 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @return array
+     * @return string[][]
      */
-    public function getManuallyExecutableEventsBySource()
+    public function getManuallyExecutableEventsBySource(): array
     {
         $events = $this->getManuallyExecutableEvents();
 
@@ -336,7 +336,7 @@ class Process implements ProcessInterface
      *
      * @return array
      */
-    protected function groupTransitionsBySourceName(array $transitions, array $eventsBySource, EventInterface $event)
+    protected function groupTransitionsBySourceName(array $transitions, array $eventsBySource, EventInterface $event): array
     {
         foreach ($transitions as $transition) {
             $sourceName = $transition->getSourceState()->getName();
@@ -354,7 +354,7 @@ class Process implements ProcessInterface
     /**
      * @return \StateMachine\Business\Process\ProcessInterface[]
      */
-    public function getAllProcesses()
+    public function getAllProcesses(): array
     {
         $processes = [];
         $processes[] = $this;
@@ -368,7 +368,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function setFile($file)
+    public function setFile($file): void
     {
         $this->file = $file;
     }
@@ -376,15 +376,15 @@ class Process implements ProcessInterface
     /**
      * @return bool
      */
-    public function hasFile()
+    public function hasFile(): bool
     {
-        return isset($this->file);
+        return $this->file !== null;
     }
 
     /**
      * @return string
      */
-    public function getFile()
+    public function getFile(): string
     {
         return $this->file;
     }

@@ -12,32 +12,32 @@ use StateMachine\Transfer\StateMachineItemTransfer;
 interface StateMachineHandlerInterface
 {
     /**
-     * List of command plugins for this state machine for all processes. Array key is identifier in SM xml file.
+     * List of command classes for this state machine for all processes. Array key is identifier in SM XML file.
      *
      * [
-     *   'Command/Plugin' => new Command(),
-     *   'Command/Plugin2' => new Command2(),
+     *   'Prefix/OneCommand' => new OneCommand(),
+     *   'Prefix/TwoCommand' => new TwoCommand(),
      * ]
      *
      * @api
      *
      * @return array
      */
-    public function getCommandPlugins();
+    public function getCommands(): array;
 
     /**
-     * List of condition plugins for this state machine for all processes. Array key is identifier in SM xml file.
+     * List of condition classes for this state machine for all processes. Array key is identifier in SM XML file.
      *
      *  [
-     *   'Condition/Plugin' => new Condition(),
-     *   'Condition/Plugin2' => new Condition2(),
+     *   'Prefix/OneCondition' => new OneCondition(),
+     *   'Prefix/TwoCondition' => new TwoCondition(),
      * ]
      *
      * @api
      *
      * @return array
      */
-    public function getConditionPlugins();
+    public function getConditions(): array;
 
     /**
      * Name of state machine used by this handler.
@@ -46,7 +46,7 @@ interface StateMachineHandlerInterface
      *
      * @return string
      */
-    public function getStateMachineName();
+    public function getStateMachineName(): string;
 
     /**
      * List of active processes used for this state machine.
@@ -60,7 +60,7 @@ interface StateMachineHandlerInterface
      *
      * @return string[]
      */
-    public function getActiveProcesses();
+    public function getActiveProcesses(): array;
 
     /**
      * Provide initial state name for item when state machine initialized. Using process name.
@@ -71,7 +71,7 @@ interface StateMachineHandlerInterface
      *
      * @return string
      */
-    public function getInitialStateForProcess($processName);
+    public function getInitialStateForProcess(string $processName): string;
 
     /**
      * This method is called when state of item was changed, client can create custom logic for example update it's related table with new stateId and processId.
@@ -83,7 +83,7 @@ interface StateMachineHandlerInterface
      *
      * @return bool
      */
-    public function itemStateUpdated(StateMachineItemTransfer $stateMachineItemTransfer);
+    public function itemStateUpdated(StateMachineItemTransfer $stateMachineItemTransfer): bool;
 
     /**
      * This method should return all list of StateMachineItemTransfer, with (identifier, IdStateMachineProcess, IdItemState)
@@ -94,5 +94,5 @@ interface StateMachineHandlerInterface
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[]
      */
-    public function getStateMachineItemsByStateIds(array $stateIds = []);
+    public function getStateMachineItemsByStateIds(array $stateIds = []): array;
 }

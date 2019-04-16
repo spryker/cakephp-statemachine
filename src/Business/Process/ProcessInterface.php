@@ -83,7 +83,7 @@ interface ProcessInterface
      *
      * @return bool
      */
-    public function hasState($stateId);
+    public function hasState($stateId): bool;
 
     /**
      * @param string $stateName
@@ -92,17 +92,17 @@ interface ProcessInterface
      *
      * @return \StateMachine\Business\Process\StateInterface
      */
-    public function getStateFromAllProcesses($stateName);
+    public function getStateFromAllProcesses($stateName): StateInterface;
 
     /**
      * @return \StateMachine\Business\Process\StateInterface[]
      */
-    public function getStates();
+    public function getStates(): array;
 
     /**
      * @return bool
      */
-    public function hasStates();
+    public function hasStates(): bool;
 
     /**
      * @param \StateMachine\Business\Process\TransitionInterface $transition
@@ -121,57 +121,57 @@ interface ProcessInterface
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getTransitions();
+    public function getTransitions(): array;
 
     /**
      * @return bool
      */
-    public function hasTransitions();
+    public function hasTransitions(): bool;
 
     /**
      * @return \StateMachine\Business\Process\StateInterface[]
      */
-    public function getAllStates();
+    public function getAllStates(): array;
 
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getAllTransitions();
+    public function getAllTransitions(): array;
 
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getAllTransitionsWithoutEvent();
+    public function getAllTransitionsWithoutEvent(): array;
 
     /**
      * @return \StateMachine\Business\Process\EventInterface[]
      */
-    public function getManuallyExecutableEvents();
+    public function getManuallyExecutableEvents(): array;
 
     /**
-     * @return array
+     * @return string[][]
      */
-    public function getManuallyExecutableEventsBySource();
+    public function getManuallyExecutableEventsBySource(): array;
 
     /**
      * @return \StateMachine\Business\Process\ProcessInterface[]
      */
-    public function getAllProcesses();
+    public function getAllProcesses(): array;
 
     /**
      * @param string $file
      *
      * @return void
      */
-    public function setFile($file);
+    public function setFile($file): void;
 
     /**
      * @return bool
      */
-    public function hasFile();
+    public function hasFile(): bool;
 
     /**
      * @return string
      */
-    public function getFile();
+    public function getFile(): string;
 }

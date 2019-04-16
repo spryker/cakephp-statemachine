@@ -9,6 +9,7 @@ namespace StateMachine\Graph;
 
 use Cake\Core\Configure;
 use Exception;
+use StateMachine\Graph\Adapter\PhpDocumentorGraphAdapter;
 
 class Graph implements GraphInterface
 {
@@ -38,14 +39,12 @@ class Graph implements GraphInterface
      *
      * @throws \Exception
      *
-     * @return $this
+     * @return static
      */
     public static function create($name, array $attributes = [], $directed = true, $strict = true)
     {
-        $adapter = Configure::read('StateMachine.graphAdapter');
-        if (!$adapter) {
-            throw new Exception('Invalid graph adapter - config missing');
-        }
+        $adapter = Configure::read('StateMachine.graphAdapter') ?: PhpDocumentorGraphAdapter::class;
+        /** @var \StateMachine\Graph\GraphAdapterInterface $object */
         $object = new $adapter();
         if (!($object instanceof GraphAdapterInterface)) {
             throw new Exception('Invalid graph adapter: ' . $adapter . ' - not instance of ' . GraphAdapterInterface::class);

@@ -7,9 +7,10 @@
 
 namespace StateMachine\Business\StateMachine;
 
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineItemState;
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineProcess;
+use Cake\ORM\ResultSet;
 use StateMachine\Business\Exception\StateMachineException;
+use StateMachine\Model\Entity\StateMachineItemState;
+use StateMachine\Model\Entity\StateMachineProcess;
 use StateMachine\Model\QueryContainerInterface;
 use StateMachine\Transfer\StateMachineItemTransfer;
 use StateMachine\Transfer\StateMachineProcessTransfer;
@@ -75,7 +76,7 @@ class Finder implements FinderInterface
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
      *
-     * @return string[]
+     * @return string[][]
      */
     public function getManualEventsForStateMachineItems(array $stateMachineItems)
     {
@@ -94,7 +95,7 @@ class Finder implements FinderInterface
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
      *
-     * @return array
+     * @return string[]
      */
     public function getManualEventsForStateMachineItem(StateMachineItemTransfer $stateMachineItemTransfer)
     {
@@ -111,13 +112,13 @@ class Finder implements FinderInterface
 
         $process = $processBuilder->createProcess($stateMachineProcessTransfer);
         $manualEvents = $process->getManuallyExecutableEventsBySource();
-
         $stateName = $stateMachineItemTransfer->getStateName();
-        if (isset($manualEvents[$stateName])) {
-            return $manualEvents[$stateName];
+
+        if (!isset($manualEvents[$stateName])) {
+            return [];
         }
 
-        return [];
+        return $manualEvents[$stateName];
     }
 
     /**
@@ -158,7 +159,7 @@ class Finder implements FinderInterface
             return [];
         }
 
-        $stateMachineProcessEntity = $this->getStateMachineProcessEntity($stateMachineProcessTransfer);
+        $stateMachineProcessEntity = $this->findStateMachineProcessEntity($stateMachineProcessTransfer);
         if ($stateMachineProcessEntity === null) {
             return [];
         }
@@ -210,7 +211,7 @@ class Finder implements FinderInterface
      * @param \StateMachine\Business\Process\ProcessInterface[] $processes
      * @param array $sourceStates
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Transfer\StateMachineItemTransfer[][]
      */
     public function filterItemsWithOnEnterEvent(
         array $stateMachineItems,
@@ -318,27 +319,26 @@ class Finder implements FinderInterface
 
     /**
      * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
-     * @param \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemState $stateMachineItemEntity
-     * @param \Orm\Zed\StateMachine\Persistence\SpyStateMachineProcess $stateMachineProcessEntity
+     * @param \StateMachine\Model\Entity\StateMachineItemState $stateMachineItemEntity
+     * @param \StateMachine\Model\Entity\StateMachineProcess $stateMachineProcessEntity
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer
      */
     protected function createStateMachineHistoryItemTransfer(
         StateMachineProcessTransfer $stateMachineProcessTransfer,
-        SpyStateMachineItemState $stateMachineItemEntity,
-        SpyStateMachineProcess $stateMachineProcessEntity
-    ) {
-
+        StateMachineItemState $stateMachineItemEntity,
+        StateMachineProcess $stateMachineProcessEntity
+    ): StateMachineItemTransfer {
         $stateMachineItemTransfer = new StateMachineItemTransfer();
         $stateMachineItemTransfer->setProcessName($stateMachineProcessTransfer->getProcessName());
-        $stateMachineItemTransfer->setIdItemState($stateMachineItemEntity->getIdStateMachineItemState());
-        $stateMachineItemTransfer->setIdStateMachineProcess($stateMachineProcessEntity->getIdStateMachineProcess());
-        $stateMachineItemTransfer->setStateName($stateMachineItemEntity->getName());
-        $stateMachineItemTransfer->setStateMachineName($stateMachineProcessEntity->getStateMachineProcesses());
+        $stateMachineItemTransfer->setIdItemState($stateMachineItemEntity->id);
+        $stateMachineItemTransfer->setIdStateMachineProcess($stateMachineProcessEntity->id);
+        $stateMachineItemTransfer->setStateName($stateMachineItemEntity->name);
+        $stateMachineItemTransfer->setStateMachineName($stateMachineProcessEntity->state_machine);
 
-        $stateMachineItemHistory = $stateMachineItemEntity->getStateHistories();
-        if (count($stateMachineItemHistory) > 0) {
-            $itemIdentifier = $stateMachineItemHistory->getFirst()->getIdentifier();
+        $stateMachineItemHistoryEntities = $stateMachineItemEntity->state_machine_item_state_history;
+        if (count($stateMachineItemHistoryEntities) > 0) {
+            $itemIdentifier = $stateMachineItemHistoryEntities[0]->identifier;
             $stateMachineItemTransfer->setIdentifier($itemIdentifier);
         }
 
@@ -348,29 +348,30 @@ class Finder implements FinderInterface
     /**
      * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineProcess|null
+     * @return \StateMachine\Model\Entity\StateMachineProcess|null
      */
-    protected function getStateMachineProcessEntity(StateMachineProcessTransfer $stateMachineProcessTransfer)
+    protected function findStateMachineProcessEntity(StateMachineProcessTransfer $stateMachineProcessTransfer): ?StateMachineProcess
     {
         return $this->queryContainer->queryProcessByStateMachineAndProcessName(
             $stateMachineProcessTransfer->getStateMachineName(),
             $stateMachineProcessTransfer->getProcessName()
-        )->findOne();
+        )->first();
     }
 
     /**
      * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
      * @param array $statesByFlag
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemState[]|\Propel\Runtime\Collection\ObjectCollection
+     * @return \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\ORM\ResultSet
      */
-    protected function getFlaggedStateMachineItems(StateMachineProcessTransfer $stateMachineProcessTransfer, array $statesByFlag)
+    protected function getFlaggedStateMachineItems(StateMachineProcessTransfer $stateMachineProcessTransfer, array $statesByFlag): ResultSet
     {
+        /** @var \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\ORM\ResultSet $itemStateCollection */
         $itemStateCollection = $this->queryContainer->queryItemsByIdStateMachineProcessAndItemStates(
             $stateMachineProcessTransfer->getStateMachineName(),
             $stateMachineProcessTransfer->getProcessName(),
             $statesByFlag
-        )->find();
+        )->all();
 
         return $itemStateCollection;
     }

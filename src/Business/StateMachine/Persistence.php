@@ -7,25 +7,29 @@
 
 namespace StateMachine\Business\StateMachine;
 
-use DateTime;
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineEventTimeout;
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineItemState;
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateHistory;
-use Orm\Zed\StateMachine\Persistence\SpyStateMachineProcess;
+use Cake\I18n\FrozenTime;
 use StateMachine\Business\Exception\StateMachineException;
+use StateMachine\Model\Entity\StateMachineItemState;
+use StateMachine\Model\Entity\StateMachineItemStateHistory;
+use StateMachine\Model\Entity\StateMachineProcess;
+use StateMachine\Model\Entity\StateMachineTimeout;
 use StateMachine\Model\QueryContainerInterface;
+use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
+use StateMachine\Model\Table\StateMachineItemStatesTable;
+use StateMachine\Model\Table\StateMachineProcessesTable;
+use StateMachine\Model\Table\StateMachineTimeoutsTable;
 use StateMachine\Transfer\StateMachineItemTransfer;
 use StateMachine\Transfer\StateMachineProcessTransfer;
 
 class Persistence implements PersistenceInterface
 {
     /**
-     * @var \Orm\Zed\StateMachine\Persistence\SpyStateMachineProcess[]
+     * @var \StateMachine\Model\Entity\StateMachineProcess[]
      */
     protected $processEntityBuffer = [];
 
     /**
-     * @var \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemState[]
+     * @var \StateMachine\Model\Entity\StateMachineItemState[]
      */
     protected $persistedStates;
 
@@ -35,24 +39,58 @@ class Persistence implements PersistenceInterface
     protected $stateMachineQueryContainer;
 
     /**
-     * @param \StateMachine\Model\QueryContainerInterface $stateMachineQueryContainer
+     * @var \StateMachine\Model\Table\StateMachineItemStateHistoryTable
      */
-    public function __construct(QueryContainerInterface $stateMachineQueryContainer)
-    {
+    protected $stateMachineItemStateHistoryTable;
+
+    /**
+     * @var \StateMachine\Model\Table\StateMachineProcessesTable
+     */
+    protected $stateMachineProcessesTable;
+
+    /**
+     * @var \StateMachine\Model\Table\StateMachineItemStatesTable
+     */
+    protected $stateMachineItemStatesTable;
+
+    /**
+     * @var \StateMachine\Model\Table\StateMachineTimeoutsTable
+     */
+    protected $stateMachineTimeoutsTable;
+
+    /**
+     * @param \StateMachine\Model\QueryContainerInterface $stateMachineQueryContainer
+     * @param \StateMachine\Model\Table\StateMachineItemStateHistoryTable $stateMachineItemStateHistoryTable
+     * @param \StateMachine\Model\Table\StateMachineProcessesTable $stateMachineProcessesTable
+     * @param \StateMachine\Model\Table\StateMachineItemStatesTable $stateMachineItemStatesTable
+     * @param \StateMachine\Model\Table\StateMachineTimeoutsTable $stateMachineTimeoutsTable
+     */
+    public function __construct(
+        QueryContainerInterface $stateMachineQueryContainer,
+        StateMachineItemStateHistoryTable $stateMachineItemStateHistoryTable,
+        StateMachineProcessesTable $stateMachineProcessesTable,
+        StateMachineItemStatesTable $stateMachineItemStatesTable,
+        StateMachineTimeoutsTable $stateMachineTimeoutsTable
+    ) {
         $this->stateMachineQueryContainer = $stateMachineQueryContainer;
+        $this->stateMachineItemStateHistoryTable = $stateMachineItemStateHistoryTable;
+        $this->stateMachineProcessesTable = $stateMachineProcessesTable;
+        $this->stateMachineItemStatesTable = $stateMachineItemStatesTable;
+        $this->stateMachineTimeoutsTable = $stateMachineTimeoutsTable;
     }
 
     /**
-     * @param int $itemIdentifier
+     * @param string $itemIdentifier
      * @param int $idStateMachineProcess
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[]
      */
-    public function getStateHistoryByStateItemIdentifier($itemIdentifier, $idStateMachineProcess)
+    public function getStateHistoryByStateItemIdentifier(string $itemIdentifier, int $idStateMachineProcess): array
     {
+        /** @var \StateMachine\Model\Entity\StateMachineItemStateHistory[] $stateMachineHistoryItems */
         $stateMachineHistoryItems = $this->stateMachineQueryContainer
             ->queryItemHistoryByStateItemIdentifier($itemIdentifier, $idStateMachineProcess)
-            ->find();
+            ->all();
 
         $stateMachineItems = [];
         foreach ($stateMachineHistoryItems as $stateMachineHistoryItemEntity) {
@@ -72,19 +110,19 @@ class Persistence implements PersistenceInterface
      *
      * @return int
      */
-    public function getProcessId(StateMachineProcessTransfer $stateMachineProcessTransfer)
+    public function getProcessId(StateMachineProcessTransfer $stateMachineProcessTransfer): int
     {
         $stateMachineProcessTransfer->requireProcessName();
 
         if (array_key_exists($stateMachineProcessTransfer->getProcessName(), $this->processEntityBuffer)) {
-            return $this->processEntityBuffer[$stateMachineProcessTransfer->getProcessName()]
-                ->getIdStateMachineProcess();
+            return $this->processEntityBuffer[$stateMachineProcessTransfer->getProcessName()]->id;
         }
 
+        /** @var \StateMachine\Model\Entity\StateMachineProcess|null $stateMachineProcessEntity */
         $stateMachineProcessEntity = $this->stateMachineQueryContainer
             ->queryProcessByProcessName(
                 $stateMachineProcessTransfer->getProcessName()
-            )->findOne();
+            )->first();
 
         if ($stateMachineProcessEntity === null) {
             $stateMachineProcessEntity = $this->saveStateMachineProcess($stateMachineProcessTransfer);
@@ -92,16 +130,16 @@ class Persistence implements PersistenceInterface
 
         $this->processEntityBuffer[$stateMachineProcessTransfer->getProcessName()] = $stateMachineProcessEntity;
 
-        return $stateMachineProcessEntity->getIdStateMachineProcess();
+        return $stateMachineProcessEntity->id;
     }
 
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
      * @param string $stateName
      *
-     * @return mixed
+     * @return int
      */
-    public function getInitialStateIdByStateName(StateMachineItemTransfer $stateMachineItemTransfer, $stateName)
+    public function getInitialStateIdByStateName(StateMachineItemTransfer $stateMachineItemTransfer, string $stateName): int
     {
         $stateMachineItemTransfer = $this->saveStateMachineItem($stateMachineItemTransfer, $stateName);
 
@@ -114,29 +152,36 @@ class Persistence implements PersistenceInterface
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer
      */
-    public function saveStateMachineItem(StateMachineItemTransfer $stateMachineItemTransfer, $stateName)
+    public function saveStateMachineItem(StateMachineItemTransfer $stateMachineItemTransfer, string $stateName): StateMachineItemTransfer
     {
         if (isset($this->persistedStates[$stateName])) {
             $stateMachineItemStateEntity = $this->persistedStates[$stateName];
         } else {
             $stateMachineItemTransfer->requireIdStateMachineProcess();
 
+            /** @var \StateMachine\Model\Entity\StateMachineItemState|null $stateMachineItemStateEntity */
             $stateMachineItemStateEntity = $this->stateMachineQueryContainer
                 ->queryItemStateByIdProcessAndStateName(
                     $stateMachineItemTransfer->getIdStateMachineProcess(),
                     $stateName
-                )->findOne();
+                )->first();
 
             if ($stateMachineItemStateEntity === null) {
-                $stateMachineItemStateEntity = $this->saveStateMachineItemEntity($stateMachineItemTransfer, $stateName);
+                $this->saveStateMachineItemEntity($stateMachineItemTransfer, $stateName);
+                /** @var \StateMachine\Model\Entity\StateMachineItemState|null $stateMachineItemStateEntity */
+                $stateMachineItemStateEntity = $this->stateMachineQueryContainer
+                    ->queryItemStateByIdProcessAndStateName(
+                        $stateMachineItemTransfer->getIdStateMachineProcess(),
+                        $stateName
+                    )->first();
             }
             $this->persistedStates[$stateName] = $stateMachineItemStateEntity;
         }
 
-        $stateMachineItemTransfer->setIdItemState($stateMachineItemStateEntity->getIdStateMachineItemState());
-        $stateMachineItemTransfer->setStateName($stateMachineItemStateEntity->getName());
+        $stateMachineItemTransfer->setIdItemState($stateMachineItemStateEntity->id);
+        $stateMachineItemTransfer->setStateName($stateMachineItemStateEntity->name);
         $stateMachineItemTransfer->setStateMachineName(
-            $stateMachineItemStateEntity->getProcess()->getStateMachineName()
+            $stateMachineItemStateEntity->state_machine_process->state_machine
         );
 
         return $stateMachineItemTransfer;
@@ -147,12 +192,12 @@ class Persistence implements PersistenceInterface
      *
      * @return void
      */
-    public function saveItemStateHistory(StateMachineItemTransfer $stateMachineItemTransfer)
+    public function saveItemStateHistory(StateMachineItemTransfer $stateMachineItemTransfer): void
     {
-        $stateMachineItemStateHistory = new SpyStateMachineItemStateHistory();
-        $stateMachineItemStateHistory->setIdentifier($stateMachineItemTransfer->getIdentifier());
-        $stateMachineItemStateHistory->setFkStateMachineItemState($stateMachineItemTransfer->getIdItemState());
-        $stateMachineItemStateHistory->save();
+        $stateMachineItemStateHistory = $this->stateMachineItemStateHistoryTable->newEntity();
+        $stateMachineItemStateHistory->identifier = $stateMachineItemTransfer->getIdentifier();
+        $stateMachineItemStateHistory->state_machine_item_state_id = $stateMachineItemTransfer->getIdItemState();
+        $this->stateMachineItemStateHistoryTable->saveOrFail($stateMachineItemStateHistory);
     }
 
     /**
@@ -160,7 +205,7 @@ class Persistence implements PersistenceInterface
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[]
      */
-    public function updateStateMachineItemsFromPersistence(array $stateMachineItems)
+    public function updateStateMachineItemsFromPersistence(array $stateMachineItems): array
     {
         $updatedStateMachineItems = [];
         foreach ($stateMachineItems as $stateMachineItemTransfer) {
@@ -170,7 +215,7 @@ class Persistence implements PersistenceInterface
             $stateMachineItemStateEntity = $this->stateMachineQueryContainer
                 ->queryStateByIdState(
                     $stateMachineItemTransfer->getIdItemState()
-                )->findOne();
+                )->first();
 
             if ($stateMachineItemStateEntity === null) {
                 continue;
@@ -188,21 +233,21 @@ class Persistence implements PersistenceInterface
     }
 
     /**
-     * @param \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemState $stateMachineItemStateEntity
+     * @param \StateMachine\Model\Entity\StateMachineItemState $stateMachineItemStateEntity
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer
      */
-    protected function hydrateItemTransferFromEntity(SpyStateMachineItemState $stateMachineItemStateEntity)
+    protected function hydrateItemTransferFromEntity(StateMachineItemState $stateMachineItemStateEntity): StateMachineItemTransfer
     {
-        $stateMachineProcessEntity = $stateMachineItemStateEntity->getProcess();
+        $stateMachineProcessEntity = $stateMachineItemStateEntity->state_machine_process;
         $stateMachineItemTransfer = new StateMachineItemTransfer();
-        $stateMachineItemTransfer->setStateName($stateMachineItemStateEntity->getName());
-        $stateMachineItemTransfer->setIdItemState($stateMachineItemStateEntity->getIdStateMachineItemState());
+        $stateMachineItemTransfer->setStateName($stateMachineItemStateEntity->name);
+        $stateMachineItemTransfer->setIdItemState($stateMachineItemStateEntity->id);
         $stateMachineItemTransfer->setIdStateMachineProcess(
-            $stateMachineProcessEntity->getIdStateMachineProcess()
+            $stateMachineProcessEntity->id
         );
-        $stateMachineItemTransfer->setProcessName($stateMachineProcessEntity->getName());
-        $stateMachineItemTransfer->setStateMachineName($stateMachineProcessEntity->getStateMachineName());
+        $stateMachineItemTransfer->setProcessName($stateMachineProcessEntity->name);
+        $stateMachineItemTransfer->setStateMachineName($stateMachineProcessEntity->state_machine);
 
         return $stateMachineItemTransfer;
     }
@@ -212,7 +257,7 @@ class Persistence implements PersistenceInterface
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[]
      */
-    public function getProcessedStateMachineItems(array $stateMachineItems)
+    public function getProcessedStateMachineItems(array $stateMachineItems): array
     {
         $updatedStateMachineItems = [];
         foreach ($stateMachineItems as $stateMachineItemTransfer) {
@@ -236,28 +281,29 @@ class Persistence implements PersistenceInterface
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer
      */
-    public function getProcessedStateMachineItemTransfer(StateMachineItemTransfer $stateMachineItemTransfer)
+    public function getProcessedStateMachineItemTransfer(StateMachineItemTransfer $stateMachineItemTransfer): StateMachineItemTransfer
     {
         $stateMachineItemTransfer->requireIdentifier()
             ->requireIdItemState();
 
+        /** @var \StateMachine\Model\Entity\StateMachineItemState|null $stateMachineItemStateEntity */
         $stateMachineItemStateEntity = $this->stateMachineQueryContainer
             ->queryItemsWithExistingHistory($stateMachineItemTransfer)
-            ->findOne();
+            ->first();
 
         if ($stateMachineItemStateEntity === null) {
             throw new StateMachineException('State machine item not found.');
         }
 
-        $stateMachineProcessEntity = $stateMachineItemStateEntity->getProcess();
+        $stateMachineProcessEntity = $stateMachineItemStateEntity->state_machine_process;
 
         $updatedStateMachineItemTransfer = new StateMachineItemTransfer();
         $updatedStateMachineItemTransfer->setIdentifier($stateMachineItemTransfer->getIdentifier());
-        $updatedStateMachineItemTransfer->setStateName($stateMachineItemStateEntity->getName());
-        $updatedStateMachineItemTransfer->setIdItemState($stateMachineItemStateEntity->getIdStateMachineItemState());
-        $updatedStateMachineItemTransfer->setIdStateMachineProcess($stateMachineProcessEntity->getIdStateMachineProcess());
-        $updatedStateMachineItemTransfer->setProcessName($stateMachineProcessEntity->getName());
-        $updatedStateMachineItemTransfer->setStateMachineName($stateMachineProcessEntity->getStateMachineName());
+        $updatedStateMachineItemTransfer->setStateName($stateMachineItemStateEntity->name);
+        $updatedStateMachineItemTransfer->setIdItemState($stateMachineItemStateEntity->id);
+        $updatedStateMachineItemTransfer->setIdStateMachineProcess($stateMachineProcessEntity->id);
+        $updatedStateMachineItemTransfer->setProcessName($stateMachineProcessEntity->name);
+        $updatedStateMachineItemTransfer->setStateMachineName($stateMachineProcessEntity->state_machine);
 
         return $updatedStateMachineItemTransfer;
     }
@@ -270,24 +316,25 @@ class Persistence implements PersistenceInterface
      * @return int[]
      */
     public function getStateMachineItemIdsByStatesProcessAndStateMachineName(
-        $processName,
-        $stateMachineName,
+        string $processName,
+        string $stateMachineName,
         array $states
-    ) {
+    ): array {
         $stateMachineStateItems = $this->stateMachineQueryContainer
             ->queryItemsByIdStateMachineProcessAndItemStates(
                 $stateMachineName,
                 $processName,
                 $states
-            )->find();
+            )->all();
 
         if ($stateMachineStateItems->count() === 0) {
             return [];
         }
 
         $stateMachineItemStateIds = [];
+        /** @var \StateMachine\Model\Entity\StateMachineItemState $stateMachineItemEntity */
         foreach ($stateMachineStateItems as $stateMachineItemEntity) {
-            $stateMachineItemStateIds[] = $stateMachineItemEntity->getIdStateMachineItemState();
+            $stateMachineItemStateIds[] = $stateMachineItemEntity->id;
         }
 
         return $stateMachineItemStateIds;
@@ -298,28 +345,29 @@ class Persistence implements PersistenceInterface
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[] $expiredStateMachineItemsTransfer
      */
-    public function getItemsWithExpiredTimeouts($stateMachineName)
+    public function getItemsWithExpiredTimeouts($stateMachineName): array
     {
+        /** @var \StateMachine\Model\Entity\StateMachineTimeout[] $stateMachineExpiredItems */
         $stateMachineExpiredItems = $this->stateMachineQueryContainer
             ->queryItemsWithExpiredTimeout(
-                new DateTime('now'),
+                new FrozenTime('now'),
                 $stateMachineName
-            )->find();
+            )->all();
 
         $expiredStateMachineItemsTransfer = [];
         foreach ($stateMachineExpiredItems as $stateMachineEventTimeoutEntity) {
             $stateMachineItemTransfer = new StateMachineItemTransfer();
-            $stateMachineItemTransfer->setEventName($stateMachineEventTimeoutEntity->getEvent());
-            $stateMachineItemTransfer->setIdentifier($stateMachineEventTimeoutEntity->getIdentifier());
+            $stateMachineItemTransfer->setEventName($stateMachineEventTimeoutEntity->event);
+            $stateMachineItemTransfer->setIdentifier($stateMachineEventTimeoutEntity->identifier);
 
-            $stateMachineItemStateEntity = $stateMachineEventTimeoutEntity->getState();
-            $stateMachineItemTransfer->setIdItemState($stateMachineItemStateEntity->getIdStateMachineItemState());
-            $stateMachineItemTransfer->setStateName($stateMachineItemStateEntity->getName());
+            $stateMachineItemStateEntity = $stateMachineEventTimeoutEntity->state_machine_item_state;
+            $stateMachineItemTransfer->setIdItemState($stateMachineItemStateEntity->id);
+            $stateMachineItemTransfer->setStateName($stateMachineItemStateEntity->name);
 
-            $stateMachineProcessEntity = $stateMachineItemStateEntity->getProcess();
-            $stateMachineItemTransfer->setProcessName($stateMachineProcessEntity->getName());
-            $stateMachineItemTransfer->setIdStateMachineProcess($stateMachineProcessEntity->getIdStateMachineProcess());
-            $stateMachineItemTransfer->setStateMachineName($stateMachineProcessEntity->getStateMachineName());
+            $stateMachineProcessEntity = $stateMachineItemStateEntity->state_machine_process;
+            $stateMachineItemTransfer->setProcessName($stateMachineProcessEntity->name);
+            $stateMachineItemTransfer->setIdStateMachineProcess($stateMachineProcessEntity->id);
+            $stateMachineItemTransfer->setStateMachineName($stateMachineProcessEntity->state_machine);
 
             $expiredStateMachineItemsTransfer[] = $stateMachineItemTransfer;
         }
@@ -329,25 +377,24 @@ class Persistence implements PersistenceInterface
 
     /**
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
-     * @param \DateTime $timeoutDate
+     * @param \Cake\I18n\FrozenTime $timeoutDate
      * @param string $eventName
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineEventTimeout
+     * @return \StateMachine\Model\Entity\StateMachineTimeout
      */
     public function saveStateMachineItemTimeout(
         StateMachineItemTransfer $stateMachineItemTransfer,
-        DateTime $timeoutDate,
-        $eventName
-    ) {
+        FrozenTime $timeoutDate,
+        string $eventName
+    ): StateMachineTimeout {
+        $stateMachineItemTimeoutEntity = $this->stateMachineTimeoutsTable->newEntity();
+        $stateMachineItemTimeoutEntity->timeout = $timeoutDate;
+        $stateMachineItemTimeoutEntity->identifier = $stateMachineItemTransfer->getIdentifier();
+        $stateMachineItemTimeoutEntity->state_machine_item_state_id = $stateMachineItemTransfer->getIdItemState();
+        $stateMachineItemTimeoutEntity->state_machine_process_id = $stateMachineItemTransfer->getIdStateMachineProcess();
+        $stateMachineItemTimeoutEntity->event = $eventName;
 
-        $stateMachineItemTimeoutEntity = new SpyStateMachineEventTimeout();
-        $stateMachineItemTimeoutEntity
-            ->setTimeout($timeoutDate)
-            ->setIdentifier($stateMachineItemTransfer->getIdentifier())
-            ->setFkStateMachineItemState($stateMachineItemTransfer->getIdItemState())
-            ->setFkStateMachineProcess($stateMachineItemTransfer->getIdStateMachineProcess())
-            ->setEvent($eventName)
-            ->save();
+        $this->stateMachineTimeoutsTable->saveOrFail($stateMachineItemTimeoutEntity);
 
         return $stateMachineItemTimeoutEntity;
     }
@@ -357,7 +404,7 @@ class Persistence implements PersistenceInterface
      *
      * @return void
      */
-    public function dropTimeoutByItem(StateMachineItemTransfer $stateMachineItemTransfer)
+    public function dropTimeoutByItem(StateMachineItemTransfer $stateMachineItemTransfer): void
     {
         $this->stateMachineQueryContainer
             ->queryEventTimeoutByIdentifierAndFkProcess(
@@ -369,14 +416,15 @@ class Persistence implements PersistenceInterface
     /**
      * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineProcess
+     * @return \StateMachine\Model\Entity\StateMachineProcess
      */
-    protected function saveStateMachineProcess(StateMachineProcessTransfer $stateMachineProcessTransfer)
+    protected function saveStateMachineProcess(StateMachineProcessTransfer $stateMachineProcessTransfer): StateMachineProcess
     {
-        $stateMachineProcessEntity = new SpyStateMachineProcess();
-        $stateMachineProcessEntity->setName($stateMachineProcessTransfer->getProcessName());
-        $stateMachineProcessEntity->setStateMachineName($stateMachineProcessTransfer->getStateMachineName());
-        $stateMachineProcessEntity->save();
+        $stateMachineProcessEntity = $this->stateMachineProcessesTable->newEntity();
+        $stateMachineProcessEntity->name = $stateMachineProcessTransfer->getProcessName();
+        $stateMachineProcessEntity->state_machine = $stateMachineProcessTransfer->getStateMachineName();
+
+        $this->stateMachineProcessesTable->saveOrFail($stateMachineProcessEntity);
 
         return $stateMachineProcessEntity;
     }
@@ -385,39 +433,39 @@ class Persistence implements PersistenceInterface
      * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
      * @param string $stateName
      *
-     * @return \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemState
+     * @return \StateMachine\Model\Entity\StateMachineItemState
      */
-    protected function saveStateMachineItemEntity(StateMachineItemTransfer $stateMachineItemTransfer, $stateName)
+    protected function saveStateMachineItemEntity(StateMachineItemTransfer $stateMachineItemTransfer, string $stateName): StateMachineItemState
     {
-        $stateMachineItemStateEntity = new SpyStateMachineItemState();
-        $stateMachineItemStateEntity->setName($stateName);
-        $stateMachineItemStateEntity->setFkStateMachineProcess($stateMachineItemTransfer->getIdStateMachineProcess());
-        $stateMachineItemStateEntity->save();
+        $stateMachineItemStateEntity = $this->stateMachineItemStatesTable->newEntity();
+        $stateMachineItemStateEntity->name = $stateName;
+        $stateMachineItemStateEntity->state_machine_process_id = $stateMachineItemTransfer->getIdStateMachineProcess();
+
+        $this->stateMachineItemStatesTable->saveOrFail($stateMachineItemStateEntity);
 
         return $stateMachineItemStateEntity;
     }
 
     /**
-     * @param int $itemIdentifier
-     * @param \Orm\Zed\StateMachine\Persistence\SpyStateMachineItemStateHistory $stateMachineItemHistoryEntity
+     * @param string $itemIdentifier
+     * @param \StateMachine\Model\Entity\StateMachineItemStateHistory $stateMachineItemHistoryEntity
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer
      */
     protected function createItemTransferForStateHistory(
-        $itemIdentifier,
-        SpyStateMachineItemStateHistory $stateMachineItemHistoryEntity
-    ) {
-
-        $itemStateEntity = $stateMachineItemHistoryEntity->getState();
-        $processEntity = $itemStateEntity->getProcess();
+        string $itemIdentifier,
+        StateMachineItemStateHistory $stateMachineItemHistoryEntity
+    ): StateMachineItemTransfer {
+        $itemStateEntity = $stateMachineItemHistoryEntity->state_machine_item_state;
+        $processEntity = $itemStateEntity->state_machine_process;
 
         $stateMachineItemTransfer = new StateMachineItemTransfer();
         $stateMachineItemTransfer->setIdentifier($itemIdentifier);
-        $stateMachineItemTransfer->setStateName($itemStateEntity->getName());
-        $stateMachineItemTransfer->setIdItemState($itemStateEntity->getIdStateMachineItemState());
-        $stateMachineItemTransfer->setIdStateMachineProcess($processEntity->getIdStateMachineProcess());
-        $stateMachineItemTransfer->setStateMachineName($processEntity->getStateMachineName());
-        $stateMachineItemTransfer->setCreatedAt($stateMachineItemHistoryEntity->getCreatedAt());
+        $stateMachineItemTransfer->setStateName($itemStateEntity->name);
+        $stateMachineItemTransfer->setIdItemState($itemStateEntity->id);
+        $stateMachineItemTransfer->setIdStateMachineProcess($processEntity->id);
+        $stateMachineItemTransfer->setStateMachineName($processEntity->state_machine);
+        $stateMachineItemTransfer->setCreatedAt($stateMachineItemHistoryEntity->created);
 
         return $stateMachineItemTransfer;
     }

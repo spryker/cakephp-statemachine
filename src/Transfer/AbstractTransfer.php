@@ -12,9 +12,9 @@ use ArrayObject;
 use Exception;
 use InvalidArgumentException;
 use Serializable;
-use Spryker\Shared\Kernel\Transfer\Exception\ArrayAccessReadyOnlyException;
-use Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException;
-use Spryker\Shared\Kernel\Transfer\Exception\TransferUnserializationException;
+use StateMachine\Transfer\Exception\ArrayAccessReadyOnlyException;
+use StateMachine\Transfer\Exception\RequiredTransferPropertyException;
+use StateMachine\Transfer\Exception\TransferUnserializationException;
 
 abstract class AbstractTransfer implements Serializable, ArrayAccess
 {
@@ -196,7 +196,7 @@ abstract class AbstractTransfer implements Serializable, ArrayAccess
     /**
      * @param string $property
      *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     * @throws \StateMachine\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return void
      */
@@ -206,7 +206,7 @@ abstract class AbstractTransfer implements Serializable, ArrayAccess
             throw new RequiredTransferPropertyException(sprintf(
                 'Missing required property "%s" for transfer %s.',
                 $property,
-                get_class($this)
+                static::class
             ));
         }
     }
@@ -214,7 +214,7 @@ abstract class AbstractTransfer implements Serializable, ArrayAccess
     /**
      * @param string $property
      *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     * @throws \StateMachine\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return void
      */
@@ -226,7 +226,7 @@ abstract class AbstractTransfer implements Serializable, ArrayAccess
             throw new RequiredTransferPropertyException(sprintf(
                 'Empty required collection property "%s" for transfer %s.',
                 $property,
-                get_class($this)
+                static::class
             ));
         }
     }
@@ -272,7 +272,7 @@ abstract class AbstractTransfer implements Serializable, ArrayAccess
         }
 
         throw new InvalidArgumentException(
-            sprintf('Missing property "%s" in "%s"', $property, get_class($this))
+            sprintf('Missing property "%s" in "%s"', $property, static::class)
         );
     }
 
@@ -311,7 +311,7 @@ abstract class AbstractTransfer implements Serializable, ArrayAccess
     /**
      * @param string $serialized
      *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\TransferUnserializationException
+     * @throws \StateMachine\Transfer\Exception\TransferUnserializationException
      *
      * @return void
      */
@@ -324,7 +324,7 @@ abstract class AbstractTransfer implements Serializable, ArrayAccess
             throw new TransferUnserializationException(
                 sprintf(
                     'Failed to unserialize %s. Updating or clearing your data source may solve this problem: %s',
-                    get_class($this),
+                    static::class,
                     $exception->getMessage()
                 ),
                 $exception->getCode(),
@@ -375,7 +375,7 @@ abstract class AbstractTransfer implements Serializable, ArrayAccess
     /**
      * @param mixed $offset
      *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\ArrayAccessReadyOnlyException
+     * @throws \StateMachine\Transfer\Exception\ArrayAccessReadyOnlyException
      *
      * @return void
      */

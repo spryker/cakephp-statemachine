@@ -7,17 +7,18 @@
 
 namespace StateMachine\Business\StateMachine;
 
+use Cake\I18n\FrozenTime;
 use DateInterval;
-use DateTime;
 use StateMachine\Business\Exception\StateMachineException;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Business\Process\ProcessInterface;
+use StateMachine\Business\Process\StateInterface;
 use StateMachine\Transfer\StateMachineItemTransfer;
 
 class Timeout implements TimeoutInterface
 {
     /**
-     * @var \DateTime[]
+     * @var \Cake\I18n\FrozenTime[]
      */
     protected $eventToTimeoutBuffer = [];
 
@@ -32,11 +33,11 @@ class Timeout implements TimeoutInterface
     protected $stateMachinePersistence;
 
     /**
-     * @param \StateMachine\Business\StateMachine\PersistenceInterface $stateMachinePersitence
+     * @param \StateMachine\Business\StateMachine\PersistenceInterface $stateMachinePersistence
      */
-    public function __construct(PersistenceInterface $stateMachinePersitence)
+    public function __construct(PersistenceInterface $stateMachinePersistence)
     {
-        $this->stateMachinePersistence = $stateMachinePersitence;
+        $this->stateMachinePersistence = $stateMachinePersistence;
     }
 
     /**
@@ -45,7 +46,7 @@ class Timeout implements TimeoutInterface
      *
      * @return void
      */
-    public function setNewTimeout(ProcessInterface $process, StateMachineItemTransfer $stateMachineItemTransfer)
+    public function setNewTimeout(ProcessInterface $process, StateMachineItemTransfer $stateMachineItemTransfer): void
     {
         $targetState = $this->getStateFromProcess($stateMachineItemTransfer->getStateName(), $process);
         if (!$targetState->hasTimeoutEvent()) {
@@ -54,7 +55,7 @@ class Timeout implements TimeoutInterface
 
         $events = $targetState->getTimeoutEvents();
         $handledEvents = [];
-        $currentTime = new DateTime('now');
+        $currentTime = new FrozenTime('now');
         foreach ($events as $event) {
             if (in_array($event->getName(), $handledEvents)) {
                 continue;
@@ -80,7 +81,7 @@ class Timeout implements TimeoutInterface
         ProcessInterface $process,
         $stateName,
         StateMachineItemTransfer $stateMachineItemTransfer
-    ) {
+    ): void {
         $sourceState = $this->getStateFromProcess($stateName, $process);
 
         if ($sourceState->hasTimeoutEvent()) {
@@ -89,12 +90,12 @@ class Timeout implements TimeoutInterface
     }
 
     /**
-     * @param \DateTime $currentTime
+     * @param \Cake\I18n\FrozenTime $currentTime
      * @param \StateMachine\Business\Process\EventInterface $event
      *
-     * @return \DateTime
+     * @return \Cake\I18n\FrozenTime
      */
-    protected function calculateTimeoutDateFromEvent(DateTime $currentTime, EventInterface $event)
+    protected function calculateTimeoutDateFromEvent(FrozenTime $currentTime, EventInterface $event): FrozenTime
     {
         if (!isset($this->eventToTimeoutBuffer[$event->getName()])) {
             $timeout = $event->getTimeout();
@@ -114,7 +115,7 @@ class Timeout implements TimeoutInterface
      *
      * @return \StateMachine\Business\Process\StateInterface
      */
-    protected function getStateFromProcess($stateName, ProcessInterface $process)
+    protected function getStateFromProcess($stateName, ProcessInterface $process): StateInterface
     {
         if (!isset($this->stateIdToModelBuffer[$stateName])) {
             $this->stateIdToModelBuffer[$stateName] = $process->getStateFromAllProcesses($stateName);
@@ -131,7 +132,7 @@ class Timeout implements TimeoutInterface
      *
      * @return int
      */
-    protected function validateTimeout(DateInterval $interval, $timeout)
+    protected function validateTimeout(DateInterval $interval, string $timeout): int
     {
         $intervalProperties = get_object_vars($interval);
         $intervalSum = 0;

@@ -5,11 +5,11 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace StateMachine\Test\TestCase\Controller;
+namespace StateMachine\Test\TestCase\Controller\Admin;
 
 use Cake\TestSuite\IntegrationTestCase;
 
-class StateMachineProcessesControllerTest extends IntegrationTestCase
+class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
 {
     /**
      * Fixtures
@@ -17,6 +17,8 @@ class StateMachineProcessesControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
+        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineProcesses',
     ];
 
@@ -27,7 +29,11 @@ class StateMachineProcessesControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->disableErrorHandlerMiddleware();
+
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachineItemStateHistory', 'action' => 'index']);
+
+        $this->assertResponseCode(200);
     }
 
     /**

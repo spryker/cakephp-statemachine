@@ -7,29 +7,28 @@
 
 namespace StateMachine\Business;
 
-use Spryker\Zed\Kernel\Business\AbstractFacade;
+use StateMachine\FactoryTrait;
 use StateMachine\Transfer\StateMachineItemTransfer;
 use StateMachine\Transfer\StateMachineProcessTransfer;
 
-/**
- * @method \StateMachine\Business\StateMachineBusinessFactory getFactory()
- */
-class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInterface
+class StateMachineFacade implements StateMachineFacadeInterface
 {
+    use FactoryTrait;
+
     /**
      * {@inheritdoc}
      *
      * @api
      *
      * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
-     * @param int $identifier - this is id of foreign entity you want to track in state machine, it's stored in history table.
+     * @param string $identifier - this is id of foreign entity you want to track in state machine, it's stored in history table.
      *
      * @return int
      */
     public function triggerForNewStateMachineItem(
         StateMachineProcessTransfer $stateMachineProcessTransfer,
-        $identifier
-    ) {
+        string $identifier
+    ): int {
         return $this->getFactory()
             ->createLockedStateMachineTrigger()
             ->triggerForNewStateMachineItem($stateMachineProcessTransfer, $identifier);
@@ -45,7 +44,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return int
      */
-    public function triggerEvent($eventName, StateMachineItemTransfer $stateMachineItemTransfer)
+    public function triggerEvent(string $eventName, StateMachineItemTransfer $stateMachineItemTransfer): int
     {
         return $this->getFactory()
             ->createLockedStateMachineTrigger()
@@ -62,7 +61,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return int
      */
-    public function triggerEventForItems($eventName, array $stateMachineItems)
+    public function triggerEventForItems(string $eventName, array $stateMachineItems): int
     {
         return $this->getFactory()
             ->createLockedStateMachineTrigger()
@@ -78,7 +77,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return \StateMachine\Transfer\StateMachineProcessTransfer[]
      */
-    public function getProcesses($stateMachineName)
+    public function getProcesses(string $stateMachineName): array
     {
         return $this->getFactory()
             ->createStateMachineFinder()
@@ -94,7 +93,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return int
      */
-    public function checkConditions($stateMachineName)
+    public function checkConditions(string $stateMachineName): int
     {
         return $this->getFactory()
             ->createLockedStateMachineTrigger()
@@ -110,7 +109,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return bool
      */
-    public function stateMachineExists($stateMachineName)
+    public function stateMachineExists(string $stateMachineName): bool
     {
         return $this->getFactory()
             ->createStateMachineFinder()
@@ -126,7 +125,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return int
      */
-    public function checkTimeouts($stateMachineName)
+    public function checkTimeouts(string $stateMachineName): int
     {
         return $this->getFactory()
             ->createLockedStateMachineTrigger()
@@ -147,10 +146,10 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      */
     public function drawProcess(
         StateMachineProcessTransfer $stateMachineProcessTransfer,
-        $highlightState = null,
-        $format = null,
-        $fontSize = null
-    ) {
+        ?string $highlightState = null,
+        ?string $format = null,
+        ?int $fontSize = null
+    ): string {
         $process = $this->getFactory()
             ->createStateMachineBuilder()
             ->createProcess($stateMachineProcessTransfer);
@@ -170,7 +169,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return int
      */
-    public function getStateMachineProcessId(StateMachineProcessTransfer $stateMachineProcessTransfer)
+    public function getStateMachineProcessId(StateMachineProcessTransfer $stateMachineProcessTransfer): int
     {
         return $this->getFactory()
             ->createStateMachinePersistence()
@@ -186,7 +185,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return array
      */
-    public function getManualEventsForStateMachineItem(StateMachineItemTransfer $stateMachineItemTransfer)
+    public function getManualEventsForStateMachineItem(StateMachineItemTransfer $stateMachineItemTransfer): array
     {
         return $this->getFactory()
             ->createStateMachineFinder()
@@ -202,7 +201,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return array
      */
-    public function getManualEventsForStateMachineItems(array $stateMachineItems)
+    public function getManualEventsForStateMachineItems(array $stateMachineItems): array
     {
         return $this->getFactory()
             ->createStateMachineFinder()
@@ -218,7 +217,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer
      */
-    public function getProcessedStateMachineItemTransfer(StateMachineItemTransfer $stateMachineItemTransfer)
+    public function getProcessedStateMachineItemTransfer(StateMachineItemTransfer $stateMachineItemTransfer): StateMachineItemTransfer
     {
         return $this->getFactory()
             ->createStateMachinePersistence()
@@ -234,7 +233,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[]
      */
-    public function getProcessedStateMachineItems(array $stateMachineItems)
+    public function getProcessedStateMachineItems(array $stateMachineItems): array
     {
         return $this->getFactory()
             ->createStateMachinePersistence()
@@ -247,11 +246,11 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      * @api
      *
      * @param int $idStateMachineProcess
-     * @param int $identifier
+     * @param string $identifier
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[]
      */
-    public function getStateHistoryByStateItemIdentifier($idStateMachineProcess, $identifier)
+    public function getStateHistoryByStateItemIdentifier(int $idStateMachineProcess, string $identifier): array
     {
         return $this->getFactory()
             ->createStateMachinePersistence()
@@ -268,7 +267,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[]
      */
-    public function getItemsWithFlag(StateMachineProcessTransfer $stateMachineProcessTransfer, $flagName)
+    public function getItemsWithFlag(StateMachineProcessTransfer $stateMachineProcessTransfer, string $flagName): array
     {
         return $this->getFactory()
             ->createStateMachineFinder()
@@ -285,7 +284,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return \StateMachine\Transfer\StateMachineItemTransfer[]
      */
-    public function getItemsWithoutFlag(StateMachineProcessTransfer $stateMachineProcessTransfer, $flagName)
+    public function getItemsWithoutFlag(StateMachineProcessTransfer $stateMachineProcessTransfer, string $flagName): array
     {
         return $this->getFactory()
             ->createStateMachineFinder()
@@ -299,7 +298,7 @@ class StateMachineFacade extends AbstractFacade implements StateMachineFacadeInt
      *
      * @return void
      */
-    public function clearLocks()
+    public function clearLocks(): void
     {
         $this->getFactory()->createItemLock()->clearLocks();
     }

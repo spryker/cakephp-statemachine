@@ -155,7 +155,7 @@ class StateMachineItemTransfer extends AbstractTransfer
     /**
      * @module StateMachine
      *
-     * @param int $identifier
+     * @param string $identifier
      *
      * @return $this
      */
@@ -170,7 +170,7 @@ class StateMachineItemTransfer extends AbstractTransfer
     /**
      * @module StateMachine
      *
-     * @return int
+     * @return string
      */
     public function getIdentifier()
     {
@@ -192,7 +192,7 @@ class StateMachineItemTransfer extends AbstractTransfer
     /**
      * @module StateMachine
      *
-     * @param string $idStateMachineProcess
+     * @param int $idStateMachineProcess
      *
      * @return $this
      */
@@ -207,7 +207,7 @@ class StateMachineItemTransfer extends AbstractTransfer
     /**
      * @module StateMachine
      *
-     * @return string
+     * @return int
      */
     public function getIdStateMachineProcess()
     {
@@ -229,7 +229,7 @@ class StateMachineItemTransfer extends AbstractTransfer
     /**
      * @module StateMachine
      *
-     * @param string $idItemState
+     * @param int $idItemState
      *
      * @return $this
      */
@@ -244,7 +244,7 @@ class StateMachineItemTransfer extends AbstractTransfer
     /**
      * @module StateMachine
      *
-     * @return string
+     * @return int
      */
     public function getIdItemState()
     {

@@ -13,14 +13,14 @@ interface TriggerInterface
 {
     /**
      * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
-     * @param int $identifier
+     * @param string $identifier
      *
      * @return int
      */
     public function triggerForNewStateMachineItem(
         StateMachineProcessTransfer $stateMachineProcessTransfer,
-        $identifier
-    );
+        string $identifier
+    ): int;
 
     /**
      * @param string $eventName
@@ -28,19 +28,19 @@ interface TriggerInterface
      *
      * @return int
      */
-    public function triggerEvent($eventName, array $items);
+    public function triggerEvent(string $eventName, array $items): int;
 
     /**
      * @param string $stateMachineName
      *
      * @return int
      */
-    public function triggerConditionsWithoutEvent($stateMachineName);
+    public function triggerConditionsWithoutEvent(string $stateMachineName): int;
 
     /**
      * @param string $stateMachineName
      *
      * @return int
      */
-    public function triggerForTimeoutExpiredItems($stateMachineName);
+    public function triggerForTimeoutExpiredItems(string $stateMachineName): int;
 }

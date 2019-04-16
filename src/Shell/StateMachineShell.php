@@ -7,86 +7,91 @@
 
 namespace StateMachine\Shell;
 
+use Cake\Console\ConsoleOptionParser;
 use Cake\Console\Shell;
+use StateMachine\FacadeAwareTrait;
 
-/**
- * @author Mark Scherer
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- *
- * @property \StateMachine\Model\Table\StateMachinesTable $StateMachines
- */
 class StateMachineShell extends Shell
 {
-    /**
-     * @var string
-     */
-    public $modelClass = 'StateMachine.StateMachines';
+    use FacadeAwareTrait;
 
     /**
-     * @param string|null $name
+     * @param string $stateMachine
+     *
      * @return void
      */
-    public function init($name = null)
+    public function checkTimeouts(string $stateMachine): void
     {
-        if (!$name) {
-            $name = $this->in('Name', null, $name);
+        $this->validateStateMachineName($stateMachine);
+
+        $this->getFacade()->checkTimeouts($stateMachine);
+    }
+
+    /**
+     * @param string $stateMachine
+     *
+     * @return void
+     */
+    public function checkConditions(string $stateMachine): void
+    {
+        $this->validateStateMachineName($stateMachine);
+
+        $this->getFacade()->checkConditions($stateMachine);
+    }
+
+    /**
+     * @return void
+     */
+    public function clearLocks(): void
+    {
+        $this->getFacade()->clearLocks();
+    }
+
+    /**
+     * @param string $stateMachineName
+     *
+     * @return void
+     */
+    protected function validateStateMachineName(string $stateMachineName): void
+    {
+        if (!$this->getFacade()->stateMachineExists($stateMachineName)) {
+            $this->abort(sprintf('State machine "%s" was not found.', $stateMachineName));
         }
-
-        $file = '....xml'
-        $this->out('Generated: ' . $file);
-    }
-
-    /**
-     * @return void
-     */
-    public function checkTimeouts()
-    {
-    }
-
-    /**
-     * @return void
-     */
-    public function checkConditions()
-    {
-    }
-
-    /**
-     * @return void
-     */
-    public function clearLogs()
-    {
-    }
-
-    /**
-     * @return void
-     */
-    public function reset()
-    {
-        if (!$this->param('quiet')) {
-            $in = $this->in('Sure?', ['Y', 'n'], 'n');
-            if ($in !== 'Y') {
-                $this->abort('Aborted!');
-            }
-        }
-
-        //$this->StateMachines->truncate();
-        $this->info('Reset done');
     }
 
     /**
      * @return \Cake\Console\ConsoleOptionParser
      */
-    public function getOptionParser()
+    public function getOptionParser(): ConsoleOptionParser
     {
         $parser = parent::getOptionParser();
+
         $parser->addSubcommand('checkConditions', [
-            'help' => 'Check if any conditions match',
+            'help' => 'Check if any conditions match.',
+            'parser' => [
+                'arguments' => [
+                    'stateMachine' => [
+                        'help' => 'State machine name',
+                        'required' => true,
+                    ],
+                ],
+            ],
         ]);
+
         $parser->addSubcommand('checkTimeouts', [
-            'help' => 'Check if any timeouts match',
+            'help' => 'Check if any timeouts match.',
+            'parser' => [
+                'arguments' => [
+                    'stateMachine' => [
+                        'help' => 'State machine name',
+                        'required' => true,
+                    ],
+                ],
+            ],
         ]);
-        $parser->addSubcommand('reset', [
-            'help' => 'Resets the database, truncates all data. Use -q to skip confirmation.',
+
+        $parser->addSubcommand('clearLocks', [
+            'help' => 'Clear expired locks from lock table.',
         ]);
 
         return $parser;

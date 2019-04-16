@@ -58,7 +58,7 @@ class StateMachineTimeoutsController extends AppController
     {
         $stateMachineTimeout = $this->StateMachineTimeouts->newEntity();
         if ($this->request->is('post')) {
-            $stateMachineTimeout = $this->StateMachineTimeouts->patchEntity($stateMachineTimeout, $this->request->data);
+            $stateMachineTimeout = $this->StateMachineTimeouts->patchEntity($stateMachineTimeout, $this->request->getData());
             if ($this->StateMachineTimeouts->save($stateMachineTimeout)) {
                 $this->Flash->success(__('The state machine timeout has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -86,7 +86,7 @@ class StateMachineTimeoutsController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $stateMachineTimeout = $this->StateMachineTimeouts->patchEntity($stateMachineTimeout, $this->request->data);
+            $stateMachineTimeout = $this->StateMachineTimeouts->patchEntity($stateMachineTimeout, $this->request->getData());
             if ($this->StateMachineTimeouts->save($stateMachineTimeout)) {
                 $this->Flash->success(__('The state machine timeout has been saved.'));
                 return $this->redirect(['action' => 'index']);

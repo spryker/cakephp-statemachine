@@ -58,7 +58,7 @@ class StateMachineTransitionLogsController extends AppController
     {
         $stateMachineTransitionLog = $this->StateMachineTransitionLogs->newEntity();
         if ($this->request->is('post')) {
-            $stateMachineTransitionLog = $this->StateMachineTransitionLogs->patchEntity($stateMachineTransitionLog, $this->request->data);
+            $stateMachineTransitionLog = $this->StateMachineTransitionLogs->patchEntity($stateMachineTransitionLog, $this->request->getData());
             if ($this->StateMachineTransitionLogs->save($stateMachineTransitionLog)) {
                 $this->Flash->success(__('The state machine transition log has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -85,7 +85,7 @@ class StateMachineTransitionLogsController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $stateMachineTransitionLog = $this->StateMachineTransitionLogs->patchEntity($stateMachineTransitionLog, $this->request->data);
+            $stateMachineTransitionLog = $this->StateMachineTransitionLogs->patchEntity($stateMachineTransitionLog, $this->request->getData());
             if ($this->StateMachineTransitionLogs->save($stateMachineTransitionLog)) {
                 $this->Flash->success(__('The state machine transition log has been saved.'));
                 return $this->redirect(['action' => 'index']);

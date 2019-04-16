@@ -69,19 +69,19 @@ class StateMachineTimeoutsTable extends Table
 
         $validator
             ->scalar('identifier')
-            ->maxLength('identifier')
-            ->requirePresence('identifier')
+            //->maxLength('identifier')
+            ->requirePresence('identifier', 'create')
             ->notEmpty('identifier');
 
         $validator
             ->scalar('event')
-            ->maxLength('event')
-            ->requirePresence('event')
+            //->maxLength('event')
+            ->requirePresence('event', 'create')
             ->notEmpty('event');
 
         $validator
             ->dateTime('timeout')
-            ->requirePresence('timeout')
+            ->requirePresence('timeout', 'create')
             ->notEmpty('timeout');
 
         return $validator;
@@ -97,8 +97,8 @@ class StateMachineTimeoutsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['state_machine_item_state_id'], 'StateMachineItemStates'));
-        $rules->add($rules->existsIn(['state_machine_process_id'], 'StateMachineProcesses'));
+        //$rules->add($rules->existsIn(['state_machine_item_state_id'], 'StateMachineItemStates'));
+        //$rules->add($rules->existsIn(['state_machine_process_id'], 'StateMachineProcesses'));
         return $rules;
     }
 }

@@ -8,6 +8,8 @@
 namespace StateMachine;
 
 use Cake\Core\Configure;
+use Cake\ORM\Locator\LocatorInterface;
+use Cake\ORM\TableRegistry;
 use StateMachine\Business\Lock\ItemLock;
 use StateMachine\Business\Logger\PathFinder;
 use StateMachine\Business\Logger\TransitionLog;
@@ -27,6 +29,13 @@ use StateMachine\Business\StateMachine\Trigger;
 use StateMachine\Graph\Drawer;
 use StateMachine\Graph\Graph;
 use StateMachine\Model\QueryContainer;
+use StateMachine\Model\QueryContainerInterface;
+use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
+use StateMachine\Model\Table\StateMachineItemStatesTable;
+use StateMachine\Model\Table\StateMachineLocksTable;
+use StateMachine\Model\Table\StateMachineProcessesTable;
+use StateMachine\Model\Table\StateMachineTimeoutsTable;
+use StateMachine\Model\Table\StateMachineTransitionLogsTable;
 
 class PluginFactory
 {
@@ -63,7 +72,8 @@ class PluginFactory
     {
         return new ItemLock(
             $this->getQueryContainer(),
-            $this->getConfig()
+            $this->getConfig(),
+            $this->createStateMachineLocksTable()
         );
     }
 
@@ -136,8 +146,7 @@ class PluginFactory
     public function createLoggerTransitionLog()
     {
         return new TransitionLog(
-            $this->createPathFinder(),
-            $this->getUtilNetworkService()
+            $this->createStateMachineTransitionLogsTable()
         );
     }
 
@@ -146,7 +155,13 @@ class PluginFactory
      */
     public function createStateMachinePersistence()
     {
-        return new Persistence($this->getQueryContainer());
+        return new Persistence(
+            $this->getQueryContainer(),
+            $this->createStateMachineItemStateHistoryTable(),
+            $this->createStateMachineProcessesTable(),
+            $this->createStateMachineItemStatesTable(),
+            $this->createStateMachineTimeoutsTable()
+        );
     }
 
     /**
@@ -232,10 +247,66 @@ class PluginFactory
     }
 
     /**
-     * @return \StateMachine\Model\QueryContainer
+     * @return \StateMachine\Model\QueryContainerInterface
      */
-    public function getQueryContainer()
+    public function getQueryContainer(): QueryContainerInterface
     {
         return new QueryContainer();
+    }
+
+    /**
+     * @return \Cake\ORM\Locator\LocatorInterface
+     */
+    public function getTableLocator(): LocatorInterface
+    {
+        return TableRegistry::getTableLocator();
+    }
+
+    /**
+     * @return \StateMachine\Model\Table\StateMachineItemStateHistoryTable
+     */
+    public function createStateMachineItemStateHistoryTable(): StateMachineItemStateHistoryTable
+    {
+        return $this->getTableLocator()->get('StateMachine.StateMachineItemStateHistory');
+    }
+
+    /**
+     * @return \StateMachine\Model\Table\StateMachineItemStatesTable
+     */
+    public function createStateMachineItemStatesTable(): StateMachineItemStatesTable
+    {
+        return $this->getTableLocator()->get('StateMachine.StateMachineItemStates');
+    }
+
+    /**
+     * @return \StateMachine\Model\Table\StateMachineLocksTable
+     */
+    public function createStateMachineLocksTable(): StateMachineLocksTable
+    {
+        return $this->getTableLocator()->get('StateMachine.StateMachineLocks');
+    }
+
+    /**
+     * @return \StateMachine\Model\Table\StateMachineProcessesTable
+     */
+    public function createStateMachineProcessesTable(): StateMachineProcessesTable
+    {
+        return $this->getTableLocator()->get('StateMachine.StateMachineProcesses');
+    }
+
+    /**
+     * @return \StateMachine\Model\Table\StateMachineTimeoutsTable
+     */
+    public function createStateMachineTimeoutsTable(): StateMachineTimeoutsTable
+    {
+        return $this->getTableLocator()->get('StateMachine.StateMachineTimeouts');
+    }
+
+    /**
+     * @return \StateMachine\Model\Table\StateMachineTransitionLogsTable
+     */
+    public function createStateMachineTransitionLogsTable(): StateMachineTransitionLogsTable
+    {
+        return $this->getTableLocator()->get('StateMachine.StateMachineTransitionLogs');
     }
 }
