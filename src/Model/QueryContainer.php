@@ -64,7 +64,7 @@ class QueryContainer implements QueryContainerInterface
 
         return $stateMachineTimeoutsTable
             ->find()
-            ->contain($this->getFactory()->createStateMachineItemStatesTable()->getAlias(), function(Query $query) use ($stateMachineProcessesTable) {
+            ->contain($this->getFactory()->createStateMachineItemStatesTable()->getAlias(), function (Query $query) use ($stateMachineProcessesTable) {
                 return $query->contain($stateMachineProcessesTable->getAlias());
             })
             ->where([

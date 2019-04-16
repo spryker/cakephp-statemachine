@@ -85,7 +85,7 @@ class ItemLockTest extends TestCase
      */
     protected function createItemLock(): ItemLockInterface
     {
-        return new ItemLock($this->createStateMachineQueryContainer(), $this->createStateMachineConfigMock(), $this->StateMachineLocks);
+        return new ItemLock($this->createStateMachineQueryContainer(), $this->createStateMachineConfig(), $this->StateMachineLocks);
     }
 
     /**
@@ -94,6 +94,16 @@ class ItemLockTest extends TestCase
     protected function createIdentifier(): string
     {
         return sha1(1);
+    }
+
+    /**
+     * @return \StateMachine\StateMachineConfig
+     */
+    protected function createStateMachineConfig()
+    {
+        $stateMachineConfig = new StateMachineConfig();
+
+        return $stateMachineConfig;
     }
 
     /**

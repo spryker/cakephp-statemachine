@@ -118,7 +118,7 @@ class ConditionTest extends TestCase
             $this->createTransitionLogMock()
         );
 
-        $this->assertEquals($targetState->getName(), $processedTargetState->getName());
+        $this->assertSame($targetState->getName(), $processedTargetState->getName());
     }
 
     /**
@@ -142,7 +142,7 @@ class ConditionTest extends TestCase
             $this->createTransitionLogMock()
         );
 
-        $this->assertEquals($sourceState->getName(), $processedTargetState->getName());
+        $this->assertSame($sourceState->getName(), $processedTargetState->getName());
     }
 
     /**

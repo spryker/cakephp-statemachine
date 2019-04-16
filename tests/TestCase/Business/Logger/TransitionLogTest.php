@@ -100,11 +100,11 @@ class TransitionLogTest extends TestCase
 
         $stateMachineTransitionLogEntity = $this->StateMachineTransitionLogs->find()->last();
 
-        $this->assertEquals(get_class($commandMock), $stateMachineTransitionLogEntity->command);
-        $this->assertEquals(get_class($conditionMock), $stateMachineTransitionLogEntity->condition);
-        $this->assertEquals(static::SOURCE_STATE, $stateMachineTransitionLogEntity->source_state);
-        $this->assertEquals(static::TARGET_STATE, $stateMachineTransitionLogEntity->target_state);
-        $this->assertEquals($event->getName(), $stateMachineTransitionLogEntity->event);
+        $this->assertSame(get_class($commandMock), $stateMachineTransitionLogEntity->command);
+        $this->assertSame(get_class($conditionMock), $stateMachineTransitionLogEntity->condition);
+        $this->assertSame(static::SOURCE_STATE, $stateMachineTransitionLogEntity->source_state);
+        $this->assertSame(static::TARGET_STATE, $stateMachineTransitionLogEntity->target_state);
+        $this->assertSame($event->getName(), $stateMachineTransitionLogEntity->event);
     }
 
     /**
@@ -121,8 +121,8 @@ class TransitionLogTest extends TestCase
         $transitionLog->save($stateMachineItemTransfer);
         $stateMachineTransitionLogEntity = $this->StateMachineTransitionLogs->find()->last();
         $storedParams = json_decode($stateMachineTransitionLogEntity->params);
-        $this->assertEquals($this->createQueryString(static::QUERY_DATA[0]), $storedParams[0]);
-        $this->assertEquals($this->createQueryString(static::QUERY_DATA[1]), $storedParams[1]);
+        $this->assertSame($this->createQueryString(static::QUERY_DATA[0]), $storedParams[0]);
+        $this->assertSame($this->createQueryString(static::QUERY_DATA[1]), $storedParams[1]);
     }
 
     /**

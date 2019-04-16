@@ -31,7 +31,7 @@ class StateMachineConfig
      */
     public function getStateMachineItemLockExpirationInterval()
     {
-        return '1 minutes';
+        return '1 minute';
     }
 
     /**

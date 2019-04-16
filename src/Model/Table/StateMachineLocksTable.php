@@ -59,7 +59,7 @@ class StateMachineLocksTable extends Table
 
         $validator
             ->scalar('identifier')
-            ->maxLength('identifier', 50)
+            //->maxLength('identifier', 50)
             ->requirePresence('identifier', 'create')
             ->allowEmptyString('identifier', false);
 

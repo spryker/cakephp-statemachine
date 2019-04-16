@@ -97,7 +97,7 @@ class Drawer implements DrawerInterface
     protected $fontSizeSmall = null;
 
     /**
-     * @var \Spryker\Shared\Graph\GraphInterface
+     * @var \StateMachine\Graph\GraphInterface
      */
     protected $graph;
 
@@ -107,7 +107,7 @@ class Drawer implements DrawerInterface
     protected $stateMachineHandler;
 
     /**
-     * @param \Spryker\Shared\Graph\GraphInterface $graph
+     * @param \StateMachine\Graph\GraphInterface $graph
      * @param \StateMachine\Dependency\StateMachineHandlerInterface $stateMachineHandler
      */
     public function __construct(GraphInterface $graph, StateMachineHandlerInterface $stateMachineHandler)
@@ -169,9 +169,9 @@ class Drawer implements DrawerInterface
      */
     protected function getDiamondId()
     {
-        $utilTextService = new UtilTextService();
+        $stringGenerator = new StringGenerator();
 
-        return $utilTextService->generateRandomString(32);
+        return $stringGenerator->generateRandomString(32);
     }
 
     /**

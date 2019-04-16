@@ -55,7 +55,7 @@ class StateMachineProcessesController extends AppController
     {
         $stateMachineProcess = $this->StateMachineProcesses->newEntity();
         if ($this->request->is('post')) {
-            $stateMachineProcess = $this->StateMachineProcesses->patchEntity($stateMachineProcess, $this->request->data);
+            $stateMachineProcess = $this->StateMachineProcesses->patchEntity($stateMachineProcess, $this->request->getData());
             if ($this->StateMachineProcesses->save($stateMachineProcess)) {
                 $this->Flash->success(__('The state machine process has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -81,7 +81,7 @@ class StateMachineProcessesController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $stateMachineProcess = $this->StateMachineProcesses->patchEntity($stateMachineProcess, $this->request->data);
+            $stateMachineProcess = $this->StateMachineProcesses->patchEntity($stateMachineProcess, $this->request->getData());
             if ($this->StateMachineProcesses->save($stateMachineProcess)) {
                 $this->Flash->success(__('The state machine process has been saved.'));
                 return $this->redirect(['action' => 'index']);

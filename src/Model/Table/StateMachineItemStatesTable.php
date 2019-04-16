@@ -73,13 +73,13 @@ class StateMachineItemStatesTable extends Table
 
         $validator
             ->scalar('name')
-            ->maxLength('name')
-            ->requirePresence('name')
+            //->maxLength('name')
+            ->requirePresence('name', 'create')
             ->notEmpty('name');
 
         $validator
             ->scalar('description')
-            ->maxLength('description')
+            //->maxLength('description')
             ->allowEmpty('description');
 
         return $validator;

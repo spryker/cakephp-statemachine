@@ -196,7 +196,7 @@ abstract class AbstractTransfer implements Serializable, ArrayAccess
     /**
      * @param string $property
      *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     * @throws \StateMachine\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return void
      */
@@ -214,7 +214,7 @@ abstract class AbstractTransfer implements Serializable, ArrayAccess
     /**
      * @param string $property
      *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\RequiredTransferPropertyException
+     * @throws \StateMachine\Transfer\Exception\RequiredTransferPropertyException
      *
      * @return void
      */
@@ -311,7 +311,7 @@ abstract class AbstractTransfer implements Serializable, ArrayAccess
     /**
      * @param string $serialized
      *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\TransferUnserializationException
+     * @throws \StateMachine\Transfer\Exception\TransferUnserializationException
      *
      * @return void
      */
@@ -375,7 +375,7 @@ abstract class AbstractTransfer implements Serializable, ArrayAccess
     /**
      * @param mixed $offset
      *
-     * @throws \Spryker\Shared\Kernel\Transfer\Exception\ArrayAccessReadyOnlyException
+     * @throws \StateMachine\Transfer\Exception\ArrayAccessReadyOnlyException
      *
      * @return void
      */

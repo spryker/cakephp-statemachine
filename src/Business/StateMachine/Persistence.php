@@ -160,9 +160,7 @@ class Persistence implements PersistenceInterface
         } else {
             $stateMachineItemTransfer->requireIdStateMachineProcess();
 
-            /**
-             * @var \StateMachine\Model\Entity\StateMachineItemState $stateMachineItemStateEntity
-             */
+            /** @var \StateMachine\Model\Entity\StateMachineItemState $stateMachineItemStateEntity */
             $stateMachineItemStateEntity = $this->stateMachineQueryContainer
                 ->queryItemStateByIdProcessAndStateName(
                     $stateMachineItemTransfer->getIdStateMachineProcess(),
@@ -171,6 +169,7 @@ class Persistence implements PersistenceInterface
 
             if ($stateMachineItemStateEntity === null) {
                 $this->saveStateMachineItemEntity($stateMachineItemTransfer, $stateName);
+                /** @var \StateMachine\Model\Entity\StateMachineItemState $stateMachineItemStateEntity */
                 $stateMachineItemStateEntity = $this->stateMachineQueryContainer
                     ->queryItemStateByIdProcessAndStateName(
                         $stateMachineItemTransfer->getIdStateMachineProcess(),

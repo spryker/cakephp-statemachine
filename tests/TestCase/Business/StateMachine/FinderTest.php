@@ -88,8 +88,8 @@ class FinderTest extends TestCase
 
         $subProcess = array_pop($subProcesses);
         $this->assertInstanceOf(StateMachineProcessTransfer::class, $subProcess);
-        $this->assertEquals(StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME, $subProcess->getStateMachineName());
-        $this->assertEquals(StateMachineProcessesFixture::PROCESS_NAME_2, $subProcess->getProcessName());
+        $this->assertSame(StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME, $subProcess->getStateMachineName());
+        $this->assertSame(StateMachineProcessesFixture::PROCESS_NAME_2, $subProcess->getProcessName());
     }
 
     /**

@@ -21,6 +21,7 @@
         "dereuromark/cakephp-dto":"@stable",
 		"phpunit/phpunit": "^5.0.0|^6.0.0",
 		"spryker/code-sniffer": "*",
+        "slevomat/coding-standard": "^4.0",
 		"phpstan/phpstan-shim": "^0.11"
 	},
 	"autoload": {
@@ -39,7 +40,7 @@
 	"scripts": {
 		"test": "phpunit",
 		"test-coverage" : "phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
-		"phpstan": "vendor/bin/phpstan.phar analyse -c tests/phpstan.neon -l 1 src/",
+		"phpstan": "vendor/bin/phpstan.phar analyse -c tests/phpstan.neon -l 3 src/",
 		"cs-check": "vendor/bin/phpcs --colors --standard=config/ruleset.xml -s -p -v --ignore=/config/Migrations/ src/ tests/ config/",
 		"cs-fix": "vendor/bin/phpcbf --colors --standard=config/ruleset.xml -v --ignore=/config/Migrations/ src/ tests/ config/"
 	}
