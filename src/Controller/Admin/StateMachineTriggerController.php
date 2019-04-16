@@ -8,8 +8,8 @@
 namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
-use StateMachine\Exception\InvalidIdException;
 use StateMachine\FacadeAwareTrait;
 use StateMachine\Transfer\StateMachineItemTransfer;
 use StateMachine\Transfer\StateMachineProcessTransfer;
@@ -69,16 +69,16 @@ class StateMachineTriggerController extends AppController
     }
 
     /**
-     * @param mixed $id
+     * @param string|int|null $id
      *
-     * @throws \StateMachine\Exception\InvalidIdException
+     * @throws \Cake\Http\Exception\NotFoundException
      *
      * @return int
      */
     protected function castId($id): int
     {
         if (!is_numeric($id) || $id === 0) {
-            throw new InvalidIdException('The given id is not numeric or 0 (zero)');
+            throw new NotFoundException('The given id is not numeric or 0 (zero)');
         }
 
         return (int)$id;

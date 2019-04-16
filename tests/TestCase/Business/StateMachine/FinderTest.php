@@ -93,8 +93,6 @@ class FinderTest extends TestCase
     }
 
     /**
-     * @uses ProcessInterface::getManuallyExecutableEventsBySource()
-     *
      * @return void
      */
     public function testGetManualEventsForStateMachineItemsShouldReturnManualEventsForGivenItems(): void

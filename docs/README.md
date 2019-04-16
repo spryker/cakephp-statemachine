@@ -31,6 +31,12 @@ Let's hook them up to the PHP counterpart then.
 
 ...
 
+### Admin backend
+
+If you want to use the admin CRUD backend, make sure to load the required helpers in your AppView:
+```php
+$this->loadHelper('Tools.Format');
+```
 
 ## Contributing
 

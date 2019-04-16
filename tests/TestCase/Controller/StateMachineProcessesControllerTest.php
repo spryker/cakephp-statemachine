@@ -27,7 +27,11 @@ class StateMachineProcessesControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->disableErrorHandlerMiddleware();
+
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachineProcesses', 'action' => 'index']);
+
+        $this->assertResponseCode(200);
     }
 
     /**

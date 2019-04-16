@@ -18,6 +18,7 @@ class StateMachineTransitionLogsControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'plugin.StateMachine.StateMachineTransitionLogs',
+        'plugin.StateMachine.StateMachineProcesses',
     ];
 
     /**
@@ -27,7 +28,11 @@ class StateMachineTransitionLogsControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->disableErrorHandlerMiddleware();
+
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachineTransitionLogs', 'action' => 'index']);
+
+        $this->assertResponseCode(200);
     }
 
     /**

@@ -226,14 +226,14 @@ class Builder implements BuilderInterface
      *
      * @return \SimpleXMLElement
      */
-    protected function loadXmlFromFileName($pathToXml, $fileName)
+    protected function loadXmlFromFileName(string $pathToXml, string $fileName)
     {
         $pathToXml = $pathToXml . $fileName . '.xml';
 
         if (!file_exists($pathToXml)) {
             throw new StateMachineException(
                 sprintf(
-                    'State machine xml file not found in "%s".',
+                    'State machine XML file not found in "%s".',
                     $pathToXml
                 )
             );
@@ -250,7 +250,7 @@ class Builder implements BuilderInterface
      *
      * @return \SimpleXMLElement
      */
-    protected function loadXmlFromProcessName($pathToXml, $processName)
+    protected function loadXmlFromProcessName(string $pathToXml, string $processName)
     {
         return $this->loadXmlFromFileName($pathToXml, $processName);
     }
@@ -260,7 +260,7 @@ class Builder implements BuilderInterface
      *
      * @return \SimpleXMLElement
      */
-    protected function loadXml($xml)
+    protected function loadXml(string $xml)
     {
         return new SimpleXMLElement($xml);
     }
@@ -610,7 +610,7 @@ class Builder implements BuilderInterface
      *
      * @return string
      */
-    protected function buildPathToXml(StateMachineProcessTransfer $stateMachineProcessTransfer)
+    protected function buildPathToXml(StateMachineProcessTransfer $stateMachineProcessTransfer): string
     {
         $stateMachineProcessTransfer->requireStateMachineName();
 

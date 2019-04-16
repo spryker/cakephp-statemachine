@@ -93,7 +93,7 @@ class ItemLock implements ItemLockInterface
     /**
      * @return void
      */
-    public function clearLocks()
+    public function clearLocks(): void
     {
         $this->queryContainer
             ->queryLockedItemsByExpirationDate(new FrozenTime('now'))

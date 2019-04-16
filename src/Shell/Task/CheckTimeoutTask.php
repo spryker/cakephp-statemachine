@@ -15,9 +15,6 @@ class CheckTimeoutTask extends Shell
 {
     use FacadeAwareTrait;
 
-    protected const ERR_NO_STATE_MACHINE_NAME = 'No state machine name was provided.';
-    protected const ERR_STATE_MACHINE_NOT_FOUND = 'State machine "%s" was not found.';
-
     /**
      * @param string $stateMachineName
      *
@@ -38,7 +35,7 @@ class CheckTimeoutTask extends Shell
     protected function validateStateMachineName(string $stateMachineName): void
     {
         if (!$this->getFacade()->stateMachineExists($stateMachineName)) {
-            $this->abort(sprintf(static::ERR_STATE_MACHINE_NOT_FOUND, $stateMachineName));
+            $this->abort(sprintf('State machine "%s" was not found.', $stateMachineName));
         }
     }
 

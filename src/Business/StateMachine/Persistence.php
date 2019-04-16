@@ -118,6 +118,7 @@ class Persistence implements PersistenceInterface
             return $this->processEntityBuffer[$stateMachineProcessTransfer->getProcessName()]->id;
         }
 
+        /** @var \StateMachine\Model\Entity\StateMachineProcess|null $stateMachineProcessEntity */
         $stateMachineProcessEntity = $this->stateMachineQueryContainer
             ->queryProcessByProcessName(
                 $stateMachineProcessTransfer->getProcessName()

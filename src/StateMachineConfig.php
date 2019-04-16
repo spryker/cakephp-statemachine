@@ -16,7 +16,7 @@ class StateMachineConfig
     /**
      * @return array
      */
-    public function getGraphDefaults()
+    public function getGraphDefaults(): array
     {
         return [
             'fontname' => 'Verdana',
@@ -29,7 +29,7 @@ class StateMachineConfig
     /**
      * @return string
      */
-    public function getStateMachineItemLockExpirationInterval()
+    public function getStateMachineItemLockExpirationInterval(): string
     {
         return '1 minute';
     }
@@ -37,7 +37,7 @@ class StateMachineConfig
     /**
      * @return string
      */
-    public function getPathToStateMachineXmlFiles()
+    public function getPathToStateMachineXmlFiles(): string
     {
         return Configure::read('StateMachine.pathToXml', ROOT . DS . 'config' . DS . 'StateMachines' . DS);
     }
@@ -45,7 +45,7 @@ class StateMachineConfig
     /**
      * @return string
      */
-    public function getGraphDefaultFormat()
+    public function getGraphDefaultFormat(): string
     {
         return 'svg';
     }
@@ -53,7 +53,7 @@ class StateMachineConfig
     /**
      * @return int
      */
-    public function getGraphDefaultFontSize()
+    public function getGraphDefaultFontSize(): int
     {
         return 14;
     }
@@ -61,7 +61,7 @@ class StateMachineConfig
     /**
      * @return string[]
      */
-    public function getGraphFormatContentTypes()
+    public function getGraphFormatContentTypes(): array
     {
         return [
             'jpg' => 'image/jpeg',
@@ -72,7 +72,7 @@ class StateMachineConfig
     /**
      * @return string
      */
-    public function getSubProcessPrefixDelimiter()
+    public function getSubProcessPrefixDelimiter(): string
     {
         return ' - ';
     }

@@ -18,6 +18,8 @@ class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStates',
+        'plugin.StateMachine.StateMachineProcesses',
     ];
 
     /**
@@ -27,7 +29,11 @@ class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->disableErrorHandlerMiddleware();
+
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachineItemStateHistory', 'action' => 'index']);
+
+        $this->assertResponseCode(200);
     }
 
     /**

@@ -5,10 +5,13 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace StateMachine\Exception;
+namespace StateMachine;
 
-use Exception;
+use Cake\Core\BasePlugin;
 
-class InvalidIdException extends Exception
+/**
+ * Plugin for StateMachine
+ */
+class Plugin extends BasePlugin
 {
 }

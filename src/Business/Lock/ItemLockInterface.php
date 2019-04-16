@@ -26,5 +26,5 @@ interface ItemLockInterface
     /**
      * @return void
      */
-    public function clearLocks();
+    public function clearLocks(): void;
 }

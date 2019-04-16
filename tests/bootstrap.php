@@ -2,7 +2,6 @@
 
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
-use Cake\Routing\DispatcherFactory;
 
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
@@ -14,6 +13,7 @@ define('APP_DIR', 'src');
 // Point app constants to the test app.
 define('TEST_ROOT', ROOT . DS . 'tests' . DS . 'test_app' . DS);
 define('APP', TEST_ROOT . APP_DIR . DS);
+define('TESTS', ROOT . DS . 'tests' . DS);
 define('TEST_FILES', ROOT . DS . 'tests' . DS . 'test_files' . DS);
 
 define('TMP', ROOT . DS . 'tmp' . DS);
@@ -62,8 +62,11 @@ $cache = [
 
 Cache::setConfig($cache);
 
-DispatcherFactory::add('Routing');
-DispatcherFactory::add('ControllerFactory');
+Cake\Routing\DispatcherFactory::add('Routing');
+Cake\Routing\DispatcherFactory::add('ControllerFactory');
+
+Cake\Core\Plugin::getCollection()->add(new \StateMachine\Plugin());
+Cake\Core\Plugin::getCollection()->add(new \Tools\Plugin());
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {
