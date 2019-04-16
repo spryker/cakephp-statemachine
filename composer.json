@@ -1,47 +1,47 @@
 {
-	"name": "spryker/cakephp-statemachine",
-	"description": "CakePHP StateMachine Plugin by",
-	"type": "cakephp-plugin",
-	"license": "proprietary",
-	"authors": [
-		{
-			"name": "Spryker Systems GmbH",
+    "name": "spryker/cakephp-statemachine",
+    "description": "CakePHP StateMachine Plugin by",
+    "type": "cakephp-plugin",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Spryker Systems GmbH",
             "homepage": "https://spryker.com"
-		}
-	],
-	"require": {
-		"php": ">=7.1",
-		"cakephp/cakephp": "^3.7",
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "cakephp/cakephp": "^3.7",
         "dereuromark/cakephp-dto": "@stable",
-		"dereuromark/cakephp-tools": "@stable",
-		"cakephp/migrations": "^2.0",
-		"phpdocumentor/graphviz": "*"
-	},
-	"require-dev": {
+        "dereuromark/cakephp-tools": "@stable",
+        "cakephp/migrations": "^2.0",
+        "phpdocumentor/graphviz": "*"
+    },
+    "require-dev": {
         "dereuromark/cakephp-dto":"@stable",
-		"phpunit/phpunit": "^5.0.0|^6.0.0",
-		"spryker/code-sniffer": "*",
+        "phpunit/phpunit": "^5.0.0|^6.0.0",
+        "spryker/code-sniffer": "*",
         "slevomat/coding-standard": "^4.0",
-		"phpstan/phpstan-shim": "^0.11"
-	},
-	"autoload": {
-		"psr-4": {
-			"StateMachine\\": "src/",
-			"StateMachine\\Test\\Fixture\\": "tests/Fixture/"
-		}
-	},
-	"autoload-dev": {
-		"psr-4": {
-			"StateMachine\\Test\\": "tests/",
-			"Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
-			"App\\": "tests/test_app/src/"
-		}
-	},
-	"scripts": {
-		"test": "phpunit",
-		"test-coverage" : "phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
-		"phpstan": "vendor/bin/phpstan.phar analyse -c tests/phpstan.neon -l 5 src/",
-		"cs-check": "vendor/bin/phpcs --colors --standard=config/ruleset.xml -s -p -v --ignore=/config/Migrations/ src/ tests/ config/",
-		"cs-fix": "vendor/bin/phpcbf --colors --standard=config/ruleset.xml -v --ignore=/config/Migrations/ src/ tests/ config/"
-	}
+        "phpstan/phpstan-shim": "^0.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "StateMachine\\": "src/",
+            "StateMachine\\Test\\Fixture\\": "tests/Fixture/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "StateMachine\\Test\\": "tests/",
+            "Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
+            "App\\": "tests/test_app/src/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test-coverage" : "phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
+        "phpstan": "vendor/bin/phpstan.phar analyse -c tests/phpstan.neon -l 5 src/",
+        "cs-check": "vendor/bin/phpcs --colors --standard=config/ruleset.xml -s -p -v --ignore=/config/Migrations/ src/ tests/ config/",
+        "cs-fix": "vendor/bin/phpcbf --colors --standard=config/ruleset.xml -v --ignore=/config/Migrations/ src/ tests/ config/"
+    }
 }

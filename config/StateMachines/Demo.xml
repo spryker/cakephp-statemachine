@@ -1,33 +1,33 @@
 <?xml version="1.0"?>
 <statemachine xmlns="../state-machine-01.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema">
 
-	<process name="StateMachine">
-		<states>
-			<state name="new" display="name display value"/>
-			<state name="payment pending"/>
-			<state name="paid"/>
-		</states>
+    <process name="StateMachine">
+        <states>
+            <state name="new" display="name display value"/>
+            <state name="payment pending"/>
+            <state name="paid"/>
+        </states>
 
-		<transitions>
-			<transition>
-				<source>new</source>
-				<target>payment pending</target>
-				<event>authorize</event>
-			</transition>
+        <transitions>
+            <transition>
+                <source>new</source>
+                <target>payment pending</target>
+                <event>authorize</event>
+            </transition>
 
-			<transition>
-				<source>payment pending</source>
-				<target>paid</target>
-				<event>pay</event>
-			</transition>
+            <transition>
+                <source>payment pending</source>
+                <target>paid</target>
+                <event>pay</event>
+            </transition>
 
-		</transitions>
+        </transitions>
 
-		<events>
-			<event name="authorize" onEnter="true"/>
-			<event name="pay" manual="true"/>
-		</events>
+        <events>
+            <event name="authorize" onEnter="true"/>
+            <event name="pay" manual="true"/>
+        </events>
 
-	</process>
+    </process>
 
 </statemachine>
