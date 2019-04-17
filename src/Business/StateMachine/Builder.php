@@ -13,8 +13,8 @@ use StateMachine\Business\Process\EventInterface;
 use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Business\Process\StateInterface;
 use StateMachine\Business\Process\TransitionInterface;
+use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\StateMachineConfig;
-use StateMachine\Transfer\StateMachineProcessTransfer;
 
 class Builder implements BuilderInterface
 {
@@ -90,11 +90,11 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      *
      * @return \StateMachine\Business\Process\ProcessInterface
      */
-    public function createProcess(StateMachineProcessTransfer $stateMachineProcessTransfer)
+    public function createProcess(ProcessDto $stateMachineProcessTransfer)
     {
         $processIdentifier = $this->createProcessIdentifier($stateMachineProcessTransfer);
         if (isset(self::$processBuffer[$processIdentifier])) {
@@ -102,7 +102,7 @@ class Builder implements BuilderInterface
         }
 
         $pathToXml = $this->buildPathToXml($stateMachineProcessTransfer);
-        $this->rootElement = $this->loadXmlFromProcessName($pathToXml, $stateMachineProcessTransfer->getProcessName());
+        $this->rootElement = $this->loadXmlFromProcessName($pathToXml, $stateMachineProcessTransfer->getProcessNameOrFail());
 
         $this->mergeSubProcessFiles($pathToXml);
 
@@ -222,6 +222,7 @@ class Builder implements BuilderInterface
      * @param string $pathToXml
      * @param string $fileName
      *
+     * @throws \RuntimeException
      * @throws \StateMachine\Business\Exception\StateMachineException
      *
      * @return \SimpleXMLElement
@@ -240,6 +241,9 @@ class Builder implements BuilderInterface
         }
 
         $xmlContents = file_get_contents($pathToXml);
+        if ($xmlContents === false) {
+            throw new RuntimeException('Loading of file failed: ' . $pathToXml);
+        }
 
         return $this->loadXml($xmlContents);
     }
@@ -447,6 +451,7 @@ class Builder implements BuilderInterface
      */
     protected function createTransitions(array $stateToProcessMap, array $processMap, array $eventMap)
     {
+        /** @var \SimpleXMLElement $xmlProcess */
         foreach ($this->rootElement as $xmlProcess) {
             if (empty($xmlProcess->transitions)) {
                 continue;
@@ -593,28 +598,23 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      *
      * @return string
      */
-    protected function createProcessIdentifier(StateMachineProcessTransfer $stateMachineProcessTransfer)
+    protected function createProcessIdentifier(ProcessDto $stateMachineProcessTransfer)
     {
-        $stateMachineProcessTransfer->requireStateMachineName()
-            ->requireProcessName();
-
-        return $stateMachineProcessTransfer->getStateMachineName() . '-' . $stateMachineProcessTransfer->getProcessName();
+        return $stateMachineProcessTransfer->getStateMachineNameOrFail() . '-' . $stateMachineProcessTransfer->getProcessNameOrFail();
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      *
      * @return string
      */
-    protected function buildPathToXml(StateMachineProcessTransfer $stateMachineProcessTransfer): string
+    protected function buildPathToXml(ProcessDto $stateMachineProcessTransfer): string
     {
-        $stateMachineProcessTransfer->requireStateMachineName();
-
-        return $this->stateMachineConfig->getPathToStateMachineXmlFiles() . $stateMachineProcessTransfer->getStateMachineName() . DS;
+        return $this->stateMachineConfig->getPathToStateMachineXmlFiles() . $stateMachineProcessTransfer->getStateMachineNameOrFail() . DS;
     }
 
     /**

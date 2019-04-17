@@ -9,13 +9,13 @@ namespace StateMachine\Business\StateMachine;
 
 use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\StateInterface;
-use StateMachine\Transfer\StateMachineItemTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 interface ConditionInterface
 {
     /**
      * @param \StateMachine\Business\Process\TransitionInterface[] $transitions
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      * @param \StateMachine\Business\Process\StateInterface $sourceState
      * @param \StateMachine\Business\Logger\TransitionLogInterface $transactionLogger
      *
@@ -25,7 +25,7 @@ interface ConditionInterface
      */
     public function getTargetStatesFromTransitions(
         array $transitions,
-        StateMachineItemTransfer $stateMachineItemTransfer,
+        ItemDto $stateMachineItemTransfer,
         StateInterface $sourceState,
         TransitionLogInterface $transactionLogger
     );
@@ -34,7 +34,7 @@ interface ConditionInterface
      * @param string $stateMachineName
      * @param string $processName
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[][] $itemsWithOnEnterEvent
+     * @return \StateMachine\Dto\StateMachine\ItemDto[][] $itemsWithOnEnterEvent
      */
     public function getOnEnterEventsForStatesWithoutTransition($stateMachineName, $processName);
 }

@@ -10,9 +10,9 @@ namespace StateMachine\Business\Logger;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Dependency\CommandPluginInterface;
 use StateMachine\Dependency\ConditionPluginInterface;
+use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Model\Entity\StateMachineTransitionLog;
 use StateMachine\Model\Table\StateMachineTransitionLogsTable;
-use StateMachine\Transfer\StateMachineItemTransfer;
 
 class TransitionLog implements TransitionLogInterface
 {
@@ -53,7 +53,7 @@ class TransitionLog implements TransitionLogInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return void
      */
@@ -67,47 +67,47 @@ class TransitionLog implements TransitionLogInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      * @param \StateMachine\Dependency\CommandPluginInterface $command
      *
      * @return void
      */
-    public function addCommand(StateMachineItemTransfer $stateMachineItemTransfer, CommandPluginInterface $command)
+    public function addCommand(ItemDto $stateMachineItemTransfer, CommandPluginInterface $command)
     {
-        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->command = get_class($command);
+        $this->logEntities[$stateMachineItemTransfer->getIdentifierOrFail()]->command = get_class($command);
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      * @param \StateMachine\Dependency\ConditionPluginInterface $condition
      *
      * @return void
      */
-    public function addCondition(StateMachineItemTransfer $stateMachineItemTransfer, ConditionPluginInterface $condition)
+    public function addCondition(ItemDto $stateMachineItemTransfer, ConditionPluginInterface $condition)
     {
-        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->condition = get_class($condition);
+        $this->logEntities[$stateMachineItemTransfer->getIdentifierOrFail()]->condition = get_class($condition);
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      * @param string $stateName
      *
      * @return void
      */
-    public function addSourceState(StateMachineItemTransfer $stateMachineItemTransfer, $stateName)
+    public function addSourceState(ItemDto $stateMachineItemTransfer, $stateName)
     {
-        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->source_state = $stateName;
+        $this->logEntities[$stateMachineItemTransfer->getIdentifierOrFail()]->source_state = $stateName;
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      * @param string $stateName
      *
      * @return void
      */
-    public function addTargetState(StateMachineItemTransfer $stateMachineItemTransfer, $stateName)
+    public function addTargetState(ItemDto $stateMachineItemTransfer, $stateName)
     {
-        $this->logEntities[$stateMachineItemTransfer->getIdentifier()]->target_state = $stateName;
+        $this->logEntities[$stateMachineItemTransfer->getIdentifierOrFail()]->target_state = $stateName;
     }
 
     /**
@@ -135,32 +135,38 @@ class TransitionLog implements TransitionLogInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     *
+     * @throws \RuntimeException
      *
      * @return \StateMachine\Model\Entity\StateMachineTransitionLog
      */
-    protected function initEntity(StateMachineItemTransfer $stateMachineItemTransfer)
+    protected function initEntity(ItemDto $stateMachineItemTransfer)
     {
         $stateMachineTransitionLogEntity = $this->createStateMachineTransitionLogEntity();
-        $stateMachineTransitionLogEntity->identifier = $stateMachineItemTransfer->getIdentifier();
-        $stateMachineTransitionLogEntity->state_machine_process_id = $stateMachineItemTransfer->getIdStateMachineProcess();
+        $stateMachineTransitionLogEntity->identifier = $stateMachineItemTransfer->getIdentifierOrFail();
+        $stateMachineTransitionLogEntity->state_machine_process_id = $stateMachineItemTransfer->getIdStateMachineProcessOrFail();
 
         $params = [];
         if (!empty($_SERVER[static::QUERY_STRING])) {
             $params = $this->getParamsFromQueryString($_SERVER[static::QUERY_STRING]);
         }
 
-        $stateMachineTransitionLogEntity->params = json_encode($params);
+        $encodedString = json_encode($params);
+        if ($encodedString === false) {
+            throw new RuntimeException('JSON encoding failed: ' . print_r($params, true));
+        }
+        $stateMachineTransitionLogEntity->params = $encodedString;
 
         return $stateMachineTransitionLogEntity;
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return void
      */
-    public function save(StateMachineItemTransfer $stateMachineItemTransfer)
+    public function save(ItemDto $stateMachineItemTransfer)
     {
         //var_dump($this->logEntities[$stateMachineItemTransfer->getIdentifier()]);die;
         $this->stateMachineTransitionLogsTable->save($this->logEntities[$stateMachineItemTransfer->getIdentifier()]);

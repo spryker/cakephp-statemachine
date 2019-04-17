@@ -10,7 +10,7 @@ namespace App\StateMachine;
 use StateMachine\Dependency\CommandPluginInterface;
 use StateMachine\Dependency\ConditionPluginInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
-use StateMachine\Transfer\StateMachineItemTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 /**
  * Mocked version
@@ -18,12 +18,12 @@ use StateMachine\Transfer\StateMachineItemTransfer;
 class TestStateMachineHandler implements StateMachineHandlerInterface
 {
     /**
-     * @var \StateMachine\Transfer\StateMachineItemTransfer
+     * @var \StateMachine\Dto\StateMachine\ItemDto
      */
     protected static $itemStateUpdated;
 
     /**
-     * @var \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @var \StateMachine\Dto\StateMachine\ItemDto[]
      */
     protected static $stateMachineItemsByStateIds = [];
 
@@ -76,11 +76,11 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return bool
      */
-    public function itemStateUpdated(StateMachineItemTransfer $stateMachineItemTransfer): bool
+    public function itemStateUpdated(ItemDto $stateMachineItemTransfer): bool
     {
         static::$itemStateUpdated = $stateMachineItemTransfer;
 
@@ -88,15 +88,15 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     }
 
     /**
-     * @param array $stateIds
+     * @param int[] $stateIds
      *
-     * @return array
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getStateMachineItemsByStateIds(array $stateIds = []): array
     {
         $result = [];
         foreach (static::$stateMachineItemsByStateIds as $stateMachineItemTransfer) {
-            if (in_array($stateMachineItemTransfer->getIdItemState(), $stateIds)) {
+            if (in_array($stateMachineItemTransfer->getIdItemStateOrFail(), $stateIds)) {
                 $result[] = $stateMachineItemTransfer;
             }
         }
@@ -105,15 +105,15 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     }
 
     /**
-     * @return \StateMachine\Transfer\StateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto
      */
-    public function getItemStateUpdated(): StateMachineItemTransfer
+    public function getItemStateUpdated(): ItemDto
     {
         return static::$itemStateUpdated;
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItemsByStateIds
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItemsByStateIds
      *
      * @return void
      */
@@ -130,11 +130,11 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
         return new class implements CommandPluginInterface
         {
             /**
-             * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+             * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
              *
              * @return bool
              */
-            public function run(StateMachineItemTransfer $stateMachineItemTransfer): bool
+            public function run(ItemDto $stateMachineItemTransfer): bool
             {
                 return true;
             }
@@ -149,11 +149,11 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
         return new class implements ConditionPluginInterface
         {
             /**
-             * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+             * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
              *
              * @return bool
              */
-            public function check(StateMachineItemTransfer $stateMachineItemTransfer): bool
+            public function check(ItemDto $stateMachineItemTransfer): bool
             {
                 return true;
             }

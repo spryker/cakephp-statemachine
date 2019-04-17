@@ -21,13 +21,13 @@ use StateMachine\Business\StateMachine\Persistence;
 use StateMachine\Business\StateMachine\PersistenceInterface;
 use StateMachine\Business\StateMachine\Timeout;
 use StateMachine\Business\StateMachine\TimeoutInterface;
+use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Model\QueryContainer;
 use StateMachine\Model\QueryContainerInterface;
 use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
-use StateMachine\Transfer\StateMachineItemTransfer;
 
 class TimeoutTest extends TestCase
 {
@@ -106,7 +106,7 @@ class TimeoutTest extends TestCase
         $timeout = $this->createTimeout();
         $timeout->setNewTimeout(
             $this->createProcess(),
-            $this->createStateMachineItemTransfer()
+            $this->createItemDto()
         );
 
         $timeout = $this->StateMachineTimeouts->find()->where(['identifier' => static::IDENTIFIER])->first();
@@ -123,7 +123,7 @@ class TimeoutTest extends TestCase
         $timeout->dropOldTimeout(
             $this->createProcess(),
             static::STATE_WITH_TIMEOUT,
-            $this->createStateMachineItemTransfer()
+            $this->createItemDto()
         );
 
         $timeout = $this->StateMachineTimeouts->find()->where(['identifier' => static::IDENTIFIER])->first();
@@ -178,11 +178,11 @@ class TimeoutTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Transfer\StateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto
      */
-    protected function createStateMachineItemTransfer(): StateMachineItemTransfer
+    protected function createItemDto(): ItemDto
     {
-        $stateMachineItemTransfer = new StateMachineItemTransfer();
+        $stateMachineItemTransfer = new ItemDto();
         $stateMachineItemTransfer
             ->setStateName(static::STATE_WITH_TIMEOUT)
             ->setIdentifier(static::IDENTIFIER)

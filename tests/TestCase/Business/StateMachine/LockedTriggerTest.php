@@ -12,8 +12,8 @@ use StateMachine\Business\Exception\LockException;
 use StateMachine\Business\Lock\ItemLockInterface;
 use StateMachine\Business\StateMachine\LockedTrigger;
 use StateMachine\Business\StateMachine\TriggerInterface;
+use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\Test\Fixture\StateMachineProcessesFixture;
-use StateMachine\Transfer\StateMachineProcessTransfer;
 
 class LockedTriggerTest extends TestCase
 {
@@ -33,7 +33,7 @@ class LockedTriggerTest extends TestCase
 
         $lockedTrigger = $this->createLockedTrigger($triggerMock, $itemLockMock);
         $lockedTrigger->triggerForNewStateMachineItem(
-            $this->createStateMachineProcessTransfer(
+            $this->createProcessDto(
                 StateMachineProcessesFixture::PROCESS_NAME_1,
                 StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME
             ),
@@ -97,11 +97,11 @@ class LockedTriggerTest extends TestCase
      * @param string $processName
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Transfer\StateMachineProcessTransfer
+     * @return \StateMachine\Dto\StateMachine\ProcessDto
      */
-    protected function createStateMachineProcessTransfer(string $processName, string $stateMachineName): StateMachineProcessTransfer
+    protected function createProcessDto(string $processName, string $stateMachineName): ProcessDto
     {
-        $stateMachineProcessTransfer = new StateMachineProcessTransfer();
+        $stateMachineProcessTransfer = new ProcessDto();
         $stateMachineProcessTransfer->setProcessName($processName);
         $stateMachineProcessTransfer->setStateMachineName($stateMachineName);
 

@@ -7,18 +7,18 @@
 
 namespace StateMachine\Business\StateMachine;
 
-use StateMachine\Transfer\StateMachineProcessTransfer;
+use StateMachine\Dto\StateMachine\ProcessDto;
 
 interface TriggerInterface
 {
     /**
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string $identifier
      *
      * @return int
      */
     public function triggerForNewStateMachineItem(
-        StateMachineProcessTransfer $stateMachineProcessTransfer,
+        ProcessDto $stateMachineProcessTransfer,
         string $identifier
     ): int;
 

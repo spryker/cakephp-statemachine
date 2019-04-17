@@ -7,8 +7,8 @@
 
 namespace StateMachine\Business\StateMachine;
 
-use StateMachine\Transfer\StateMachineItemTransfer;
-use StateMachine\Transfer\StateMachineProcessTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
+use StateMachine\Dto\StateMachine\ProcessDto;
 
 interface FinderInterface
 {
@@ -22,46 +22,46 @@ interface FinderInterface
     /**
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Transfer\StateMachineProcessTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ProcessDto[]
      */
     public function getProcesses($stateMachineName);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return string[][]
      */
     public function getManualEventsForStateMachineItems(array $stateMachineItems);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return array
      */
-    public function getManualEventsForStateMachineItem(StateMachineItemTransfer $stateMachineItemTransfer);
+    public function getManualEventsForStateMachineItem(ItemDto $stateMachineItemTransfer);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string $flag
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItemTransfer
      */
-    public function getItemsWithFlag(StateMachineProcessTransfer $stateMachineProcessTransfer, $flag);
+    public function getItemsWithFlag(ProcessDto $stateMachineProcessTransfer, $flag);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string $flag
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItemTransfer
      */
-    public function getItemsWithoutFlag(StateMachineProcessTransfer $stateMachineProcessTransfer, $flag);
+    public function getItemsWithoutFlag(ProcessDto $stateMachineProcessTransfer, $flag);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      * @param \StateMachine\Business\Process\ProcessInterface[] $processes
      * @param array $sourceStates
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[][]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[][]
      */
     public function filterItemsWithOnEnterEvent(
         array $stateMachineItems,
@@ -78,7 +78,7 @@ interface FinderInterface
     public function findProcessByStateMachineAndProcessName($stateMachineName, $processName);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return \StateMachine\Business\Process\ProcessInterface[]
      */

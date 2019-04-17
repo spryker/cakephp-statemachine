@@ -7,7 +7,7 @@
 
 namespace StateMachine\Dependency;
 
-use StateMachine\Transfer\StateMachineItemTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 interface StateMachineHandlerInterface
 {
@@ -75,24 +75,24 @@ interface StateMachineHandlerInterface
 
     /**
      * This method is called when state of item was changed, client can create custom logic for example update it's related table with new stateId and processId.
-     * StateMachineItemTransfer:identifier is id of entity from client.
+     * ItemDto:identifier is id of entity from client.
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return bool
      */
-    public function itemStateUpdated(StateMachineItemTransfer $stateMachineItemTransfer): bool;
+    public function itemStateUpdated(ItemDto $stateMachineItemTransfer): bool;
 
     /**
-     * This method should return all list of StateMachineItemTransfer, with (identifier, IdStateMachineProcess, IdItemState)
+     * This method should return all list of ItemDto, with (identifier, IdStateMachineProcess, IdItemState)
      *
      * @api
      *
      * @param int[] $stateIds
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getStateMachineItemsByStateIds(array $stateIds = []): array;
 }

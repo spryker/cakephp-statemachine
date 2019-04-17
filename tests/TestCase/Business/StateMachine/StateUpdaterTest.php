@@ -17,13 +17,13 @@ use StateMachine\Business\StateMachine\StateUpdater;
 use StateMachine\Business\StateMachine\StateUpdaterInterface;
 use StateMachine\Business\StateMachine\TimeoutInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
+use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Model\QueryContainer;
 use StateMachine\Model\QueryContainerInterface;
 use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
-use StateMachine\Transfer\StateMachineItemTransfer;
 
 class StateUpdaterTest extends TestCase
 {
@@ -122,7 +122,7 @@ class StateUpdaterTest extends TestCase
         $handlerMock = $this->createStateMachineHandlerMock();
         $handlerMock->expects($this->once())
             ->method('itemStateUpdated')
-            ->with($this->isInstanceOf(StateMachineItemTransfer::class));
+            ->with($this->isInstanceOf(ItemDto::class));
 
         $stateMachineHandlerResolverMock->method('get')->willReturn($handlerMock);
 
@@ -180,20 +180,20 @@ class StateUpdaterTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     protected function createStateMachineItemsSame()
     {
         $items = [];
 
-        $stateMachineItemTransfer = new StateMachineItemTransfer();
+        $stateMachineItemTransfer = new ItemDto();
         $stateMachineItemTransfer->setProcessName('Test');
         $stateMachineItemTransfer->setIdentifier('1');
         $stateMachineItemTransfer->setStateName('source');
         $stateMachineItemTransfer->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
         $items[] = $stateMachineItemTransfer;
 
-        $stateMachineItemTransfer = new StateMachineItemTransfer();
+        $stateMachineItemTransfer = new ItemDto();
         $stateMachineItemTransfer->setProcessName('Test');
         $stateMachineItemTransfer->setIdentifier('2');
         $stateMachineItemTransfer->setStateName('source');
@@ -204,13 +204,13 @@ class StateUpdaterTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     protected function createStateMachineItems()
     {
         $items = [];
 
-        $stateMachineItemTransfer = new StateMachineItemTransfer();
+        $stateMachineItemTransfer = new ItemDto();
         $stateMachineItemTransfer->setProcessName('Test');
         $stateMachineItemTransfer->setIdentifier('1');
         $stateMachineItemTransfer->setStateName('source');
@@ -218,7 +218,7 @@ class StateUpdaterTest extends TestCase
         $stateMachineItemTransfer->setIdItemState(1);
         $items[] = $stateMachineItemTransfer;
 
-        $stateMachineItemTransfer = new StateMachineItemTransfer();
+        $stateMachineItemTransfer = new ItemDto();
         $stateMachineItemTransfer->setProcessName('Test');
         $stateMachineItemTransfer->setIdentifier('2');
         $stateMachineItemTransfer->setStateName('target');

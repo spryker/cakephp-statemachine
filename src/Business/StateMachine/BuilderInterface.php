@@ -7,14 +7,14 @@
 
 namespace StateMachine\Business\StateMachine;
 
-use StateMachine\Transfer\StateMachineProcessTransfer;
+use StateMachine\Dto\StateMachine\ProcessDto;
 
 interface BuilderInterface
 {
     /**
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      *
      * @return \StateMachine\Business\Process\ProcessInterface
      */
-    public function createProcess(StateMachineProcessTransfer $stateMachineProcessTransfer);
+    public function createProcess(ProcessDto $stateMachineProcessTransfer);
 }

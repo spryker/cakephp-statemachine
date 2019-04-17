@@ -8,39 +8,39 @@
 namespace StateMachine\Business\StateMachine;
 
 use Cake\I18n\FrozenTime;
+use StateMachine\Dto\StateMachine\ItemDto;
+use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\Model\Entity\StateMachineTimeout;
-use StateMachine\Transfer\StateMachineItemTransfer;
-use StateMachine\Transfer\StateMachineProcessTransfer;
 
 interface PersistenceInterface
 {
     /**
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      *
      * @return int
      */
-    public function getProcessId(StateMachineProcessTransfer $stateMachineProcessTransfer): int;
+    public function getProcessId(ProcessDto $stateMachineProcessTransfer): int;
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      * @param string $stateName
      *
      * @return int
      */
-    public function getInitialStateIdByStateName(StateMachineItemTransfer $stateMachineItemTransfer, string $stateName): int;
+    public function getInitialStateIdByStateName(ItemDto $stateMachineItemTransfer, string $stateName): int;
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      * @param string $stateName
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto
      */
-    public function saveStateMachineItem(StateMachineItemTransfer $stateMachineItemTransfer, string $stateName): StateMachineItemTransfer;
+    public function saveStateMachineItem(ItemDto $stateMachineItemTransfer, string $stateName): ItemDto;
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function updateStateMachineItemsFromPersistence(array $stateMachineItems): array;
 
@@ -48,21 +48,21 @@ interface PersistenceInterface
      * @param string $itemIdentifier
      * @param int $idStateMachineProcess
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getStateHistoryByStateItemIdentifier(string $itemIdentifier, int $idStateMachineProcess): array;
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto
      */
-    public function getProcessedStateMachineItemTransfer(StateMachineItemTransfer $stateMachineItemTransfer): StateMachineItemTransfer;
+    public function getProcessedItemDto(ItemDto $stateMachineItemTransfer): ItemDto;
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getProcessedStateMachineItems(array $stateMachineItems): array;
 
@@ -80,36 +80,36 @@ interface PersistenceInterface
     ): array;
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return void
      */
-    public function saveItemStateHistory(StateMachineItemTransfer $stateMachineItemTransfer);
+    public function saveItemStateHistory(ItemDto $stateMachineItemTransfer);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      * @param \Cake\I18n\FrozenTime $timeoutDate
      * @param string $eventName
      *
      * @return \StateMachine\Model\Entity\StateMachineTimeout
      */
     public function saveStateMachineItemTimeout(
-        StateMachineItemTransfer $stateMachineItemTransfer,
+        ItemDto $stateMachineItemTransfer,
         FrozenTime $timeoutDate,
         string $eventName
     ): StateMachineTimeout;
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return void
      */
-    public function dropTimeoutByItem(StateMachineItemTransfer $stateMachineItemTransfer): void;
+    public function dropTimeoutByItem(ItemDto $stateMachineItemTransfer): void;
 
     /**
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[] $expiredStateMachineItemsTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto[] $expiredStateMachineItemsTransfer
      */
     public function getItemsWithExpiredTimeouts($stateMachineName): array;
 }

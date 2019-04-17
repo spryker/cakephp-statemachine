@@ -7,7 +7,7 @@
 
 namespace StateMachine\Dependency;
 
-use StateMachine\Transfer\StateMachineItemTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 interface ConditionPluginInterface
 {
@@ -17,9 +17,9 @@ interface ConditionPluginInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return bool
      */
-    public function check(StateMachineItemTransfer $stateMachineItemTransfer): bool;
+    public function check(ItemDto $stateMachineItemTransfer): bool;
 }

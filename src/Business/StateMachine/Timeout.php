@@ -13,7 +13,7 @@ use StateMachine\Business\Exception\StateMachineException;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Business\Process\StateInterface;
-use StateMachine\Transfer\StateMachineItemTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 class Timeout implements TimeoutInterface
 {
@@ -42,11 +42,11 @@ class Timeout implements TimeoutInterface
 
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $process
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return void
      */
-    public function setNewTimeout(ProcessInterface $process, StateMachineItemTransfer $stateMachineItemTransfer): void
+    public function setNewTimeout(ProcessInterface $process, ItemDto $stateMachineItemTransfer): void
     {
         $targetState = $this->getStateFromProcess($stateMachineItemTransfer->getStateName(), $process);
         if (!$targetState->hasTimeoutEvent()) {
@@ -73,14 +73,14 @@ class Timeout implements TimeoutInterface
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $process
      * @param string $stateName
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return void
      */
     public function dropOldTimeout(
         ProcessInterface $process,
         $stateName,
-        StateMachineItemTransfer $stateMachineItemTransfer
+        ItemDto $stateMachineItemTransfer
     ): void {
         $sourceState = $this->getStateFromProcess($stateName, $process);
 

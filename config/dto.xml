@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<dtos
+	xmlns="cakephp-dto"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="cakephp-dto https://github.com/dereuromark/cakephp-dto">
+
+    <dto name="StateMachine/Item">
+        <field name="identifier" type="string"/>
+        <field name="idStateMachineProcess" type="int" />
+        <field name="idItemState" type="int" />
+        <field name="processName" type="string" />
+        <field name="stateMachineName" type="string" />
+        <field name="stateName" type="string" />
+        <field name="eventName" type="string" />
+        <field name="createdAt" type="string" />
+    </dto>
+    <dto name="StateMachine/Process">
+        <field name="processName" type="string"/>
+        <field name="stateMachineName" type="string" />
+    </dto>
+</dtos>

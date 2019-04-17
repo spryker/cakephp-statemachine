@@ -7,7 +7,7 @@
 
 namespace StateMachine\Dependency;
 
-use StateMachine\Transfer\StateMachineItemTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 interface CommandPluginInterface
 {
@@ -17,9 +17,9 @@ interface CommandPluginInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return bool
      */
-    public function run(StateMachineItemTransfer $stateMachineItemTransfer): bool;
+    public function run(ItemDto $stateMachineItemTransfer): bool;
 }

@@ -9,8 +9,8 @@ namespace StateMachine\Business\StateMachine;
 
 use StateMachine\Business\Exception\StateMachineException;
 use StateMachine\Business\Process\ProcessInterface;
+use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Model\QueryContainerInterface;
-use StateMachine\Transfer\StateMachineItemTransfer;
 
 class StateUpdater implements StateUpdaterInterface
 {
@@ -53,7 +53,7 @@ class StateUpdater implements StateUpdaterInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      * @param \StateMachine\Business\Process\ProcessInterface[] $processes
      * @param string[] $sourceStates
      *
@@ -76,30 +76,28 @@ class StateUpdater implements StateUpdaterInterface
     /**
      * @param \StateMachine\Business\Process\ProcessInterface[] $processes
      * @param string[] $sourceStates
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return void
      */
     protected function executeUpdateItemStateTransaction(
         array $processes,
         array $sourceStates,
-        StateMachineItemTransfer $stateMachineItemTransfer
+        ItemDto $stateMachineItemTransfer
     ) {
-        $this->assertStateMachineItemHaveRequiredData($stateMachineItemTransfer);
-
-        $process = $processes[$stateMachineItemTransfer->getProcessName()];
+        $process = $processes[$stateMachineItemTransfer->getProcessNameOrFail()];
 
         $this->assertSourceStateExists($sourceStates, $stateMachineItemTransfer);
 
-        $sourceState = $sourceStates[$stateMachineItemTransfer->getIdentifier()];
-        $targetState = $stateMachineItemTransfer->getStateName();
+        $sourceState = $sourceStates[$stateMachineItemTransfer->getIdentifierOrFail()];
+        $targetState = $stateMachineItemTransfer->getStateNameOrFail();
 
         $this->transitionState($sourceState, $targetState, $stateMachineItemTransfer, $process);
     }
 
     /**
      * @param array $sourceStateBuffer
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @throws \StateMachine\Business\Exception\StateMachineException
      *
@@ -107,7 +105,7 @@ class StateUpdater implements StateUpdaterInterface
      */
     protected function assertSourceStateExists(
         array $sourceStateBuffer,
-        StateMachineItemTransfer $stateMachineItemTransfer
+        ItemDto $stateMachineItemTransfer
     ) {
         if (!isset($sourceStateBuffer[$stateMachineItemTransfer->getIdentifier()])) {
             throw new StateMachineException(
@@ -117,24 +115,11 @@ class StateUpdater implements StateUpdaterInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return void
      */
-    protected function assertStateMachineItemHaveRequiredData(StateMachineItemTransfer $stateMachineItemTransfer)
-    {
-        $stateMachineItemTransfer->requireProcessName()
-            ->requireStateMachineName()
-            ->requireIdentifier()
-            ->requireStateName();
-    }
-
-    /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
-     *
-     * @return void
-     */
-    protected function notifyHandlerStateChanged(StateMachineItemTransfer $stateMachineItemTransfer)
+    protected function notifyHandlerStateChanged(ItemDto $stateMachineItemTransfer)
     {
         $stateMachineHandler = $this->stateMachineHandlerResolver->get($stateMachineItemTransfer->getStateMachineName());
 
@@ -144,14 +129,14 @@ class StateUpdater implements StateUpdaterInterface
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $process
      * @param string $sourceState
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return void
      */
     protected function updateTimeouts(
         ProcessInterface $process,
         $sourceState,
-        StateMachineItemTransfer $stateMachineItemTransfer
+        ItemDto $stateMachineItemTransfer
     ) {
         $this->timeout->dropOldTimeout($process, $sourceState, $stateMachineItemTransfer);
         $this->timeout->setNewTimeout($process, $stateMachineItemTransfer);
@@ -160,7 +145,7 @@ class StateUpdater implements StateUpdaterInterface
     /**
      * @param string $sourceState
      * @param string $targetState
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      * @param \StateMachine\Business\Process\ProcessInterface $process
      *
      * @return void
@@ -168,7 +153,7 @@ class StateUpdater implements StateUpdaterInterface
     protected function transitionState(
         $sourceState,
         $targetState,
-        StateMachineItemTransfer $stateMachineItemTransfer,
+        ItemDto $stateMachineItemTransfer,
         ProcessInterface $process
     ) {
         if ($sourceState === $targetState) {
