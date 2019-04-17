@@ -342,7 +342,7 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param array $itemsWithOnEnterEvent Keys are event names, values are collections of StateMachineItem transfer objects
+     * @param \StateMachine\Transfer\StateMachineItemTransfer[][] $itemsWithOnEnterEvent Keys are event names, values are collections of StateMachineItem transfer objects
      *
      * @return bool
      */
