@@ -13,7 +13,7 @@ use Cake\Http\Exception\NotFoundException;
 trait CastTrait
 {
     /**
-     * @param array|string|int|null $integer
+     * @param mixed|null $integer
      *
      * @return int|null
      */
@@ -27,7 +27,7 @@ trait CastTrait
     }
 
     /**
-     * @param array|string|int|null $integer
+     * @param mixed|null $integer
      *
      * @throws \Cake\Http\Exception\NotFoundException
      *
@@ -43,7 +43,7 @@ trait CastTrait
     }
 
     /**
-     * @param array|string|int|null $string
+     * @param mixed|null $string
      *
      * @return string|null
      */
@@ -57,7 +57,7 @@ trait CastTrait
     }
 
     /**
-     * @param array|string|null $string
+     * @param mixed|null $string
      *
      * @throws \Cake\Http\Exception\NotFoundException
      *

@@ -7,6 +7,7 @@
 
 namespace StateMachine\Business\StateMachine;
 
+use RuntimeException;
 use SimpleXMLElement;
 use StateMachine\Business\Exception\StateMachineException;
 use StateMachine\Business\Process\EventInterface;

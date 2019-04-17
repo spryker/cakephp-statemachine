@@ -7,6 +7,7 @@
 
 namespace StateMachine\Business\Logger;
 
+use RuntimeException;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Dependency\CommandPluginInterface;
 use StateMachine\Dependency\ConditionPluginInterface;
