@@ -8,15 +8,16 @@
 namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
-use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
+use StateMachine\Controller\CastTrait;
+use StateMachine\Dto\StateMachine\ItemDto;
+use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\FacadeAwareTrait;
-use StateMachine\Transfer\StateMachineItemTransfer;
-use StateMachine\Transfer\StateMachineProcessTransfer;
 
 class TriggerController extends AppController
 {
     use FacadeAwareTrait;
+    use CastTrait;
 
     public const URL_PARAM_IDENTIFIER = 'identifier';
     public const URL_PARAM_ID_STATE = 'id-state';
@@ -36,17 +37,17 @@ class TriggerController extends AppController
      */
     public function eventForNewItem(): ?Response
     {
-        $stateMachineName = $this->request->getQuery(static::URL_PARAM_STATE_MACHINE);
-        $processName = $this->request->getQuery(self::URL_PARAM_PROCESS);
+        $stateMachineName = $this->castString($this->request->getQuery(static::URL_PARAM_STATE_MACHINE)) ?: null;
+        $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS)) ?: null;
 
-        $stateMachineProcessTransfer = new StateMachineProcessTransfer();
+        $stateMachineProcessTransfer = new ProcessDto();
         $stateMachineProcessTransfer->setProcessName($processName);
         $stateMachineProcessTransfer->setStateMachineName($stateMachineName);
 
-        $identifier = $this->request->getQuery(static::URL_PARAM_IDENTIFIER);
+        $identifier = $this->castString($this->request->getQuery(static::URL_PARAM_IDENTIFIER)) ?: null;
         $this->getFacade()->triggerForNewStateMachineItem($stateMachineProcessTransfer, $identifier);
 
-        $redirect = $this->request->getQuery(static::URL_PARAM_REDIRECT, static::DEFAULT_REDIRECT_URL);
+        $redirect = $this->assertString($this->request->getQuery(static::URL_PARAM_REDIRECT)) ?: static::DEFAULT_REDIRECT_URL;
         if (!$redirect) {
             $this->autoRender = false;
             return null;
@@ -60,19 +61,19 @@ class TriggerController extends AppController
      */
     public function event(): ?Response
     {
-        $identifier = $this->request->getQuery(self::URL_PARAM_IDENTIFIER);
-        $idState = $this->castId($this->request->getQuery(self::URL_PARAM_ID_STATE));
+        $identifier = $this->castString($this->request->getQuery(self::URL_PARAM_IDENTIFIER)) ?: null;
+        $idState = $this->castInt($this->request->getQuery(self::URL_PARAM_ID_STATE));
 
-        $stateMachineItemTransfer = new StateMachineItemTransfer();
+        $stateMachineItemTransfer = new ItemDto();
         $stateMachineItemTransfer->setIdentifier($identifier);
         $stateMachineItemTransfer->setIdItemState($idState);
 
-        $stateMachineName = $this->request->getQuery(static::URL_PARAM_STATE_MACHINE);
+        $stateMachineName = $this->castString($this->request->getQuery(static::URL_PARAM_STATE_MACHINE)) ?: null;
         $stateMachineItemTransfer->setStateMachineName($stateMachineName);
-        $processName = $this->request->getQuery(self::URL_PARAM_PROCESS);
+        $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS)) ?: null;
         $stateMachineItemTransfer->setProcessName($processName);
 
-        $eventName = $this->request->getQuery(self::URL_PARAM_EVENT);
+        $eventName = $this->castString($this->request->getQuery(self::URL_PARAM_EVENT)) ?: null;
         $this->getFacade()->triggerEvent($eventName, $stateMachineItemTransfer);
 
         $redirect = $this->request->getQuery(self::URL_PARAM_REDIRECT, self::DEFAULT_REDIRECT_URL);
@@ -82,21 +83,5 @@ class TriggerController extends AppController
         }
 
         return $this->redirect($redirect);
-    }
-
-    /**
-     * @param string|int|null $id
-     *
-     * @throws \Cake\Http\Exception\NotFoundException
-     *
-     * @return int
-     */
-    protected function castId($id): int
-    {
-        if (!is_numeric($id) || $id === 0) {
-            throw new NotFoundException('The given id is not numeric or 0 (zero)');
-        }
-
-        return (int)$id;
     }
 }

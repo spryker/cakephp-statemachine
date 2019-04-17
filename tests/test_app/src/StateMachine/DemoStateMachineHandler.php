@@ -10,7 +10,7 @@ namespace App\StateMachine;
 use App\StateMachine\Command\TriggerFooCommand;
 use App\StateMachine\Condition\IsFooTriggeredCondition;
 use StateMachine\Dependency\StateMachineHandlerInterface;
-use StateMachine\Transfer\StateMachineItemTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 /**
  * Real classes for controller test cases.
@@ -78,23 +78,23 @@ class DemoStateMachineHandler implements StateMachineHandlerInterface
 
     /**
      * This method is called when state of item was changed, client can create custom logic for example update it's related table with new stateId and processId.
-     * StateMachineItemTransfer:identifier is id of entity from client.
+     * ItemDto:identifier is id of entity from client.
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return bool
      */
-    public function itemStateUpdated(StateMachineItemTransfer $stateMachineItemTransfer): bool
+    public function itemStateUpdated(ItemDto $stateMachineItemTransfer): bool
     {
         return true;
     }
 
     /**
-     * This method should return all list of StateMachineItemTransfer, with (identifier, IdStateMachineProcess, IdItemState)
+     * This method should return all list of ItemDto, with (identifier, IdStateMachineProcess, IdItemState)
      *
      * @param int[] $stateIds
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getStateMachineItemsByStateIds(array $stateIds = []): array
     {

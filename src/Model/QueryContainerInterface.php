@@ -9,7 +9,7 @@ namespace StateMachine\Model;
 
 use Cake\I18n\FrozenTime;
 use Cake\ORM\Query;
-use StateMachine\Transfer\StateMachineItemTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 interface QueryContainerInterface
 {
@@ -21,11 +21,11 @@ interface QueryContainerInterface
     public function queryStateByIdState(int $idState): Query;
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return \Cake\ORM\Query
      */
-    public function queryItemsWithExistingHistory(StateMachineItemTransfer $stateMachineItemTransfer): Query;
+    public function queryItemsWithExistingHistory(ItemDto $stateMachineItemTransfer): Query;
 
     /**
      * @param \Cake\I18n\FrozenTime $expirationDate

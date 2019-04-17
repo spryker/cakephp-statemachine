@@ -7,8 +7,8 @@
 
 namespace StateMachine\Business;
 
-use StateMachine\Transfer\StateMachineItemTransfer;
-use StateMachine\Transfer\StateMachineProcessTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
+use StateMachine\Dto\StateMachine\ProcessDto;
 
 interface StateMachineFacadeInterface
 {
@@ -24,12 +24,12 @@ interface StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string $identifier - this is id of foreign entity you want to track in state machine, it's stored in history table.
      *
      * @return int
      */
-    public function triggerForNewStateMachineItem(StateMachineProcessTransfer $stateMachineProcessTransfer, string $identifier): int;
+    public function triggerForNewStateMachineItem(ProcessDto $stateMachineProcessTransfer, string $identifier): int;
 
     /**
      * Specification:
@@ -43,11 +43,11 @@ interface StateMachineFacadeInterface
      * @api
      *
      * @param string $eventName
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return int
      */
-    public function triggerEvent(string $eventName, StateMachineItemTransfer $stateMachineItemTransfer);
+    public function triggerEvent(string $eventName, ItemDto $stateMachineItemTransfer);
 
     /**
      * Specification:
@@ -61,7 +61,7 @@ interface StateMachineFacadeInterface
      * @api
      *
      * @param string $eventName
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return int
      */
@@ -76,7 +76,7 @@ interface StateMachineFacadeInterface
      *
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Transfer\StateMachineProcessTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ProcessDto[]
      */
     public function getProcesses(string $stateMachineName): array;
 
@@ -125,7 +125,7 @@ interface StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string|null $highlightState
      * @param string|null $format
      * @param int|null $fontSize
@@ -133,7 +133,7 @@ interface StateMachineFacadeInterface
      * @return string
      */
     public function drawProcess(
-        StateMachineProcessTransfer $stateMachineProcessTransfer,
+        ProcessDto $stateMachineProcessTransfer,
         ?string $highlightState = null,
         ?string $format = null,
         ?int $fontSize = null
@@ -145,11 +145,11 @@ interface StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      *
      * @return int
      */
-    public function getStateMachineProcessId(StateMachineProcessTransfer $stateMachineProcessTransfer): int;
+    public function getStateMachineProcessId(ProcessDto $stateMachineProcessTransfer): int;
 
     /**
      * Specification:
@@ -158,11 +158,11 @@ interface StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return array
      */
-    public function getManualEventsForStateMachineItem(StateMachineItemTransfer $stateMachineItemTransfer): array;
+    public function getManualEventsForStateMachineItem(ItemDto $stateMachineItemTransfer): array;
 
     /**
      * Specification:
@@ -172,9 +172,9 @@ interface StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
-     * @return array
+     * @return string[][]
      */
     public function getManualEventsForStateMachineItems(array $stateMachineItems): array;
 
@@ -184,11 +184,11 @@ interface StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto
      */
-    public function getProcessedStateMachineItemTransfer(StateMachineItemTransfer $stateMachineItemTransfer): StateMachineItemTransfer;
+    public function getProcessedItemDto(ItemDto $stateMachineItemTransfer): ItemDto;
 
     /**
      * Specification:
@@ -196,9 +196,9 @@ interface StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getProcessedStateMachineItems(array $stateMachineItems): array;
 
@@ -211,7 +211,7 @@ interface StateMachineFacadeInterface
      * @param int $idStateMachineProcess
      * @param string $identifier
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getStateHistoryByStateItemIdentifier(int $idStateMachineProcess, string $identifier): array;
 
@@ -222,12 +222,12 @@ interface StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string $flagName
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    public function getItemsWithFlag(StateMachineProcessTransfer $stateMachineProcessTransfer, string $flagName): array;
+    public function getItemsWithFlag(ProcessDto $stateMachineProcessTransfer, string $flagName): array;
 
     /**
      * Specification:
@@ -236,12 +236,12 @@ interface StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string $flagName
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    public function getItemsWithoutFlag(StateMachineProcessTransfer $stateMachineProcessTransfer, string $flagName): array;
+    public function getItemsWithoutFlag(ProcessDto $stateMachineProcessTransfer, string $flagName): array;
 
     /**
      * Specification:

@@ -7,9 +7,9 @@
 
 namespace StateMachine\Business;
 
+use StateMachine\Dto\StateMachine\ItemDto;
+use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\FactoryTrait;
-use StateMachine\Transfer\StateMachineItemTransfer;
-use StateMachine\Transfer\StateMachineProcessTransfer;
 
 class StateMachineFacade implements StateMachineFacadeInterface
 {
@@ -20,13 +20,13 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string $identifier - this is id of foreign entity you want to track in state machine, it's stored in history table.
      *
      * @return int
      */
     public function triggerForNewStateMachineItem(
-        StateMachineProcessTransfer $stateMachineProcessTransfer,
+        ProcessDto $stateMachineProcessTransfer,
         string $identifier
     ): int {
         return $this->getFactory()
@@ -40,11 +40,11 @@ class StateMachineFacade implements StateMachineFacadeInterface
      * @api
      *
      * @param string $eventName
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return int
      */
-    public function triggerEvent(string $eventName, StateMachineItemTransfer $stateMachineItemTransfer): int
+    public function triggerEvent(string $eventName, ItemDto $stateMachineItemTransfer): int
     {
         return $this->getFactory()
             ->createLockedStateMachineTrigger()
@@ -57,7 +57,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      * @api
      *
      * @param string $eventName
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return int
      */
@@ -75,7 +75,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Transfer\StateMachineProcessTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ProcessDto[]
      */
     public function getProcesses(string $stateMachineName): array
     {
@@ -137,7 +137,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string|null $highlightState
      * @param string|null $format
      * @param int|null $fontSize
@@ -145,7 +145,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      * @return string
      */
     public function drawProcess(
-        StateMachineProcessTransfer $stateMachineProcessTransfer,
+        ProcessDto $stateMachineProcessTransfer,
         ?string $highlightState = null,
         ?string $format = null,
         ?int $fontSize = null
@@ -156,7 +156,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
 
         return $this->getFactory()
             ->createGraphDrawer(
-                $stateMachineProcessTransfer->getStateMachineName()
+                $stateMachineProcessTransfer->getStateMachineNameOrFail()
             )->draw($process, $highlightState, $format, $fontSize);
     }
 
@@ -165,11 +165,11 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      *
      * @return int
      */
-    public function getStateMachineProcessId(StateMachineProcessTransfer $stateMachineProcessTransfer): int
+    public function getStateMachineProcessId(ProcessDto $stateMachineProcessTransfer): int
     {
         return $this->getFactory()
             ->createStateMachinePersistence()
@@ -181,11 +181,11 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return array
      */
-    public function getManualEventsForStateMachineItem(StateMachineItemTransfer $stateMachineItemTransfer): array
+    public function getManualEventsForStateMachineItem(ItemDto $stateMachineItemTransfer): array
     {
         return $this->getFactory()
             ->createStateMachineFinder()
@@ -197,9 +197,9 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
-     * @return array
+     * @return string[][]
      */
     public function getManualEventsForStateMachineItems(array $stateMachineItems): array
     {
@@ -213,15 +213,15 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto
      */
-    public function getProcessedStateMachineItemTransfer(StateMachineItemTransfer $stateMachineItemTransfer): StateMachineItemTransfer
+    public function getProcessedItemDto(ItemDto $stateMachineItemTransfer): ItemDto
     {
         return $this->getFactory()
             ->createStateMachinePersistence()
-            ->getProcessedStateMachineItemTransfer($stateMachineItemTransfer);
+            ->getProcessedItemDto($stateMachineItemTransfer);
     }
 
     /**
@@ -229,9 +229,9 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getProcessedStateMachineItems(array $stateMachineItems): array
     {
@@ -248,7 +248,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      * @param int $idStateMachineProcess
      * @param string $identifier
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getStateHistoryByStateItemIdentifier(int $idStateMachineProcess, string $identifier): array
     {
@@ -262,12 +262,12 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string $flagName
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    public function getItemsWithFlag(StateMachineProcessTransfer $stateMachineProcessTransfer, string $flagName): array
+    public function getItemsWithFlag(ProcessDto $stateMachineProcessTransfer, string $flagName): array
     {
         return $this->getFactory()
             ->createStateMachineFinder()
@@ -279,12 +279,12 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @api
      *
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string $flagName
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    public function getItemsWithoutFlag(StateMachineProcessTransfer $stateMachineProcessTransfer, string $flagName): array
+    public function getItemsWithoutFlag(ProcessDto $stateMachineProcessTransfer, string $flagName): array
     {
         return $this->getFactory()
             ->createStateMachineFinder()

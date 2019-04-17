@@ -10,6 +10,7 @@ namespace StateMachine\Graph\Adapter;
 use phpDocumentor\GraphViz\Edge;
 use phpDocumentor\GraphViz\Graph;
 use phpDocumentor\GraphViz\Node;
+use RuntimeException;
 use StateMachine\Graph\GraphAdapterInterface;
 
 class PhpDocumentorGraphAdapter implements GraphAdapterInterface
@@ -134,6 +135,8 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
      * @param string $type
      * @param string|null $fileName
      *
+     * @throws \RuntimeException
+     *
      * @return string
      */
     public function render($type, $fileName = null)
@@ -143,7 +146,12 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
         }
         $this->graph->export($type, $fileName);
 
-        return file_get_contents($fileName);
+        $result = file_get_contents($fileName);
+        if ($result === false) {
+            throw new RuntimeException('Rendering failed for ' . $fileName);
+        }
+
+        return $result;
     }
 
     /**

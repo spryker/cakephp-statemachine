@@ -14,8 +14,8 @@ use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\Event;
 use StateMachine\Dependency\CommandPluginInterface;
 use StateMachine\Dependency\ConditionPluginInterface;
+use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Model\Table\StateMachineTransitionLogsTable;
-use StateMachine\Transfer\StateMachineItemTransfer;
 
 class TransitionLogTest extends TestCase
 {
@@ -134,11 +134,11 @@ class TransitionLogTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Transfer\StateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto
      */
-    protected function createItemTransfer(): StateMachineItemTransfer
+    protected function createItemTransfer(): ItemDto
     {
-        $stateMachineItemTransfer = new StateMachineItemTransfer();
+        $stateMachineItemTransfer = new ItemDto();
         $stateMachineItemTransfer->setIdentifier($this->createIdentifier());
         $stateMachineItemTransfer->setEventName(static::EVENT_NAME);
         $stateMachineItemTransfer->setIdItemState(1);

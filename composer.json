@@ -10,11 +10,13 @@
         }
     ],
     "require": {
+        "ext-json": "*",
+        "ext-simplexml": "*",
         "php": ">=7.1",
         "cakephp/cakephp": "^3.7",
+        "cakephp/migrations": "^2.0",
         "dereuromark/cakephp-dto": "@stable",
         "dereuromark/cakephp-tools": "@stable",
-        "cakephp/migrations": "^2.0",
         "phpdocumentor/graphviz": "*"
     },
     "require-dev": {
@@ -40,8 +42,8 @@
     "scripts": {
         "test": "phpunit",
         "test-coverage" : "phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
-        "phpstan": "vendor/bin/phpstan.phar analyse -c tests/phpstan.neon -l 5 src/",
-        "cs-check": "vendor/bin/phpcs --colors --standard=config/ruleset.xml -s -p -v --ignore=/config/Migrations/ src/ tests/ config/",
-        "cs-fix": "vendor/bin/phpcbf --colors --standard=config/ruleset.xml -v --ignore=/config/Migrations/ src/ tests/ config/"
+        "phpstan": "vendor/bin/phpstan.phar analyse -c tests/phpstan.neon -l 6 src/",
+        "cs-check": "vendor/bin/phpcs --colors --standard=config/ruleset.xml -s -p -v --ignore=/config/Migrations/,/src/Dto/ src/ tests/ config/",
+        "cs-fix": "vendor/bin/phpcbf --colors --standard=config/ruleset.xml -v --ignore=/config/Migrations/,/src/Dto/ src/ tests/ config/"
     }
 }

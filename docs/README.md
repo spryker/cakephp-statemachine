@@ -40,8 +40,12 @@ $this->loadHelper('Tools.Format');
 
 ## Contributing
 
-
 We are looking forward to your contributions.
+
+To rebuild DTOs after updating the XML definitions execute this from your app:
+```
+bin/cake dto generate -p StateMachine
+```
 
 There are a few guidelines to follow:
 * Passing tests (`composer test`) - Travis will also automatically check those for any PR then

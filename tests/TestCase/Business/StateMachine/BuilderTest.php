@@ -19,8 +19,8 @@ use StateMachine\Business\Process\Transition;
 use StateMachine\Business\Process\TransitionInterface;
 use StateMachine\Business\StateMachine\Builder;
 use StateMachine\Business\StateMachine\BuilderInterface;
+use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\StateMachineConfig;
-use StateMachine\Transfer\StateMachineProcessTransfer;
 
 class BuilderTest extends TestCase
 {
@@ -40,7 +40,7 @@ class BuilderTest extends TestCase
     public function testCreateProcessShouldReturnProcessInstance(): void
     {
         $builder = $this->createBuilder();
-        $stateMachineProcessTransfer = $this->createStateMachineProcessTransfer();
+        $stateMachineProcessTransfer = $this->createProcessDto();
         $process = $builder->createProcess($stateMachineProcessTransfer);
 
         $this->assertInstanceOf(ProcessInterface::class, $process);
@@ -52,7 +52,7 @@ class BuilderTest extends TestCase
     public function testCreateProcessShouldIncludeAllStatesFromXml(): void
     {
         $builder = $this->createBuilder();
-        $stateMachineProcessTransfer = $this->createStateMachineProcessTransfer();
+        $stateMachineProcessTransfer = $this->createProcessDto();
         $process = $builder->createProcess($stateMachineProcessTransfer);
 
         $this->assertCount(static::STATES_COUNT, $process->getStates());
@@ -65,7 +65,7 @@ class BuilderTest extends TestCase
     public function testCreateProcessShouldIncludeAllTransitions(): void
     {
         $builder = $this->createBuilder();
-        $stateMachineProcessTransfer = $this->createStateMachineProcessTransfer();
+        $stateMachineProcessTransfer = $this->createProcessDto();
         $process = $builder->createProcess($stateMachineProcessTransfer);
 
         $this->assertCount(static::TRANSITION_COUNT, $process->getTransitions());
@@ -78,7 +78,7 @@ class BuilderTest extends TestCase
     public function testCreateProcessShouldIncludeAllSubProcesses(): void
     {
         $builder = $this->createBuilder();
-        $stateMachineProcessTransfer = $this->createStateMachineProcessTransfer();
+        $stateMachineProcessTransfer = $this->createProcessDto();
         $process = $builder->createProcess($stateMachineProcessTransfer);
 
         $this->assertCount(static::SUBPROCESSES_COUNT, $process->getSubProcesses());
@@ -90,7 +90,7 @@ class BuilderTest extends TestCase
     public function testCreateProcessShouldFlagMainProcess(): void
     {
         $builder = $this->createBuilder();
-        $stateMachineProcessTransfer = $this->createStateMachineProcessTransfer();
+        $stateMachineProcessTransfer = $this->createProcessDto();
         $process = $builder->createProcess($stateMachineProcessTransfer);
 
         $this->assertTrue($process->getIsMain());
@@ -104,7 +104,7 @@ class BuilderTest extends TestCase
         $this->expectException(StateMachineException::class);
 
         $builder = $this->createBuilder();
-        $stateMachineProcessTransfer = $this->createStateMachineProcessTransfer();
+        $stateMachineProcessTransfer = $this->createProcessDto();
         $stateMachineProcessTransfer->setStateMachineName('Random');
         $process = $builder->createProcess($stateMachineProcessTransfer);
 
@@ -119,7 +119,7 @@ class BuilderTest extends TestCase
         $this->expectException(StateMachineException::class);
 
         $builder = $this->createBuilder();
-        $stateMachineProcessTransfer = $this->createStateMachineProcessTransfer();
+        $stateMachineProcessTransfer = $this->createProcessDto();
         $stateMachineProcessTransfer->setProcessName('Random');
         $process = $builder->createProcess($stateMachineProcessTransfer);
 
@@ -132,7 +132,7 @@ class BuilderTest extends TestCase
     public function testSubProcessPrefixIsApplied(): void
     {
         $builder = $this->createBuilder();
-        $stateMachineProcessTransfer = $this->createStateMachineProcessTransfer();
+        $stateMachineProcessTransfer = $this->createProcessDto();
         $process = $builder->createProcess($stateMachineProcessTransfer);
 
         $manualEventsBySource = $process->getManuallyExecutableEventsBySource();
@@ -202,11 +202,11 @@ class BuilderTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Transfer\StateMachineProcessTransfer
+     * @return \StateMachine\Dto\StateMachine\ProcessDto
      */
-    protected function createStateMachineProcessTransfer(): StateMachineProcessTransfer
+    protected function createProcessDto(): ProcessDto
     {
-        $stateMachineProcessTransfer = new StateMachineProcessTransfer();
+        $stateMachineProcessTransfer = new ProcessDto();
         $stateMachineProcessTransfer->setProcessName(static::PROCESS_NAME);
         $stateMachineProcessTransfer->setStateMachineName(static::STATEMACHINE_NAME);
 

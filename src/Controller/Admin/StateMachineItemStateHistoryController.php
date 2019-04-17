@@ -58,7 +58,7 @@ class StateMachineItemStateHistoryController extends AppController
     {
         $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->newEntity();
         if ($this->request->is('post')) {
-            $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->patchEntity($stateMachineItemStateHistory, $this->request->getData());
+            $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->patchEntity($stateMachineItemStateHistory, (array)$this->request->getData());
             if ($this->StateMachineItemStateHistory->save($stateMachineItemStateHistory)) {
                 $this->Flash->success(__('The state machine item state history has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -85,7 +85,7 @@ class StateMachineItemStateHistoryController extends AppController
             'contain' => [],
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->patchEntity($stateMachineItemStateHistory, $this->request->getData());
+            $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->patchEntity($stateMachineItemStateHistory, (array)$this->request->getData());
             if ($this->StateMachineItemStateHistory->save($stateMachineItemStateHistory)) {
                 $this->Flash->success(__('The state machine item state history has been saved.'));
                 return $this->redirect(['action' => 'index']);

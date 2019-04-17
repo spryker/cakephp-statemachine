@@ -13,7 +13,7 @@ use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Business\Process\StateInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
-use StateMachine\Transfer\StateMachineItemTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 class Condition implements ConditionInterface
 {
@@ -75,7 +75,7 @@ class Condition implements ConditionInterface
 
     /**
      * @param \StateMachine\Business\Process\TransitionInterface[] $transitions
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      * @param \StateMachine\Business\Process\StateInterface $sourceState
      * @param \StateMachine\Business\Logger\TransitionLogInterface $transactionLogger
      *
@@ -83,7 +83,7 @@ class Condition implements ConditionInterface
      */
     public function getTargetStatesFromTransitions(
         array $transitions,
-        StateMachineItemTransfer $stateMachineItemTransfer,
+        ItemDto $stateMachineItemTransfer,
         StateInterface $sourceState,
         TransitionLogInterface $transactionLogger
     ) {
@@ -108,7 +108,7 @@ class Condition implements ConditionInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      * @param \StateMachine\Business\Logger\TransitionLogInterface $transactionLogger
      * @param string $conditionName
      *
@@ -117,13 +117,13 @@ class Condition implements ConditionInterface
      * @return bool
      */
     protected function checkCondition(
-        StateMachineItemTransfer $stateMachineItemTransfer,
+        ItemDto $stateMachineItemTransfer,
         TransitionLogInterface $transactionLogger,
         $conditionName
     ) {
         $conditionPlugin = $this->getConditionPlugin(
             $conditionName,
-            $stateMachineItemTransfer->getStateMachineName()
+            $stateMachineItemTransfer->getStateMachineNameOrFail()
         );
 
         try {
@@ -163,7 +163,7 @@ class Condition implements ConditionInterface
      * @param string $stateMachineName
      * @param string $processName
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[][] $itemsWithOnEnterEvent
+     * @return \StateMachine\Dto\StateMachine\ItemDto[][] $itemsWithOnEnterEvent
      */
     public function getOnEnterEventsForStatesWithoutTransition($stateMachineName, $processName)
     {
@@ -201,7 +201,7 @@ class Condition implements ConditionInterface
      * @param string[] $states
      * @param \StateMachine\Business\Process\ProcessInterface $process
 
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     protected function getItemsByStatesAndProcessName(
         $stateMachineName,
@@ -227,7 +227,7 @@ class Condition implements ConditionInterface
     /**
      * @param string $stateMachineName
      * @param array $states Keys are state names, values are collections of TransitionInterface.
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return void
      */
@@ -238,18 +238,18 @@ class Condition implements ConditionInterface
     ) {
         $targetStateMap = [];
         foreach ($stateMachineItems as $i => $stateMachineItemTransfer) {
-            $stateName = $stateMachineItemTransfer->getStateName();
+            $stateName = $stateMachineItemTransfer->getStateNameOrFail();
 
             $process = $this->finder->findProcessByStateMachineAndProcessName(
                 $stateMachineName,
-                $stateMachineItemTransfer->getProcessName()
+                $stateMachineItemTransfer->getProcessNameOrFail()
             );
 
             $sourceState = $process->getStateFromAllProcesses($stateName);
 
             $this->transitionLog->addSourceState($stateMachineItemTransfer, $sourceState->getName());
 
-            $transitions = $states[$stateMachineItemTransfer->getStateName()];
+            $transitions = $states[$stateMachineItemTransfer->getStateNameOrFail()];
 
             $targetState = $sourceState;
             if (count($transitions) > 0) {
@@ -327,7 +327,7 @@ class Condition implements ConditionInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return string[]
      */

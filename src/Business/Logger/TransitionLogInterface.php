@@ -10,7 +10,7 @@ namespace StateMachine\Business\Logger;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Dependency\CommandPluginInterface;
 use StateMachine\Dependency\ConditionPluginInterface;
-use StateMachine\Transfer\StateMachineItemTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 interface TransitionLogInterface
 {
@@ -22,43 +22,43 @@ interface TransitionLogInterface
     public function setEvent(EventInterface $event);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return void
      */
     public function init(array $stateMachineItems);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItem
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem
      * @param \StateMachine\Dependency\CommandPluginInterface $command
      *
      * @return void
      */
-    public function addCommand(StateMachineItemTransfer $stateMachineItem, CommandPluginInterface $command);
+    public function addCommand(ItemDto $stateMachineItem, CommandPluginInterface $command);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItem
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem
      * @param \StateMachine\Dependency\ConditionPluginInterface $condition
      *
      * @return void
      */
-    public function addCondition(StateMachineItemTransfer $stateMachineItem, ConditionPluginInterface $condition);
+    public function addCondition(ItemDto $stateMachineItem, ConditionPluginInterface $condition);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItem
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem
      * @param string $stateName
      *
      * @return void
      */
-    public function addSourceState(StateMachineItemTransfer $stateMachineItem, $stateName);
+    public function addSourceState(ItemDto $stateMachineItem, $stateName);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItem
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem
      * @param string $stateName
      *
      * @return void
      */
-    public function addTargetState(StateMachineItemTransfer $stateMachineItem, $stateName);
+    public function addTargetState(ItemDto $stateMachineItem, $stateName);
 
     /**
      * @param bool $error
@@ -68,11 +68,11 @@ interface TransitionLogInterface
     public function setIsError($error);
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItem
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem
      *
      * @return void
      */
-    public function save(StateMachineItemTransfer $stateMachineItem);
+    public function save(ItemDto $stateMachineItem);
 
     /**
      * @param string $errorMessage

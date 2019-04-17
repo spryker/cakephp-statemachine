@@ -5,3 +5,4 @@ parameters:
     - %rootDir%/../../../../src/Transfer/*
   ignoreErrors:
     - '#Method .+::.+Table\(\) should return .+Table but returns Cake\\ORM\\Table.#'
+    - '#Cannot call method (contain|where)\(\) on .+.#'

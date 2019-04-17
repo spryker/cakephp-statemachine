@@ -8,12 +8,14 @@
 namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
+use StateMachine\Controller\CastTrait;
+use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\FactoryTrait;
-use StateMachine\Transfer\StateMachineProcessTransfer;
 
 class GraphController extends AppController
 {
     use FactoryTrait;
+    use CastTrait;
 
     public const URL_PARAM_PROCESS = 'process';
     public const URL_PARAM_FORMAT = 'format';
@@ -26,15 +28,15 @@ class GraphController extends AppController
      */
     public function draw()
     {
-        $processName = $this->request->getQuery(self::URL_PARAM_PROCESS);
+        $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS)) ?: null;
         if ($processName === null) {
             return $this->redirect(['controller' => 'StateMachine', 'action' => 'index']);
         }
 
-        $format = $this->request->getQuery(self::URL_PARAM_FORMAT);
-        $fontSize = (int)$this->request->getQuery(self::URL_PARAM_FONT_SIZE);
-        $highlightState = $this->request->getQuery(self::URL_PARAM_HIGHLIGHT_STATE);
-        $stateMachine = $this->request->getQuery(self::URL_PARAM_STATE_MACHINE);
+        $format = $this->assertString($this->request->getQuery(self::URL_PARAM_FORMAT));
+        $fontSize = $this->assertInt($this->request->getQuery(self::URL_PARAM_FONT_SIZE));
+        $highlightState = $this->assertString($this->request->getQuery(self::URL_PARAM_HIGHLIGHT_STATE));
+        $stateMachine = $this->assertString($this->request->getQuery(self::URL_PARAM_STATE_MACHINE));
 
         $stateMachineBundleConfig = $this->getFactory()->getConfig();
         if ($format === null) {
@@ -44,7 +46,7 @@ class GraphController extends AppController
             $fontSize = $stateMachineBundleConfig->getGraphDefaultFontSize();
         }
 
-        $stateMachineProcessTransfer = new StateMachineProcessTransfer();
+        $stateMachineProcessTransfer = new ProcessDto();
         $stateMachineProcessTransfer->setStateMachineName($stateMachine);
         $stateMachineProcessTransfer->setProcessName($processName);
 
@@ -54,7 +56,7 @@ class GraphController extends AppController
 
         $response = $this->getFactory()
             ->createGraphDrawer(
-                $stateMachineProcessTransfer->getStateMachineName()
+                $stateMachineProcessTransfer->getStateMachineNameOrFail()
             )->draw($process, $highlightState, $format, $fontSize);
 
         /*

@@ -12,8 +12,8 @@ use StateMachine\Business\Exception\CommandNotFoundException;
 use StateMachine\Business\Exception\TriggerException;
 use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
-use StateMachine\Transfer\StateMachineItemTransfer;
-use StateMachine\Transfer\StateMachineProcessTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
+use StateMachine\Dto\StateMachine\ProcessDto;
 
 class Trigger implements TriggerInterface
 {
@@ -84,18 +84,15 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string $identifier
      *
      * @return int
      */
     public function triggerForNewStateMachineItem(
-        StateMachineProcessTransfer $stateMachineProcessTransfer,
+        ProcessDto $stateMachineProcessTransfer,
         string $identifier
     ): int {
-        $stateMachineProcessTransfer->requireStateMachineName()
-            ->requireProcessName();
-
         $stateMachineItemTransfer = $this->createItemTransferForNewProcess($stateMachineProcessTransfer, $identifier);
 
         $processes = $this->finder->findProcessesForItems([$stateMachineItemTransfer]);
@@ -109,7 +106,7 @@ class Trigger implements TriggerInterface
 
     /**
      * @param string $eventName
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return int
      */
@@ -190,7 +187,7 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return array
      */
@@ -210,17 +207,17 @@ class Trigger implements TriggerInterface
 
     /**
      * @param string $eventName
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      * @param \StateMachine\Business\Process\ProcessInterface[] $processes
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer[]
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     protected function filterEventAffectedItems($eventName, array $stateMachineItems, $processes)
     {
         $stateMachineItemsFiltered = [];
         foreach ($stateMachineItems as $stateMachineItemTransfer) {
-            $stateName = $stateMachineItemTransfer->requireStateName()->getStateName();
-            $processName = $stateMachineItemTransfer->requireProcessName()->getProcessName();
+            $stateName = $stateMachineItemTransfer->getStateNameOrFail();
+            $processName = $stateMachineItemTransfer->getProcessNameOrFail();
             if (!isset($processes[$processName])) {
                 continue;
             }
@@ -237,7 +234,7 @@ class Trigger implements TriggerInterface
 
     /**
      * @param string $eventName
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      * @param \StateMachine\Business\Process\ProcessInterface[] $processes
      *
      * @throws \Exception
@@ -247,8 +244,8 @@ class Trigger implements TriggerInterface
     protected function runCommand($eventName, array $stateMachineItems, array $processes)
     {
         foreach ($stateMachineItems as $stateMachineItemTransfer) {
-            $stateName = $stateMachineItemTransfer->requireStateName()->getStateName();
-            $processName = $stateMachineItemTransfer->requireProcessName()->getProcessName();
+            $stateName = $stateMachineItemTransfer->getStateNameOrFail();
+            $processName = $stateMachineItemTransfer->getProcessNameOrFail();
             if (!isset($processes[$processName])) {
                 continue;
             }
@@ -278,7 +275,7 @@ class Trigger implements TriggerInterface
 
     /**
      * @param string $eventName
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return array
      */
@@ -287,7 +284,7 @@ class Trigger implements TriggerInterface
         $sourceStateBuffer = [];
         $targetStateMap = [];
         foreach ($stateMachineItems as $i => $stateMachineItemTransfer) {
-            $stateName = $stateMachineItemTransfer->requireStateName()->getStateName();
+            $stateName = $stateMachineItemTransfer->getStateNameOrFail();
             $sourceStateBuffer[$stateMachineItemTransfer->getIdentifier()] = $stateName;
 
             $process = $this->finder->findProcessByStateMachineAndProcessName(
@@ -342,7 +339,7 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param array $itemsWithOnEnterEvent Keys are event names, values are collections of StateMachineItem transfer objects
+     * @param \StateMachine\Dto\StateMachine\ItemDto[][] $itemsWithOnEnterEvent Keys are event names, values are collections of StateMachineItem transfer objects
      *
      * @return bool
      */
@@ -375,7 +372,7 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return void
      */
@@ -388,20 +385,19 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string $identifier
      *
-     * @return \StateMachine\Transfer\StateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto
      */
     protected function createItemTransferForNewProcess(
-        StateMachineProcessTransfer $stateMachineProcessTransfer,
+        ProcessDto $stateMachineProcessTransfer,
         string $identifier
-    ): StateMachineItemTransfer {
-        $processName = $stateMachineProcessTransfer->requireProcessName()
-            ->getProcessName();
+    ): ItemDto {
+        $processName = $stateMachineProcessTransfer->getProcessNameOrFail();
 
-        $stateMachineItemTransfer = new StateMachineItemTransfer();
-        $stateMachineProcessTransfer->setStateMachineName($stateMachineProcessTransfer->getStateMachineName());
+        $stateMachineItemTransfer = new ItemDto();
+        $stateMachineProcessTransfer->setStateMachineName($stateMachineProcessTransfer->getStateMachineNameOrFail());
         $stateMachineItemTransfer->setProcessName($processName);
         $stateMachineItemTransfer->setIdentifier($identifier);
 
@@ -413,7 +409,7 @@ class Trigger implements TriggerInterface
         $stateMachineItemTransfer->setIdStateMachineProcess($idStateMachineProcess);
 
         $initialStateName = $this->stateMachineHandlerResolver
-            ->get($stateMachineProcessTransfer->getStateMachineName())
+            ->get($stateMachineProcessTransfer->getStateMachineNameOrFail())
             ->getInitialStateForProcess($processName);
 
         $this->assertInitialStateNameProvided($initialStateName, $processName);

@@ -8,7 +8,7 @@
 namespace StateMachine\Business\StateMachine;
 
 use StateMachine\Business\Lock\ItemLockInterface;
-use StateMachine\Transfer\StateMachineProcessTransfer;
+use StateMachine\Dto\StateMachine\ProcessDto;
 
 class LockedTrigger implements TriggerInterface
 {
@@ -33,12 +33,12 @@ class LockedTrigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineProcessTransfer $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
      * @param string $identifier
      *
      * @return int
      */
-    public function triggerForNewStateMachineItem(StateMachineProcessTransfer $stateMachineProcessTransfer, string $identifier): int
+    public function triggerForNewStateMachineItem(ProcessDto $stateMachineProcessTransfer, string $identifier): int
     {
         $lockIdentifier = $this->buildLockIdentifier(
             $identifier,
@@ -61,7 +61,7 @@ class LockedTrigger implements TriggerInterface
 
     /**
      * @param string $eventName
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return int
      */
@@ -91,7 +91,7 @@ class LockedTrigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Transfer\StateMachineItemTransfer[] $stateMachineItems
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return string
      */

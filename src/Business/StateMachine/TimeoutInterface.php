@@ -8,28 +8,28 @@
 namespace StateMachine\Business\StateMachine;
 
 use StateMachine\Business\Process\ProcessInterface;
-use StateMachine\Transfer\StateMachineItemTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 interface TimeoutInterface
 {
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $process
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return void
      */
-    public function setNewTimeout(ProcessInterface $process, StateMachineItemTransfer $stateMachineItemTransfer);
+    public function setNewTimeout(ProcessInterface $process, ItemDto $stateMachineItemTransfer);
 
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $process
      * @param string $stateName
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return void
      */
     public function dropOldTimeout(
         ProcessInterface $process,
         $stateName,
-        StateMachineItemTransfer $stateMachineItemTransfer
+        ItemDto $stateMachineItemTransfer
     );
 }

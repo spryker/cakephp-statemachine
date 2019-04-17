@@ -26,13 +26,13 @@ use StateMachine\Business\StateMachine\Timeout;
 use StateMachine\Business\StateMachine\TimeoutInterface;
 use StateMachine\Dependency\ConditionPluginInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
+use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Model\QueryContainer;
 use StateMachine\Model\QueryContainerInterface;
 use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
-use StateMachine\Transfer\StateMachineItemTransfer;
 
 class ConditionTest extends TestCase
 {
@@ -113,7 +113,7 @@ class ConditionTest extends TestCase
 
         $processedTargetState = $condition->getTargetStatesFromTransitions(
             $transitions,
-            new StateMachineItemTransfer(),
+            (new ItemDto())->setStateMachineName('Test'),
             new State(),
             $this->createTransitionLogMock()
         );
@@ -137,7 +137,7 @@ class ConditionTest extends TestCase
 
         $processedTargetState = $condition->getTargetStatesFromTransitions(
             $transitions,
-            new StateMachineItemTransfer(),
+            (new ItemDto())->setStateMachineName('Test'),
             $sourceState,
             $this->createTransitionLogMock()
         );

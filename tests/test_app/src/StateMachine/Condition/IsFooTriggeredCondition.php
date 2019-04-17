@@ -8,7 +8,7 @@
 namespace App\StateMachine\Condition;
 
 use StateMachine\Dependency\ConditionPluginInterface;
-use StateMachine\Transfer\StateMachineItemTransfer;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 class IsFooTriggeredCondition implements ConditionPluginInterface
 {
@@ -16,11 +16,11 @@ class IsFooTriggeredCondition implements ConditionPluginInterface
      * Specification:
      * - This method is called when transition in SM xml file have concrete condition assigned.
      *
-     * @param \StateMachine\Transfer\StateMachineItemTransfer $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
      *
      * @return bool
      */
-    public function check(StateMachineItemTransfer $stateMachineItemTransfer): bool
+    public function check(ItemDto $stateMachineItemTransfer): bool
     {
         if (!file_exists(TMP . 'triggered.txt')) {
             return false;

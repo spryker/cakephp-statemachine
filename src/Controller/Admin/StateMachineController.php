@@ -8,11 +8,13 @@
 namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
+use StateMachine\Controller\CastTrait;
 use StateMachine\FactoryTrait;
 
 class StateMachineController extends AppController
 {
     use FactoryTrait;
+    use CastTrait;
 
     public const URL_PARAM_STATE_MACHINE = 'state-machine';
 
@@ -34,7 +36,7 @@ class StateMachineController extends AppController
      */
     public function process()
     {
-        $stateMachineName = $this->request->getQuery(self::URL_PARAM_STATE_MACHINE);
+        $stateMachineName = $this->castString($this->request->getQuery(self::URL_PARAM_STATE_MACHINE)) ?: null;
 
         $processes = $this->getFactory()
             ->createStateMachineFinder()

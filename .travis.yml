@@ -32,8 +32,8 @@ before_script:
 script:
   - if [[ $DEFAULT == 1 ]]; then vendor/bin/phpunit; fi
 
-  - if [[ $CHECKS == 1 ]]; then composer phpstan ; fi
-  - if [[ $CHECKS == 1 ]]; then composer cs-check ; fi
+  - if [[ $CHECKS == 1 ]]; then composer phpstan; fi
+  - if [[ $CHECKS == 1 ]]; then composer cs-check; fi
 
   - sh -c "if [ '$CODECOVERAGE' = '1' ]; then phpunit --coverage-clover=clover.xml || true; fi"
   - sh -c "if [ '$CODECOVERAGE' = '1' ]; then wget -O codecov.sh https://codecov.io/bash; fi"

@@ -17,13 +17,13 @@ use StateMachine\Business\StateMachine\Finder;
 use StateMachine\Business\StateMachine\FinderInterface;
 use StateMachine\Business\StateMachine\HandlerResolverInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
+use StateMachine\Dto\StateMachine\ItemDto;
+use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\Model\QueryContainer;
 use StateMachine\Model\QueryContainerInterface;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Test\Fixture\StateMachineItemStatesFixture;
 use StateMachine\Test\Fixture\StateMachineProcessesFixture;
-use StateMachine\Transfer\StateMachineItemTransfer;
-use StateMachine\Transfer\StateMachineProcessTransfer;
 
 class FinderTest extends TestCase
 {
@@ -87,7 +87,7 @@ class FinderTest extends TestCase
         $this->assertCount(2, $subProcesses);
 
         $subProcess = array_pop($subProcesses);
-        $this->assertInstanceOf(StateMachineProcessTransfer::class, $subProcess);
+        $this->assertInstanceOf(ProcessDto::class, $subProcess);
         $this->assertSame(StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME, $subProcess->getStateMachineName());
         $this->assertSame(StateMachineProcessesFixture::PROCESS_NAME_2, $subProcess->getProcessName());
     }
@@ -114,7 +114,7 @@ class FinderTest extends TestCase
 
         $stateMachineItems = [];
 
-        $stateMachineItemTransfer = new StateMachineItemTransfer();
+        $stateMachineItemTransfer = new ItemDto();
         $stateMachineItemTransfer->setProcessName(StateMachineProcessesFixture::PROCESS_NAME_1);
         $stateMachineItemTransfer->setStateName('state name');
 
@@ -147,7 +147,7 @@ class FinderTest extends TestCase
 
         $finder = $this->createFinder(null, $builderMock, $stateMachineQueryContainer);
 
-        $stateMachineProcessTransfer = new StateMachineProcessTransfer();
+        $stateMachineProcessTransfer = new ProcessDto();
         $stateMachineProcessTransfer->setProcessName(StateMachineProcessesFixture::PROCESS_NAME_1);
         $stateMachineProcessTransfer->setStateMachineName(StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME);
 
@@ -156,7 +156,7 @@ class FinderTest extends TestCase
         $this->assertCount(1, $stateMachineItems);
 
         $stateMachineItem = $stateMachineItems[0];
-        $this->assertInstanceOf(StateMachineItemTransfer::class, $stateMachineItem);
+        $this->assertInstanceOf(ItemDto::class, $stateMachineItem);
     }
 
     /**
