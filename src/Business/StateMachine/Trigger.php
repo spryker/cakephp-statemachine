@@ -259,7 +259,7 @@ class Trigger implements TriggerInterface
                 continue;
             }
 
-            $commandPlugin = $this->getCommand($event->getCommand(), $itemDto->getStateMachineName());
+            $commandPlugin = $this->getCommand($event->getCommand(), $itemDto->getStateMachineNameOrFail());
 
             $this->transitionLog->addCommand($itemDto, $commandPlugin);
 
@@ -365,8 +365,7 @@ class Trigger implements TriggerInterface
     protected function logSourceState(array $stateMachineItems): void
     {
         foreach ($stateMachineItems as $itemDto) {
-            $stateName = $itemDto->getStateName();
-            $this->transitionLog->addSourceState($itemDto, $stateName);
+            $this->transitionLog->addSourceState($itemDto, $itemDto->getStateNameOrFail());
         }
     }
 

@@ -37,8 +37,8 @@ class TriggerController extends AppController
      */
     public function eventForNewItem(): ?Response
     {
-        $stateMachineName = $this->castString($this->request->getQuery(static::URL_PARAM_STATE_MACHINE)) ?: null;
-        $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS)) ?: null;
+        $stateMachineName = $this->castString($this->request->getQuery(static::URL_PARAM_STATE_MACHINE));
+        $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS));
 
         $processDto = new ProcessDto();
         $processDto->setProcessName($processName);
@@ -68,12 +68,12 @@ class TriggerController extends AppController
         $itemDto->setIdentifier($identifier);
         $itemDto->setIdItemState($idState);
 
-        $stateMachineName = $this->castString($this->request->getQuery(static::URL_PARAM_STATE_MACHINE)) ?: null;
+        $stateMachineName = $this->castString($this->request->getQuery(static::URL_PARAM_STATE_MACHINE));
         $itemDto->setStateMachineName($stateMachineName);
-        $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS)) ?: null;
+        $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS));
         $itemDto->setProcessName($processName);
 
-        $eventName = $this->castString($this->request->getQuery(self::URL_PARAM_EVENT)) ?: null;
+        $eventName = $this->castString($this->request->getQuery(self::URL_PARAM_EVENT));
         $this->getFacade()->triggerEvent($eventName, $itemDto);
 
         $redirect = $this->request->getQuery(self::URL_PARAM_REDIRECT, self::DEFAULT_REDIRECT_URL);

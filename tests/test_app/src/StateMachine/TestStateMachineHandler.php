@@ -96,7 +96,7 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     {
         $result = [];
         foreach (static::$stateMachineItemsByStateIds as $itemDto) {
-            if (in_array($itemDto->getIdItemStateOrFail(), $stateIds)) {
+            if (in_array($itemDto->getIdItemStateOrFail(), $stateIds, true)) {
                 $result[] = $itemDto;
             }
         }

@@ -28,15 +28,12 @@ class GraphController extends AppController
      */
     public function draw()
     {
-        $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS)) ?: null;
-        if ($processName === null) {
-            return $this->redirect(['controller' => 'StateMachine', 'action' => 'index']);
-        }
+        $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS));
+        $stateMachine = $this->castString($this->request->getQuery(self::URL_PARAM_STATE_MACHINE));
 
         $format = $this->assertString($this->request->getQuery(self::URL_PARAM_FORMAT));
         $fontSize = $this->assertInt($this->request->getQuery(self::URL_PARAM_FONT_SIZE));
         $highlightState = $this->assertString($this->request->getQuery(self::URL_PARAM_HIGHLIGHT_STATE));
-        $stateMachine = $this->assertString($this->request->getQuery(self::URL_PARAM_STATE_MACHINE));
 
         $stateMachineBundleConfig = $this->getFactory()->getConfig();
         if ($format === null) {
@@ -59,13 +56,6 @@ class GraphController extends AppController
                 $processDto->getStateMachineNameOrFail()
             )->draw($process, $highlightState, $format, $fontSize);
 
-        /*
-        return $this->streamedResponse(
-            $callback,
-            Response::HTTP_OK,
-            $this->getStreamedResponseHeaders($format)
-        );
-        */
         $this->response = $this->response->withType($format);
 
         return $this->response->withStringBody($response);

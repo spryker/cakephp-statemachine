@@ -168,6 +168,7 @@ class Builder implements BuilderInterface
             $xmlElement = $this->prefixSubProcessElementAttributes($xmlElement, $prefix);
 
             $child = $intoXmlNode->addChild($xmlElement->getName(), $xmlElement);
+            /** @var string[] $attributes */
             $attributes = $xmlElement->attributes();
             foreach ($attributes as $name => $value) {
                 $child->addAttribute($name, $value);
@@ -191,7 +192,7 @@ class Builder implements BuilderInterface
 
         $namespaceDependentElementNames = ['source', 'target', 'event'];
 
-        if (in_array($xmlElement->getName(), $namespaceDependentElementNames)) {
+        if (in_array($xmlElement->getName(), $namespaceDependentElementNames, true)) {
             $xmlElement[0] = $prefix . $this->stateMachineConfig->getSubProcessPrefixDelimiter() . $xmlElement[0];
         }
 
@@ -212,7 +213,7 @@ class Builder implements BuilderInterface
 
         $namespaceDependentElementNames = ['state', 'event'];
 
-        if (in_array($xmlElement->getName(), $namespaceDependentElementNames)) {
+        if (in_array($xmlElement->getName(), $namespaceDependentElementNames, true)) {
             $xmlElement->attributes()['name'] = $prefix . $this->stateMachineConfig->getSubProcessPrefixDelimiter() . $xmlElement->attributes()['name'];
         }
 
@@ -338,6 +339,9 @@ class Builder implements BuilderInterface
         foreach ($xmlProcesses as $xmlProcess) {
             $process = clone $this->process;
             $processName = $this->getAttributeString($xmlProcess, self::STATE_NAME_ATTRIBUTE);
+            if (!$processName) {
+                throw new StateMachineException('No process name found in ' . $xmlProcess);
+            }
             $process->setName($processName);
             $processMap[$processName] = $process;
             $process->setIsMain($this->getAttributeBoolean($xmlProcess, self::PROCESS_MAIN_FLAG_ATTRIBUTE));
@@ -417,12 +421,19 @@ class Builder implements BuilderInterface
      * @param \SimpleXMLElement $xmlState
      * @param \StateMachine\Business\Process\ProcessInterface $process
      *
+     * @throws \StateMachine\Business\Exception\StateMachineException
+     *
      * @return \StateMachine\Business\Process\StateInterface
      */
     protected function createState(SimpleXMLElement $xmlState, ProcessInterface $process): StateInterface
     {
         $state = clone $this->state;
-        $state->setName($this->getAttributeString($xmlState, self::STATE_NAME_ATTRIBUTE));
+        $name = $this->getAttributeString($xmlState, self::STATE_NAME_ATTRIBUTE);
+        if (!$name) {
+            throw new StateMachineException('No name given for XML of ' . $process->getName());
+        }
+
+        $state->setName($name);
         //$state->setDisplay($this->getAttributeString($xmlState, self::STATE_DISPLAY_ATTRIBUTE));
         $state->setProcess($process);
         $state = $this->addFlags($xmlState, $state);

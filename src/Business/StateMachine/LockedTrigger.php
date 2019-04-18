@@ -42,8 +42,8 @@ class LockedTrigger implements TriggerInterface
     {
         $lockIdentifier = $this->buildLockIdentifier(
             $identifier,
-            $processDto->getStateMachineName(),
-            $processDto->getProcessName()
+            $processDto->getStateMachineNameOrFail(),
+            $processDto->getProcessNameOrFail()
         );
 
         $lockHash = $this->hashIdentifier($lockIdentifier);

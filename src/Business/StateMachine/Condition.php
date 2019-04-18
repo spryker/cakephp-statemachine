@@ -154,6 +154,7 @@ class Condition implements ConditionInterface
     {
         $targetState = $sourceState;
         if (count($possibleTransitions) > 0) {
+            /** @var \StateMachine\Business\Process\TransitionInterface $selectedTransition */
             $selectedTransition = array_shift($possibleTransitions);
             $targetState = $selectedTransition->getTargetState();
         }

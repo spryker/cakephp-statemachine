@@ -48,7 +48,7 @@ class Timeout implements TimeoutInterface
      */
     public function setNewTimeout(ProcessInterface $process, ItemDto $itemDto): void
     {
-        $targetState = $this->getStateFromProcess($itemDto->getStateName(), $process);
+        $targetState = $this->getStateFromProcess($itemDto->getStateNameOrFail(), $process);
         if (!$targetState->hasTimeoutEvent()) {
             return;
         }
@@ -57,7 +57,7 @@ class Timeout implements TimeoutInterface
         $handledEvents = [];
         $currentTime = new FrozenTime('now');
         foreach ($events as $event) {
-            if (in_array($event->getName(), $handledEvents)) {
+            if (in_array($event->getName(), $handledEvents, true)) {
                 continue;
             }
 

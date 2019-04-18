@@ -6,3 +6,4 @@ parameters:
   ignoreErrors:
     - '#Method .+::.+Table\(\) should return .+Table but returns Cake\\ORM\\Table.#'
     - '#Cannot call method (contain|where)\(\) on .+.#'
+    - '#Parameter \#1 $message of method .+FlashComponent::success\(\) expects string, string|null given.#'

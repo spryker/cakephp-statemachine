@@ -228,7 +228,7 @@ class Finder implements FinderInterface
             if (isset($sourceStates[$itemDto->getIdentifierOrFail()])) {
                 $sourceState = $sourceStates[$itemDto->getIdentifierOrFail()];
             } else {
-                $sourceState = $process->getStateFromAllProcesses($itemDto->getStateName());
+                $sourceState = $process->getStateFromAllProcesses($itemDto->getStateNameOrFail());
             }
 
             if ($sourceState !== $targetState->getName() && $targetState->hasOnEnterEvent()) {
@@ -269,9 +269,9 @@ class Finder implements FinderInterface
                 continue;
             }
 
-            $processes[$itemDto->getProcessName()] = $this->findProcessByStateMachineAndProcessName(
-                $itemDto->getStateMachineName(),
-                $itemDto->getProcessName()
+            $processes[$processName] = $this->findProcessByStateMachineAndProcessName(
+                $itemDto->getStateMachineNameOrFail(),
+                $processName
             );
         }
 
@@ -327,7 +327,7 @@ class Finder implements FinderInterface
         StateMachineProcess $stateMachineProcessEntity
     ): ItemDto {
         $itemDto = new ItemDto();
-        $itemDto->setProcessName($processDto->getProcessName());
+        $itemDto->setProcessName($processDto->getProcessNameOrFail());
         $itemDto->setIdItemState($stateMachineItemEntity->id);
         $itemDto->setIdStateMachineProcess($stateMachineProcessEntity->id);
         $itemDto->setStateName($stateMachineItemEntity->name);
@@ -351,8 +351,8 @@ class Finder implements FinderInterface
     {
         /** @var \StateMachine\Model\Entity\StateMachineProcess|null $stateMachineProcess */
         $stateMachineProcess = $this->queryContainer->queryProcessByStateMachineAndProcessName(
-            $processDto->getStateMachineName(),
-            $processDto->getProcessName()
+            $processDto->getStateMachineNameOrFail(),
+            $processDto->getProcessNameOrFail()
         )->first();
 
         return $stateMachineProcess;
@@ -368,8 +368,8 @@ class Finder implements FinderInterface
     {
         /** @var \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\ORM\ResultSet $itemStateCollection */
         $itemStateCollection = $this->queryContainer->queryItemsByIdStateMachineProcessAndItemStates(
-            $processDto->getStateMachineName(),
-            $processDto->getProcessName(),
+            $processDto->getStateMachineNameOrFail(),
+            $processDto->getProcessNameOrFail(),
             $statesByFlag
         )->all();
 

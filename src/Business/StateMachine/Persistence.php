@@ -142,7 +142,7 @@ class Persistence implements PersistenceInterface
     {
         $itemDto = $this->saveStateMachineItem($itemDto, $stateName);
 
-        return $itemDto->getIdItemState();
+        return $itemDto->getIdItemStateOrFail();
     }
 
     /**
@@ -165,12 +165,12 @@ class Persistence implements PersistenceInterface
 
             if ($stateMachineItemStateEntity === null) {
                 $this->saveStateMachineItemEntity($itemDto, $stateName);
-                /** @var \StateMachine\Model\Entity\StateMachineItemState|null $stateMachineItemStateEntity */
+                /** @var \StateMachine\Model\Entity\StateMachineItemState $stateMachineItemStateEntity */
                 $stateMachineItemStateEntity = $this->stateMachineQueryContainer
                     ->queryItemStateByIdProcessAndStateName(
                         $itemDto->getIdStateMachineProcessOrFail(),
                         $stateName
-                    )->first();
+                    )->firstOrFail();
             }
             $this->persistedStates[$stateName] = $stateMachineItemStateEntity;
         }
@@ -209,7 +209,7 @@ class Persistence implements PersistenceInterface
             /** @var \StateMachine\Model\Entity\StateMachineItemState|null $stateMachineItemStateEntity */
             $stateMachineItemStateEntity = $this->stateMachineQueryContainer
                 ->queryStateByIdState(
-                    $itemDto->getIdItemState()
+                    $itemDto->getIdItemStateOrFail()
                 )->first();
 
             if ($stateMachineItemStateEntity === null) {
@@ -410,8 +410,8 @@ class Persistence implements PersistenceInterface
     protected function saveStateMachineProcess(ProcessDto $processDto): StateMachineProcess
     {
         $stateMachineProcessEntity = $this->stateMachineProcessesTable->newEntity();
-        $stateMachineProcessEntity->name = $processDto->getProcessName();
-        $stateMachineProcessEntity->state_machine = $processDto->getStateMachineName();
+        $stateMachineProcessEntity->name = $processDto->getProcessNameOrFail();
+        $stateMachineProcessEntity->state_machine = $processDto->getStateMachineNameOrFail();
 
         $this->stateMachineProcessesTable->saveOrFail($stateMachineProcessEntity);
 
@@ -428,7 +428,7 @@ class Persistence implements PersistenceInterface
     {
         $stateMachineItemStateEntity = $this->stateMachineItemStatesTable->newEntity();
         $stateMachineItemStateEntity->name = $stateName;
-        $stateMachineItemStateEntity->state_machine_process_id = $itemDto->getIdStateMachineProcess();
+        $stateMachineItemStateEntity->state_machine_process_id = $itemDto->getIdStateMachineProcessOrFail();
 
         $this->stateMachineItemStatesTable->saveOrFail($stateMachineItemStateEntity);
 

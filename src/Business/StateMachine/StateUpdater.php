@@ -121,7 +121,7 @@ class StateUpdater implements StateUpdaterInterface
      */
     protected function notifyHandlerStateChanged(ItemDto $itemDto): void
     {
-        $stateMachineHandler = $this->stateMachineHandlerResolver->get($itemDto->getStateMachineName());
+        $stateMachineHandler = $this->stateMachineHandlerResolver->get($itemDto->getStateMachineNameOrFail());
 
         $stateMachineHandler->itemStateUpdated($itemDto);
     }

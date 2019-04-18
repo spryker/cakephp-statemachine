@@ -346,7 +346,7 @@ class State implements StateInterface
      */
     public function hasFlag(string $flag): bool
     {
-        return in_array($flag, $this->flags);
+        return in_array($flag, $this->flags, true);
     }
 
     /**
