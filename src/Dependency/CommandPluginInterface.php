@@ -17,9 +17,9 @@ interface CommandPluginInterface
      *
      * @api
      *
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return bool
      */
-    public function run(ItemDto $stateMachineItemTransfer): bool;
+    public function run(ItemDto $itemDto): bool;
 }

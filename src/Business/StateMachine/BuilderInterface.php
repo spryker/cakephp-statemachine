@@ -12,9 +12,9 @@ use StateMachine\Dto\StateMachine\ProcessDto;
 interface BuilderInterface
 {
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      *
      * @return \StateMachine\Business\Process\ProcessInterface
      */
-    public function createProcess(ProcessDto $stateMachineProcessTransfer);
+    public function createProcess(ProcessDto $processDto);
 }

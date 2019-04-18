@@ -16,11 +16,11 @@ class IsFooTriggeredCondition implements ConditionPluginInterface
      * Specification:
      * - This method is called when transition in SM xml file have concrete condition assigned.
      *
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return bool
      */
-    public function check(ItemDto $stateMachineItemTransfer): bool
+    public function check(ItemDto $itemDto): bool
     {
         if (!file_exists(TMP . 'triggered.txt')) {
             return false;

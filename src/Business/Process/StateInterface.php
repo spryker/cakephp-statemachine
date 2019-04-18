@@ -19,12 +19,12 @@ interface StateInterface
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getIncomingTransitions();
+    public function getIncomingTransitions(): array;
 
     /**
      * @return bool
      */
-    public function hasIncomingTransitions();
+    public function hasIncomingTransitions(): bool;
 
     /**
      * @param \StateMachine\Business\Process\TransitionInterface[] $outgoingTransitions

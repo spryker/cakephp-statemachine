@@ -12,13 +12,13 @@ use StateMachine\Dto\StateMachine\ProcessDto;
 interface TriggerInterface
 {
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $identifier
      *
      * @return int
      */
     public function triggerForNewStateMachineItem(
-        ProcessDto $stateMachineProcessTransfer,
+        ProcessDto $processDto,
         string $identifier
     ): int;
 

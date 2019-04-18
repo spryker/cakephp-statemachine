@@ -101,10 +101,10 @@ class LockedTriggerTest extends TestCase
      */
     protected function createProcessDto(string $processName, string $stateMachineName): ProcessDto
     {
-        $stateMachineProcessTransfer = new ProcessDto();
-        $stateMachineProcessTransfer->setProcessName($processName);
-        $stateMachineProcessTransfer->setStateMachineName($stateMachineName);
+        $processDto = new ProcessDto();
+        $processDto->setProcessName($processName);
+        $processDto->setStateMachineName($stateMachineName);
 
-        return $stateMachineProcessTransfer;
+        return $processDto;
     }
 }

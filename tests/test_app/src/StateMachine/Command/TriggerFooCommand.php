@@ -15,11 +15,11 @@ class TriggerFooCommand implements CommandPluginInterface
     /**
      * This method is called when event have concrete command assigned.
      *
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return bool
      */
-    public function run(ItemDto $stateMachineItemTransfer): bool
+    public function run(ItemDto $itemDto): bool
     {
         file_put_contents(TMP . 'triggered.txt', date('Y-m-d H:i:s'));
 

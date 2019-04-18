@@ -15,7 +15,7 @@ interface ConditionInterface
 {
     /**
      * @param \StateMachine\Business\Process\TransitionInterface[] $transitions
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      * @param \StateMachine\Business\Process\StateInterface $sourceState
      * @param \StateMachine\Business\Logger\TransitionLogInterface $transactionLogger
      *
@@ -25,7 +25,7 @@ interface ConditionInterface
      */
     public function getTargetStatesFromTransitions(
         array $transitions,
-        ItemDto $stateMachineItemTransfer,
+        ItemDto $itemDto,
         StateInterface $sourceState,
         TransitionLogInterface $transactionLogger
     );

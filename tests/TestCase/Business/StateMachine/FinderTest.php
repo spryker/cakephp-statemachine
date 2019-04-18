@@ -114,11 +114,11 @@ class FinderTest extends TestCase
 
         $stateMachineItems = [];
 
-        $stateMachineItemTransfer = new ItemDto();
-        $stateMachineItemTransfer->setProcessName(StateMachineProcessesFixture::PROCESS_NAME_1);
-        $stateMachineItemTransfer->setStateName('state name');
+        $itemDto = new ItemDto();
+        $itemDto->setProcessName(StateMachineProcessesFixture::PROCESS_NAME_1);
+        $itemDto->setStateName('state name');
 
-        $stateMachineItems[] = $stateMachineItemTransfer;
+        $stateMachineItems[] = $itemDto;
 
         $manualEvents = $finder->getManualEventsForStateMachineItems($stateMachineItems);
 
@@ -147,11 +147,11 @@ class FinderTest extends TestCase
 
         $finder = $this->createFinder(null, $builderMock, $stateMachineQueryContainer);
 
-        $stateMachineProcessTransfer = new ProcessDto();
-        $stateMachineProcessTransfer->setProcessName(StateMachineProcessesFixture::PROCESS_NAME_1);
-        $stateMachineProcessTransfer->setStateMachineName(StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME);
+        $processDto = new ProcessDto();
+        $processDto->setProcessName(StateMachineProcessesFixture::PROCESS_NAME_1);
+        $processDto->setStateMachineName(StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME);
 
-        $stateMachineItems = $finder->getItemsWithFlag($stateMachineProcessTransfer, 'test');
+        $stateMachineItems = $finder->getItemsWithFlag($processDto, 'test');
 
         $this->assertCount(1, $stateMachineItems);
 

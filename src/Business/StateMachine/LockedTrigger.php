@@ -33,17 +33,17 @@ class LockedTrigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $identifier
      *
      * @return int
      */
-    public function triggerForNewStateMachineItem(ProcessDto $stateMachineProcessTransfer, string $identifier): int
+    public function triggerForNewStateMachineItem(ProcessDto $processDto, string $identifier): int
     {
         $lockIdentifier = $this->buildLockIdentifier(
             $identifier,
-            $stateMachineProcessTransfer->getStateMachineName(),
-            $stateMachineProcessTransfer->getProcessName()
+            $processDto->getStateMachineName(),
+            $processDto->getProcessName()
         );
 
         $lockIdentifier = $this->hashIdentifier($lockIdentifier);
@@ -51,7 +51,7 @@ class LockedTrigger implements TriggerInterface
         $this->itemLock->acquire($lockIdentifier);
 
         try {
-            $triggerResult = $this->stateMachineTrigger->triggerForNewStateMachineItem($stateMachineProcessTransfer, $identifier);
+            $triggerResult = $this->stateMachineTrigger->triggerForNewStateMachineItem($processDto, $identifier);
         } finally {
             $this->itemLock->release($lockIdentifier);
         }
@@ -98,14 +98,14 @@ class LockedTrigger implements TriggerInterface
     protected function buildIdentifierForMultipleItemLock(array $stateMachineItems): string
     {
         $identifier = '';
-        foreach ($stateMachineItems as $stateMachineItemTransfer) {
+        foreach ($stateMachineItems as $itemDto) {
             if ($identifier) {
                 $identifier .= '-';
             }
             $identifier .= $this->buildLockIdentifier(
-                $stateMachineItemTransfer->getIdentifier(),
-                $stateMachineItemTransfer->getProcessName(),
-                $stateMachineItemTransfer->getStateMachineName()
+                $itemDto->getIdentifier(),
+                $itemDto->getProcessName(),
+                $itemDto->getStateMachineName()
             );
         }
 

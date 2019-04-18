@@ -42,13 +42,13 @@ class Timeout implements TimeoutInterface
 
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $process
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return void
      */
-    public function setNewTimeout(ProcessInterface $process, ItemDto $stateMachineItemTransfer): void
+    public function setNewTimeout(ProcessInterface $process, ItemDto $itemDto): void
     {
-        $targetState = $this->getStateFromProcess($stateMachineItemTransfer->getStateName(), $process);
+        $targetState = $this->getStateFromProcess($itemDto->getStateName(), $process);
         if (!$targetState->hasTimeoutEvent()) {
             return;
         }
@@ -64,28 +64,28 @@ class Timeout implements TimeoutInterface
             $handledEvents[] = $event->getName();
             $timeoutDate = $this->calculateTimeoutDateFromEvent($currentTime, $event);
 
-            $this->stateMachinePersistence->dropTimeoutByItem($stateMachineItemTransfer);
+            $this->stateMachinePersistence->dropTimeoutByItem($itemDto);
 
-            $this->stateMachinePersistence->saveStateMachineItemTimeout($stateMachineItemTransfer, $timeoutDate, $event->getName());
+            $this->stateMachinePersistence->saveStateMachineItemTimeout($itemDto, $timeoutDate, $event->getName());
         }
     }
 
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $process
      * @param string $stateName
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return void
      */
     public function dropOldTimeout(
         ProcessInterface $process,
         $stateName,
-        ItemDto $stateMachineItemTransfer
+        ItemDto $itemDto
     ): void {
         $sourceState = $this->getStateFromProcess($stateName, $process);
 
         if ($sourceState->hasTimeoutEvent()) {
-            $this->stateMachinePersistence->dropTimeoutByItem($stateMachineItemTransfer);
+            $this->stateMachinePersistence->dropTimeoutByItem($itemDto);
         }
     }
 

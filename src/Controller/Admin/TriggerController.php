@@ -40,12 +40,12 @@ class TriggerController extends AppController
         $stateMachineName = $this->castString($this->request->getQuery(static::URL_PARAM_STATE_MACHINE)) ?: null;
         $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS)) ?: null;
 
-        $stateMachineProcessTransfer = new ProcessDto();
-        $stateMachineProcessTransfer->setProcessName($processName);
-        $stateMachineProcessTransfer->setStateMachineName($stateMachineName);
+        $processDto = new ProcessDto();
+        $processDto->setProcessName($processName);
+        $processDto->setStateMachineName($stateMachineName);
 
         $identifier = $this->castString($this->request->getQuery(static::URL_PARAM_IDENTIFIER)) ?: null;
-        $this->getFacade()->triggerForNewStateMachineItem($stateMachineProcessTransfer, $identifier);
+        $this->getFacade()->triggerForNewStateMachineItem($processDto, $identifier);
 
         $redirect = $this->assertString($this->request->getQuery(static::URL_PARAM_REDIRECT)) ?: static::DEFAULT_REDIRECT_URL;
         if (!$redirect) {
@@ -64,17 +64,17 @@ class TriggerController extends AppController
         $identifier = $this->castString($this->request->getQuery(self::URL_PARAM_IDENTIFIER)) ?: null;
         $idState = $this->castInt($this->request->getQuery(self::URL_PARAM_ID_STATE));
 
-        $stateMachineItemTransfer = new ItemDto();
-        $stateMachineItemTransfer->setIdentifier($identifier);
-        $stateMachineItemTransfer->setIdItemState($idState);
+        $itemDto = new ItemDto();
+        $itemDto->setIdentifier($identifier);
+        $itemDto->setIdItemState($idState);
 
         $stateMachineName = $this->castString($this->request->getQuery(static::URL_PARAM_STATE_MACHINE)) ?: null;
-        $stateMachineItemTransfer->setStateMachineName($stateMachineName);
+        $itemDto->setStateMachineName($stateMachineName);
         $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS)) ?: null;
-        $stateMachineItemTransfer->setProcessName($processName);
+        $itemDto->setProcessName($processName);
 
         $eventName = $this->castString($this->request->getQuery(self::URL_PARAM_EVENT)) ?: null;
-        $this->getFacade()->triggerEvent($eventName, $stateMachineItemTransfer);
+        $this->getFacade()->triggerEvent($eventName, $itemDto);
 
         $redirect = $this->request->getQuery(self::URL_PARAM_REDIRECT, self::DEFAULT_REDIRECT_URL);
         if (!$redirect) {

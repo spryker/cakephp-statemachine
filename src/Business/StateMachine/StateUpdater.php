@@ -68,36 +68,36 @@ class StateUpdater implements StateUpdaterInterface
             return;
         }
 
-        foreach ($stateMachineItems as $stateMachineItemTransfer) {
-            $this->executeUpdateItemStateTransaction($processes, $sourceStates, $stateMachineItemTransfer);
+        foreach ($stateMachineItems as $itemDto) {
+            $this->executeUpdateItemStateTransaction($processes, $sourceStates, $itemDto);
         }
     }
 
     /**
      * @param \StateMachine\Business\Process\ProcessInterface[] $processes
      * @param string[] $sourceStates
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return void
      */
     protected function executeUpdateItemStateTransaction(
         array $processes,
         array $sourceStates,
-        ItemDto $stateMachineItemTransfer
+        ItemDto $itemDto
     ) {
-        $process = $processes[$stateMachineItemTransfer->getProcessNameOrFail()];
+        $process = $processes[$itemDto->getProcessNameOrFail()];
 
-        $this->assertSourceStateExists($sourceStates, $stateMachineItemTransfer);
+        $this->assertSourceStateExists($sourceStates, $itemDto);
 
-        $sourceState = $sourceStates[$stateMachineItemTransfer->getIdentifierOrFail()];
-        $targetState = $stateMachineItemTransfer->getStateNameOrFail();
+        $sourceState = $sourceStates[$itemDto->getIdentifierOrFail()];
+        $targetState = $itemDto->getStateNameOrFail();
 
-        $this->transitionState($sourceState, $targetState, $stateMachineItemTransfer, $process);
+        $this->transitionState($sourceState, $targetState, $itemDto, $process);
     }
 
     /**
      * @param array $sourceStateBuffer
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @throws \StateMachine\Business\Exception\StateMachineException
      *
@@ -105,9 +105,9 @@ class StateUpdater implements StateUpdaterInterface
      */
     protected function assertSourceStateExists(
         array $sourceStateBuffer,
-        ItemDto $stateMachineItemTransfer
+        ItemDto $itemDto
     ) {
-        if (!isset($sourceStateBuffer[$stateMachineItemTransfer->getIdentifier()])) {
+        if (!isset($sourceStateBuffer[$itemDto->getIdentifier()])) {
             throw new StateMachineException(
                 sprintf('Could not update state, source state not found.')
             );
@@ -115,37 +115,37 @@ class StateUpdater implements StateUpdaterInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return void
      */
-    protected function notifyHandlerStateChanged(ItemDto $stateMachineItemTransfer)
+    protected function notifyHandlerStateChanged(ItemDto $itemDto)
     {
-        $stateMachineHandler = $this->stateMachineHandlerResolver->get($stateMachineItemTransfer->getStateMachineName());
+        $stateMachineHandler = $this->stateMachineHandlerResolver->get($itemDto->getStateMachineName());
 
-        $stateMachineHandler->itemStateUpdated($stateMachineItemTransfer);
+        $stateMachineHandler->itemStateUpdated($itemDto);
     }
 
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $process
      * @param string $sourceState
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return void
      */
     protected function updateTimeouts(
         ProcessInterface $process,
         $sourceState,
-        ItemDto $stateMachineItemTransfer
+        ItemDto $itemDto
     ) {
-        $this->timeout->dropOldTimeout($process, $sourceState, $stateMachineItemTransfer);
-        $this->timeout->setNewTimeout($process, $stateMachineItemTransfer);
+        $this->timeout->dropOldTimeout($process, $sourceState, $itemDto);
+        $this->timeout->setNewTimeout($process, $itemDto);
     }
 
     /**
      * @param string $sourceState
      * @param string $targetState
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      * @param \StateMachine\Business\Process\ProcessInterface $process
      *
      * @return void
@@ -153,14 +153,14 @@ class StateUpdater implements StateUpdaterInterface
     protected function transitionState(
         $sourceState,
         $targetState,
-        ItemDto $stateMachineItemTransfer,
+        ItemDto $itemDto,
         ProcessInterface $process
     ) {
         if ($sourceState === $targetState) {
             return;
         }
-        $this->updateTimeouts($process, $sourceState, $stateMachineItemTransfer);
-        $this->notifyHandlerStateChanged($stateMachineItemTransfer);
-        $this->stateMachinePersistence->saveItemStateHistory($stateMachineItemTransfer);
+        $this->updateTimeouts($process, $sourceState, $itemDto);
+        $this->notifyHandlerStateChanged($itemDto);
+        $this->stateMachinePersistence->saveItemStateHistory($itemDto);
     }
 }

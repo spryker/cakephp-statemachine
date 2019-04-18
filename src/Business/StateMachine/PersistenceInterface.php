@@ -15,27 +15,27 @@ use StateMachine\Model\Entity\StateMachineTimeout;
 interface PersistenceInterface
 {
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      *
      * @return int
      */
-    public function getProcessId(ProcessDto $stateMachineProcessTransfer): int;
+    public function getProcessId(ProcessDto $processDto): int;
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      * @param string $stateName
      *
      * @return int
      */
-    public function getInitialStateIdByStateName(ItemDto $stateMachineItemTransfer, string $stateName): int;
+    public function getInitialStateIdByStateName(ItemDto $itemDto, string $stateName): int;
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      * @param string $stateName
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto
      */
-    public function saveStateMachineItem(ItemDto $stateMachineItemTransfer, string $stateName): ItemDto;
+    public function saveStateMachineItem(ItemDto $itemDto, string $stateName): ItemDto;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
@@ -53,11 +53,11 @@ interface PersistenceInterface
     public function getStateHistoryByStateItemIdentifier(string $itemIdentifier, int $idStateMachineProcess): array;
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto
      */
-    public function getProcessedItemDto(ItemDto $stateMachineItemTransfer): ItemDto;
+    public function getProcessedItemDto(ItemDto $itemDto): ItemDto;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
@@ -80,31 +80,31 @@ interface PersistenceInterface
     ): array;
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return void
      */
-    public function saveItemStateHistory(ItemDto $stateMachineItemTransfer);
+    public function saveItemStateHistory(ItemDto $itemDto);
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      * @param \Cake\I18n\FrozenTime $timeoutDate
      * @param string $eventName
      *
      * @return \StateMachine\Model\Entity\StateMachineTimeout
      */
     public function saveStateMachineItemTimeout(
-        ItemDto $stateMachineItemTransfer,
+        ItemDto $itemDto,
         FrozenTime $timeoutDate,
         string $eventName
     ): StateMachineTimeout;
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return void
      */
-    public function dropTimeoutByItem(ItemDto $stateMachineItemTransfer): void;
+    public function dropTimeoutByItem(ItemDto $itemDto): void;
 
     /**
      * @param string $stateMachineName

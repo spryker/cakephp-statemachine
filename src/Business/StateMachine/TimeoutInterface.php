@@ -14,22 +14,22 @@ interface TimeoutInterface
 {
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $process
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return void
      */
-    public function setNewTimeout(ProcessInterface $process, ItemDto $stateMachineItemTransfer);
+    public function setNewTimeout(ProcessInterface $process, ItemDto $itemDto);
 
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $process
      * @param string $stateName
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return void
      */
     public function dropOldTimeout(
         ProcessInterface $process,
         $stateName,
-        ItemDto $stateMachineItemTransfer
+        ItemDto $itemDto
     );
 }

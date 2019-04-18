@@ -46,17 +46,17 @@ class GraphController extends AppController
             $fontSize = $stateMachineBundleConfig->getGraphDefaultFontSize();
         }
 
-        $stateMachineProcessTransfer = new ProcessDto();
-        $stateMachineProcessTransfer->setStateMachineName($stateMachine);
-        $stateMachineProcessTransfer->setProcessName($processName);
+        $processDto = new ProcessDto();
+        $processDto->setStateMachineName($stateMachine);
+        $processDto->setProcessName($processName);
 
         $process = $this->getFactory()
             ->createStateMachineBuilder()
-            ->createProcess($stateMachineProcessTransfer);
+            ->createProcess($processDto);
 
         $response = $this->getFactory()
             ->createGraphDrawer(
-                $stateMachineProcessTransfer->getStateMachineNameOrFail()
+                $processDto->getStateMachineNameOrFail()
             )->draw($process, $highlightState, $format, $fontSize);
 
         /*

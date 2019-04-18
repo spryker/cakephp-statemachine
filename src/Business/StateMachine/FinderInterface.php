@@ -34,27 +34,27 @@ interface FinderInterface
     public function getManualEventsForStateMachineItems(array $stateMachineItems);
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return array
      */
-    public function getManualEventsForStateMachineItem(ItemDto $stateMachineItemTransfer);
+    public function getManualEventsForStateMachineItem(ItemDto $itemDto);
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flag
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto[] $itemDto
      */
-    public function getItemsWithFlag(ProcessDto $stateMachineProcessTransfer, $flag);
+    public function getItemsWithFlag(ProcessDto $processDto, $flag);
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flag
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto[] $itemDto
      */
-    public function getItemsWithoutFlag(ProcessDto $stateMachineProcessTransfer, $flag);
+    public function getItemsWithoutFlag(ProcessDto $processDto, $flag);
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems

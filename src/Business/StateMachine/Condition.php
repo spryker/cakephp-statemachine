@@ -75,7 +75,7 @@ class Condition implements ConditionInterface
 
     /**
      * @param \StateMachine\Business\Process\TransitionInterface[] $transitions
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      * @param \StateMachine\Business\Process\StateInterface $sourceState
      * @param \StateMachine\Business\Logger\TransitionLogInterface $transactionLogger
      *
@@ -83,7 +83,7 @@ class Condition implements ConditionInterface
      */
     public function getTargetStatesFromTransitions(
         array $transitions,
-        ItemDto $stateMachineItemTransfer,
+        ItemDto $itemDto,
         StateInterface $sourceState,
         TransitionLogInterface $transactionLogger
     ) {
@@ -91,7 +91,7 @@ class Condition implements ConditionInterface
         foreach ($transitions as $transition) {
             if ($transition->hasCondition()) {
                 $isValidCondition = $this->checkCondition(
-                    $stateMachineItemTransfer,
+                    $itemDto,
                     $transactionLogger,
                     $transition->getCondition()
                 );
@@ -108,7 +108,7 @@ class Condition implements ConditionInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      * @param \StateMachine\Business\Logger\TransitionLogInterface $transactionLogger
      * @param string $conditionName
      *
@@ -117,17 +117,17 @@ class Condition implements ConditionInterface
      * @return bool
      */
     protected function checkCondition(
-        ItemDto $stateMachineItemTransfer,
+        ItemDto $itemDto,
         TransitionLogInterface $transactionLogger,
         $conditionName
     ) {
         $conditionPlugin = $this->getConditionPlugin(
             $conditionName,
-            $stateMachineItemTransfer->getStateMachineNameOrFail()
+            $itemDto->getStateMachineNameOrFail()
         );
 
         try {
-            $conditionCheck = $conditionPlugin->check($stateMachineItemTransfer);
+            $conditionCheck = $conditionPlugin->check($itemDto);
         } catch (Exception $e) {
             $transactionLogger->setIsError(true);
             $transactionLogger->setErrorMessage(get_class($conditionPlugin) . ' - ' . $e->getMessage());
@@ -136,7 +136,7 @@ class Condition implements ConditionInterface
         }
 
         if ($conditionCheck === true) {
-            $transactionLogger->addCondition($stateMachineItemTransfer, $conditionPlugin);
+            $transactionLogger->addCondition($itemDto, $conditionPlugin);
             return true;
         }
 
@@ -237,36 +237,36 @@ class Condition implements ConditionInterface
         array $stateMachineItems
     ) {
         $targetStateMap = [];
-        foreach ($stateMachineItems as $i => $stateMachineItemTransfer) {
-            $stateName = $stateMachineItemTransfer->getStateNameOrFail();
+        foreach ($stateMachineItems as $i => $itemDto) {
+            $stateName = $itemDto->getStateNameOrFail();
 
             $process = $this->finder->findProcessByStateMachineAndProcessName(
                 $stateMachineName,
-                $stateMachineItemTransfer->getProcessNameOrFail()
+                $itemDto->getProcessNameOrFail()
             );
 
             $sourceState = $process->getStateFromAllProcesses($stateName);
 
-            $this->transitionLog->addSourceState($stateMachineItemTransfer, $sourceState->getName());
+            $this->transitionLog->addSourceState($itemDto, $sourceState->getName());
 
-            $transitions = $states[$stateMachineItemTransfer->getStateNameOrFail()];
+            $transitions = $states[$itemDto->getStateNameOrFail()];
 
             $targetState = $sourceState;
             if (count($transitions) > 0) {
                 $targetState = $this->getTargetStatesFromTransitions(
                     $transitions,
-                    $stateMachineItemTransfer,
+                    $itemDto,
                     $sourceState,
                     $this->transitionLog
                 );
             }
 
-            $this->transitionLog->addTargetState($stateMachineItemTransfer, $targetState->getName());
+            $this->transitionLog->addTargetState($itemDto, $targetState->getName());
 
             $targetStateMap[$i] = $targetState->getName();
         }
 
-        foreach ($stateMachineItems as $i => $stateMachineItemTransfer) {
+        foreach ($stateMachineItems as $i => $itemDto) {
             $this->stateMachinePersistence->saveStateMachineItem($stateMachineItems[$i], $targetStateMap[$i]);
         }
     }
@@ -334,8 +334,8 @@ class Condition implements ConditionInterface
     protected function createStateMap(array $stateMachineItems)
     {
         $sourceStates = [];
-        foreach ($stateMachineItems as $stateMachineItemTransfer) {
-            $sourceStates[$stateMachineItemTransfer->getIdentifier()] = $stateMachineItemTransfer->getStateName();
+        foreach ($stateMachineItems as $itemDto) {
+            $sourceStates[$itemDto->getIdentifier()] = $itemDto->getStateName();
         }
         return $sourceStates;
     }

@@ -21,11 +21,11 @@ interface QueryContainerInterface
     public function queryStateByIdState(int $idState): Query;
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return \Cake\ORM\Query
      */
-    public function queryItemsWithExistingHistory(ItemDto $stateMachineItemTransfer): Query;
+    public function queryItemsWithExistingHistory(ItemDto $itemDto): Query;
 
     /**
      * @param \Cake\I18n\FrozenTime $expirationDate

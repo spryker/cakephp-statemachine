@@ -33,11 +33,11 @@ class QueryContainer implements QueryContainerInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return \Cake\ORM\Query
      */
-    public function queryItemsWithExistingHistory(ItemDto $stateMachineItemTransfer): Query
+    public function queryItemsWithExistingHistory(ItemDto $itemDto): Query
     {
         $stateMachineItemStatesTable = $this->getFactory()
             ->createStateMachineItemStatesTable();
@@ -45,10 +45,10 @@ class QueryContainer implements QueryContainerInterface
         return $stateMachineItemStatesTable
             ->find()
             ->contain($this->getFactory()->createStateMachineProcessesTable()->getAlias())
-            ->contain($this->getFactory()->createStateMachineItemStateHistoryTable()->getAlias(), function (Query $query) use ($stateMachineItemTransfer) {
-                return $query->where(['identifier' => $stateMachineItemTransfer->getIdentifierOrFail()]);
+            ->contain($this->getFactory()->createStateMachineItemStateHistoryTable()->getAlias(), function (Query $query) use ($itemDto) {
+                return $query->where(['identifier' => $itemDto->getIdentifierOrFail()]);
             })
-            ->where([$stateMachineItemStatesTable->aliasField('id') => $stateMachineItemTransfer->getIdItemStateOrFail()]);
+            ->where([$stateMachineItemStatesTable->aliasField('id') => $itemDto->getIdItemStateOrFail()]);
     }
 
     /**

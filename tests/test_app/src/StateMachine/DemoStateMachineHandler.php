@@ -80,11 +80,11 @@ class DemoStateMachineHandler implements StateMachineHandlerInterface
      * This method is called when state of item was changed, client can create custom logic for example update it's related table with new stateId and processId.
      * ItemDto:identifier is id of entity from client.
      *
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return bool
      */
-    public function itemStateUpdated(ItemDto $stateMachineItemTransfer): bool
+    public function itemStateUpdated(ItemDto $itemDto): bool
     {
         return true;
     }

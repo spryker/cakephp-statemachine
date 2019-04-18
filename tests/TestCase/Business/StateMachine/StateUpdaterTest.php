@@ -186,19 +186,19 @@ class StateUpdaterTest extends TestCase
     {
         $items = [];
 
-        $stateMachineItemTransfer = new ItemDto();
-        $stateMachineItemTransfer->setProcessName('Test');
-        $stateMachineItemTransfer->setIdentifier('1');
-        $stateMachineItemTransfer->setStateName('source');
-        $stateMachineItemTransfer->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
-        $items[] = $stateMachineItemTransfer;
+        $itemDto = new ItemDto();
+        $itemDto->setProcessName('Test');
+        $itemDto->setIdentifier('1');
+        $itemDto->setStateName('source');
+        $itemDto->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
+        $items[] = $itemDto;
 
-        $stateMachineItemTransfer = new ItemDto();
-        $stateMachineItemTransfer->setProcessName('Test');
-        $stateMachineItemTransfer->setIdentifier('2');
-        $stateMachineItemTransfer->setStateName('source');
-        $stateMachineItemTransfer->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
-        $items[] = $stateMachineItemTransfer;
+        $itemDto = new ItemDto();
+        $itemDto->setProcessName('Test');
+        $itemDto->setIdentifier('2');
+        $itemDto->setStateName('source');
+        $itemDto->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
+        $items[] = $itemDto;
 
         return $items;
     }
@@ -210,21 +210,21 @@ class StateUpdaterTest extends TestCase
     {
         $items = [];
 
-        $stateMachineItemTransfer = new ItemDto();
-        $stateMachineItemTransfer->setProcessName('Test');
-        $stateMachineItemTransfer->setIdentifier('1');
-        $stateMachineItemTransfer->setStateName('source');
-        $stateMachineItemTransfer->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
-        $stateMachineItemTransfer->setIdItemState(1);
-        $items[] = $stateMachineItemTransfer;
+        $itemDto = new ItemDto();
+        $itemDto->setProcessName('Test');
+        $itemDto->setIdentifier('1');
+        $itemDto->setStateName('source');
+        $itemDto->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
+        $itemDto->setIdItemState(1);
+        $items[] = $itemDto;
 
-        $stateMachineItemTransfer = new ItemDto();
-        $stateMachineItemTransfer->setProcessName('Test');
-        $stateMachineItemTransfer->setIdentifier('2');
-        $stateMachineItemTransfer->setStateName('target');
-        $stateMachineItemTransfer->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
-        $stateMachineItemTransfer->setIdItemState(2);
-        $items[] = $stateMachineItemTransfer;
+        $itemDto = new ItemDto();
+        $itemDto->setProcessName('Test');
+        $itemDto->setIdentifier('2');
+        $itemDto->setStateName('target');
+        $itemDto->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
+        $itemDto->setIdItemState(2);
+        $items[] = $itemDto;
 
         return $items;
     }

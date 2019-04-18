@@ -84,20 +84,20 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $identifier
      *
      * @return int
      */
     public function triggerForNewStateMachineItem(
-        ProcessDto $stateMachineProcessTransfer,
+        ProcessDto $processDto,
         string $identifier
     ): int {
-        $stateMachineItemTransfer = $this->createItemTransferForNewProcess($stateMachineProcessTransfer, $identifier);
+        $itemDto = $this->createItemTransferForNewProcess($processDto, $identifier);
 
-        $processes = $this->finder->findProcessesForItems([$stateMachineItemTransfer]);
+        $processes = $this->finder->findProcessesForItems([$itemDto]);
 
-        $itemsWithOnEnterEvent = $this->finder->filterItemsWithOnEnterEvent([$stateMachineItemTransfer], $processes);
+        $itemsWithOnEnterEvent = $this->finder->filterItemsWithOnEnterEvent([$itemDto], $processes);
 
         $this->triggerOnEnterEvents($itemsWithOnEnterEvent);
 
@@ -194,12 +194,12 @@ class Trigger implements TriggerInterface
     protected function groupItemsByEvent(array $stateMachineItems): array
     {
         $groupedStateMachineItems = [];
-        foreach ($stateMachineItems as $stateMachineItemTransfer) {
-            $eventName = $stateMachineItemTransfer->getEventName();
+        foreach ($stateMachineItems as $itemDto) {
+            $eventName = $itemDto->getEventName();
             if (!isset($groupedStateMachineItems[$eventName])) {
                 $groupedStateMachineItems[$eventName] = [];
             }
-            $groupedStateMachineItems[$eventName][] = $stateMachineItemTransfer;
+            $groupedStateMachineItems[$eventName][] = $itemDto;
         }
 
         return $groupedStateMachineItems;
@@ -215,9 +215,9 @@ class Trigger implements TriggerInterface
     protected function filterEventAffectedItems($eventName, array $stateMachineItems, $processes)
     {
         $stateMachineItemsFiltered = [];
-        foreach ($stateMachineItems as $stateMachineItemTransfer) {
-            $stateName = $stateMachineItemTransfer->getStateNameOrFail();
-            $processName = $stateMachineItemTransfer->getProcessNameOrFail();
+        foreach ($stateMachineItems as $itemDto) {
+            $stateName = $itemDto->getStateNameOrFail();
+            $processName = $itemDto->getProcessNameOrFail();
             if (!isset($processes[$processName])) {
                 continue;
             }
@@ -225,7 +225,7 @@ class Trigger implements TriggerInterface
             $process = $processes[$processName];
             $state = $process->getStateFromAllProcesses($stateName);
             if ($state->hasEvent($eventName)) {
-                $stateMachineItemsFiltered[] = $stateMachineItemTransfer;
+                $stateMachineItemsFiltered[] = $itemDto;
             }
         }
 
@@ -243,9 +243,9 @@ class Trigger implements TriggerInterface
      */
     protected function runCommand($eventName, array $stateMachineItems, array $processes)
     {
-        foreach ($stateMachineItems as $stateMachineItemTransfer) {
-            $stateName = $stateMachineItemTransfer->getStateNameOrFail();
-            $processName = $stateMachineItemTransfer->getProcessNameOrFail();
+        foreach ($stateMachineItems as $itemDto) {
+            $stateName = $itemDto->getStateNameOrFail();
+            $processName = $itemDto->getProcessNameOrFail();
             if (!isset($processes[$processName])) {
                 continue;
             }
@@ -258,12 +258,12 @@ class Trigger implements TriggerInterface
                 continue;
             }
 
-            $commandPlugin = $this->getCommand($event->getCommand(), $stateMachineItemTransfer->getStateMachineName());
+            $commandPlugin = $this->getCommand($event->getCommand(), $itemDto->getStateMachineName());
 
-            $this->transitionLog->addCommand($stateMachineItemTransfer, $commandPlugin);
+            $this->transitionLog->addCommand($itemDto, $commandPlugin);
 
             try {
-                $commandPlugin->run($stateMachineItemTransfer);
+                $commandPlugin->run($itemDto);
             } catch (Exception $e) {
                 $this->transitionLog->setIsError(true);
                 $this->transitionLog->setErrorMessage(get_class($commandPlugin) . ' - ' . $e->getMessage());
@@ -283,13 +283,13 @@ class Trigger implements TriggerInterface
     {
         $sourceStateBuffer = [];
         $targetStateMap = [];
-        foreach ($stateMachineItems as $i => $stateMachineItemTransfer) {
-            $stateName = $stateMachineItemTransfer->getStateNameOrFail();
-            $sourceStateBuffer[$stateMachineItemTransfer->getIdentifier()] = $stateName;
+        foreach ($stateMachineItems as $i => $itemDto) {
+            $stateName = $itemDto->getStateNameOrFail();
+            $sourceStateBuffer[$itemDto->getIdentifier()] = $stateName;
 
             $process = $this->finder->findProcessByStateMachineAndProcessName(
-                $stateMachineItemTransfer->getStateMachineName(),
-                $stateMachineItemTransfer->getProcessName()
+                $itemDto->getStateMachineName(),
+                $itemDto->getProcessName()
             );
 
             $sourceState = $process->getStateFromAllProcesses($stateName);
@@ -297,24 +297,24 @@ class Trigger implements TriggerInterface
             $event = $sourceState->getEvent($eventName);
             $this->transitionLog->setEvent($event);
 
-            $this->transitionLog->addSourceState($stateMachineItemTransfer, $sourceState->getName());
+            $this->transitionLog->addSourceState($itemDto, $sourceState->getName());
 
             $targetState = $sourceState;
             if ($eventName && $sourceState->hasEvent($eventName)) {
                 $transitions = $sourceState->getEvent($eventName)->getTransitionsBySource($sourceState);
                 $targetState = $this->condition->getTargetStatesFromTransitions(
                     $transitions,
-                    $stateMachineItemTransfer,
+                    $itemDto,
                     $sourceState,
                     $this->transitionLog
                 );
-                $this->transitionLog->addTargetState($stateMachineItemTransfer, $targetState->getName());
+                $this->transitionLog->addTargetState($itemDto, $targetState->getName());
             }
 
             $targetStateMap[$i] = $targetState->getName();
         }
 
-        foreach ($stateMachineItems as $i => $stateMachineItemTransfer) {
+        foreach ($stateMachineItems as $i => $itemDto) {
             $this->stateMachinePersistence->saveStateMachineItem($stateMachineItems[$i], $targetStateMap[$i]);
         }
 
@@ -339,7 +339,7 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[][] $itemsWithOnEnterEvent Keys are event names, values are collections of StateMachineItem transfer objects
+     * @param \StateMachine\Dto\StateMachine\ItemDto[][] $itemsWithOnEnterEvent Keys are event names, values are collections of ItemDto.
      *
      * @return bool
      */
@@ -378,54 +378,54 @@ class Trigger implements TriggerInterface
      */
     protected function logSourceState(array $stateMachineItems)
     {
-        foreach ($stateMachineItems as $stateMachineItemTransfer) {
-            $stateName = $stateMachineItemTransfer->getStateName();
-            $this->transitionLog->addSourceState($stateMachineItemTransfer, $stateName);
+        foreach ($stateMachineItems as $itemDto) {
+            $stateName = $itemDto->getStateName();
+            $this->transitionLog->addSourceState($itemDto, $stateName);
         }
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $identifier
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto
      */
     protected function createItemTransferForNewProcess(
-        ProcessDto $stateMachineProcessTransfer,
+        ProcessDto $processDto,
         string $identifier
     ): ItemDto {
-        $processName = $stateMachineProcessTransfer->getProcessNameOrFail();
+        $processName = $processDto->getProcessNameOrFail();
 
-        $stateMachineItemTransfer = new ItemDto();
-        $stateMachineProcessTransfer->setStateMachineName($stateMachineProcessTransfer->getStateMachineNameOrFail());
-        $stateMachineItemTransfer->setProcessName($processName);
-        $stateMachineItemTransfer->setIdentifier($identifier);
+        $itemDto = new ItemDto();
+        $processDto->setStateMachineName($processDto->getStateMachineNameOrFail());
+        $itemDto->setProcessName($processName);
+        $itemDto->setIdentifier($identifier);
 
         $idStateMachineProcess = $this->stateMachinePersistence
-            ->getProcessId($stateMachineProcessTransfer);
+            ->getProcessId($processDto);
 
         $this->assertProcessCreated($idStateMachineProcess);
 
-        $stateMachineItemTransfer->setIdStateMachineProcess($idStateMachineProcess);
+        $itemDto->setIdStateMachineProcess($idStateMachineProcess);
 
         $initialStateName = $this->stateMachineHandlerResolver
-            ->get($stateMachineProcessTransfer->getStateMachineNameOrFail())
+            ->get($processDto->getStateMachineNameOrFail())
             ->getInitialStateForProcess($processName);
 
         $this->assertInitialStateNameProvided($initialStateName, $processName);
-        $stateMachineItemTransfer->setStateName($initialStateName);
+        $itemDto->setStateName($initialStateName);
 
         $idStateMachineItemState = $this->stateMachinePersistence
             ->getInitialStateIdByStateName(
-                $stateMachineItemTransfer,
+                $itemDto,
                 $initialStateName
             );
 
         $this->assertInitialStateCreated($idStateMachineItemState, $initialStateName);
 
-        $stateMachineItemTransfer->setIdItemState($idStateMachineItemState);
+        $itemDto->setIdItemState($idStateMachineItemState);
 
-        return $stateMachineItemTransfer;
+        return $itemDto;
     }
 
     /**

@@ -8,6 +8,7 @@
 namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Http\Exception\NotFoundException;
 use StateMachine\Controller\CastTrait;
 use StateMachine\FactoryTrait;
 
@@ -32,11 +33,16 @@ class StateMachineController extends AppController
     }
 
     /**
+     * @throws \Cake\Http\Exception\NotFoundException
+     *
      * @return \Cake\Http\Response|null
      */
     public function process()
     {
         $stateMachineName = $this->castString($this->request->getQuery(self::URL_PARAM_STATE_MACHINE)) ?: null;
+        if (!$stateMachineName) {
+            throw new NotFoundException('State Machine is required as param.');
+        }
 
         $processes = $this->getFactory()
             ->createStateMachineFinder()

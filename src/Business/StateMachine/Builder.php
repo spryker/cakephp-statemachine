@@ -91,19 +91,19 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      *
      * @return \StateMachine\Business\Process\ProcessInterface
      */
-    public function createProcess(ProcessDto $stateMachineProcessTransfer)
+    public function createProcess(ProcessDto $processDto)
     {
-        $processIdentifier = $this->createProcessIdentifier($stateMachineProcessTransfer);
+        $processIdentifier = $this->createProcessIdentifier($processDto);
         if (isset(self::$processBuffer[$processIdentifier])) {
             return self::$processBuffer[$processIdentifier];
         }
 
-        $pathToXml = $this->buildPathToXml($stateMachineProcessTransfer);
-        $this->rootElement = $this->loadXmlFromProcessName($pathToXml, $stateMachineProcessTransfer->getProcessNameOrFail());
+        $pathToXml = $this->buildPathToXml($processDto);
+        $this->rootElement = $this->loadXmlFromProcessName($pathToXml, $processDto->getProcessNameOrFail());
 
         $this->mergeSubProcessFiles($pathToXml);
 
@@ -599,23 +599,23 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      *
      * @return string
      */
-    protected function createProcessIdentifier(ProcessDto $stateMachineProcessTransfer)
+    protected function createProcessIdentifier(ProcessDto $processDto)
     {
-        return $stateMachineProcessTransfer->getStateMachineNameOrFail() . '-' . $stateMachineProcessTransfer->getProcessNameOrFail();
+        return $processDto->getStateMachineNameOrFail() . '-' . $processDto->getProcessNameOrFail();
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      *
      * @return string
      */
-    protected function buildPathToXml(ProcessDto $stateMachineProcessTransfer): string
+    protected function buildPathToXml(ProcessDto $processDto): string
     {
-        return $this->stateMachineConfig->getPathToStateMachineXmlFiles() . $stateMachineProcessTransfer->getStateMachineNameOrFail() . DS;
+        return $this->stateMachineConfig->getPathToStateMachineXmlFiles() . $processDto->getStateMachineNameOrFail() . DS;
     }
 
     /**

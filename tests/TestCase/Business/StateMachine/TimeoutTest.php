@@ -182,14 +182,14 @@ class TimeoutTest extends TestCase
      */
     protected function createItemDto(): ItemDto
     {
-        $stateMachineItemTransfer = new ItemDto();
-        $stateMachineItemTransfer
+        $itemDto = new ItemDto();
+        $itemDto
             ->setStateName(static::STATE_WITH_TIMEOUT)
             ->setIdentifier(static::IDENTIFIER)
             ->setIdItemState(1)
             ->setIdStateMachineProcess(1);
 
-        return $stateMachineItemTransfer;
+        return $itemDto;
     }
 
     /**

@@ -17,9 +17,9 @@ interface ConditionPluginInterface
      *
      * @api
      *
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return bool
      */
-    public function check(ItemDto $stateMachineItemTransfer): bool;
+    public function check(ItemDto $itemDto): bool;
 }

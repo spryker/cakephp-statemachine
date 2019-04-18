@@ -79,11 +79,11 @@ interface StateMachineHandlerInterface
      *
      * @api
      *
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return bool
      */
-    public function itemStateUpdated(ItemDto $stateMachineItemTransfer): bool;
+    public function itemStateUpdated(ItemDto $itemDto): bool;
 
     /**
      * This method should return all list of ItemDto, with (identifier, IdStateMachineProcess, IdItemState)

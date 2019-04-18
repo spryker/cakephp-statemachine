@@ -81,11 +81,11 @@ class Finder implements FinderInterface
     public function getManualEventsForStateMachineItems(array $stateMachineItems)
     {
         $itemsWithManualEvents = [];
-        foreach ($stateMachineItems as $stateMachineItemTransfer) {
-            $manualEvents = $this->getManualEventsForStateMachineItem($stateMachineItemTransfer);
+        foreach ($stateMachineItems as $itemDto) {
+            $manualEvents = $this->getManualEventsForStateMachineItem($itemDto);
 
             if (count($manualEvents) > 0) {
-                $itemsWithManualEvents[$stateMachineItemTransfer->getIdentifier()] = $manualEvents;
+                $itemsWithManualEvents[$itemDto->getIdentifier()] = $manualEvents;
             }
         }
 
@@ -93,24 +93,24 @@ class Finder implements FinderInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return string[]
      */
-    public function getManualEventsForStateMachineItem(ItemDto $stateMachineItemTransfer)
+    public function getManualEventsForStateMachineItem(ItemDto $itemDto)
     {
-        $processName = $stateMachineItemTransfer->getProcessNameOrFail();
+        $processName = $itemDto->getProcessNameOrFail();
 
         $processBuilder = clone $this->builder;
 
-        $stateMachineProcessTransfer = $this->createProcessDto(
-            $stateMachineItemTransfer->getStateMachineName(),
+        $processDto = $this->createProcessDto(
+            $itemDto->getStateMachineName(),
             $processName
         );
 
-        $process = $processBuilder->createProcess($stateMachineProcessTransfer);
+        $process = $processBuilder->createProcess($processDto);
         $manualEvents = $process->getManuallyExecutableEventsBySource();
-        $stateName = $stateMachineItemTransfer->getStateName();
+        $stateName = $itemDto->getStateName();
 
         if (!isset($manualEvents[$stateName])) {
             return [];
@@ -120,77 +120,77 @@ class Finder implements FinderInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flag
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto[] $itemDto
      */
-    public function getItemsWithFlag(ProcessDto $stateMachineProcessTransfer, $flag)
+    public function getItemsWithFlag(ProcessDto $processDto, $flag)
     {
-        return $this->getItemsByFlag($stateMachineProcessTransfer, $flag, true);
+        return $this->getItemsByFlag($processDto, $flag, true);
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flag
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItemTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto[] $itemDto
      */
-    public function getItemsWithoutFlag(ProcessDto $stateMachineProcessTransfer, $flag)
+    public function getItemsWithoutFlag(ProcessDto $processDto, $flag)
     {
-        return $this->getItemsByFlag($stateMachineProcessTransfer, $flag, false);
+        return $this->getItemsByFlag($processDto, $flag, false);
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flagName
      * @param bool $hasFlag
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    protected function getItemsByFlag(ProcessDto $stateMachineProcessTransfer, $flagName, $hasFlag)
+    protected function getItemsByFlag(ProcessDto $processDto, $flagName, $hasFlag)
     {
-        $statesByFlag = $this->getStatesByFlag($stateMachineProcessTransfer, $flagName, $hasFlag);
+        $statesByFlag = $this->getStatesByFlag($processDto, $flagName, $hasFlag);
         if (count($statesByFlag) === 0) {
             return [];
         }
 
-        $stateMachineProcessEntity = $this->findStateMachineProcessEntity($stateMachineProcessTransfer);
+        $stateMachineProcessEntity = $this->findStateMachineProcessEntity($processDto);
         if ($stateMachineProcessEntity === null) {
             return [];
         }
 
         $stateMachineItems = $this->getFlaggedStateMachineItems(
-            $stateMachineProcessTransfer,
+            $processDto,
             array_keys($statesByFlag)
         );
 
         $stateMachineItemsWithFlag = [];
         foreach ($stateMachineItems as $stateMachineItemEntity) {
-            $stateMachineItemTransfer = $this->createStateMachineHistoryItemTransfer(
-                $stateMachineProcessTransfer,
+            $itemDto = $this->createStateMachineHistoryItemTransfer(
+                $processDto,
                 $stateMachineItemEntity,
                 $stateMachineProcessEntity
             );
 
-            $stateMachineItemsWithFlag[] = $stateMachineItemTransfer;
+            $stateMachineItemsWithFlag[] = $itemDto;
         }
 
         return $stateMachineItemsWithFlag;
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flag
      * @param bool $hasFlag
      *
      * @return \StateMachine\Business\Process\StateInterface[]
      */
-    protected function getStatesByFlag(ProcessDto $stateMachineProcessTransfer, $flag, $hasFlag)
+    protected function getStatesByFlag(ProcessDto $processDto, $flag, $hasFlag)
     {
         $selectedStates = [];
 
-        $processStateList = $this->builder->createProcess($stateMachineProcessTransfer)->getAllStates();
+        $processStateList = $this->builder->createProcess($processDto)->getAllStates();
 
         foreach ($processStateList as $state) {
             if ($hasFlag !== $state->hasFlag($flag)) {
@@ -215,19 +215,19 @@ class Finder implements FinderInterface
         array $sourceStates = []
     ) {
         $itemsWithOnEnterEvent = [];
-        foreach ($stateMachineItems as $stateMachineItemTransfer) {
-            $stateName = $stateMachineItemTransfer->getStateNameOrFail();
-            $processName = $stateMachineItemTransfer->getProcessNameOrFail();
+        foreach ($stateMachineItems as $itemDto) {
+            $stateName = $itemDto->getStateNameOrFail();
+            $processName = $itemDto->getProcessNameOrFail();
 
             $this->assertProcessExists($processes, $processName);
 
             $process = $processes[$processName];
             $targetState = $process->getStateFromAllProcesses($stateName);
 
-            if (isset($sourceStates[$stateMachineItemTransfer->getIdentifier()])) {
-                $sourceState = $sourceStates[$stateMachineItemTransfer->getIdentifier()];
+            if (isset($sourceStates[$itemDto->getIdentifier()])) {
+                $sourceState = $sourceStates[$itemDto->getIdentifier()];
             } else {
-                $sourceState = $process->getStateFromAllProcesses($stateMachineItemTransfer->getStateName());
+                $sourceState = $process->getStateFromAllProcesses($itemDto->getStateName());
             }
 
             if ($sourceState !== $targetState->getName() && $targetState->hasOnEnterEvent()) {
@@ -235,7 +235,7 @@ class Finder implements FinderInterface
                 if (array_key_exists($eventName, $itemsWithOnEnterEvent) === false) {
                     $itemsWithOnEnterEvent[$eventName] = [];
                 }
-                $itemsWithOnEnterEvent[$eventName][] = $stateMachineItemTransfer;
+                $itemsWithOnEnterEvent[$eventName][] = $itemDto;
             }
         }
 
@@ -250,8 +250,8 @@ class Finder implements FinderInterface
      */
     public function findProcessByStateMachineAndProcessName($stateMachineName, $processName)
     {
-        $stateMachineProcessTransfer = $this->createProcessDto($stateMachineName, $processName);
-        return $this->builder->createProcess($stateMachineProcessTransfer);
+        $processDto = $this->createProcessDto($stateMachineName, $processName);
+        return $this->builder->createProcess($processDto);
     }
 
     /**
@@ -262,15 +262,15 @@ class Finder implements FinderInterface
     public function findProcessesForItems(array $stateMachineItems)
     {
         $processes = [];
-        foreach ($stateMachineItems as $stateMachineItemTransfer) {
-            $processName = $stateMachineItemTransfer->getProcessNameOrFail();
+        foreach ($stateMachineItems as $itemDto) {
+            $processName = $itemDto->getProcessNameOrFail();
             if (isset($processes[$processName])) {
                 continue;
             }
 
-            $processes[$stateMachineItemTransfer->getProcessName()] = $this->findProcessByStateMachineAndProcessName(
-                $stateMachineItemTransfer->getStateMachineName(),
-                $stateMachineItemTransfer->getProcessName()
+            $processes[$itemDto->getProcessName()] = $this->findProcessByStateMachineAndProcessName(
+                $itemDto->getStateMachineName(),
+                $itemDto->getProcessName()
             );
         }
 
@@ -285,11 +285,11 @@ class Finder implements FinderInterface
      */
     protected function createProcessDto($stateMachineName, $processName)
     {
-        $stateMachineProcessTransfer = new ProcessDto();
-        $stateMachineProcessTransfer->setStateMachineName($stateMachineName);
-        $stateMachineProcessTransfer->setProcessName($processName);
+        $processDto = new ProcessDto();
+        $processDto->setStateMachineName($stateMachineName);
+        $processDto->setProcessName($processName);
 
-        return $stateMachineProcessTransfer;
+        return $processDto;
     }
 
     /**
@@ -314,61 +314,61 @@ class Finder implements FinderInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param \StateMachine\Model\Entity\StateMachineItemState $stateMachineItemEntity
      * @param \StateMachine\Model\Entity\StateMachineProcess $stateMachineProcessEntity
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto
      */
     protected function createStateMachineHistoryItemTransfer(
-        ProcessDto $stateMachineProcessTransfer,
+        ProcessDto $processDto,
         StateMachineItemState $stateMachineItemEntity,
         StateMachineProcess $stateMachineProcessEntity
     ): ItemDto {
-        $stateMachineItemTransfer = new ItemDto();
-        $stateMachineItemTransfer->setProcessName($stateMachineProcessTransfer->getProcessName());
-        $stateMachineItemTransfer->setIdItemState($stateMachineItemEntity->id);
-        $stateMachineItemTransfer->setIdStateMachineProcess($stateMachineProcessEntity->id);
-        $stateMachineItemTransfer->setStateName($stateMachineItemEntity->name);
-        $stateMachineItemTransfer->setStateMachineName($stateMachineProcessEntity->state_machine);
+        $itemDto = new ItemDto();
+        $itemDto->setProcessName($processDto->getProcessName());
+        $itemDto->setIdItemState($stateMachineItemEntity->id);
+        $itemDto->setIdStateMachineProcess($stateMachineProcessEntity->id);
+        $itemDto->setStateName($stateMachineItemEntity->name);
+        $itemDto->setStateMachineName($stateMachineProcessEntity->state_machine);
 
         $stateMachineItemHistoryEntities = $stateMachineItemEntity->state_machine_item_state_history;
         if (count($stateMachineItemHistoryEntities) > 0) {
             $itemIdentifier = $stateMachineItemHistoryEntities[0]->identifier;
-            $stateMachineItemTransfer->setIdentifier($itemIdentifier);
+            $itemDto->setIdentifier($itemIdentifier);
         }
 
-        return $stateMachineItemTransfer;
+        return $itemDto;
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      *
      * @return \StateMachine\Model\Entity\StateMachineProcess|null
      */
-    protected function findStateMachineProcessEntity(ProcessDto $stateMachineProcessTransfer): ?StateMachineProcess
+    protected function findStateMachineProcessEntity(ProcessDto $processDto): ?StateMachineProcess
     {
         /** @var \StateMachine\Model\Entity\StateMachineProcess|null $stateMachineProcess */
         $stateMachineProcess = $this->queryContainer->queryProcessByStateMachineAndProcessName(
-            $stateMachineProcessTransfer->getStateMachineName(),
-            $stateMachineProcessTransfer->getProcessName()
+            $processDto->getStateMachineName(),
+            $processDto->getProcessName()
         )->first();
 
         return $stateMachineProcess;
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ProcessDto $stateMachineProcessTransfer
+     * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param array $statesByFlag
      *
      * @return \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\ORM\ResultSet
      */
-    protected function getFlaggedStateMachineItems(ProcessDto $stateMachineProcessTransfer, array $statesByFlag): ResultSet
+    protected function getFlaggedStateMachineItems(ProcessDto $processDto, array $statesByFlag): ResultSet
     {
         /** @var \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\ORM\ResultSet $itemStateCollection */
         $itemStateCollection = $this->queryContainer->queryItemsByIdStateMachineProcessAndItemStates(
-            $stateMachineProcessTransfer->getStateMachineName(),
-            $stateMachineProcessTransfer->getProcessName(),
+            $processDto->getStateMachineName(),
+            $processDto->getProcessName(),
             $statesByFlag
         )->all();
 

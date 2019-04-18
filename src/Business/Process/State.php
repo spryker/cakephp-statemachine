@@ -56,7 +56,7 @@ class State implements StateInterface
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getIncomingTransitions()
+    public function getIncomingTransitions(): array
     {
         return $this->incomingTransitions;
     }
@@ -64,7 +64,7 @@ class State implements StateInterface
     /**
      * @return bool
      */
-    public function hasIncomingTransitions()
+    public function hasIncomingTransitions(): bool
     {
         return (bool)$this->incomingTransitions;
     }

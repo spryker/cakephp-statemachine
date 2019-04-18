@@ -73,20 +73,20 @@ class TransitionLogTest extends TestCase
      */
     public function testLoggerPersistsAllProvidedData(): void
     {
-        $stateMachineItemTransfer = $this->createItemTransfer();
+        $itemDto = $this->createItemTransfer();
 
         $transitionLog = $this->createTransitionLog();
-        $transitionLog->init([$stateMachineItemTransfer]);
+        $transitionLog->init([$itemDto]);
 
         $commandMock = $this->createCommandMock();
-        $transitionLog->addCommand($stateMachineItemTransfer, $commandMock);
+        $transitionLog->addCommand($itemDto, $commandMock);
 
         $conditionMock = $this->createConditionPluginMock();
-        $transitionLog->addCondition($stateMachineItemTransfer, $conditionMock);
+        $transitionLog->addCondition($itemDto, $conditionMock);
 
-        $transitionLog->addSourceState($stateMachineItemTransfer, static::SOURCE_STATE);
+        $transitionLog->addSourceState($itemDto, static::SOURCE_STATE);
 
-        $transitionLog->addTargetState($stateMachineItemTransfer, static::TARGET_STATE);
+        $transitionLog->addTargetState($itemDto, static::TARGET_STATE);
 
         $transitionLog->setErrorMessage(static::ERROR_MESSAGE);
         $transitionLog->setIsError(true);
@@ -95,7 +95,7 @@ class TransitionLogTest extends TestCase
         $event->setName(static::EVENT_NAME);
 
         $transitionLog->setEvent($event);
-        $transitionLog->save($stateMachineItemTransfer);
+        $transitionLog->save($itemDto);
         $transitionLog->saveAll();
 
         $stateMachineTransitionLogEntity = $this->StateMachineTransitionLogs->find()->last();
@@ -113,12 +113,12 @@ class TransitionLogTest extends TestCase
     public function testWhenNonCliRequestUsedShouldExtractOutputParamsAndPersist(): void
     {
         $_SERVER[TransitionLog::QUERY_STRING] = $this->createQueryString(array_merge(static::QUERY_DATA[0], static::QUERY_DATA[1]));
-        $stateMachineItemTransfer = $this->createItemTransfer();
+        $itemDto = $this->createItemTransfer();
 
         $transitionLog = $this->createTransitionLog();
-        $transitionLog->init([$stateMachineItemTransfer]);
+        $transitionLog->init([$itemDto]);
 
-        $transitionLog->save($stateMachineItemTransfer);
+        $transitionLog->save($itemDto);
         $stateMachineTransitionLogEntity = $this->StateMachineTransitionLogs->find()->last();
         $storedParams = json_decode($stateMachineTransitionLogEntity->params);
         $this->assertSame($this->createQueryString(static::QUERY_DATA[0]), $storedParams[0]);
@@ -138,15 +138,15 @@ class TransitionLogTest extends TestCase
      */
     protected function createItemTransfer(): ItemDto
     {
-        $stateMachineItemTransfer = new ItemDto();
-        $stateMachineItemTransfer->setIdentifier($this->createIdentifier());
-        $stateMachineItemTransfer->setEventName(static::EVENT_NAME);
-        $stateMachineItemTransfer->setIdItemState(1);
-        $stateMachineItemTransfer->setStateName(static::STATE_NAME);
-        $stateMachineItemTransfer->setProcessName(static::PROCESS_NAME);
-        $stateMachineItemTransfer->setIdStateMachineProcess(1);
+        $itemDto = new ItemDto();
+        $itemDto->setIdentifier($this->createIdentifier());
+        $itemDto->setEventName(static::EVENT_NAME);
+        $itemDto->setIdItemState(1);
+        $itemDto->setStateName(static::STATE_NAME);
+        $itemDto->setProcessName(static::PROCESS_NAME);
+        $itemDto->setIdStateMachineProcess(1);
 
-        return $stateMachineItemTransfer;
+        return $itemDto;
     }
 
     /**

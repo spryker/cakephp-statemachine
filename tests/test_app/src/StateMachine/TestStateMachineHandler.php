@@ -76,13 +76,13 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return bool
      */
-    public function itemStateUpdated(ItemDto $stateMachineItemTransfer): bool
+    public function itemStateUpdated(ItemDto $itemDto): bool
     {
-        static::$itemStateUpdated = $stateMachineItemTransfer;
+        static::$itemStateUpdated = $itemDto;
 
         return true;
     }
@@ -95,9 +95,9 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     public function getStateMachineItemsByStateIds(array $stateIds = []): array
     {
         $result = [];
-        foreach (static::$stateMachineItemsByStateIds as $stateMachineItemTransfer) {
-            if (in_array($stateMachineItemTransfer->getIdItemStateOrFail(), $stateIds)) {
-                $result[] = $stateMachineItemTransfer;
+        foreach (static::$stateMachineItemsByStateIds as $itemDto) {
+            if (in_array($itemDto->getIdItemStateOrFail(), $stateIds)) {
+                $result[] = $itemDto;
             }
         }
 
@@ -130,11 +130,11 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
         return new class implements CommandPluginInterface
         {
             /**
-             * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+             * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
              *
              * @return bool
              */
-            public function run(ItemDto $stateMachineItemTransfer): bool
+            public function run(ItemDto $itemDto): bool
             {
                 return true;
             }
@@ -149,11 +149,11 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
         return new class implements ConditionPluginInterface
         {
             /**
-             * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItemTransfer
+             * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
              *
              * @return bool
              */
-            public function check(ItemDto $stateMachineItemTransfer): bool
+            public function check(ItemDto $itemDto): bool
             {
                 return true;
             }
