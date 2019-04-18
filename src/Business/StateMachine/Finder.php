@@ -86,7 +86,7 @@ class Finder implements FinderInterface
             $manualEvents = $this->getManualEventsForStateMachineItem($itemDto);
 
             if (count($manualEvents) > 0) {
-                $itemsWithManualEvents[$itemDto->getIdentifier()] = $manualEvents;
+                $itemsWithManualEvents[$itemDto->getIdentifierOrFail()] = $manualEvents;
             }
         }
 
@@ -225,8 +225,8 @@ class Finder implements FinderInterface
             $process = $processes[$processName];
             $targetState = $process->getStateFromAllProcesses($stateName);
 
-            if (isset($sourceStates[$itemDto->getIdentifier()])) {
-                $sourceState = $sourceStates[$itemDto->getIdentifier()];
+            if (isset($sourceStates[$itemDto->getIdentifierOrFail()])) {
+                $sourceState = $sourceStates[$itemDto->getIdentifierOrFail()];
             } else {
                 $sourceState = $process->getStateFromAllProcesses($itemDto->getStateName());
             }

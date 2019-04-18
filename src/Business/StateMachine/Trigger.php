@@ -286,11 +286,11 @@ class Trigger implements TriggerInterface
         $targetStateMap = [];
         foreach ($stateMachineItems as $i => $itemDto) {
             $stateName = $itemDto->getStateNameOrFail();
-            $sourceStateBuffer[$itemDto->getIdentifier()] = $stateName;
+            $sourceStateBuffer[$itemDto->getIdentifierOrFail()] = $stateName;
 
             $process = $this->finder->findProcessByStateMachineAndProcessName(
-                $itemDto->getStateMachineName(),
-                $itemDto->getProcessName()
+                $itemDto->getStateMachineNameOrFail(),
+                $itemDto->getProcessNameOrFail()
             );
 
             $sourceState = $process->getStateFromAllProcesses($stateName);

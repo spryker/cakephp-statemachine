@@ -336,7 +336,7 @@ class Condition implements ConditionInterface
     {
         $sourceStates = [];
         foreach ($stateMachineItems as $itemDto) {
-            $sourceStates[$itemDto->getIdentifier()] = $itemDto->getStateName();
+            $sourceStates[$itemDto->getIdentifierOrFail()] = $itemDto->getStateNameOrFail();
         }
         return $sourceStates;
     }

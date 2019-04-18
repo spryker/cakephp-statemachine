@@ -63,7 +63,7 @@ class TransitionLog implements TransitionLogInterface
         $this->logEntities = [];
         foreach ($stateMachineItems as $stateMachineItem) {
             $logEntity = $this->initEntity($stateMachineItem);
-            $this->logEntities[$stateMachineItem->getIdentifier()] = $logEntity;
+            $this->logEntities[$stateMachineItem->getIdentifierOrFail()] = $logEntity;
         }
     }
 
@@ -169,7 +169,7 @@ class TransitionLog implements TransitionLogInterface
      */
     public function save(ItemDto $itemDto): void
     {
-        $this->stateMachineTransitionLogsTable->save($this->logEntities[$itemDto->getIdentifier()]);
+        $this->stateMachineTransitionLogsTable->save($this->logEntities[$itemDto->getIdentifierOrFail()]);
     }
 
     /**

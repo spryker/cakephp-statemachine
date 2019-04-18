@@ -107,9 +107,9 @@ class StateUpdater implements StateUpdaterInterface
         array $sourceStateBuffer,
         ItemDto $itemDto
     ): void {
-        if (!isset($sourceStateBuffer[$itemDto->getIdentifier()])) {
+        if (!isset($sourceStateBuffer[$itemDto->getIdentifierOrFail()])) {
             throw new StateMachineException(
-                sprintf('Could not update state, source state not found.')
+                sprintf('Could not update state, source state not found for identifier ' . $itemDto->getIdentifierOrFail() . '.')
             );
         }
     }

@@ -192,8 +192,8 @@ class Persistence implements PersistenceInterface
     public function saveItemStateHistory(ItemDto $itemDto): void
     {
         $stateMachineItemStateHistory = $this->stateMachineItemStateHistoryTable->newEntity();
-        $stateMachineItemStateHistory->identifier = $itemDto->getIdentifier();
-        $stateMachineItemStateHistory->state_machine_item_state_id = $itemDto->getIdItemState();
+        $stateMachineItemStateHistory->identifier = $itemDto->getIdentifierOrFail();
+        $stateMachineItemStateHistory->state_machine_item_state_id = $itemDto->getIdItemStateOrFail();
         $this->stateMachineItemStateHistoryTable->saveOrFail($stateMachineItemStateHistory);
     }
 
@@ -378,9 +378,9 @@ class Persistence implements PersistenceInterface
     ): StateMachineTimeout {
         $stateMachineItemTimeoutEntity = $this->stateMachineTimeoutsTable->newEntity();
         $stateMachineItemTimeoutEntity->timeout = $timeoutDate;
-        $stateMachineItemTimeoutEntity->identifier = $itemDto->getIdentifier();
-        $stateMachineItemTimeoutEntity->state_machine_item_state_id = $itemDto->getIdItemState();
-        $stateMachineItemTimeoutEntity->state_machine_process_id = $itemDto->getIdStateMachineProcess();
+        $stateMachineItemTimeoutEntity->identifier = $itemDto->getIdentifierOrFail();
+        $stateMachineItemTimeoutEntity->state_machine_item_state_id = $itemDto->getIdItemStateOrFail();
+        $stateMachineItemTimeoutEntity->state_machine_process_id = $itemDto->getIdStateMachineProcessOrFail();
         $stateMachineItemTimeoutEntity->event = $eventName;
 
         $this->stateMachineTimeoutsTable->saveOrFail($stateMachineItemTimeoutEntity);
@@ -395,24 +395,11 @@ class Persistence implements PersistenceInterface
      */
     public function dropTimeoutByItem(ItemDto $itemDto): void
     {
-        /*
-        //FIXME
         $this->stateMachineQueryContainer
             ->queryEventTimeoutByIdentifierAndFkProcess(
-                $itemDto->getIdentifier(),
-                $itemDto->getIdStateMachineProcess()
-            )->delete();
-        */
-
-        /** @var \StateMachine\Model\Entity\StateMachineTimeout[] $stateMachineTimeouts */
-        $stateMachineTimeouts = $this->stateMachineQueryContainer
-            ->queryEventTimeoutByIdentifierAndFkProcess(
-                $itemDto->getIdentifier(),
-                $itemDto->getIdStateMachineProcess()
-            )->all();
-        foreach ($stateMachineTimeouts as $stateMachineTimeout) {
-            $this->stateMachineQueryContainer->getFactory()->createStateMachineTimeoutsTable()->deleteOrFail($stateMachineTimeout);
-        }
+                $itemDto->getIdentifierOrFail(),
+                $itemDto->getIdStateMachineProcessOrFail()
+            )->delete()->execute();
     }
 
     /**
