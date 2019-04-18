@@ -38,7 +38,7 @@ class StateMachineProcessesTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('StateMachineProcesses') ? [] : ['className' => StateMachineProcessesTable::class];
@@ -50,7 +50,7 @@ class StateMachineProcessesTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->StateMachineProcesses);
 
@@ -60,7 +60,7 @@ class StateMachineProcessesTableTest extends TestCase
     /**
      * @return void
      */
-    public function testInstance()
+    public function testInstance(): void
     {
         $this->assertInstanceOf(StateMachineProcessesTable::class, $this->StateMachineProcesses);
     }
@@ -68,7 +68,7 @@ class StateMachineProcessesTableTest extends TestCase
     /**
      * @return void
      */
-    public function testFind()
+    public function testFind(): void
     {
         $result = $this->StateMachineProcesses->find()->first();
         $this->assertTrue(!empty($result));
@@ -80,7 +80,7 @@ class StateMachineProcessesTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -90,7 +90,7 @@ class StateMachineProcessesTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

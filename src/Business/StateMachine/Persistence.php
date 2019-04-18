@@ -334,7 +334,7 @@ class Persistence implements PersistenceInterface
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[] $expiredStateMachineItemsTransfer
      */
-    public function getItemsWithExpiredTimeouts($stateMachineName): array
+    public function getItemsWithExpiredTimeouts(string $stateMachineName): array
     {
         /** @var \StateMachine\Model\Entity\StateMachineTimeout[] $stateMachineExpiredItems */
         $stateMachineExpiredItems = $this->stateMachineQueryContainer

@@ -46,7 +46,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function setSubProcesses($subProcesses)
+    public function setSubProcesses($subProcesses): void
     {
         $this->subProcesses = $subProcesses;
     }
@@ -62,7 +62,7 @@ class Process implements ProcessInterface
     /**
      * @return bool
      */
-    public function hasSubProcesses()
+    public function hasSubProcesses(): bool
     {
         return count($this->subProcesses) > 0;
     }
@@ -72,7 +72,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function addSubProcess(ProcessInterface $subProcess)
+    public function addSubProcess(ProcessInterface $subProcess): void
     {
         $this->subProcesses[] = $subProcess;
     }
@@ -82,7 +82,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function setIsMain($isMain)
+    public function setIsMain(bool $isMain): void
     {
         $this->isMain = $isMain;
     }
@@ -90,7 +90,7 @@ class Process implements ProcessInterface
     /**
      * @return bool
      */
-    public function getIsMain()
+    public function getIsMain(): bool
     {
         return $this->isMain;
     }
@@ -100,7 +100,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -108,7 +108,7 @@ class Process implements ProcessInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -118,7 +118,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function setStates($states)
+    public function setStates($states): void
     {
         $this->states = $states;
     }
@@ -128,7 +128,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function addState(StateInterface $state)
+    public function addState(StateInterface $state): void
     {
         $this->states[$state->getName()] = $state;
     }
@@ -138,7 +138,7 @@ class Process implements ProcessInterface
      *
      * @return \StateMachine\Business\Process\StateInterface
      */
-    public function getState($stateId)
+    public function getState(string $stateId): StateInterface
     {
         return $this->states[$stateId];
     }
@@ -148,7 +148,7 @@ class Process implements ProcessInterface
      *
      * @return bool
      */
-    public function hasState($stateId): bool
+    public function hasState(string $stateId): bool
     {
         return array_key_exists($stateId, $this->states);
     }
@@ -160,7 +160,7 @@ class Process implements ProcessInterface
      *
      * @return \StateMachine\Business\Process\StateInterface
      */
-    public function getStateFromAllProcesses($stateName): StateInterface
+    public function getStateFromAllProcesses(string $stateName): StateInterface
     {
         $processes = $this->getAllProcesses();
         foreach ($processes as $process) {
@@ -198,7 +198,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function addTransition(TransitionInterface $transition)
+    public function addTransition(TransitionInterface $transition): void
     {
         $this->transitions[] = $transition;
     }
@@ -208,7 +208,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function setTransitions($transitions)
+    public function setTransitions($transitions): void
     {
         $this->transitions = $transitions;
     }
@@ -368,7 +368,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function setFile($file): void
+    public function setFile(string $file): void
     {
         $this->file = $file;
     }

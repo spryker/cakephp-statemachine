@@ -41,7 +41,7 @@ interface StateInterface
     /**
      * @return bool
      */
-    public function hasOutgoingTransitions();
+    public function hasOutgoingTransitions(): bool;
 
     /**
      * @param \StateMachine\Business\Process\EventInterface $event
@@ -62,74 +62,74 @@ interface StateInterface
      *
      * @return \StateMachine\Business\Process\EventInterface
      */
-    public function getEvent($eventName);
+    public function getEvent(string $eventName): EventInterface;
 
     /**
      * @param string $id
      *
      * @return bool
      */
-    public function hasEvent($id);
+    public function hasEvent(string $id): bool;
 
     /**
      * @return bool
      */
-    public function hasAnyEvent();
+    public function hasAnyEvent(): bool;
 
     /**
      * @param \StateMachine\Business\Process\TransitionInterface $transition
      *
      * @return void
      */
-    public function addIncomingTransition(TransitionInterface $transition);
+    public function addIncomingTransition(TransitionInterface $transition): void;
 
     /**
      * @param \StateMachine\Business\Process\TransitionInterface $transition
      *
      * @return void
      */
-    public function addOutgoingTransition(TransitionInterface $transition);
+    public function addOutgoingTransition(TransitionInterface $transition): void;
 
     /**
      * @param string $name
      *
      * @return $this
      */
-    public function setName($name);
+    public function setName(string $name);
 
     /**
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $process
      *
      * @return $this
      */
-    public function setProcess($process);
+    public function setProcess(ProcessInterface $process);
 
     /**
      * @return \StateMachine\Business\Process\ProcessInterface
      */
-    public function getProcess();
+    public function getProcess(): ProcessInterface;
 
     /**
      * @return bool
      */
-    public function hasOnEnterEvent();
+    public function hasOnEnterEvent(): bool;
 
     /**
      * @throws \Exception
      *
      * @return \StateMachine\Business\Process\EventInterface
      */
-    public function getOnEnterEvent();
+    public function getOnEnterEvent(): EventInterface;
 
     /**
      * @return bool
      */
-    public function hasTimeoutEvent();
+    public function hasTimeoutEvent(): bool;
 
     /**
      * @throws \Exception
@@ -143,34 +143,34 @@ interface StateInterface
      *
      * @return $this
      */
-    public function addFlag($flag);
+    public function addFlag(string $flag);
 
     /**
      * @param string $flag
      *
      * @return bool
      */
-    public function hasFlag($flag);
+    public function hasFlag(string $flag): bool;
 
     /**
      * @return bool
      */
-    public function hasFlags();
+    public function hasFlags(): bool;
 
     /**
      * @return array
      */
-    public function getFlags();
+    public function getFlags(): array;
 
     /**
      * @return string
      */
-    public function getDisplay();
+    public function getDisplay(): string;
 
     /**
      * @param string $display
      *
      * @return $this
      */
-    public function setDisplay($display);
+    public function setDisplay(string $display);
 }

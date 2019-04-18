@@ -11,21 +11,31 @@ use Cake\Core\Configure;
 use Cake\ORM\Locator\LocatorInterface;
 use Cake\ORM\TableRegistry;
 use StateMachine\Business\Lock\ItemLock;
+use StateMachine\Business\Lock\ItemLockInterface;
 use StateMachine\Business\Logger\PathFinder;
 use StateMachine\Business\Logger\TransitionLog;
+use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\Event;
+use StateMachine\Business\Process\EventInterface;
 use StateMachine\Business\Process\Process;
 use StateMachine\Business\Process\State;
 use StateMachine\Business\Process\Transition;
 use StateMachine\Business\StateMachine\Builder;
+use StateMachine\Business\StateMachine\BuilderInterface;
 use StateMachine\Business\StateMachine\Condition;
+use StateMachine\Business\StateMachine\ConditionInterface;
 use StateMachine\Business\StateMachine\Finder;
+use StateMachine\Business\StateMachine\FinderInterface;
 use StateMachine\Business\StateMachine\HandlerResolver;
 use StateMachine\Business\StateMachine\LockedTrigger;
 use StateMachine\Business\StateMachine\Persistence;
+use StateMachine\Business\StateMachine\PersistenceInterface;
 use StateMachine\Business\StateMachine\StateUpdater;
+use StateMachine\Business\StateMachine\StateUpdaterInterface;
 use StateMachine\Business\StateMachine\Timeout;
+use StateMachine\Business\StateMachine\TimeoutInterface;
 use StateMachine\Business\StateMachine\Trigger;
+use StateMachine\Business\StateMachine\TriggerInterface;
 use StateMachine\Graph\Drawer;
 use StateMachine\Graph\Graph;
 use StateMachine\Model\QueryContainer;
@@ -36,13 +46,14 @@ use StateMachine\Model\Table\StateMachineLocksTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
 use StateMachine\Model\Table\StateMachineTransitionLogsTable;
+use StateMachine\Business\Process\StateInterface;
 
 class PluginFactory
 {
     /**
      * @return \StateMachine\Business\StateMachine\TriggerInterface
      */
-    public function createLockedStateMachineTrigger()
+    public function createLockedStateMachineTrigger(): TriggerInterface
     {
         return new LockedTrigger(
             $this->createStateMachineTrigger(),
@@ -53,7 +64,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\StateMachine\TriggerInterface
      */
-    public function createStateMachineTrigger()
+    public function createStateMachineTrigger(): TriggerInterface
     {
         return new Trigger(
             $this->createLoggerTransitionLog(),
@@ -68,7 +79,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\Lock\ItemLockInterface
      */
-    public function createItemLock()
+    public function createItemLock(): ItemLockInterface
     {
         return new ItemLock(
             $this->getQueryContainer(),
@@ -80,7 +91,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\StateMachine\ConditionInterface
      */
-    public function createStateMachineCondition()
+    public function createStateMachineCondition(): ConditionInterface
     {
         return new Condition(
             $this->createLoggerTransitionLog(),
@@ -94,7 +105,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\StateMachine\StateUpdaterInterface
      */
-    public function createStateUpdater()
+    public function createStateUpdater(): StateUpdaterInterface
     {
         return new StateUpdater(
             $this->createStateMachineTimeout(),
@@ -107,7 +118,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\StateMachine\BuilderInterface
      */
-    public function createStateMachineBuilder()
+    public function createStateMachineBuilder(): BuilderInterface
     {
         return new Builder(
             $this->createProcessEvent(),
@@ -121,7 +132,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\StateMachine\FinderInterface
      */
-    public function createStateMachineFinder()
+    public function createStateMachineFinder(): FinderInterface
     {
         return new Finder(
             $this->createStateMachineBuilder(),
@@ -133,7 +144,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\StateMachine\TimeoutInterface
      */
-    public function createStateMachineTimeout()
+    public function createStateMachineTimeout(): TimeoutInterface
     {
         return new Timeout(
             $this->createStateMachinePersistence()
@@ -143,7 +154,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\Logger\TransitionLogInterface
      */
-    public function createLoggerTransitionLog()
+    public function createLoggerTransitionLog(): TransitionLogInterface
     {
         return new TransitionLog(
             $this->createStateMachineTransitionLogsTable()
@@ -153,7 +164,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\StateMachine\PersistenceInterface
      */
-    public function createStateMachinePersistence()
+    public function createStateMachinePersistence(): PersistenceInterface
     {
         return new Persistence(
             $this->getQueryContainer(),
@@ -167,7 +178,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\Process\EventInterface
      */
-    public function createProcessEvent()
+    public function createProcessEvent(): EventInterface
     {
         return new Event();
     }
@@ -175,7 +186,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\Process\StateInterface
      */
-    public function createProcessState()
+    public function createProcessState(): StateInterface
     {
         return new State();
     }
@@ -183,7 +194,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\Process\TransitionInterface
      */
-    public function createProcessTransition()
+    public function createProcessTransition(): \StateMachine\Business\Process\TransitionInterface
     {
         return new Transition();
     }
@@ -191,7 +202,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\Process\ProcessInterface
      */
-    public function createProcessProcess()
+    public function createProcessProcess(): \StateMachine\Business\Process\ProcessInterface
     {
         return new Process();
     }
@@ -199,7 +210,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\Logger\PathFinder
      */
-    protected function createPathFinder()
+    protected function createPathFinder(): PathFinder
     {
         return new PathFinder();
     }
@@ -209,7 +220,7 @@ class PluginFactory
      *
      * @return \StateMachine\Graph\DrawerInterface
      */
-    public function createGraphDrawer($stateMachineName)
+    public function createGraphDrawer(string $stateMachineName): \StateMachine\Graph\DrawerInterface
     {
         return new Drawer(
             Graph::create(StateMachineConfig::GRAPH_NAME, $this->getConfig()->getGraphDefaults(), true, false),
@@ -220,7 +231,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\StateMachine\HandlerResolverInterface
      */
-    protected function createHandlerResolver()
+    protected function createHandlerResolver(): \StateMachine\Business\StateMachine\HandlerResolverInterface
     {
         return new HandlerResolver($this->getStateMachineHandlers());
     }
@@ -241,7 +252,7 @@ class PluginFactory
     /**
      * @return \StateMachine\StateMachineConfig
      */
-    public function getConfig()
+    public function getConfig(): \StateMachine\StateMachineConfig
     {
         return new StateMachineConfig();
     }

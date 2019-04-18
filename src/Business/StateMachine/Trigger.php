@@ -11,6 +11,7 @@ use Exception;
 use StateMachine\Business\Exception\CommandNotFoundException;
 use StateMachine\Business\Exception\TriggerException;
 use StateMachine\Business\Logger\TransitionLogInterface;
+use StateMachine\Dependency\CommandPluginInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Dto\StateMachine\ProcessDto;
@@ -212,7 +213,7 @@ class Trigger implements TriggerInterface
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    protected function filterEventAffectedItems($eventName, array $stateMachineItems, $processes)
+    protected function filterEventAffectedItems(string $eventName, array $stateMachineItems, $processes)
     {
         $stateMachineItemsFiltered = [];
         foreach ($stateMachineItems as $itemDto) {
@@ -241,7 +242,7 @@ class Trigger implements TriggerInterface
      *
      * @return void
      */
-    protected function runCommand($eventName, array $stateMachineItems, array $processes)
+    protected function runCommand(string $eventName, array $stateMachineItems, array $processes): void
     {
         foreach ($stateMachineItems as $itemDto) {
             $stateName = $itemDto->getStateNameOrFail();
@@ -279,7 +280,7 @@ class Trigger implements TriggerInterface
      *
      * @return array
      */
-    protected function updateStateByEvent($eventName, array $stateMachineItems)
+    protected function updateStateByEvent(string $eventName, array $stateMachineItems): array
     {
         $sourceStateBuffer = [];
         $targetStateMap = [];
@@ -328,7 +329,7 @@ class Trigger implements TriggerInterface
      *
      * @return bool
      */
-    protected function checkForEventRepetitions($eventName)
+    protected function checkForEventRepetitions(string $eventName): bool
     {
         if (array_key_exists($eventName, $this->eventCounter) === false) {
             $this->eventCounter[$eventName] = 0;
@@ -343,7 +344,7 @@ class Trigger implements TriggerInterface
      *
      * @return bool
      */
-    protected function triggerOnEnterEvents(array $itemsWithOnEnterEvent)
+    protected function triggerOnEnterEvents(array $itemsWithOnEnterEvent): bool
     {
         if (count($itemsWithOnEnterEvent) > 0) {
             foreach ($itemsWithOnEnterEvent as $eventName => $stateMachineItems) {
@@ -357,31 +358,31 @@ class Trigger implements TriggerInterface
     }
 
     /**
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     *
+     * @return void
+     */
+    protected function logSourceState(array $stateMachineItems): void
+    {
+        foreach ($stateMachineItems as $itemDto) {
+            $stateName = $itemDto->getStateName();
+            $this->transitionLog->addSourceState($itemDto, $stateName);
+        }
+    }
+
+    /**
      * @param string $commandString
      * @param string $stateMachineName
      *
      * @return \StateMachine\Dependency\CommandPluginInterface
      */
-    protected function getCommand($commandString, $stateMachineName)
+    protected function getCommand(string $commandString, string $stateMachineName): CommandPluginInterface
     {
         $stateMachineHandler = $this->stateMachineHandlerResolver->get($stateMachineName);
 
         $this->assertCommandIsSet($commandString, $stateMachineHandler);
 
         return $stateMachineHandler->getCommands()[$commandString];
-    }
-
-    /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
-     *
-     * @return void
-     */
-    protected function logSourceState(array $stateMachineItems)
-    {
-        foreach ($stateMachineItems as $itemDto) {
-            $stateName = $itemDto->getStateName();
-            $this->transitionLog->addSourceState($itemDto, $stateName);
-        }
     }
 
     /**
@@ -436,7 +437,7 @@ class Trigger implements TriggerInterface
      *
      * @return void
      */
-    protected function assertInitialStateNameProvided($initialStateName, $processName)
+    protected function assertInitialStateNameProvided(string $initialStateName, string $processName): void
     {
         if (!$initialStateName) {
             throw new TriggerException(
@@ -457,7 +458,7 @@ class Trigger implements TriggerInterface
      *
      * @return void
      */
-    protected function assertInitialStateCreated($idStateMachineItemState, $initialStateName)
+    protected function assertInitialStateCreated(?int $idStateMachineItemState, string $initialStateName): void
     {
         if ($idStateMachineItemState === null) {
             throw new TriggerException(
@@ -476,7 +477,7 @@ class Trigger implements TriggerInterface
      *
      * @return void
      */
-    protected function assertProcessCreated($idStateMachineProcess)
+    protected function assertProcessCreated(int $idStateMachineProcess): void
     {
         if (!$idStateMachineProcess) {
             throw new TriggerException(
@@ -496,7 +497,7 @@ class Trigger implements TriggerInterface
      *
      * @return void
      */
-    protected function assertCommandIsSet($commandString, StateMachineHandlerInterface $stateMachineHandler)
+    protected function assertCommandIsSet(string $commandString, StateMachineHandlerInterface $stateMachineHandler): void
     {
         if (!isset($stateMachineHandler->getCommands()[$commandString])) {
             throw new CommandNotFoundException(

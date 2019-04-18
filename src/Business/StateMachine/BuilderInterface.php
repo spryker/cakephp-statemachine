@@ -7,6 +7,7 @@
 
 namespace StateMachine\Business\StateMachine;
 
+use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Dto\StateMachine\ProcessDto;
 
 interface BuilderInterface
@@ -16,5 +17,5 @@ interface BuilderInterface
      *
      * @return \StateMachine\Business\Process\ProcessInterface
      */
-    public function createProcess(ProcessDto $processDto);
+    public function createProcess(ProcessDto $processDto): ProcessInterface;
 }

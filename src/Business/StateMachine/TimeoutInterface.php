@@ -18,7 +18,7 @@ interface TimeoutInterface
      *
      * @return void
      */
-    public function setNewTimeout(ProcessInterface $process, ItemDto $itemDto);
+    public function setNewTimeout(ProcessInterface $process, ItemDto $itemDto): void;
 
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $process
@@ -29,7 +29,7 @@ interface TimeoutInterface
      */
     public function dropOldTimeout(
         ProcessInterface $process,
-        $stateName,
+        string $stateName,
         ItemDto $itemDto
-    );
+    ): void;
 }

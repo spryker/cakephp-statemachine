@@ -593,7 +593,7 @@ class StateMachineFacadeTest extends TestCase
     /**
      * @return void
      */
-    public function testStateMachineExistsReturnsTrueWhenStateMachineHasHandler()
+    public function testStateMachineExistsReturnsTrueWhenStateMachineHasHandler(): void
     {
         // Assign
         $stateMachineHandler = $this->createTestStateMachineHandler();

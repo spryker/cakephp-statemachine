@@ -25,7 +25,7 @@ class Graph implements GraphInterface
      * @param bool $directed
      * @param bool $strict
      */
-    public function __construct(GraphAdapterInterface $adapter, $name, array $attributes = [], $directed = true, $strict = true)
+    public function __construct(GraphAdapterInterface $adapter, string $name, array $attributes = [], bool $directed = true, bool $strict = true)
     {
         $this->adapter = $adapter;
         $this->adapter->create($name, $attributes, $directed, $strict);
@@ -41,7 +41,7 @@ class Graph implements GraphInterface
      *
      * @return static
      */
-    public static function create($name, array $attributes = [], $directed = true, $strict = true)
+    public static function create(string $name, array $attributes = [], bool $directed = true, bool $strict = true)
     {
         $adapter = Configure::read('StateMachine.graphAdapter') ?: PhpDocumentorGraphAdapter::class;
         /** @var \StateMachine\Graph\GraphAdapterInterface $object */
@@ -60,7 +60,7 @@ class Graph implements GraphInterface
      *
      * @return $this
      */
-    public function addNode($name, $attributes = [], $group = self::DEFAULT_GROUP)
+    public function addNode(string $name, array $attributes = [], string $group = self::DEFAULT_GROUP)
     {
         $this->adapter->addNode($name, $attributes, $group);
 
@@ -74,7 +74,7 @@ class Graph implements GraphInterface
      *
      * @return $this
      */
-    public function addEdge($fromNode, $toNode, $attributes = [])
+    public function addEdge(string $fromNode, string $toNode, array $attributes = [])
     {
         $this->adapter->addEdge($fromNode, $toNode, $attributes);
 
@@ -87,7 +87,7 @@ class Graph implements GraphInterface
      *
      * @return $this
      */
-    public function addCluster($name, $attributes = [])
+    public function addCluster(string $name, array $attributes = [])
     {
         $this->adapter->addCluster($name, $attributes);
 
@@ -100,7 +100,7 @@ class Graph implements GraphInterface
      *
      * @return string
      */
-    public function render($type, $fileName = null)
+    public function render(string $type, ?string $fileName = null): string
     {
         return $this->adapter->render($type, $fileName);
     }

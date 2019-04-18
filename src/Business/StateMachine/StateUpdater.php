@@ -63,7 +63,7 @@ class StateUpdater implements StateUpdaterInterface
         array $stateMachineItems,
         array $processes,
         array $sourceStates
-    ) {
+    ): void {
         if (count($stateMachineItems) === 0) {
             return;
         }
@@ -84,7 +84,7 @@ class StateUpdater implements StateUpdaterInterface
         array $processes,
         array $sourceStates,
         ItemDto $itemDto
-    ) {
+    ): void {
         $process = $processes[$itemDto->getProcessNameOrFail()];
 
         $this->assertSourceStateExists($sourceStates, $itemDto);
@@ -106,7 +106,7 @@ class StateUpdater implements StateUpdaterInterface
     protected function assertSourceStateExists(
         array $sourceStateBuffer,
         ItemDto $itemDto
-    ) {
+    ): void {
         if (!isset($sourceStateBuffer[$itemDto->getIdentifier()])) {
             throw new StateMachineException(
                 sprintf('Could not update state, source state not found.')
@@ -119,7 +119,7 @@ class StateUpdater implements StateUpdaterInterface
      *
      * @return void
      */
-    protected function notifyHandlerStateChanged(ItemDto $itemDto)
+    protected function notifyHandlerStateChanged(ItemDto $itemDto): void
     {
         $stateMachineHandler = $this->stateMachineHandlerResolver->get($itemDto->getStateMachineName());
 
@@ -135,9 +135,9 @@ class StateUpdater implements StateUpdaterInterface
      */
     protected function updateTimeouts(
         ProcessInterface $process,
-        $sourceState,
+        string $sourceState,
         ItemDto $itemDto
-    ) {
+    ): void {
         $this->timeout->dropOldTimeout($process, $sourceState, $itemDto);
         $this->timeout->setNewTimeout($process, $itemDto);
     }
@@ -151,11 +151,11 @@ class StateUpdater implements StateUpdaterInterface
      * @return void
      */
     protected function transitionState(
-        $sourceState,
-        $targetState,
+        string $sourceState,
+        string $targetState,
         ItemDto $itemDto,
         ProcessInterface $process
-    ) {
+    ): void {
         if ($sourceState === $targetState) {
             return;
         }

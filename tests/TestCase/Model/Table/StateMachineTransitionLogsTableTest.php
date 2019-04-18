@@ -36,7 +36,7 @@ class StateMachineTransitionLogsTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('StateMachineTransitionLogs') ? [] : ['className' => StateMachineTransitionLogsTable::class];
@@ -48,7 +48,7 @@ class StateMachineTransitionLogsTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->StateMachineTransitionLogs);
 
@@ -58,7 +58,7 @@ class StateMachineTransitionLogsTableTest extends TestCase
     /**
      * @return void
      */
-    public function testInstance()
+    public function testInstance(): void
     {
         $this->assertInstanceOf(StateMachineTransitionLogsTable::class, $this->StateMachineTransitionLogs);
     }
@@ -66,7 +66,7 @@ class StateMachineTransitionLogsTableTest extends TestCase
     /**
      * @return void
      */
-    public function testFind()
+    public function testFind(): void
     {
         $result = $this->StateMachineTransitionLogs->find()->first();
         $this->assertTrue(!empty($result));
@@ -78,7 +78,7 @@ class StateMachineTransitionLogsTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -88,7 +88,7 @@ class StateMachineTransitionLogsTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -98,7 +98,7 @@ class StateMachineTransitionLogsTableTest extends TestCase
      *
      * @return void
      */
-    public function testBuildRules()
+    public function testBuildRules(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

@@ -28,7 +28,7 @@ class GraphControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testDraw()
+    public function testDraw(): void
     {
         Configure::write('StateMachine.pathToXml', TESTS . 'test_files' . DS);
         Configure::write('StateMachine.handlers', [

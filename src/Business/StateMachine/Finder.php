@@ -9,6 +9,7 @@ namespace StateMachine\Business\StateMachine;
 
 use Cake\ORM\ResultSet;
 use StateMachine\Business\Exception\StateMachineException;
+use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\Model\Entity\StateMachineItemState;
@@ -52,7 +53,7 @@ class Finder implements FinderInterface
      *
      * @return bool
      */
-    public function hasHandler($stateMachineName)
+    public function hasHandler(string $stateMachineName): bool
     {
         return $this->stateMachineHandlerResolver->find($stateMachineName) !== null;
     }
@@ -62,7 +63,7 @@ class Finder implements FinderInterface
      *
      * @return \StateMachine\Dto\StateMachine\ProcessDto[]
      */
-    public function getProcesses($stateMachineName)
+    public function getProcesses(string $stateMachineName): array
     {
         $processes = [];
         $stateMachineHandler = $this->stateMachineHandlerResolver->get($stateMachineName);
@@ -78,7 +79,7 @@ class Finder implements FinderInterface
      *
      * @return string[][]
      */
-    public function getManualEventsForStateMachineItems(array $stateMachineItems)
+    public function getManualEventsForStateMachineItems(array $stateMachineItems): array
     {
         $itemsWithManualEvents = [];
         foreach ($stateMachineItems as $itemDto) {
@@ -97,20 +98,20 @@ class Finder implements FinderInterface
      *
      * @return string[]
      */
-    public function getManualEventsForStateMachineItem(ItemDto $itemDto)
+    public function getManualEventsForStateMachineItem(ItemDto $itemDto): array
     {
         $processName = $itemDto->getProcessNameOrFail();
 
         $processBuilder = clone $this->builder;
 
         $processDto = $this->createProcessDto(
-            $itemDto->getStateMachineName(),
+            $itemDto->getStateMachineNameOrFail(),
             $processName
         );
 
         $process = $processBuilder->createProcess($processDto);
         $manualEvents = $process->getManuallyExecutableEventsBySource();
-        $stateName = $itemDto->getStateName();
+        $stateName = $itemDto->getStateNameOrFail();
 
         if (!isset($manualEvents[$stateName])) {
             return [];
@@ -125,7 +126,7 @@ class Finder implements FinderInterface
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[] $itemDto
      */
-    public function getItemsWithFlag(ProcessDto $processDto, $flag)
+    public function getItemsWithFlag(ProcessDto $processDto, string $flag): array
     {
         return $this->getItemsByFlag($processDto, $flag, true);
     }
@@ -136,7 +137,7 @@ class Finder implements FinderInterface
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[] $itemDto
      */
-    public function getItemsWithoutFlag(ProcessDto $processDto, $flag)
+    public function getItemsWithoutFlag(ProcessDto $processDto, string $flag): array
     {
         return $this->getItemsByFlag($processDto, $flag, false);
     }
@@ -148,7 +149,7 @@ class Finder implements FinderInterface
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    protected function getItemsByFlag(ProcessDto $processDto, $flagName, $hasFlag)
+    protected function getItemsByFlag(ProcessDto $processDto, string $flagName, bool $hasFlag): array
     {
         $statesByFlag = $this->getStatesByFlag($processDto, $flagName, $hasFlag);
         if (count($statesByFlag) === 0) {
@@ -186,7 +187,7 @@ class Finder implements FinderInterface
      *
      * @return \StateMachine\Business\Process\StateInterface[]
      */
-    protected function getStatesByFlag(ProcessDto $processDto, $flag, $hasFlag)
+    protected function getStatesByFlag(ProcessDto $processDto, string $flag, bool $hasFlag): array
     {
         $selectedStates = [];
 
@@ -213,7 +214,7 @@ class Finder implements FinderInterface
         array $stateMachineItems,
         array $processes,
         array $sourceStates = []
-    ) {
+    ): array {
         $itemsWithOnEnterEvent = [];
         foreach ($stateMachineItems as $itemDto) {
             $stateName = $itemDto->getStateNameOrFail();
@@ -248,7 +249,7 @@ class Finder implements FinderInterface
      *
      * @return \StateMachine\Business\Process\ProcessInterface
      */
-    public function findProcessByStateMachineAndProcessName($stateMachineName, $processName)
+    public function findProcessByStateMachineAndProcessName(string $stateMachineName, string $processName): ProcessInterface
     {
         $processDto = $this->createProcessDto($stateMachineName, $processName);
         return $this->builder->createProcess($processDto);
@@ -259,7 +260,7 @@ class Finder implements FinderInterface
      *
      * @return \StateMachine\Business\Process\ProcessInterface[]
      */
-    public function findProcessesForItems(array $stateMachineItems)
+    public function findProcessesForItems(array $stateMachineItems): array
     {
         $processes = [];
         foreach ($stateMachineItems as $itemDto) {
@@ -283,7 +284,7 @@ class Finder implements FinderInterface
      *
      * @return \StateMachine\Dto\StateMachine\ProcessDto
      */
-    protected function createProcessDto($stateMachineName, $processName)
+    protected function createProcessDto(string $stateMachineName, string $processName): ProcessDto
     {
         $processDto = new ProcessDto();
         $processDto->setStateMachineName($stateMachineName);
@@ -300,7 +301,7 @@ class Finder implements FinderInterface
      *
      * @return void
      */
-    protected function assertProcessExists(array $processes, $processName)
+    protected function assertProcessExists(array $processes, string $processName): void
     {
         if (!isset($processes[$processName])) {
             throw new StateMachineException(

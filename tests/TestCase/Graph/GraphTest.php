@@ -17,7 +17,7 @@ class GraphTest extends TestCase
     /**
      * @return void
      */
-    public function testDefault()
+    public function testDefault(): void
     {
         Configure::write('StateMachine.graphAdapter', PhpDocumentorGraphAdapter::class);
 

@@ -12,6 +12,7 @@ use StateMachine\Business\Exception\ConditionNotFoundException;
 use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Business\Process\StateInterface;
+use StateMachine\Dependency\ConditionPluginInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
@@ -86,7 +87,7 @@ class Condition implements ConditionInterface
         ItemDto $itemDto,
         StateInterface $sourceState,
         TransitionLogInterface $transactionLogger
-    ) {
+    ): StateInterface {
         $possibleTransitions = [];
         foreach ($transitions as $transition) {
             if ($transition->hasCondition()) {
@@ -119,8 +120,8 @@ class Condition implements ConditionInterface
     protected function checkCondition(
         ItemDto $itemDto,
         TransitionLogInterface $transactionLogger,
-        $conditionName
-    ) {
+        string $conditionName
+    ): bool {
         $conditionPlugin = $this->getConditionPlugin(
             $conditionName,
             $itemDto->getStateMachineNameOrFail()
@@ -149,7 +150,7 @@ class Condition implements ConditionInterface
      *
      * @return \StateMachine\Business\Process\StateInterface
      */
-    protected function findTargetState(StateInterface $sourceState, array $possibleTransitions)
+    protected function findTargetState(StateInterface $sourceState, array $possibleTransitions): StateInterface
     {
         $targetState = $sourceState;
         if (count($possibleTransitions) > 0) {
@@ -165,7 +166,7 @@ class Condition implements ConditionInterface
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[][] $itemsWithOnEnterEvent
      */
-    public function getOnEnterEventsForStatesWithoutTransition($stateMachineName, $processName)
+    public function getOnEnterEventsForStatesWithoutTransition(string $stateMachineName, string $processName)
     {
         $process = $this->finder->findProcessByStateMachineAndProcessName($stateMachineName, $processName);
         $transitions = $process->getAllTransitionsWithoutEvent();
@@ -204,7 +205,7 @@ class Condition implements ConditionInterface
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     protected function getItemsByStatesAndProcessName(
-        $stateMachineName,
+        string $stateMachineName,
         array $states,
         ProcessInterface $process
     ) {
@@ -232,10 +233,10 @@ class Condition implements ConditionInterface
      * @return void
      */
     protected function persistAffectedStates(
-        $stateMachineName,
+        string $stateMachineName,
         array $states,
         array $stateMachineItems
-    ) {
+    ): void {
         $targetStateMap = [];
         foreach ($stateMachineItems as $i => $itemDto) {
             $stateName = $itemDto->getStateNameOrFail();
@@ -276,7 +277,7 @@ class Condition implements ConditionInterface
      *
      * @return array
      */
-    protected function createStateToTransitionMap(array $transitions)
+    protected function createStateToTransitionMap(array $transitions): array
     {
         $stateToTransitionsMap = [];
         foreach ($transitions as $transition) {
@@ -296,7 +297,7 @@ class Condition implements ConditionInterface
      *
      * @return \StateMachine\Dependency\ConditionPluginInterface
      */
-    protected function getConditionPlugin($conditionString, $stateMachineName)
+    protected function getConditionPlugin(string $conditionString, string $stateMachineName): ConditionPluginInterface
     {
         $stateMachineHandler = $this->stateMachineHandlerResolver->get($stateMachineName);
 
@@ -313,7 +314,7 @@ class Condition implements ConditionInterface
      *
      * @return void
      */
-    protected function assertConditionIsSet($conditionString, StateMachineHandlerInterface $stateMachineHandler)
+    protected function assertConditionIsSet(string $conditionString, StateMachineHandlerInterface $stateMachineHandler): void
     {
         if (!isset($stateMachineHandler->getConditions()[$conditionString])) {
             throw new ConditionNotFoundException(

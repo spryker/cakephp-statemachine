@@ -39,7 +39,7 @@ class Transition implements TransitionInterface
      *
      * @return void
      */
-    public function setHappyCase($happy)
+    public function setHappyCase(bool $happy): void
     {
         $this->happy = $happy;
     }
@@ -47,7 +47,7 @@ class Transition implements TransitionInterface
     /**
      * @return bool
      */
-    public function isHappyCase()
+    public function isHappyCase(): bool
     {
         return $this->happy;
     }
@@ -57,7 +57,7 @@ class Transition implements TransitionInterface
      *
      * @return void
      */
-    public function setCondition($condition)
+    public function setCondition(string $condition): void
     {
         $this->condition = $condition;
     }
@@ -65,7 +65,7 @@ class Transition implements TransitionInterface
     /**
      * @return string
      */
-    public function getCondition()
+    public function getCondition(): string
     {
         return $this->condition;
     }
@@ -73,7 +73,7 @@ class Transition implements TransitionInterface
     /**
      * @return bool
      */
-    public function hasCondition()
+    public function hasCondition(): bool
     {
         return isset($this->condition);
     }
@@ -83,7 +83,7 @@ class Transition implements TransitionInterface
      *
      * @return void
      */
-    public function setEvent(EventInterface $event)
+    public function setEvent(EventInterface $event): void
     {
         $this->event = $event;
     }
@@ -91,7 +91,7 @@ class Transition implements TransitionInterface
     /**
      * @return \StateMachine\Business\Process\EventInterface
      */
-    public function getEvent()
+    public function getEvent(): EventInterface
     {
         return $this->event;
     }
@@ -99,7 +99,7 @@ class Transition implements TransitionInterface
     /**
      * @return bool
      */
-    public function hasEvent()
+    public function hasEvent(): bool
     {
         return isset($this->event);
     }
@@ -109,7 +109,7 @@ class Transition implements TransitionInterface
      *
      * @return void
      */
-    public function setSourceState(StateInterface $source)
+    public function setSourceState(StateInterface $source): void
     {
         $this->source = $source;
     }
@@ -117,7 +117,7 @@ class Transition implements TransitionInterface
     /**
      * @return \StateMachine\Business\Process\StateInterface
      */
-    public function getSourceState()
+    public function getSourceState(): StateInterface
     {
         return $this->source;
     }
@@ -127,7 +127,7 @@ class Transition implements TransitionInterface
      *
      * @return void
      */
-    public function setTargetState(StateInterface $target)
+    public function setTargetState(StateInterface $target): void
     {
         $this->target = $target;
     }
@@ -135,7 +135,7 @@ class Transition implements TransitionInterface
     /**
      * @return \StateMachine\Business\Process\StateInterface
      */
-    public function getTargetState()
+    public function getTargetState(): StateInterface
     {
         return $this->target;
     }

@@ -92,7 +92,7 @@ class State implements StateInterface
     /**
      * @return bool
      */
-    public function hasOutgoingTransitions()
+    public function hasOutgoingTransitions(): bool
     {
         return (bool)$this->outgoingTransitions;
     }
@@ -138,7 +138,7 @@ class State implements StateInterface
      *
      * @return \StateMachine\Business\Process\EventInterface
      */
-    public function getEvent($eventName)
+    public function getEvent(string $eventName): EventInterface
     {
         foreach ($this->outgoingTransitions as $transition) {
             if ($transition->hasEvent()) {
@@ -162,7 +162,7 @@ class State implements StateInterface
      *
      * @return bool
      */
-    public function hasEvent($id)
+    public function hasEvent(string $id): bool
     {
         foreach ($this->outgoingTransitions as $transition) {
             if ($transition->hasEvent()) {
@@ -179,7 +179,7 @@ class State implements StateInterface
     /**
      * @return bool
      */
-    public function hasAnyEvent()
+    public function hasAnyEvent(): bool
     {
         foreach ($this->outgoingTransitions as $transition) {
             if ($transition->hasEvent()) {
@@ -195,7 +195,7 @@ class State implements StateInterface
      *
      * @return void
      */
-    public function addIncomingTransition(TransitionInterface $transition)
+    public function addIncomingTransition(TransitionInterface $transition): void
     {
         $this->incomingTransitions[] = $transition;
     }
@@ -205,7 +205,7 @@ class State implements StateInterface
      *
      * @return void
      */
-    public function addOutgoingTransition(TransitionInterface $transition)
+    public function addOutgoingTransition(TransitionInterface $transition): void
     {
         $this->outgoingTransitions[] = $transition;
     }
@@ -215,7 +215,7 @@ class State implements StateInterface
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
 
@@ -225,7 +225,7 @@ class State implements StateInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -235,7 +235,7 @@ class State implements StateInterface
      *
      * @return $this
      */
-    public function setProcess($process)
+    public function setProcess(ProcessInterface $process)
     {
         $this->process = $process;
 
@@ -245,7 +245,7 @@ class State implements StateInterface
     /**
      * @return \StateMachine\Business\Process\ProcessInterface
      */
-    public function getProcess()
+    public function getProcess(): ProcessInterface
     {
         return $this->process;
     }
@@ -253,7 +253,7 @@ class State implements StateInterface
     /**
      * @return bool
      */
-    public function hasOnEnterEvent()
+    public function hasOnEnterEvent(): bool
     {
         $transitions = $this->getOutgoingTransitions();
         foreach ($transitions as $transition) {
@@ -272,7 +272,7 @@ class State implements StateInterface
      *
      * @return \StateMachine\Business\Process\EventInterface
      */
-    public function getOnEnterEvent()
+    public function getOnEnterEvent(): EventInterface
     {
         $transitions = $this->getOutgoingTransitions();
         foreach ($transitions as $transition) {
@@ -294,7 +294,7 @@ class State implements StateInterface
     /**
      * @return bool
      */
-    public function hasTimeoutEvent()
+    public function hasTimeoutEvent(): bool
     {
         $transitions = $this->getOutgoingTransitions();
         foreach ($transitions as $transition) {
@@ -332,7 +332,7 @@ class State implements StateInterface
      *
      * @return $this
      */
-    public function addFlag($flag)
+    public function addFlag(string $flag)
     {
         $this->flags[] = $flag;
 
@@ -344,7 +344,7 @@ class State implements StateInterface
      *
      * @return bool
      */
-    public function hasFlag($flag)
+    public function hasFlag(string $flag): bool
     {
         return in_array($flag, $this->flags);
     }
@@ -352,7 +352,7 @@ class State implements StateInterface
     /**
      * @return bool
      */
-    public function hasFlags()
+    public function hasFlags(): bool
     {
         return count($this->flags) > 0;
     }
@@ -360,7 +360,7 @@ class State implements StateInterface
     /**
      * @return array
      */
-    public function getFlags()
+    public function getFlags(): array
     {
         return $this->flags;
     }
@@ -368,7 +368,7 @@ class State implements StateInterface
     /**
      * @return string
      */
-    public function getDisplay()
+    public function getDisplay(): string
     {
         return $this->display;
     }
@@ -378,7 +378,7 @@ class State implements StateInterface
      *
      * @return $this
      */
-    public function setDisplay($display)
+    public function setDisplay(string $display)
     {
         $this->display = $display;
 

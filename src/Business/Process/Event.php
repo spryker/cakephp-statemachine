@@ -44,7 +44,7 @@ class Event implements EventInterface
      *
      * @return void
      */
-    public function setManual($manual)
+    public function setManual(bool $manual): void
     {
         $this->manual = $manual;
     }
@@ -52,7 +52,7 @@ class Event implements EventInterface
     /**
      * @return bool
      */
-    public function isManual()
+    public function isManual(): bool
     {
         return $this->manual;
     }
@@ -62,7 +62,7 @@ class Event implements EventInterface
      *
      * @return void
      */
-    public function setCommand($command)
+    public function setCommand(string $command): void
     {
         $this->command = $command;
     }
@@ -70,7 +70,7 @@ class Event implements EventInterface
     /**
      * @return string
      */
-    public function getCommand()
+    public function getCommand(): string
     {
         return $this->command;
     }
@@ -78,7 +78,7 @@ class Event implements EventInterface
     /**
      * @return bool
      */
-    public function hasCommand()
+    public function hasCommand(): bool
     {
         return isset($this->command);
     }
@@ -88,7 +88,7 @@ class Event implements EventInterface
      *
      * @return void
      */
-    public function setOnEnter($onEnter)
+    public function setOnEnter(bool $onEnter): void
     {
         $this->onEnter = $onEnter;
     }
@@ -96,7 +96,7 @@ class Event implements EventInterface
     /**
      * @return bool
      */
-    public function isOnEnter()
+    public function isOnEnter(): bool
     {
         return $this->onEnter;
     }
@@ -106,7 +106,7 @@ class Event implements EventInterface
      *
      * @return void
      */
-    public function setName($id)
+    public function setName(string $id): void
     {
         $this->id = $id;
     }
@@ -114,7 +114,7 @@ class Event implements EventInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->id;
     }
@@ -124,7 +124,7 @@ class Event implements EventInterface
      *
      * @return void
      */
-    public function addTransition(TransitionInterface $transition)
+    public function addTransition(TransitionInterface $transition): void
     {
         $this->transitions[] = $transition;
     }
@@ -151,7 +151,7 @@ class Event implements EventInterface
     /**
      * @return string
      */
-    public function getEventTypeLabel()
+    public function getEventTypeLabel(): string
     {
         if ($this->isOnEnter()) {
             return ' (on enter)';
@@ -181,7 +181,7 @@ class Event implements EventInterface
      *
      * @return void
      */
-    public function setTimeout($timeout)
+    public function setTimeout(string $timeout): void
     {
         $this->timeout = $timeout;
     }
@@ -189,7 +189,7 @@ class Event implements EventInterface
     /**
      * @return string
      */
-    public function getTimeout()
+    public function getTimeout(): string
     {
         return $this->timeout;
     }
@@ -197,7 +197,7 @@ class Event implements EventInterface
     /**
      * @return bool
      */
-    public function hasTimeout()
+    public function hasTimeout(): bool
     {
         return isset($this->timeout);
     }

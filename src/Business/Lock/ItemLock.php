@@ -55,7 +55,7 @@ class ItemLock implements ItemLockInterface
      *
      * @return bool
      */
-    public function acquire($identifier)
+    public function acquire(string $identifier): bool
     {
         $stateMachineLockEntity = $this->createStateMachineLockEntity();
 
@@ -83,7 +83,7 @@ class ItemLock implements ItemLockInterface
      *
      * @return void
      */
-    public function release($identifier)
+    public function release(string $identifier): void
     {
         $this->queryContainer
             ->queryLockItemsByIdentifier($identifier)
@@ -103,7 +103,7 @@ class ItemLock implements ItemLockInterface
     /**
      * @return \Cake\I18n\FrozenTime
      */
-    protected function createExpirationDate()
+    protected function createExpirationDate(): FrozenTime
     {
         $dateInterval = DateInterval::createFromDateString(
             $this->stateMachineConfig->getStateMachineItemLockExpirationInterval()

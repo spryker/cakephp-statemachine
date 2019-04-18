@@ -84,7 +84,7 @@ interface PersistenceInterface
      *
      * @return void
      */
-    public function saveItemStateHistory(ItemDto $itemDto);
+    public function saveItemStateHistory(ItemDto $itemDto): void;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
@@ -111,5 +111,5 @@ interface PersistenceInterface
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[] $expiredStateMachineItemsTransfer
      */
-    public function getItemsWithExpiredTimeouts($stateMachineName): array;
+    public function getItemsWithExpiredTimeouts(string $stateMachineName): array;
 }

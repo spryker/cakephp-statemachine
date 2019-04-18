@@ -95,7 +95,7 @@ class StateUpdaterTest extends TestCase
     /**
      * @return void
      */
-    public function testStateUpdaterShouldUpdateStateSameWithoutLog()
+    public function testStateUpdaterShouldUpdateStateSameWithoutLog(): void
     {
         $stateUpdater = $this->createStateUpdater();
 
@@ -115,7 +115,7 @@ class StateUpdaterTest extends TestCase
     /**
      * @return void
      */
-    public function testStateUpdaterShouldTriggerHandlerWhenStateChanged()
+    public function testStateUpdaterShouldTriggerHandlerWhenStateChanged(): void
     {
         $stateMachineHandlerResolverMock = $this->createHandlerResolverMock();
 
@@ -141,7 +141,7 @@ class StateUpdaterTest extends TestCase
     /**
      * @return void
      */
-    public function testStateUpdaterShouldUpdateTimeoutsWhenStateChanged()
+    public function testStateUpdaterShouldUpdateTimeoutsWhenStateChanged(): void
     {
         $timeoutMock = $this->createTimeoutMock();
 
@@ -162,7 +162,7 @@ class StateUpdaterTest extends TestCase
     /**
      * @return void
      */
-    public function testStateMachineUpdaterShouldPersistStateHistory()
+    public function testStateMachineUpdaterShouldPersistStateHistory(): void
     {
         $stateUpdater = $this->createStateUpdater();
 

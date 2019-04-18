@@ -12,5 +12,5 @@ interface PathFinderInterface
     /**
      * @return string
      */
-    public function getCurrentExecutionPath();
+    public function getCurrentExecutionPath(): string;
 }

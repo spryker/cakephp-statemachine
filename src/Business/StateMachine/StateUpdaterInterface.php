@@ -16,5 +16,5 @@ interface StateUpdaterInterface
      *
      * @return void
      */
-    public function updateStateMachineItemState(array $stateMachineItems, array $processes, array $sourceStates);
+    public function updateStateMachineItemState(array $stateMachineItems, array $processes, array $sourceStates): void;
 }

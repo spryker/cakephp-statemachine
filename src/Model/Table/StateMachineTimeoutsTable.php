@@ -34,7 +34,7 @@ class StateMachineTimeoutsTable extends Table
      *
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -61,7 +61,7 @@ class StateMachineTimeoutsTable extends Table
      *
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')
@@ -95,7 +95,7 @@ class StateMachineTimeoutsTable extends Table
      *
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
         //$rules->add($rules->existsIn(['state_machine_item_state_id'], 'StateMachineItemStates'));
         //$rules->add($rules->existsIn(['state_machine_process_id'], 'StateMachineProcesses'));

@@ -19,14 +19,14 @@ interface TransitionLogInterface
      *
      * @return void
      */
-    public function setEvent(EventInterface $event);
+    public function setEvent(EventInterface $event): void;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return void
      */
-    public function init(array $stateMachineItems);
+    public function init(array $stateMachineItems): void;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem
@@ -34,7 +34,7 @@ interface TransitionLogInterface
      *
      * @return void
      */
-    public function addCommand(ItemDto $stateMachineItem, CommandPluginInterface $command);
+    public function addCommand(ItemDto $stateMachineItem, CommandPluginInterface $command): void;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem
@@ -42,7 +42,7 @@ interface TransitionLogInterface
      *
      * @return void
      */
-    public function addCondition(ItemDto $stateMachineItem, ConditionPluginInterface $condition);
+    public function addCondition(ItemDto $stateMachineItem, ConditionPluginInterface $condition): void;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem
@@ -50,7 +50,7 @@ interface TransitionLogInterface
      *
      * @return void
      */
-    public function addSourceState(ItemDto $stateMachineItem, $stateName);
+    public function addSourceState(ItemDto $stateMachineItem, string $stateName): void;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem
@@ -58,31 +58,31 @@ interface TransitionLogInterface
      *
      * @return void
      */
-    public function addTargetState(ItemDto $stateMachineItem, $stateName);
+    public function addTargetState(ItemDto $stateMachineItem, string $stateName): void;
 
     /**
      * @param bool $error
      *
      * @return void
      */
-    public function setIsError($error);
+    public function setIsError(bool $error): void;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem
      *
      * @return void
      */
-    public function save(ItemDto $stateMachineItem);
+    public function save(ItemDto $stateMachineItem): void;
 
     /**
      * @param string $errorMessage
      *
      * @return void
      */
-    public function setErrorMessage($errorMessage);
+    public function setErrorMessage(string $errorMessage): void;
 
     /**
      * @return void
      */
-    public function saveAll();
+    public function saveAll(): void;
 }

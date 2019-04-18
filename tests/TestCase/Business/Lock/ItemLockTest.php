@@ -99,7 +99,7 @@ class ItemLockTest extends TestCase
     /**
      * @return \StateMachine\StateMachineConfig
      */
-    protected function createStateMachineConfig()
+    protected function createStateMachineConfig(): StateMachineConfig
     {
         $stateMachineConfig = new StateMachineConfig();
 

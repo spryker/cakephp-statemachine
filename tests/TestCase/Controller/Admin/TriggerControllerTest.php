@@ -32,7 +32,7 @@ class TriggerControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testEventForNewItem()
+    public function testEventForNewItem(): void
     {
         Configure::write('StateMachine.pathToXml', TESTS . 'test_files' . DS);
         Configure::write('StateMachine.handlers', [
@@ -56,7 +56,7 @@ class TriggerControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testEvent()
+    public function testEvent(): void
     {
         Configure::write('StateMachine.pathToXml', TESTS . 'test_files' . DS);
         Configure::write('StateMachine.handlers', [

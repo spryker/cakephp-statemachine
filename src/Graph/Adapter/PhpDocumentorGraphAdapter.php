@@ -23,7 +23,7 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
     /**
      * @return \phpDocumentor\GraphViz\Graph
      */
-    private function createPhpDocumentorGraph()
+    protected function createPhpDocumentorGraph(): Graph
     {
         return new Graph();
     }
@@ -36,7 +36,7 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
      *
      * @return $this
      */
-    public function create($name, array $attributes = [], $directed = true, $strict = true)
+    public function create(string $name, array $attributes = [], bool $directed = true, bool $strict = true)
     {
         $this->graph = $this->createPhpDocumentorGraph();
         $this->graph->setName($name);
@@ -55,7 +55,7 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
      *
      * @return string
      */
-    private function getType($directed)
+    protected function getType(bool $directed): string
     {
         return $directed ? self::DIRECTED_GRAPH : self::GRAPH;
     }
@@ -67,7 +67,7 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
      *
      * @return $this
      */
-    public function addNode($name, $attributes = [], $group = self::DEFAULT_GROUP)
+    public function addNode(string $name, array $attributes = [], string $group = self::DEFAULT_GROUP)
     {
         $node = new Node($name);
         $this->addAttributesTo($attributes, $node);
@@ -89,7 +89,7 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
      *
      * @return $this
      */
-    public function addEdge($fromNode, $toNode, $attributes = [])
+    public function addEdge(string $fromNode, string $toNode, array $attributes = [])
     {
         $edge = new Edge($this->graph->findNode($fromNode), $this->graph->findNode($toNode));
         $this->addAttributesTo($attributes, $edge);
@@ -105,7 +105,7 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
      *
      * @return $this
      */
-    public function addCluster($name, $attributes = [])
+    public function addCluster(string $name, array $attributes = [])
     {
         $graph = $this->getGraphByName($name);
 
@@ -119,7 +119,7 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
      *
      * @return \phpDocumentor\GraphViz\Graph
      */
-    private function getGraphByName($name)
+    protected function getGraphByName(string $name): Graph
     {
         $name = 'cluster_' . $name;
 
@@ -139,7 +139,7 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
      *
      * @return string
      */
-    public function render($type, $fileName = null)
+    public function render(string $type, ?string $fileName = null): string
     {
         if ($fileName === null) {
             $fileName = sys_get_temp_dir() . '/' . $this->generateRandomString(32);
@@ -160,7 +160,7 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
      *
      * @return void
      */
-    protected function addAttributesTo($attributes, $element)
+    protected function addAttributesTo(array $attributes, $element): void
     {
         foreach ($attributes as $attribute => $value) {
             $setter = 'set' . ucfirst($attribute);
@@ -176,7 +176,7 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
      *
      * @return string
      */
-    protected function generateRandomString($length = 32)
+    protected function generateRandomString(int $length = 32): string
     {
         $tokenLength = $length / 2;
         $token = bin2hex(random_bytes($tokenLength));

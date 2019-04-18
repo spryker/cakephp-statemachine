@@ -43,7 +43,7 @@ class TransitionLog implements TransitionLogInterface
      *
      * @return void
      */
-    public function setEvent(EventInterface $event)
+    public function setEvent(EventInterface $event): void
     {
         $nameEvent = $event->getName();
         $nameEvent .= $event->getEventTypeLabel();
@@ -58,7 +58,7 @@ class TransitionLog implements TransitionLogInterface
      *
      * @return void
      */
-    public function init(array $stateMachineItems)
+    public function init(array $stateMachineItems): void
     {
         $this->logEntities = [];
         foreach ($stateMachineItems as $stateMachineItem) {
@@ -73,7 +73,7 @@ class TransitionLog implements TransitionLogInterface
      *
      * @return void
      */
-    public function addCommand(ItemDto $itemDto, CommandPluginInterface $command)
+    public function addCommand(ItemDto $itemDto, CommandPluginInterface $command): void
     {
         $this->logEntities[$itemDto->getIdentifierOrFail()]->command = get_class($command);
     }
@@ -84,7 +84,7 @@ class TransitionLog implements TransitionLogInterface
      *
      * @return void
      */
-    public function addCondition(ItemDto $itemDto, ConditionPluginInterface $condition)
+    public function addCondition(ItemDto $itemDto, ConditionPluginInterface $condition): void
     {
         $this->logEntities[$itemDto->getIdentifierOrFail()]->condition = get_class($condition);
     }
@@ -95,7 +95,7 @@ class TransitionLog implements TransitionLogInterface
      *
      * @return void
      */
-    public function addSourceState(ItemDto $itemDto, $stateName)
+    public function addSourceState(ItemDto $itemDto, string $stateName): void
     {
         $this->logEntities[$itemDto->getIdentifierOrFail()]->source_state = $stateName;
     }
@@ -106,7 +106,7 @@ class TransitionLog implements TransitionLogInterface
      *
      * @return void
      */
-    public function addTargetState(ItemDto $itemDto, $stateName)
+    public function addTargetState(ItemDto $itemDto, string $stateName): void
     {
         $this->logEntities[$itemDto->getIdentifierOrFail()]->target_state = $stateName;
     }
@@ -116,7 +116,7 @@ class TransitionLog implements TransitionLogInterface
      *
      * @return void
      */
-    public function setIsError($error)
+    public function setIsError(bool $error): void
     {
         foreach ($this->logEntities as $logEntity) {
             $logEntity->is_error = $error;
@@ -128,7 +128,7 @@ class TransitionLog implements TransitionLogInterface
      *
      * @return void
      */
-    public function setErrorMessage($errorMessage)
+    public function setErrorMessage(string $errorMessage): void
     {
         foreach ($this->logEntities as $logEntity) {
             $logEntity->error_message = $errorMessage;
@@ -142,7 +142,7 @@ class TransitionLog implements TransitionLogInterface
      *
      * @return \StateMachine\Model\Entity\StateMachineTransitionLog
      */
-    protected function initEntity(ItemDto $itemDto)
+    protected function initEntity(ItemDto $itemDto): StateMachineTransitionLog
     {
         $stateMachineTransitionLogEntity = $this->createStateMachineTransitionLogEntity();
         $stateMachineTransitionLogEntity->identifier = $itemDto->getIdentifierOrFail();
@@ -167,7 +167,7 @@ class TransitionLog implements TransitionLogInterface
      *
      * @return void
      */
-    public function save(ItemDto $itemDto)
+    public function save(ItemDto $itemDto): void
     {
         //var_dump($this->logEntities[$itemDto->getIdentifier()]);die;
         $this->stateMachineTransitionLogsTable->save($this->logEntities[$itemDto->getIdentifier()]);
@@ -176,7 +176,7 @@ class TransitionLog implements TransitionLogInterface
     /**
      * @return void
      */
-    public function saveAll()
+    public function saveAll(): void
     {
         foreach ($this->logEntities as $logEntity) {
             if ($logEntity->isDirty()) {
@@ -199,7 +199,7 @@ class TransitionLog implements TransitionLogInterface
      *
      * @return string[]
      */
-    protected function getParamsFromQueryString($queryString)
+    protected function getParamsFromQueryString(string $queryString)
     {
         return explode('&', $queryString);
     }

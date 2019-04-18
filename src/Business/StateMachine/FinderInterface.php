@@ -7,6 +7,7 @@
 
 namespace StateMachine\Business\StateMachine;
 
+use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Dto\StateMachine\ProcessDto;
 
@@ -17,28 +18,28 @@ interface FinderInterface
      *
      * @return bool
      */
-    public function hasHandler($stateMachineName);
+    public function hasHandler(string $stateMachineName): bool;
 
     /**
      * @param string $stateMachineName
      *
      * @return \StateMachine\Dto\StateMachine\ProcessDto[]
      */
-    public function getProcesses($stateMachineName);
+    public function getProcesses(string $stateMachineName): array;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return string[][]
      */
-    public function getManualEventsForStateMachineItems(array $stateMachineItems);
+    public function getManualEventsForStateMachineItems(array $stateMachineItems): array;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return array
      */
-    public function getManualEventsForStateMachineItem(ItemDto $itemDto);
+    public function getManualEventsForStateMachineItem(ItemDto $itemDto): array;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
@@ -46,7 +47,7 @@ interface FinderInterface
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[] $itemDto
      */
-    public function getItemsWithFlag(ProcessDto $processDto, $flag);
+    public function getItemsWithFlag(ProcessDto $processDto, string $flag): array;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
@@ -54,7 +55,7 @@ interface FinderInterface
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[] $itemDto
      */
-    public function getItemsWithoutFlag(ProcessDto $processDto, $flag);
+    public function getItemsWithoutFlag(ProcessDto $processDto, string $flag): array;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
@@ -67,7 +68,7 @@ interface FinderInterface
         array $stateMachineItems,
         array $processes,
         array $sourceStates = []
-    );
+    ): array;
 
     /**
      * @param string $stateMachineName
@@ -75,12 +76,12 @@ interface FinderInterface
      *
      * @return \StateMachine\Business\Process\ProcessInterface
      */
-    public function findProcessByStateMachineAndProcessName($stateMachineName, $processName);
+    public function findProcessByStateMachineAndProcessName(string $stateMachineName, string $processName): ProcessInterface;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return \StateMachine\Business\Process\ProcessInterface[]
      */
-    public function findProcessesForItems(array $stateMachineItems);
+    public function findProcessesForItems(array $stateMachineItems): array;
 }

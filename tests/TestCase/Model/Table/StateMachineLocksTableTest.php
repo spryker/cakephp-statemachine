@@ -37,7 +37,7 @@ class StateMachineLocksTableTest extends TestCase
      *
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $config = TableRegistry::getTableLocator()->exists('StateMachineLocks') ? [] : ['className' => StateMachineLocksTable::class];
@@ -49,7 +49,7 @@ class StateMachineLocksTableTest extends TestCase
      *
      * @return void
      */
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->StateMachineLocks);
 
@@ -61,7 +61,7 @@ class StateMachineLocksTableTest extends TestCase
      *
      * @return void
      */
-    public function testInitialize()
+    public function testInitialize(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -71,7 +71,7 @@ class StateMachineLocksTableTest extends TestCase
      *
      * @return void
      */
-    public function testValidationDefault()
+    public function testValidationDefault(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

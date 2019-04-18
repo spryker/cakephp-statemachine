@@ -36,7 +36,7 @@ class StateMachineProcessesTable extends Table
      *
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -67,7 +67,7 @@ class StateMachineProcessesTable extends Table
      *
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
         $validator
             ->integer('id')

@@ -14,7 +14,7 @@ trait FactoryTrait
     /**
      * @return \StateMachine\PluginFactory
      */
-    public function getFactory()
+    public function getFactory(): PluginFactory
     {
         $class = Configure::read('StateMachine.factory') ?: PluginFactory::class;
 

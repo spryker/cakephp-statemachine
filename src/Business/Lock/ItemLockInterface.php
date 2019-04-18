@@ -14,14 +14,14 @@ interface ItemLockInterface
      *
      * @return bool
      */
-    public function acquire($identifier);
+    public function acquire(string $identifier): bool;
 
     /**
      * @param string $identifier
      *
      * @return void
      */
-    public function release($identifier);
+    public function release(string $identifier): void;
 
     /**
      * @return void

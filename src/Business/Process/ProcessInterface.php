@@ -14,7 +14,7 @@ interface ProcessInterface
      *
      * @return void
      */
-    public function setSubProcesses($subProcesses);
+    public function setSubProcesses($subProcesses): void;
 
     /**
      * @return \StateMachine\Business\Process\ProcessInterface[]
@@ -24,66 +24,66 @@ interface ProcessInterface
     /**
      * @return bool
      */
-    public function hasSubProcesses();
+    public function hasSubProcesses(): bool;
 
     /**
      * @param \StateMachine\Business\Process\ProcessInterface $subProcess
      *
      * @return void
      */
-    public function addSubProcess(ProcessInterface $subProcess);
+    public function addSubProcess(ProcessInterface $subProcess): void;
 
     /**
      * @param bool $isMain
      *
      * @return void
      */
-    public function setIsMain($isMain);
+    public function setIsMain(bool $isMain): void;
 
     /**
      * @return bool
      */
-    public function getIsMain();
+    public function getIsMain(): bool;
 
     /**
      * @param string $name
      *
      * @return void
      */
-    public function setName($name);
+    public function setName(string $name): void;
 
     /**
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * @param \StateMachine\Business\Process\StateInterface[] $states
      *
      * @return void
      */
-    public function setStates($states);
+    public function setStates($states): void;
 
     /**
      * @param \StateMachine\Business\Process\StateInterface $state
      *
      * @return void
      */
-    public function addState(StateInterface $state);
+    public function addState(StateInterface $state): void;
 
     /**
      * @param string $stateId
      *
      * @return \StateMachine\Business\Process\StateInterface
      */
-    public function getState($stateId);
+    public function getState(string $stateId): StateInterface;
 
     /**
      * @param string $stateId
      *
      * @return bool
      */
-    public function hasState($stateId): bool;
+    public function hasState(string $stateId): bool;
 
     /**
      * @param string $stateName
@@ -92,7 +92,7 @@ interface ProcessInterface
      *
      * @return \StateMachine\Business\Process\StateInterface
      */
-    public function getStateFromAllProcesses($stateName): StateInterface;
+    public function getStateFromAllProcesses(string $stateName): StateInterface;
 
     /**
      * @return \StateMachine\Business\Process\StateInterface[]
@@ -109,14 +109,14 @@ interface ProcessInterface
      *
      * @return void
      */
-    public function addTransition(TransitionInterface $transition);
+    public function addTransition(TransitionInterface $transition): void;
 
     /**
      * @param \StateMachine\Business\Process\TransitionInterface[] $transitions
      *
      * @return void
      */
-    public function setTransitions($transitions);
+    public function setTransitions($transitions): void;
 
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]
@@ -163,7 +163,7 @@ interface ProcessInterface
      *
      * @return void
      */
-    public function setFile($file): void;
+    public function setFile(string $file): void;
 
     /**
      * @return bool

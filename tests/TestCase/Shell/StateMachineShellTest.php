@@ -45,7 +45,7 @@ class StateMachineShellTest extends TestCase
     /**
      * @return void
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -62,7 +62,7 @@ class StateMachineShellTest extends TestCase
     /**
      * @return void
      */
-    public function testClearLocks()
+    public function testClearLocks(): void
     {
         $this->Shell->runCommand(['clearLocks']);
 
@@ -72,7 +72,7 @@ class StateMachineShellTest extends TestCase
     /**
      * @return void
      */
-    public function testCheckConditions()
+    public function testCheckConditions(): void
     {
         Configure::write('StateMachine.pathToXml', TESTS . 'test_files' . DS);
         Configure::write('StateMachine.handlers', [
@@ -88,7 +88,7 @@ class StateMachineShellTest extends TestCase
     /**
      * @return void
      */
-    public function testCheckTimeouts()
+    public function testCheckTimeouts(): void
     {
         Configure::write('StateMachine.pathToXml', TESTS . 'test_files' . DS);
         Configure::write('StateMachine.handlers', [

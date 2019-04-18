@@ -7,6 +7,8 @@
 
 namespace StateMachine\Business\StateMachine;
 
+use StateMachine\Dependency\StateMachineHandlerInterface;
+
 interface HandlerResolverInterface
 {
     /**
@@ -16,12 +18,12 @@ interface HandlerResolverInterface
      *
      * @return \StateMachine\Dependency\StateMachineHandlerInterface
      */
-    public function get($stateMachineName);
+    public function get(string $stateMachineName): StateMachineHandlerInterface;
 
     /**
      * @param string $stateMachineName
      *
      * @return \StateMachine\Dependency\StateMachineHandlerInterface|null
      */
-    public function find($stateMachineName);
+    public function find(string $stateMachineName): ?\StateMachine\Dependency\StateMachineHandlerInterface;
 }

@@ -28,7 +28,7 @@ interface ConditionInterface
         ItemDto $itemDto,
         StateInterface $sourceState,
         TransitionLogInterface $transactionLogger
-    );
+    ): StateInterface;
 
     /**
      * @param string $stateMachineName
@@ -36,5 +36,5 @@ interface ConditionInterface
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[][] $itemsWithOnEnterEvent
      */
-    public function getOnEnterEventsForStatesWithoutTransition($stateMachineName, $processName);
+    public function getOnEnterEventsForStatesWithoutTransition(string $stateMachineName, string $processName);
 }

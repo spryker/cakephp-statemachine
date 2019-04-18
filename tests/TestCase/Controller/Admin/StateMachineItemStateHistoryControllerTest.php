@@ -27,7 +27,7 @@ class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testIndex()
+    public function testIndex(): void
     {
         $this->disableErrorHandlerMiddleware();
 
@@ -41,7 +41,7 @@ class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testView()
+    public function testView(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -51,7 +51,7 @@ class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testAdd()
+    public function testAdd(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -61,7 +61,7 @@ class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testEdit()
+    public function testEdit(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }
@@ -71,7 +71,7 @@ class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
      *
      * @return void
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

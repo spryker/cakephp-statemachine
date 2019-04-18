@@ -14,65 +14,65 @@ interface EventInterface
      *
      * @return void
      */
-    public function setManual($manual);
+    public function setManual(bool $manual): void;
 
     /**
      * @return bool
      */
-    public function isManual();
+    public function isManual(): bool;
 
     /**
      * @param string $command
      *
      * @return void
      */
-    public function setCommand($command);
+    public function setCommand(string $command): void;
 
     /**
      * @return string
      */
-    public function getCommand();
+    public function getCommand(): string;
 
     /**
      * @return bool
      */
-    public function hasCommand();
+    public function hasCommand(): bool;
 
     /**
      * @param bool $onEnter
      *
      * @return void
      */
-    public function setOnEnter($onEnter);
+    public function setOnEnter(bool $onEnter): void;
 
     /**
      * @return bool
      */
-    public function isOnEnter();
+    public function isOnEnter(): bool;
 
     /**
      * @param string $id
      *
      * @return void
      */
-    public function setName($id);
+    public function setName(string $id): void;
 
     /**
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * @return string
      */
-    public function getEventTypeLabel();
+    public function getEventTypeLabel(): string;
 
     /**
      * @param \StateMachine\Business\Process\TransitionInterface $transition
      *
      * @return void
      */
-    public function addTransition(TransitionInterface $transition);
+    public function addTransition(TransitionInterface $transition): void;
 
     /**
      * @param \StateMachine\Business\Process\StateInterface $sourceState
@@ -91,15 +91,15 @@ interface EventInterface
      *
      * @return void
      */
-    public function setTimeout($timeout);
+    public function setTimeout(string $timeout): void;
 
     /**
      * @return string
      */
-    public function getTimeout();
+    public function getTimeout(): string;
 
     /**
      * @return bool
      */
-    public function hasTimeout();
+    public function hasTimeout(): bool;
 }

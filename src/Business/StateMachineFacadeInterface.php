@@ -47,7 +47,7 @@ interface StateMachineFacadeInterface
      *
      * @return int
      */
-    public function triggerEvent(string $eventName, ItemDto $itemDto);
+    public function triggerEvent(string $eventName, ItemDto $itemDto): int;
 
     /**
      * Specification:
@@ -65,7 +65,7 @@ interface StateMachineFacadeInterface
      *
      * @return int
      */
-    public function triggerEventForItems(string $eventName, array $stateMachineItems);
+    public function triggerEventForItems(string $eventName, array $stateMachineItems): int;
 
     /**
      * Specification:

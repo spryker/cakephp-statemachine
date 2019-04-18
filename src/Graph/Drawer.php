@@ -124,7 +124,7 @@ class Drawer implements DrawerInterface
      *
      * @return string
      */
-    public function draw(ProcessInterface $process, $highlightState = null, $format = null, $fontSize = null)
+    public function draw(ProcessInterface $process, ?string $highlightState = null, ?string $format = null, ?int $fontSize = null): string
     {
         $this->init($format, $fontSize);
 
@@ -141,7 +141,7 @@ class Drawer implements DrawerInterface
      *
      * @return void
      */
-    public function drawStates(ProcessInterface $process, $highlightState = null)
+    public function drawStates(ProcessInterface $process, ?string $highlightState = null): void
     {
         $states = $process->getAllStates();
         foreach ($states as $state) {
@@ -155,7 +155,7 @@ class Drawer implements DrawerInterface
      *
      * @return void
      */
-    public function drawTransitions(ProcessInterface $process)
+    public function drawTransitions(ProcessInterface $process): void
     {
         $states = $process->getAllStates();
         foreach ($states as $state) {
@@ -167,7 +167,7 @@ class Drawer implements DrawerInterface
     /**
      * @return string
      */
-    protected function getDiamondId()
+    protected function getDiamondId(): string
     {
         $stringGenerator = new StringGenerator();
 
@@ -181,7 +181,7 @@ class Drawer implements DrawerInterface
      *
      * @return void
      */
-    public function drawTransitionsEvents(StateInterface $state)
+    public function drawTransitionsEvents(StateInterface $state): void
     {
         $events = $state->getEvents();
         foreach ($events as $event) {
@@ -212,7 +212,7 @@ class Drawer implements DrawerInterface
      *
      * @return void
      */
-    public function drawTransitionsConditions(StateInterface $state)
+    public function drawTransitionsConditions(StateInterface $state): void
     {
         $transitions = $state->getOutgoingTransitions();
         foreach ($transitions as $transition) {
@@ -228,7 +228,7 @@ class Drawer implements DrawerInterface
      *
      * @return void
      */
-    public function drawClusters(ProcessInterface $process)
+    public function drawClusters(ProcessInterface $process): void
     {
         $processes = $process->getAllProcesses();
         foreach ($processes as $subProcess) {
@@ -248,7 +248,7 @@ class Drawer implements DrawerInterface
      *
      * @return void
      */
-    protected function addNode(StateInterface $state, $attributes = [], $name = null, $highlighted = false)
+    protected function addNode(StateInterface $state, array $attributes = [], ?string $name = null, bool $highlighted = false): void
     {
         $name = $name === null ? $state->getName() : $name;
 
@@ -279,7 +279,7 @@ class Drawer implements DrawerInterface
      *
      * @return bool
      */
-    protected function hasOnlySelfReferences(StateInterface $state)
+    protected function hasOnlySelfReferences(StateInterface $state): bool
     {
         $hasOnlySelfReferences = true;
         $transitions = $state->getOutgoingTransitions();
@@ -302,7 +302,7 @@ class Drawer implements DrawerInterface
      *
      * @return void
      */
-    protected function addEdge(TransitionInterface $transition, $type = self::EDGE_FULL, $attributes = [], $fromName = null, $toName = null)
+    protected function addEdge(TransitionInterface $transition, string $type = self::EDGE_FULL, array $attributes = [], ?string $fromName = null, ?string $toName = null): void
     {
         $label = [];
 
@@ -328,7 +328,7 @@ class Drawer implements DrawerInterface
      *
      * @return array
      */
-    protected function addEdgeConditionText(TransitionInterface $transition, array $label)
+    protected function addEdgeConditionText(TransitionInterface $transition, array $label): array
     {
         if ($transition->hasCondition()) {
             $conditionLabel = $transition->getCondition();
@@ -349,7 +349,7 @@ class Drawer implements DrawerInterface
      *
      * @return array
      */
-    protected function addEdgeEventText(TransitionInterface $transition, array $label)
+    protected function addEdgeEventText(TransitionInterface $transition, array $label): array
     {
         if ($transition->hasEvent()) {
             $event = $transition->getEvent();
@@ -388,7 +388,7 @@ class Drawer implements DrawerInterface
      *
      * @return string
      */
-    protected function addEdgeElse(array $label)
+    protected function addEdgeElse(array $label): string
     {
         if (!empty($label)) {
             $label = implode($this->brLeft, $label);
@@ -407,7 +407,7 @@ class Drawer implements DrawerInterface
      *
      * @return array
      */
-    protected function addEdgeAttributes(TransitionInterface $transition, array $attributes, $label, $type = self::EDGE_FULL)
+    protected function addEdgeAttributes(TransitionInterface $transition, array $attributes, string $label, string $type = self::EDGE_FULL): array
     {
         $attributes = array_merge($this->attributesTransition, $attributes);
         $attributes['label'] = '  ' . $label;
@@ -441,7 +441,7 @@ class Drawer implements DrawerInterface
      *
      * @return string
      */
-    protected function addEdgeFromState(TransitionInterface $transition, $fromName)
+    protected function addEdgeFromState(TransitionInterface $transition, ?string $fromName): string
     {
         $fromName = $fromName !== null ? $fromName : $transition->getSourceState()->getName();
 
@@ -454,7 +454,7 @@ class Drawer implements DrawerInterface
      *
      * @return string
      */
-    protected function addEdgeToState(TransitionInterface $transition, $toName)
+    protected function addEdgeToState(TransitionInterface $transition, ?string $toName): string
     {
         $toName = $toName !== null ? $toName : $transition->getTargetState()->getName();
 
@@ -467,7 +467,7 @@ class Drawer implements DrawerInterface
      *
      * @return void
      */
-    protected function init($format, $fontSize)
+    protected function init(?string $format, ?int $fontSize): void
     {
         if ($format !== null) {
             $this->format = $format;

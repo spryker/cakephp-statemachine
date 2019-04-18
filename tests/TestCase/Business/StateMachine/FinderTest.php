@@ -116,6 +116,7 @@ class FinderTest extends TestCase
 
         $itemDto = new ItemDto();
         $itemDto->setProcessName(StateMachineProcessesFixture::PROCESS_NAME_1);
+        $itemDto->setStateMachineName('Test');
         $itemDto->setStateName('state name');
 
         $stateMachineItems[] = $itemDto;

@@ -8,6 +8,7 @@
 namespace StateMachine\Business\StateMachine;
 
 use StateMachine\Business\Exception\StateMachineHandlerNotFound;
+use StateMachine\Dependency\StateMachineHandlerInterface;
 
 class HandlerResolver implements HandlerResolverInterface
 {
@@ -31,7 +32,7 @@ class HandlerResolver implements HandlerResolverInterface
      *
      * @return \StateMachine\Dependency\StateMachineHandlerInterface
      */
-    public function get($stateMachineName)
+    public function get(string $stateMachineName): StateMachineHandlerInterface
     {
         $stateMachineHandler = $this->find($stateMachineName);
         if ($stateMachineHandler !== null) {
@@ -51,7 +52,7 @@ class HandlerResolver implements HandlerResolverInterface
      *
      * @return \StateMachine\Dependency\StateMachineHandlerInterface|null
      */
-    public function find($stateMachineName)
+    public function find(string $stateMachineName): ?\StateMachine\Dependency\StateMachineHandlerInterface
     {
         foreach ($this->handlers as $handler) {
             if ($handler->getStateMachineName() === $stateMachineName) {

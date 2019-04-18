@@ -79,7 +79,7 @@ class Timeout implements TimeoutInterface
      */
     public function dropOldTimeout(
         ProcessInterface $process,
-        $stateName,
+        string $stateName,
         ItemDto $itemDto
     ): void {
         $sourceState = $this->getStateFromProcess($stateName, $process);
@@ -115,7 +115,7 @@ class Timeout implements TimeoutInterface
      *
      * @return \StateMachine\Business\Process\StateInterface
      */
-    protected function getStateFromProcess($stateName, ProcessInterface $process): StateInterface
+    protected function getStateFromProcess(string $stateName, ProcessInterface $process): StateInterface
     {
         if (!isset($this->stateIdToModelBuffer[$stateName])) {
             $this->stateIdToModelBuffer[$stateName] = $process->getStateFromAllProcesses($stateName);
