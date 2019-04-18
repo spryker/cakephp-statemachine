@@ -38,6 +38,10 @@ class StateMachineInit extends AbstractMigration
             ])
             ->create();
 
+        $this->table('state_machine_processes')
+            ->addIndex(['name', 'state_machine'], ['unique' => true])
+            ->update();
+
         $this->table('state_machine_item_states')
             ->addColumn('state_machine_process_id', 'integer', [
                 'default' => null,
@@ -55,6 +59,10 @@ class StateMachineInit extends AbstractMigration
                 'null' => true,
             ])
             ->create();
+
+        $this->table('state_machine_processes')
+            ->addIndex(['name', 'state_machine_process_id'], ['unique' => true])
+            ->update();
 
         $this->table('state_machine_item_state_history')
             ->addColumn('state_machine_item_state_id', 'integer', [
@@ -165,10 +173,14 @@ class StateMachineInit extends AbstractMigration
             ])
             ->create();
 
+        $this->table('state_machine_processes')
+            ->addIndex(['identifier', 'state_machine_item_state_id'], ['unique' => true])
+            ->update();
+
         $this->table('state_machine_locks')
             ->addColumn('identifier', 'string', [
                 'default' => null,
-                'limit' => 50,
+                'limit' => 150,
                 'null' => false,
             ])
             ->addColumn('expires', 'datetime', [
@@ -182,6 +194,12 @@ class StateMachineInit extends AbstractMigration
                 'null' => true,
             ])
             ->create();
+        /*
+        //FIXME
+        $this->table('state_machine_locks')
+            ->addIndex(['identifier'], ['unique' => true])
+            ->update();
+        */
     }
 
     /**

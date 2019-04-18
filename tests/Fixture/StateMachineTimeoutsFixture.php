@@ -25,6 +25,10 @@ class StateMachineTimeoutsFixture extends TestFixture
         'timeout' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
+            'identifier' => ['type' => 'unique', 'columns' => ['identifier', 'state_machine_item_state_id'], 'length' => []],
+        ],
+        '_indexes' => [
+            'timeout' => ['type' => 'index', 'columns' => ['timeout'], 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',

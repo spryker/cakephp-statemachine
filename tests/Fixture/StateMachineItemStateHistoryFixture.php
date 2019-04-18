@@ -31,6 +31,9 @@ class StateMachineItemStateHistoryFixture extends TestFixture
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
+        '_indexes' => [
+            'identifier' => ['type' => 'index', 'columns' => ['identifier'], 'length' => []],
+        ],
         '_options' => [
             'engine' => 'InnoDB',
             'collation' => 'utf8_unicode_ci',
