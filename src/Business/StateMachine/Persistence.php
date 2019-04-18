@@ -80,12 +80,12 @@ class Persistence implements PersistenceInterface
     }
 
     /**
-     * @param string $itemIdentifier
+     * @param int $itemIdentifier
      * @param int $idStateMachineProcess
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    public function getStateHistoryByStateItemIdentifier(string $itemIdentifier, int $idStateMachineProcess): array
+    public function getStateHistoryByStateItemIdentifier(int $itemIdentifier, int $idStateMachineProcess): array
     {
         /** @var \StateMachine\Model\Entity\StateMachineItemStateHistory[] $stateMachineHistoryItems */
         $stateMachineHistoryItems = $this->stateMachineQueryContainer
@@ -395,11 +395,24 @@ class Persistence implements PersistenceInterface
      */
     public function dropTimeoutByItem(ItemDto $itemDto): void
     {
+        /*
+        //FIXME
         $this->stateMachineQueryContainer
             ->queryEventTimeoutByIdentifierAndFkProcess(
                 $itemDto->getIdentifier(),
                 $itemDto->getIdStateMachineProcess()
             )->delete();
+        */
+
+        /** @var \StateMachine\Model\Entity\StateMachineTimeout[] $stateMachineTimeouts */
+        $stateMachineTimeouts = $this->stateMachineQueryContainer
+            ->queryEventTimeoutByIdentifierAndFkProcess(
+                $itemDto->getIdentifier(),
+                $itemDto->getIdStateMachineProcess()
+            )->all();
+        foreach ($stateMachineTimeouts as $stateMachineTimeout) {
+            $this->stateMachineQueryContainer->getFactory()->createStateMachineTimeoutsTable()->deleteOrFail($stateMachineTimeout);
+        }
     }
 
     /**
@@ -436,13 +449,13 @@ class Persistence implements PersistenceInterface
     }
 
     /**
-     * @param string $itemIdentifier
+     * @param int $itemIdentifier
      * @param \StateMachine\Model\Entity\StateMachineItemStateHistory $stateMachineItemHistoryEntity
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto
      */
     protected function createItemTransferForStateHistory(
-        string $itemIdentifier,
+        int $itemIdentifier,
         StateMachineItemStateHistory $stateMachineItemHistoryEntity
     ): ItemDto {
         $itemStateEntity = $stateMachineItemHistoryEntity->state_machine_item_state;

@@ -80,7 +80,6 @@ class StateMachineShellTest extends TestCase
         ]);
 
         $this->Shell->runCommand(['checkConditions', 'TestingSm']);
-        $output = $this->out->output();
 
         $this->assertEmpty($this->err->output());
     }
@@ -96,7 +95,6 @@ class StateMachineShellTest extends TestCase
         ]);
 
         $this->Shell->runCommand(['checkTimeouts', 'TestingSm']);
-        $output = $this->out->output();
 
         $this->assertEmpty($this->err->output());
     }

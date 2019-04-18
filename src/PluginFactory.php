@@ -18,8 +18,11 @@ use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\Event;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Business\Process\Process;
+use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Business\Process\State;
+use StateMachine\Business\Process\StateInterface;
 use StateMachine\Business\Process\Transition;
+use StateMachine\Business\Process\TransitionInterface;
 use StateMachine\Business\StateMachine\Builder;
 use StateMachine\Business\StateMachine\BuilderInterface;
 use StateMachine\Business\StateMachine\Condition;
@@ -27,6 +30,7 @@ use StateMachine\Business\StateMachine\ConditionInterface;
 use StateMachine\Business\StateMachine\Finder;
 use StateMachine\Business\StateMachine\FinderInterface;
 use StateMachine\Business\StateMachine\HandlerResolver;
+use StateMachine\Business\StateMachine\HandlerResolverInterface;
 use StateMachine\Business\StateMachine\LockedTrigger;
 use StateMachine\Business\StateMachine\Persistence;
 use StateMachine\Business\StateMachine\PersistenceInterface;
@@ -37,6 +41,7 @@ use StateMachine\Business\StateMachine\TimeoutInterface;
 use StateMachine\Business\StateMachine\Trigger;
 use StateMachine\Business\StateMachine\TriggerInterface;
 use StateMachine\Graph\Drawer;
+use StateMachine\Graph\DrawerInterface;
 use StateMachine\Graph\Graph;
 use StateMachine\Model\QueryContainer;
 use StateMachine\Model\QueryContainerInterface;
@@ -46,7 +51,6 @@ use StateMachine\Model\Table\StateMachineLocksTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
 use StateMachine\Model\Table\StateMachineTransitionLogsTable;
-use StateMachine\Business\Process\StateInterface;
 
 class PluginFactory
 {
@@ -194,7 +198,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\Process\TransitionInterface
      */
-    public function createProcessTransition(): \StateMachine\Business\Process\TransitionInterface
+    public function createProcessTransition(): TransitionInterface
     {
         return new Transition();
     }
@@ -202,7 +206,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\Process\ProcessInterface
      */
-    public function createProcessProcess(): \StateMachine\Business\Process\ProcessInterface
+    public function createProcessProcess(): ProcessInterface
     {
         return new Process();
     }
@@ -220,7 +224,7 @@ class PluginFactory
      *
      * @return \StateMachine\Graph\DrawerInterface
      */
-    public function createGraphDrawer(string $stateMachineName): \StateMachine\Graph\DrawerInterface
+    public function createGraphDrawer(string $stateMachineName): DrawerInterface
     {
         return new Drawer(
             Graph::create(StateMachineConfig::GRAPH_NAME, $this->getConfig()->getGraphDefaults(), true, false),
@@ -231,7 +235,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Business\StateMachine\HandlerResolverInterface
      */
-    protected function createHandlerResolver(): \StateMachine\Business\StateMachine\HandlerResolverInterface
+    protected function createHandlerResolver(): HandlerResolverInterface
     {
         return new HandlerResolver($this->getStateMachineHandlers());
     }
@@ -252,7 +256,7 @@ class PluginFactory
     /**
      * @return \StateMachine\StateMachineConfig
      */
-    public function getConfig(): \StateMachine\StateMachineConfig
+    public function getConfig(): StateMachineConfig
     {
         return new StateMachineConfig();
     }

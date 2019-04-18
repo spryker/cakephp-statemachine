@@ -45,12 +45,12 @@ interface PersistenceInterface
     public function updateStateMachineItemsFromPersistence(array $stateMachineItems): array;
 
     /**
-     * @param string $itemIdentifier
+     * @param int $itemIdentifier
      * @param int $idStateMachineProcess
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    public function getStateHistoryByStateItemIdentifier(string $itemIdentifier, int $idStateMachineProcess): array;
+    public function getStateHistoryByStateItemIdentifier(int $itemIdentifier, int $idStateMachineProcess): array;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto

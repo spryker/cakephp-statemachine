@@ -19,7 +19,7 @@ class StateMachineTransitionLogsFixture extends TestFixture
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'state_machine_process_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'identifier' => ['type' => 'string', 'length' => 50, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'identifier' => ['type' => 'integer', 'length' => 11, 'null' => false, 'default' => null],
         'locked' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null],
         'event' => ['type' => 'string', 'length' => 50, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'params' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
@@ -48,7 +48,7 @@ class StateMachineTransitionLogsFixture extends TestFixture
             [
                 'id' => 1,
                 'state_machine_process_id' => 1,
-                'identifier' => 'Lorem ipsum dolor sit amet',
+                'identifier' => 1,
                 'locked' => 1,
                 'event' => 'Lorem ipsum dolor sit amet',
                 'params' => 'Lorem ipsum dolor sit amet',

@@ -14,7 +14,7 @@ use Tools\Model\Entity\Entity;
  *
  * @property int $id
  * @property int $state_machine_item_state_id
- * @property string $identifier
+ * @property int $identifier
  * @property \Cake\I18n\FrozenTime $created
  *
  * @property \StateMachine\Model\Entity\StateMachineItemState $state_machine_item_state

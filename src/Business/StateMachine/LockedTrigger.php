@@ -34,11 +34,11 @@ class LockedTrigger implements TriggerInterface
 
     /**
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
-     * @param string $identifier
+     * @param int $identifier
      *
      * @return int
      */
-    public function triggerForNewStateMachineItem(ProcessDto $processDto, string $identifier): int
+    public function triggerForNewStateMachineItem(ProcessDto $processDto, int $identifier): int
     {
         $lockIdentifier = $this->buildLockIdentifier(
             $identifier,
@@ -46,14 +46,14 @@ class LockedTrigger implements TriggerInterface
             $processDto->getProcessName()
         );
 
-        $lockIdentifier = $this->hashIdentifier($lockIdentifier);
+        $lockHash = $this->hashIdentifier($lockIdentifier);
 
-        $this->itemLock->acquire($lockIdentifier);
+        $this->itemLock->acquire($lockHash);
 
         try {
             $triggerResult = $this->stateMachineTrigger->triggerForNewStateMachineItem($processDto, $identifier);
         } finally {
-            $this->itemLock->release($lockIdentifier);
+            $this->itemLock->release($lockHash);
         }
 
         return $triggerResult;
@@ -103,9 +103,9 @@ class LockedTrigger implements TriggerInterface
                 $identifier .= '-';
             }
             $identifier .= $this->buildLockIdentifier(
-                $itemDto->getIdentifier(),
-                $itemDto->getProcessName(),
-                $itemDto->getStateMachineName()
+                $itemDto->getIdentifierOrFail(),
+                $itemDto->getProcessNameOrFail(),
+                $itemDto->getStateMachineNameOrFail()
             );
         }
 
@@ -133,13 +133,13 @@ class LockedTrigger implements TriggerInterface
     }
 
     /**
-     * @param string $identifier
+     * @param int $identifier
      * @param string $stateMachineName
      * @param string $processName
      *
      * @return string
      */
-    protected function buildLockIdentifier(string $identifier, string $stateMachineName, string $processName): string
+    protected function buildLockIdentifier(int $identifier, string $stateMachineName, string $processName): string
     {
         return $identifier . $stateMachineName . $processName;
     }

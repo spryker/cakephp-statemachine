@@ -32,7 +32,7 @@ use StateMachine\Model\Table\StateMachineTimeoutsTable;
 class TimeoutTest extends TestCase
 {
     protected const STATE_WITH_TIMEOUT = 'State with timeout';
-    protected const IDENTIFIER = 'uuid';
+    protected const IDENTIFIER = 1;
     protected const EVENT_NAME = 'Timeout event';
 
     /**
@@ -119,6 +119,9 @@ class TimeoutTest extends TestCase
      */
     public function testDropOldTimeoutShouldRemoveExpiredTimeoutsFromPersistence(): void
     {
+        $currentTimeout = $this->StateMachineTimeouts->find()->where(['identifier' => static::IDENTIFIER])->first();
+        $this->assertNotNull($currentTimeout);
+
         $timeout = $this->createTimeout();
         $timeout->dropOldTimeout(
             $this->createProcess(),

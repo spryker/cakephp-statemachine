@@ -21,13 +21,13 @@ class StateMachineFacade implements StateMachineFacadeInterface
      * @api
      *
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
-     * @param string $identifier - this is id of foreign entity you want to track in state machine, it's stored in history table.
+     * @param int $identifier - this is id of foreign entity you want to track in state machine, it's stored in history table.
      *
      * @return int
      */
     public function triggerForNewStateMachineItem(
         ProcessDto $processDto,
-        string $identifier
+        int $identifier
     ): int {
         return $this->getFactory()
             ->createLockedStateMachineTrigger()
@@ -246,11 +246,11 @@ class StateMachineFacade implements StateMachineFacadeInterface
      * @api
      *
      * @param int $idStateMachineProcess
-     * @param string $identifier
+     * @param int $identifier
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    public function getStateHistoryByStateItemIdentifier(int $idStateMachineProcess, string $identifier): array
+    public function getStateHistoryByStateItemIdentifier(int $idStateMachineProcess, int $identifier): array
     {
         return $this->getFactory()
             ->createStateMachinePersistence()

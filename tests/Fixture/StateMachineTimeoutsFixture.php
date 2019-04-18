@@ -20,7 +20,7 @@ class StateMachineTimeoutsFixture extends TestFixture
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'state_machine_item_state_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'state_machine_process_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'identifier' => ['type' => 'string', 'length' => 50, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'identifier' => ['type' => 'integer', 'length' => 11, 'null' => false, 'default' => null],
         'event' => ['type' => 'string', 'length' => 50, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'timeout' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
@@ -42,7 +42,7 @@ class StateMachineTimeoutsFixture extends TestFixture
                 'id' => 1,
                 'state_machine_item_state_id' => 1,
                 'state_machine_process_id' => 1,
-                'identifier' => 'Lorem ipsum dolor sit amet',
+                'identifier' => 1,
                 'event' => 'Lorem ipsum dolor sit amet',
                 'timeout' => '2018-06-08 22:36:35',
             ],

@@ -5,7 +5,7 @@
 	xsi:schemaLocation="cakephp-dto https://github.com/dereuromark/cakephp-dto">
 
     <dto name="StateMachine/Item">
-        <field name="identifier" type="string"/>
+        <field name="identifier" type="int"/>
         <field name="idStateMachineProcess" type="int" />
         <field name="idItemState" type="int" />
         <field name="processName" type="string" />

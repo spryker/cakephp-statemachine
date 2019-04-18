@@ -169,7 +169,6 @@ class TransitionLog implements TransitionLogInterface
      */
     public function save(ItemDto $itemDto): void
     {
-        //var_dump($this->logEntities[$itemDto->getIdentifier()]);die;
         $this->stateMachineTransitionLogsTable->save($this->logEntities[$itemDto->getIdentifier()]);
     }
 

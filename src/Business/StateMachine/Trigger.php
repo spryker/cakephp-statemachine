@@ -86,13 +86,13 @@ class Trigger implements TriggerInterface
 
     /**
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
-     * @param string $identifier
+     * @param int $identifier
      *
      * @return int
      */
     public function triggerForNewStateMachineItem(
         ProcessDto $processDto,
-        string $identifier
+        int $identifier
     ): int {
         $itemDto = $this->createItemTransferForNewProcess($processDto, $identifier);
 
@@ -387,13 +387,13 @@ class Trigger implements TriggerInterface
 
     /**
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
-     * @param string $identifier
+     * @param int $identifier
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto
      */
     protected function createItemTransferForNewProcess(
         ProcessDto $processDto,
-        string $identifier
+        int $identifier
     ): ItemDto {
         $processName = $processDto->getProcessNameOrFail();
 

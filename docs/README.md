@@ -22,14 +22,29 @@ Let's hook them up to the PHP counterpart then.
 
 ...
 
+### Configuration
+
+Use Configure to set other defaults.
+
+You can set a custom graph renderer, for example:
+
+```php
+return [
+    ...
+    'StateMachine' => [
+        'graphAdapter' => PhpDocumentorGraphAdapter::class,
+    ],
+];
+```
+
 
 ### First demo run
 
-...
+From your code call the `StateMachineFacade::triggerForNewStateMachineItem()` method with the identifier of your
+record (usually the integer primary key of that DB row).
 
-### Configuration
+It should now create the DB records for it and run for this state machine process.
 
-...
 
 ### Admin backend
 

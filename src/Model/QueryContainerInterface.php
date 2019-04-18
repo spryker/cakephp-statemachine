@@ -11,6 +11,9 @@ use Cake\I18n\FrozenTime;
 use Cake\ORM\Query;
 use StateMachine\Dto\StateMachine\ItemDto;
 
+/**
+ * @method \StateMachine\PluginFactory getFactory()
+ */
 interface QueryContainerInterface
 {
     /**
@@ -36,12 +39,12 @@ interface QueryContainerInterface
     public function queryItemsWithExpiredTimeout(FrozenTime $expirationDate, string $stateMachineName): Query;
 
     /**
-     * @param string $identifier
+     * @param int $identifier
      * @param int $idStateMachineProcess
      *
      * @return \Cake\ORM\Query
      */
-    public function queryItemHistoryByStateItemIdentifier(string $identifier, int $idStateMachineProcess): Query;
+    public function queryItemHistoryByStateItemIdentifier(int $identifier, int $idStateMachineProcess): Query;
 
     /**
      * @param string $stateMachineName
@@ -94,10 +97,10 @@ interface QueryContainerInterface
     public function queryProcessByProcessName(string $processName): Query;
 
     /**
-     * @param string $identifier
+     * @param int $identifier
      * @param int $idProcess
      *
      * @return \Cake\ORM\Query
      */
-    public function queryEventTimeoutByIdentifierAndFkProcess(string $identifier, int $idProcess): Query;
+    public function queryEventTimeoutByIdentifierAndFkProcess(int $identifier, int $idProcess): Query;
 }

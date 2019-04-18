@@ -13,13 +13,13 @@ interface TriggerInterface
 {
     /**
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
-     * @param string $identifier
+     * @param int $identifier
      *
      * @return int
      */
     public function triggerForNewStateMachineItem(
         ProcessDto $processDto,
-        string $identifier
+        int $identifier
     ): int;
 
     /**

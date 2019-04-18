@@ -139,7 +139,7 @@ class TransitionLogTest extends TestCase
     protected function createItemTransfer(): ItemDto
     {
         $itemDto = new ItemDto();
-        $itemDto->setIdentifier($this->createIdentifier());
+        $itemDto->setIdentifier(1);
         $itemDto->setEventName(static::EVENT_NAME);
         $itemDto->setIdItemState(1);
         $itemDto->setStateName(static::STATE_NAME);
@@ -157,14 +157,6 @@ class TransitionLogTest extends TestCase
     protected function createQueryString(array $queryParts): string
     {
         return http_build_query($queryParts);
-    }
-
-    /**
-     * @return string
-     */
-    protected function createIdentifier(): string
-    {
-        return sha1(1);
     }
 
     /**

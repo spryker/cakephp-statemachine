@@ -44,7 +44,7 @@ class TriggerControllerTest extends IntegrationTestCase
         $query = [
             TriggerController::URL_PARAM_PROCESS => 'TestProcess',
             TriggerController::URL_PARAM_STATE_MACHINE => 'TestingSm',
-            TriggerController::URL_PARAM_IDENTIFIER => 'Lorem ipsum dolor sit amet',
+            TriggerController::URL_PARAM_IDENTIFIER => 1,
         ];
         $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'Trigger', 'action' => 'eventForNewItem', '?' => $query]);
 
@@ -68,7 +68,7 @@ class TriggerControllerTest extends IntegrationTestCase
         $query = [
             TriggerController::URL_PARAM_PROCESS => 'TestProcess',
             TriggerController::URL_PARAM_STATE_MACHINE => 'TestingSm',
-            TriggerController::URL_PARAM_IDENTIFIER => 'Lorem ipsum dolor sit amet',
+            TriggerController::URL_PARAM_IDENTIFIER => 1,
             TriggerController::URL_PARAM_EVENT => 'Foo',
             TriggerController::URL_PARAM_ID_STATE => 1,
         ];

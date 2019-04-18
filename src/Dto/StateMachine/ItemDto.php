@@ -9,7 +9,7 @@ namespace StateMachine\Dto\StateMachine;
 /**
  * StateMachine/Item DTO
  *
- * @property string|null $identifier
+ * @property int|null $identifier
  * @property int|null $idStateMachineProcess
  * @property int|null $idItemState
  * @property string|null $processName
@@ -30,7 +30,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	const FIELD_CREATED_AT = 'createdAt';
 
 	/**
-	 * @var string|null
+	 * @var int|null
 	 */
 	protected $identifier;
 
@@ -77,7 +77,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	protected $_metadata = [
 		'identifier' => [
 			'name' => 'identifier',
-			'type' => 'string',
+			'type' => 'int',
 			'required' => false,
 			'defaultValue' => null,
 			'dto' => null,
@@ -200,11 +200,11 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	];
 
 	/**
-	 * @param string|null $identifier
+	 * @param int|null $identifier
 	 *
 	 * @return $this
 	 */
-	public function setIdentifier(?string $identifier = null) {
+	public function setIdentifier(?int $identifier = null) {
 		$this->identifier = $identifier;
 		$this->_touchedFields[self::FIELD_IDENTIFIER] = true;
 
@@ -212,18 +212,18 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	}
 
 	/**
-	 * @return string|null
+	 * @return int|null
 	 */
-	public function getIdentifier(): ?string {
+	public function getIdentifier(): ?int {
 		return $this->identifier;
 	}
 
 	/**
 	 * @throws \RuntimeException If value is not set.
 	 *
-	 * @return string
+	 * @return int
 	 */
-	public function getIdentifierOrFail(): string {
+	public function getIdentifierOrFail(): int {
 		if (!isset($this->identifier)) {
 			throw new \RuntimeException('Value not set for field `identifier` (expected to be not null)');
 		}

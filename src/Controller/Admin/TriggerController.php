@@ -44,7 +44,7 @@ class TriggerController extends AppController
         $processDto->setProcessName($processName);
         $processDto->setStateMachineName($stateMachineName);
 
-        $identifier = $this->castString($this->request->getQuery(static::URL_PARAM_IDENTIFIER)) ?: null;
+        $identifier = $this->castInt($this->request->getQuery(static::URL_PARAM_IDENTIFIER));
         $this->getFacade()->triggerForNewStateMachineItem($processDto, $identifier);
 
         $redirect = $this->assertString($this->request->getQuery(static::URL_PARAM_REDIRECT)) ?: static::DEFAULT_REDIRECT_URL;
@@ -61,7 +61,7 @@ class TriggerController extends AppController
      */
     public function event(): ?Response
     {
-        $identifier = $this->castString($this->request->getQuery(self::URL_PARAM_IDENTIFIER)) ?: null;
+        $identifier = $this->castInt($this->request->getQuery(self::URL_PARAM_IDENTIFIER));
         $idState = $this->castInt($this->request->getQuery(self::URL_PARAM_ID_STATE));
 
         $itemDto = new ItemDto();

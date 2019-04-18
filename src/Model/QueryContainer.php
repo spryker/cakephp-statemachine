@@ -74,12 +74,12 @@ class QueryContainer implements QueryContainerInterface
     }
 
     /**
-     * @param string $identifier
+     * @param int $identifier
      * @param int $idStateMachineProcess
      *
      * @return \Cake\ORM\Query
      */
-    public function queryItemHistoryByStateItemIdentifier(string $identifier, int $idStateMachineProcess): Query
+    public function queryItemHistoryByStateItemIdentifier(int $identifier, int $idStateMachineProcess): Query
     {
         $stateMachineItemStateHistoryTable = $this->getFactory()->createStateMachineItemStateHistoryTable();
         $stateMachineItemStateTable = $this->getFactory()->createStateMachineItemStatesTable();
@@ -222,12 +222,12 @@ class QueryContainer implements QueryContainerInterface
     }
 
     /**
-     * @param string $identifier
+     * @param int $identifier
      * @param int $idProcess
      *
      * @return \Cake\ORM\Query
      */
-    public function queryEventTimeoutByIdentifierAndFkProcess(string $identifier, int $idProcess): Query
+    public function queryEventTimeoutByIdentifierAndFkProcess(int $identifier, int $idProcess): Query
     {
         $stateMachineTimeoutsTable = $this->getFactory()->createStateMachineTimeoutsTable();
 

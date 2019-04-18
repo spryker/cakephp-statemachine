@@ -14,7 +14,7 @@ use Tools\Model\Entity\Entity;
  *
  * @property int $id
  * @property int $state_machine_process_id
- * @property string $identifier
+ * @property int $identifier
  * @property bool $locked
  * @property string $event
  * @property string $params
