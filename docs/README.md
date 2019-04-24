@@ -83,8 +83,7 @@ if a certain condition associated to that transition is being satisfied.
 <transition condition="Test/Condition">
 ```
 
-The map of condition names and classes in code is done in the StateMachineHandler's `getConditions()` 
-which should implement `StateMachine\Dependency\StateMachineHandlerInterface`.
+The map of condition names and classes in code is done in the StateMachineHandler's `getConditions()`.
 
 ### Commands
 A transition from one state to another has an event associated to it. 
@@ -93,8 +92,7 @@ The event can have a command associated to it, which is a piece of logic that ge
 <event name="create pdf" command="Test/Command" />
 ```
 
-The map of command names and classes in code is done in the StateMachineHandler's 's `getCommands()` 
-which should implement `StateMachine\Dependency\StateMachineHandlerInterface`.
+The map of command names and classes in code is done in the StateMachineHandler's 's `getCommands()`.
 
 
 ## Creating a new State Machine
@@ -108,18 +106,60 @@ Now you can add your states, transitions and events to it.
 Using the XSD provided, the IDE should be able to give you full autocomplete/typehinting here.
 
 
-## Using it
-Once your XML is ready to be validated, check it out as live preview in the backend:
-- Go to `/admin/state-machine` and select the process
-- Adjust your state machine further and just press F5 to reload the preview until it looks as expected
+## Configuration
+
+Create a handler for your specific state machine which implements `StateMachine\Dependency\StateMachineHandlerInterface` and then define the active processes:
+```php
+    public function getActiveProcesses(): array
+    {
+        return [
+            'Demo01',
+        ];
+    }
+```
+
+Hook in your state machine handler(s) in Configure:
+```php
+    'StateMachine' => [
+        'handlers' => [
+            App\StateMachine\DemoStateMachineHandler::class,
+        ],
+    ],
+```
+
+Use Configure to set other defaults.
+
+You can set a custom graph renderer, for example:
+
+```php
+return [
+    ...
+    'StateMachine' => [
+        'graphAdapter' => PhpDocumentorGraphAdapter::class,
+    ],
+];
+```
+
 
 ### Implement commands and conditions
 The commands and conditions will most likely be still red, as they are not implemented yet.
 Let's hook them up to the PHP counterpart then.
 
-...
+```php
+    public function getCommands(): array
+    {
+        return [
+            'Test/Command' => new MyTestCommand(),
+        ];
+    }
 
-
+    public function getConditions(): array
+    {
+        return [
+             'Test/Condition' => new MyTestCondition(),
+        ];
+    }
+```
 
 ### Setting up the cronjobs
 In order for the conditions and timeouts to be checked, we need to activate the cronjobs for the commands:
@@ -133,6 +173,13 @@ should be added to e.g. `crontab` in e.g. 1 min intervals to be executed.
 bin/cake state_machine clear_locks
 ```
 can be added with a bit bigger interval.
+
+
+## Using it
+Once your XML is ready to be validated, check it out as live preview in the backend:
+- Go to `/admin/state-machine` and select the process
+- Adjust your state machine further and just press F5 to reload the preview until it looks as expected
+
 
 ### Invoking an Event
 Events can be triggered via:
@@ -162,22 +209,6 @@ will trigger a specific event for an item.
 $stateMachineFacade->triggerEventForItems($eventName, $itemDtos)
 ```
 will trigger a specific event for a collection of items.
-
-
-### Configuration
-
-Use Configure to set other defaults.
-
-You can set a custom graph renderer, for example:
-
-```php
-return [
-    ...
-    'StateMachine' => [
-        'graphAdapter' => PhpDocumentorGraphAdapter::class,
-    ],
-];
-```
 
 
 ### First demo run
