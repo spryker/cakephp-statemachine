@@ -122,7 +122,7 @@ class Condition implements ConditionInterface
         TransitionLogInterface $transactionLogger,
         string $conditionName
     ): bool {
-        $conditionPlugin = $this->getConditionPlugin(
+        $conditionPlugin = $this->getCondition(
             $conditionName,
             $itemDto->getStateMachineNameOrFail()
         );
@@ -298,13 +298,15 @@ class Condition implements ConditionInterface
      *
      * @return \StateMachine\Dependency\ConditionPluginInterface
      */
-    protected function getConditionPlugin(string $conditionString, string $stateMachineName): ConditionPluginInterface
+    protected function getCondition(string $conditionString, string $stateMachineName): ConditionPluginInterface
     {
         $stateMachineHandler = $this->stateMachineHandlerResolver->get($stateMachineName);
 
         $this->assertConditionIsSet($conditionString, $stateMachineHandler);
 
-        return $stateMachineHandler->getConditions()[$conditionString];
+        $condition = $stateMachineHandler->getConditions()[$conditionString];
+
+        return new $condition();
     }
 
     /**
