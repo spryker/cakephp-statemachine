@@ -25,5 +25,5 @@ interface HandlerResolverInterface
      *
      * @return \StateMachine\Dependency\StateMachineHandlerInterface|null
      */
-    public function find(string $stateMachineName): ?\StateMachine\Dependency\StateMachineHandlerInterface;
+    public function find(string $stateMachineName): ?StateMachineHandlerInterface;
 }
