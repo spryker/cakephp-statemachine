@@ -1,5 +1,102 @@
 #  CakePHP StateMachine Plugin Documentation
 
+## Terminology
+
+State machines are a model of computation used to automate processes. 
+The machine can be in one of a finite number of states and it can be only in one state at a time for a specific identifier.
+
+### States
+
+States allow describing in which state a state machine is. They are usually described as adjectives ("What state am I in?"). 
+ 
+```xml
+<states>
+    <state name="new" display="name display value"/>
+    <state name="payment pending"/>
+    <state name="paid"/>
+</states>
+```
+
+### Transitions
+States can be connected one to another through transitions, similar to a finite graph. 
+They are defined via "source" and "target" state.
+Such a transition is bound to an event, which tells when the item can leave the current state.
+
+```xml
+<transitions>
+    <transition>
+        <source>new</source>
+        <target>payment pending</target>
+        <event>authorize</event>
+    </transition>
+
+    <transition>
+        <source>payment pending</source>
+        <target>paid</target>
+        <event>pay</event>
+    </transition>
+
+</transitions>
+```
+
+### Events
+Events are what can cause transitions to happen.
+They are usually described as actions/verbs ("What do I do?").
+
+```xml
+<events>
+    <event name="authorize" onEnter="true"/>
+    <event name="pay" manual="true"/>
+</events>
+```
+
+#### OnEnter Events
+As seen above, they can have `onEnter=true` to auto-trigger this event when the source state is reached.
+If nothing fails the state machine then transitions directly to the target state.
+
+By using the OnEnter events you can model a chain of commands that you want to get executed because 
+the state machine always looks if there is another thing to do after any transition that gets executed.
+
+You usually want to make your state-machine as fully automated as possible.
+As such manual events and events without external trigger (for async handling) are usually avoided.
+
+#### Manually executable events
+In order to be able to trigger an event manually you need to mark it as manually executable. 
+This means that when an item is in the same state as the source state of a transition that has a manually executable event attached to it, 
+in we can implement a button that corresponds to that event in the GUI. 
+By clicking the button, we are triggering the event associated to it.
+
+#### Timeout events
+Events can be triggered after a defined period of time has passed, through a timeout.
+The timeout is defined in PHP string timespan.
+```xml
+<event name="sendFirstReminder" manual="true" timeout="10 days"/>
+```
+
+Every time the event is fired (automatically, after timeout), the state machine makes sure the associated command is executed. 
+If an exception occurs in the command coding, the item stays in the source state.
+
+### Conditions
+A transition can be conditioned: the state machine can move from one state to another 
+if a certain condition associated to that transition is being satisfied.
+```xml
+<transition condition="Test/Condition">
+```
+
+The map of condition names and classes in code is done in the StateMachineHandler's `getConditions()` 
+which should implement `StateMachine\Dependency\StateMachineHandlerInterface`.
+
+### Commands
+A transition from one state to another has an event associated to it. 
+The event can have a command associated to it, which is a piece of logic that gets executed when the event is fired.
+```xml
+<event name="create pdf" command="Test/Command" />
+```
+
+The map of command names and classes in code is done in the StateMachineHandler's 's `getCommands()` 
+which should implement `StateMachine\Dependency\StateMachineHandlerInterface`.
+
+
 ## Creating a new State Machine
 You can generate a fresh XML file for a specific process using
 ```
@@ -21,6 +118,51 @@ The commands and conditions will most likely be still red, as they are not imple
 Let's hook them up to the PHP counterpart then.
 
 ...
+
+
+
+### Setting up the cronjobs
+In order for the conditions and timeouts to be checked, we need to activate the cronjobs for the commands:
+```
+bin/cake state_machine check_conditions
+bin/cake state_machine check_timeouts
+```
+should be added to e.g. `crontab` in e.g. 1 min intervals to be executed.
+
+```
+bin/cake state_machine clear_locks
+```
+can be added with a bit bigger interval.
+
+### Invoking an Event
+Events can be triggered via:
+
+- onEnter
+- facade calls
+- timeout automatically (bin/cake state_machine check_timeout)
+- cronjob (bin/cake state_machine check_conditions)
+
+Note: The process needs to be in a state, where it is actually waiting for the event you are triggering. 
+Otherwise, the event would not be processed.
+
+### Facade methods
+This is typically used if an external or async event is raised.
+
+```php
+$stateMachineFacade->triggerForNewStateMachineItem($processDto, $identifier);
+```
+will initialize a state machine for an item (unique $identifier for a process);
+
+```php
+$stateMachineFacade->triggerEvent($eventName, $itemDto)
+```
+will trigger a specific event for an item.
+
+```php
+$stateMachineFacade->triggerEventForItems($eventName, $itemDtos)
+```
+will trigger a specific event for a collection of items.
+
 
 ### Configuration
 
@@ -52,6 +194,23 @@ If you want to use the admin CRUD backend, make sure to load the required helper
 ```php
 $this->loadHelper('Tools.Format');
 ```
+
+
+## Versioning the State Machines
+The ideal case would be that after designing your state machines and you start using them in production environment, 
+they stay the same and don’t need any further adjustments.
+
+However, we all know that a software product is subject of change in time. 
+The state machines that model the order processing touch many critical parts of the system so it’s very likely 
+to need updates in the future.
+
+When a state machine is changed but there are already orders which use this process, this part becomes important.
+Append here a raised count into your process name: `Demo01` becomes `Demo02`.
+All items with the old process will try to finish using the old one, while all new items will automatically use the new one.
+
+Note: If you are sure the ones on the old process will continue fine in the new one, you can also manually set them to the new process
+to continue here on DB level.
+
 
 ## Contributing
 
