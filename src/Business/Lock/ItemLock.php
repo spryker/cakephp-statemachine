@@ -87,7 +87,7 @@ class ItemLock implements ItemLockInterface
     {
         $this->queryContainer
             ->queryLockItemsByIdentifier($identifier)
-            ->delete();
+            ->delete()->execute();
     }
 
     /**
@@ -97,7 +97,7 @@ class ItemLock implements ItemLockInterface
     {
         $this->queryContainer
             ->queryLockedItemsByExpirationDate(new FrozenTime('now'))
-            ->delete();
+            ->delete()->execute();
     }
 
     /**

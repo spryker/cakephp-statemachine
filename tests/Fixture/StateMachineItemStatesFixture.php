@@ -25,6 +25,7 @@ class StateMachineItemStatesFixture extends TestFixture
         'description' => ['type' => 'string', 'length' => 255, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
+            'name' => ['type' => 'unique', 'columns' => ['name', 'state_machine_process_id'], 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
