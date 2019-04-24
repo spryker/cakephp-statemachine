@@ -19,7 +19,6 @@ class StateMachineLocksFixture extends TestFixture
      *
      * @var array
      */
-    // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'identifier' => ['type' => 'string', 'length' => 150, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
@@ -27,14 +26,14 @@ class StateMachineLocksFixture extends TestFixture
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-            //FIXME 'identifier' => ['type' => 'unique', 'columns' => ['identifier'], 'length' => []],
+            'identifier' => ['type' => 'unique', 'columns' => ['identifier'], 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
-            'collation' => 'utf8_unicode_ci'
+            'collation' => 'utf8_unicode_ci',
         ],
     ];
-    // @codingStandardsIgnoreEnd
+
     /**
      * Init method
      *

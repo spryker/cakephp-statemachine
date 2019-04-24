@@ -60,7 +60,7 @@ class StateMachineInit extends AbstractMigration
             ])
             ->create();
 
-        $this->table('state_machine_processes')
+        $this->table('state_machine_item_states')
             ->addIndex(['name', 'state_machine_process_id'], ['unique' => true])
             ->update();
 
@@ -173,7 +173,7 @@ class StateMachineInit extends AbstractMigration
             ])
             ->create();
 
-        $this->table('state_machine_processes')
+        $this->table('state_machine_timeouts')
             ->addIndex(['identifier', 'state_machine_item_state_id'], ['unique' => true])
             ->update();
 
@@ -194,12 +194,10 @@ class StateMachineInit extends AbstractMigration
                 'null' => true,
             ])
             ->create();
-        /*
-        //FIXME
+
         $this->table('state_machine_locks')
             ->addIndex(['identifier'], ['unique' => true])
             ->update();
-        */
     }
 
     /**
