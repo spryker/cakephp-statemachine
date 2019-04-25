@@ -2,7 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var string $stateMachineName
- * @var \StateMachine\Dto\StateMachine\ProcessDto[] $processes
+ * @var int[] $matrix
  */
 ?>
 
@@ -13,21 +13,19 @@
     </ul>
 </nav>
 <div class="large-9 medium-8 columns content">
-    <h1>Processes for "<?php echo h($stateMachineName); ?>" state machine</h1>
+    <h1>Matrix for "<?php echo h($stateMachineName); ?>" state machine</h1>
 
-    <?php foreach ($processes as $process) { ?>
+    <?php foreach ($matrix as $state => $itemCount) { ?>
         <div class="large-4 medium-6 columns col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h2><?php echo h($process->getProcessName()); ?></h2>
+                    <h2><?php echo h($state); ?></h2>
                 </div>
                 <div class="panel-body">
                     <?php
-                    $url = $this->Url->build(['controller' => 'Graph', 'action' => 'draw', '?' => ['process' => $process->getProcessName(), 'state-machine' => $stateMachineName]]);
-                    echo $this->Html->link('<div class="state-machine-preview" style="font-size:10px;"><img src="'. $url . '" alt="' . $process->getProcessName() . '"/></div>', $url, ['escape' => false]);
+                    echo $itemCount;
                     ?>
                 </div>
-
             </div>
         </div>
     <?php } ?>

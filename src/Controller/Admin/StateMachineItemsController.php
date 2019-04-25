@@ -40,7 +40,7 @@ class StateMachineItemsController extends AppController
     public function view($id = null)
     {
         $stateMachineItem = $this->StateMachineItems->get($id, [
-            'contain' => [],
+            'contain' => ['StateMachineTransitionLogs' => 'StateMachineProcesses'],
         ]);
 
         $this->set('stateMachineItem', $stateMachineItem);

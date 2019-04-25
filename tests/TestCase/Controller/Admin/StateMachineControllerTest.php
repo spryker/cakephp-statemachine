@@ -7,6 +7,8 @@
 
 namespace StateMachine\Test\TestCase\Controller\Admin;
 
+use App\StateMachine\DemoStateMachineHandler;
+use Cake\Core\Configure;
 use Cake\TestSuite\IntegrationTestCase;
 
 class StateMachineControllerTest extends IntegrationTestCase
@@ -17,6 +19,8 @@ class StateMachineControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
+        'plugin.StateMachine.StateMachineItems',
+        'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItemStateHistory',
     ];
 
@@ -35,42 +39,31 @@ class StateMachineControllerTest extends IntegrationTestCase
     }
 
     /**
-     * Test view method
-     *
      * @return void
      */
-    public function testView(): void
+    public function testProcess(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->disableErrorHandlerMiddleware();
+
+        Configure::write('StateMachine.pathToXml', TESTS . 'test_files' . DS);
+        Configure::write('StateMachine.handlers', [
+            DemoStateMachineHandler::class,
+        ]);
+
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachine', 'action' => 'process', '?' => ['state-machine' => 'TestingSm']]);
+
+        $this->assertResponseCode(200);
     }
 
     /**
-     * Test add method
-     *
      * @return void
      */
-    public function testAdd(): void
+    public function testOverview(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        $this->disableErrorHandlerMiddleware();
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachine', 'action' => 'overview', '?' => ['state-machine' => 'TestingSm']]);
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->assertResponseCode(200);
     }
 }

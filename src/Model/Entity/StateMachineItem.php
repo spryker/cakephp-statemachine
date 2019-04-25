@@ -18,6 +18,7 @@ use Cake\ORM\Entity;
  * @property string|null $state
  * @property int|null $state_machine_transition_log_id
  * @property \Cake\I18n\FrozenTime|null $created
+ * @property \StateMachine\Model\Entity\StateMachineTransitionLog $state_machine_transition_log
  */
 class StateMachineItem extends Entity
 {

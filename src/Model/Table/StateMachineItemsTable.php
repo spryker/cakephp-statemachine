@@ -23,6 +23,7 @@ use Cake\Validation\Validator;
  * @method \StateMachine\Model\Entity\StateMachineItem findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @property \StateMachine\Model\Table\StateMachineTransitionLogsTable|\Cake\ORM\Association\BelongsTo $StateMachineTransitionLogs
  */
 class StateMachineItemsTable extends Table
 {
@@ -38,10 +39,12 @@ class StateMachineItemsTable extends Table
         parent::initialize($config);
 
         $this->setTable('state_machine_items');
-        $this->setDisplayField('id');
+        $this->setDisplayField('state');
         $this->setPrimaryKey('id');
 
-        $this->addBehavior('Timestamp');
+        $this->belongsTo('StateMachineTransitionLogs', [
+            'className' => 'StateMachine.StateMachineTransitionLogs',
+        ]);
     }
 
     /**

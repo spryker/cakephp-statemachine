@@ -69,6 +69,7 @@ class StateMachineController extends AppController
         $matrix = $this->getFactory()
             ->createStateMachineFinder()
             ->getItemMatrix($stateMachineName);
-        dd($matrix);
+
+        $this->set(compact('stateMachineName', 'matrix'));
     }
 }
