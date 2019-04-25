@@ -10,6 +10,7 @@
     <ul class="side-nav nav nav-pills nav-stacked">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Back'), ['action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('Matrix Overview'), ['action' => 'overview', '?' => ['state-machine' => $stateMachineName]]) ?> </li>
     </ul>
 </nav>
 <div class="large-9 medium-8 columns content">

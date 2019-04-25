@@ -206,14 +206,22 @@ class Persistence implements PersistenceInterface
     {
         $updatedStateMachineItems = [];
         foreach ($stateMachineItems as $itemDto) {
-            /** @var \StateMachine\Model\Entity\StateMachineItemState|null $stateMachineItemStateEntity */
-            $stateMachineItemStateEntity = $this->stateMachineQueryContainer
-                ->queryStateByIdState(
-                    $itemDto->getIdItemStateOrFail()
-                )->first();
-
-            if ($stateMachineItemStateEntity === null) {
-                continue;
+            if ($itemDto->hasIdItemState()) {
+                /** @var \StateMachine\Model\Entity\StateMachineItemState|null $stateMachineItemStateEntity */
+                $stateMachineItemStateEntity = $this->stateMachineQueryContainer
+                    ->queryStateByIdState(
+                        $itemDto->getIdItemStateOrFail()
+                    )->firstOrFail();
+            } else {
+                /** @var \StateMachine\Model\Entity\StateMachineItemState|null $stateMachineItemStateEntity */
+                $stateMachineItemStateEntity = $this->stateMachineQueryContainer
+                    ->queryStateByNameAndProcess(
+                        $itemDto->getStateNameOrFail(),
+                        $itemDto->getProcessNameOrFail()
+                    )->first();
+                if ($stateMachineItemStateEntity === null) {
+                    continue;
+                }
             }
 
             $updatedItemDto = $this->hydrateItemTransferFromEntity($stateMachineItemStateEntity);

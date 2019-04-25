@@ -33,6 +33,23 @@ class QueryContainer implements QueryContainerInterface
     }
 
     /**
+     * @param string $state
+     * @param string $process
+     *
+     * @return \Cake\ORM\Query
+     */
+    public function queryStateByNameAndProcess(string $state, string $process): Query
+    {
+        $stateMachineItemStatesTable = $this->getFactory()
+            ->createStateMachineItemStatesTable();
+
+        return $stateMachineItemStatesTable
+            ->find()
+            ->contain('StateMachineProcesses')
+            ->where(['StateMachineProcesses.name' => $process, 'StateMachineItemStates.name' => $state]);
+    }
+
+    /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return \Cake\ORM\Query
@@ -260,4 +277,5 @@ class QueryContainer implements QueryContainerInterface
 
         return $query;
     }
+
 }

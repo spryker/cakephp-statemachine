@@ -215,8 +215,36 @@ will trigger a specific event for a collection of items.
 
 From your code call the `StateMachineFacade::triggerForNewStateMachineItem()` method with the identifier of your
 record (usually the integer primary key of that DB row).
+```php
+$stateMachineFacade = new StateMachineFacade();
+
+$processDto = new ProcessDto();
+$processDto->setStateMachineName('Test');
+$processDto->setProcessName('Test01');
+
+$identifier = $myEntity->id;
+
+$stateMachineFacade->triggerForNewStateMachineItem($processDto, $identifier);
+```
 
 It should now create the DB records for it and run for this state machine process.
+
+Then start to trigger events where you need to manually transition:
+```php
+$stateMachineFacade = new StateMachineFacade();
+
+$event = 'do something';
+
+$itemDto = new ItemDto();
+$itemDto->setIdentifier($myEntity->id);
+
+$itemDto->setStateMachineName($processDto->getStateMachineNameOrFail());
+$itemDto->setProcessName($processDto->getProcessNameOrFail());
+$itemDto->setStateName('source state'); // or setIdItemState($int)
+
+$stateMachineFacade->triggerEvent($event, $itemDto);
+```
+You can use either the state name or the id of that row.
 
 
 ### Admin backend

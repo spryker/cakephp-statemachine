@@ -24,6 +24,14 @@ interface QueryContainerInterface
     public function queryStateByIdState(int $idState): Query;
 
     /**
+     * @param string $state
+     * @param string $process
+     *
+     * @return \Cake\ORM\Query
+     */
+    public function queryStateByNameAndProcess(string $state, string $process): Query;
+
+    /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return \Cake\ORM\Query
