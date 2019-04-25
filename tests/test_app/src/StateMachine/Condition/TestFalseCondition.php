@@ -10,7 +10,7 @@ namespace App\StateMachine\Condition;
 use StateMachine\Dependency\ConditionPluginInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
-class TestTrueCondition implements ConditionPluginInterface
+class TestFalseCondition implements ConditionPluginInterface
 {
     /**
      * Specification:
