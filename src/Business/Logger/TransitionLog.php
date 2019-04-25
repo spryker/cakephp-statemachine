@@ -169,7 +169,7 @@ class TransitionLog implements TransitionLogInterface
      */
     public function save(ItemDto $itemDto): void
     {
-        $this->stateMachineTransitionLogsTable->save($this->logEntities[$itemDto->getIdentifierOrFail()]);
+        $this->stateMachineTransitionLogsTable->saveOrFail($this->logEntities[$itemDto->getIdentifierOrFail()]);
     }
 
     /**
@@ -179,7 +179,7 @@ class TransitionLog implements TransitionLogInterface
     {
         foreach ($this->logEntities as $logEntity) {
             if ($logEntity->isDirty()) {
-                $this->stateMachineTransitionLogsTable->save($logEntity);
+                $this->stateMachineTransitionLogsTable->saveOrFail($logEntity);
             }
         }
         $this->logEntities = [];

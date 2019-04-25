@@ -15,8 +15,6 @@ interface ConditionPluginInterface
      * Specification:
      * - This method is called when transition in SM xml file have concrete condition assigned.
      *
-     * @api
-     *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return bool

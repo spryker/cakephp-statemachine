@@ -15,8 +15,6 @@ interface CommandPluginInterface
      * Specification:
      * - This method is called when event have concrete command assigned.
      *
-     * @api
-     *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return bool

@@ -22,8 +22,6 @@ interface StateMachineFacadeInterface
      * - Persists state item history.
      * - Returns with the number of transitioned items.
      *
-     * @api
-     *
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param int $identifier - this is id of foreign entity you want to track in state machine, it's stored in history table.
      *
@@ -39,8 +37,6 @@ interface StateMachineFacadeInterface
      * - Executes registered StateMachineHandlerInterface::itemStateUpdated() plugin methods on state change.
      * - Persists state item history.
      * - Returns with the number of transitioned items.
-     *
-     * @api
      *
      * @param string $eventName
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
@@ -58,8 +54,6 @@ interface StateMachineFacadeInterface
      * - Persists state item history.
      * - Returns with the number of transitioned items.
      *
-     * @api
-     *
      * @param string $eventName
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
@@ -72,8 +66,6 @@ interface StateMachineFacadeInterface
      * - Finds state machine handler by provided state machine name.
      * - Retrieves active process transfer list defined in handler by process name.
      *
-     * @api
-     *
      * @param string $stateMachineName
      *
      * @return \StateMachine\Dto\StateMachine\ProcessDto[]
@@ -83,8 +75,6 @@ interface StateMachineFacadeInterface
     /**
      * Specification:
      * - Checks if state machine exists.
-     *
-     * @api
      *
      * @param string $stateMachineName
      *
@@ -97,8 +87,6 @@ interface StateMachineFacadeInterface
      * - Gathers all transitions without any event for the provided state machine.
      * - Executes gathered transitions.
      *
-     * @api
-     *
      * @param string $stateMachineName
      *
      * @return int
@@ -110,8 +98,6 @@ interface StateMachineFacadeInterface
      * - Gathers all timeout expired events for the provided state machine.
      * - Executes gathered events.
      *
-     * @api
-     *
      * @param string $stateMachineName
      *
      * @return int
@@ -122,8 +108,6 @@ interface StateMachineFacadeInterface
      * Specification:
      * - Loads state machine process from XML.
      * - Draws graph using graph library.
-     *
-     * @api
      *
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string|null $highlightState
@@ -143,8 +127,6 @@ interface StateMachineFacadeInterface
      * Specification:
      * - Retrieves process id by provided process name.
      *
-     * @api
-     *
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      *
      * @return int
@@ -155,8 +137,6 @@ interface StateMachineFacadeInterface
      * Specification:
      * - Loads state machine process from XML using provided state machine item.
      * - Retrieves manual event list.
-     *
-     * @api
      *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
@@ -170,8 +150,6 @@ interface StateMachineFacadeInterface
      * - Retrieves manual event list per items identifier.
      * - Items without any manual events are not part of result.
      *
-     * @api
-     *
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return string[][]
@@ -181,8 +159,6 @@ interface StateMachineFacadeInterface
     /**
      * Specification:
      * - Retrieves hydrated item transfer by provided item id and identifier pair.
-     *
-     * @api
      *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
@@ -194,8 +170,6 @@ interface StateMachineFacadeInterface
      * Specification:
      * - Retrieves hydrated item transfers by provided item id and identifier pairs.
      *
-     * @api
-     *
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
@@ -205,8 +179,6 @@ interface StateMachineFacadeInterface
     /**
      * Specification:
      * - Retrieves state item history by state item identifier.
-     *
-     * @api
      *
      * @param int $idStateMachineProcess
      * @param int $identifier
@@ -220,8 +192,6 @@ interface StateMachineFacadeInterface
      * - Loads state machine process from XML.
      * - Retrieves all items with state which have the provided flag.
      *
-     * @api
-     *
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flagName
      *
@@ -234,8 +204,6 @@ interface StateMachineFacadeInterface
      * - Loads state machine process from XML.
      * - Retrieves all items with state which have do not have the provided flag.
      *
-     * @api
-     *
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flagName
      *
@@ -246,8 +214,6 @@ interface StateMachineFacadeInterface
     /**
      * Specification:
      * - Clears all expired item locks.
-     *
-     * @api
      *
      * @return void
      */

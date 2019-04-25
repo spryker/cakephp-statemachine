@@ -19,8 +19,6 @@ interface StateMachineHandlerInterface
      *   'Prefix/TwoCommand' => TwoCommand::class,
      * ]
      *
-     * @api
-     *
      * @return string[]
      */
     public function getCommands(): array;
@@ -33,16 +31,12 @@ interface StateMachineHandlerInterface
      *   'Prefix/TwoCondition' => TwoCondition::class,
      * ]
      *
-     * @api
-     *
      * @return string[]
      */
     public function getConditions(): array;
 
     /**
      * Name of state machine used by this handler.
-     *
-     * @api
      *
      * @return string
      */
@@ -56,16 +50,12 @@ interface StateMachineHandlerInterface
      *   'ProcessName2 ,
      * ]
      *
-     * @api
-     *
      * @return string[]
      */
     public function getActiveProcesses(): array;
 
     /**
      * Provide initial state name for item when state machine initialized. Using process name.
-     *
-     * @api
      *
      * @param string $processName
      *
@@ -77,8 +67,6 @@ interface StateMachineHandlerInterface
      * This method is called when state of item was changed, client can create custom logic for example update it's related table with new stateId and processId.
      * ItemDto:identifier is id of entity from client.
      *
-     * @api
-     *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return bool
@@ -87,8 +75,6 @@ interface StateMachineHandlerInterface
 
     /**
      * This method should return all list of ItemDto, with (identifier, IdStateMachineProcess, IdItemState)
-     *
-     * @api
      *
      * @param int[] $stateIds
      *

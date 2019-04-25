@@ -550,7 +550,7 @@ class StateMachineFacadeTest extends TestCase
             ->first();
 
         $stateMachineItemEventTimeoutEntity->timeout = new FrozenTime('1985-07-01');
-        $this->StateMachineTimeouts->save($stateMachineItemEventTimeoutEntity);
+        $this->StateMachineTimeouts->saveOrFail($stateMachineItemEventTimeoutEntity);
 
         $affectedItems = $stateMachineFacade->checkTimeouts(static::TESTING_SM);
 

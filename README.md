@@ -31,7 +31,7 @@ bin/cake plugin load StateMachine
 
 Run migrations:
 ```
-bin/cake Migrations migrate -p StateMachine
+bin/cake migrations migrate -p StateMachine
 ```
 Or just copy the migration file into your app `src/config/Migrations/`, modify if needed, and then run it as part of your app migrations.
 
