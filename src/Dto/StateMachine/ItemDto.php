@@ -20,14 +20,14 @@ namespace StateMachine\Dto\StateMachine;
  */
 class ItemDto extends \CakeDto\Dto\AbstractDto {
 
-	const FIELD_IDENTIFIER = 'identifier';
-	const FIELD_ID_STATE_MACHINE_PROCESS = 'idStateMachineProcess';
-	const FIELD_ID_ITEM_STATE = 'idItemState';
-	const FIELD_PROCESS_NAME = 'processName';
-	const FIELD_STATE_MACHINE_NAME = 'stateMachineName';
-	const FIELD_STATE_NAME = 'stateName';
-	const FIELD_EVENT_NAME = 'eventName';
-	const FIELD_CREATED_AT = 'createdAt';
+	public const FIELD_IDENTIFIER = 'identifier';
+	public const FIELD_ID_STATE_MACHINE_PROCESS = 'idStateMachineProcess';
+	public const FIELD_ID_ITEM_STATE = 'idItemState';
+	public const FIELD_PROCESS_NAME = 'processName';
+	public const FIELD_STATE_MACHINE_NAME = 'stateMachineName';
+	public const FIELD_STATE_NAME = 'stateName';
+	public const FIELD_EVENT_NAME = 'eventName';
+	public const FIELD_CREATED_AT = 'createdAt';
 
 	/**
 	 * @var int|null
@@ -204,7 +204,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 *
 	 * @return $this
 	 */
-	public function setIdentifier(?int $identifier = null) {
+	public function setIdentifier(?int $identifier) {
 		$this->identifier = $identifier;
 		$this->_touchedFields[self::FIELD_IDENTIFIER] = true;
 
@@ -234,7 +234,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	 * @return bool
 	 */
-	public function hasIdentifier() {
+	public function hasIdentifier(): bool {
 		return $this->identifier !== null;
 	}
 
@@ -243,7 +243,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 *
 	 * @return $this
 	 */
-	public function setIdStateMachineProcess(?int $idStateMachineProcess = null) {
+	public function setIdStateMachineProcess(?int $idStateMachineProcess) {
 		$this->idStateMachineProcess = $idStateMachineProcess;
 		$this->_touchedFields[self::FIELD_ID_STATE_MACHINE_PROCESS] = true;
 
@@ -273,7 +273,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	 * @return bool
 	 */
-	public function hasIdStateMachineProcess() {
+	public function hasIdStateMachineProcess(): bool {
 		return $this->idStateMachineProcess !== null;
 	}
 
@@ -282,7 +282,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 *
 	 * @return $this
 	 */
-	public function setIdItemState(?int $idItemState = null) {
+	public function setIdItemState(?int $idItemState) {
 		$this->idItemState = $idItemState;
 		$this->_touchedFields[self::FIELD_ID_ITEM_STATE] = true;
 
@@ -312,7 +312,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	 * @return bool
 	 */
-	public function hasIdItemState() {
+	public function hasIdItemState(): bool {
 		return $this->idItemState !== null;
 	}
 
@@ -321,7 +321,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 *
 	 * @return $this
 	 */
-	public function setProcessName(?string $processName = null) {
+	public function setProcessName(?string $processName) {
 		$this->processName = $processName;
 		$this->_touchedFields[self::FIELD_PROCESS_NAME] = true;
 
@@ -351,7 +351,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	 * @return bool
 	 */
-	public function hasProcessName() {
+	public function hasProcessName(): bool {
 		return $this->processName !== null;
 	}
 
@@ -360,7 +360,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 *
 	 * @return $this
 	 */
-	public function setStateMachineName(?string $stateMachineName = null) {
+	public function setStateMachineName(?string $stateMachineName) {
 		$this->stateMachineName = $stateMachineName;
 		$this->_touchedFields[self::FIELD_STATE_MACHINE_NAME] = true;
 
@@ -390,7 +390,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	 * @return bool
 	 */
-	public function hasStateMachineName() {
+	public function hasStateMachineName(): bool {
 		return $this->stateMachineName !== null;
 	}
 
@@ -399,7 +399,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 *
 	 * @return $this
 	 */
-	public function setStateName(?string $stateName = null) {
+	public function setStateName(?string $stateName) {
 		$this->stateName = $stateName;
 		$this->_touchedFields[self::FIELD_STATE_NAME] = true;
 
@@ -429,7 +429,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	 * @return bool
 	 */
-	public function hasStateName() {
+	public function hasStateName(): bool {
 		return $this->stateName !== null;
 	}
 
@@ -438,7 +438,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 *
 	 * @return $this
 	 */
-	public function setEventName(?string $eventName = null) {
+	public function setEventName(?string $eventName) {
 		$this->eventName = $eventName;
 		$this->_touchedFields[self::FIELD_EVENT_NAME] = true;
 
@@ -468,7 +468,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	 * @return bool
 	 */
-	public function hasEventName() {
+	public function hasEventName(): bool {
 		return $this->eventName !== null;
 	}
 
@@ -477,7 +477,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 *
 	 * @return $this
 	 */
-	public function setCreatedAt(?string $createdAt = null) {
+	public function setCreatedAt(?string $createdAt) {
 		$this->createdAt = $createdAt;
 		$this->_touchedFields[self::FIELD_CREATED_AT] = true;
 
@@ -507,7 +507,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	 * @return bool
 	 */
-	public function hasCreatedAt() {
+	public function hasCreatedAt(): bool {
 		return $this->createdAt !== null;
 	}
 

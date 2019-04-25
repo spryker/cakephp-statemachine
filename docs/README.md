@@ -149,14 +149,14 @@ Let's hook them up to the PHP counterpart then.
     public function getCommands(): array
     {
         return [
-            'Test/Command' => new MyTestCommand(),
+            'Test/Command' => MyTestCommand::class,
         ];
     }
 
     public function getConditions(): array
     {
         return [
-             'Test/Condition' => new MyTestCondition(),
+             'Test/Condition' => MyTestCondition::class,
         ];
     }
 ```

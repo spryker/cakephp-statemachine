@@ -7,8 +7,8 @@
 
 namespace App\StateMachine;
 
-use StateMachine\Dependency\CommandPluginInterface;
-use StateMachine\Dependency\ConditionPluginInterface;
+use App\StateMachine\Command\TestCommand;
+use App\StateMachine\Condition\TestTrueCondition;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
@@ -33,7 +33,7 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     public function getCommands(): array
     {
         return [
-            'Test/Command' => $this->createCommandPlugin(),
+            'Test/Command' => TestCommand::class,
         ];
     }
 
@@ -43,7 +43,7 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     public function getConditions(): array
     {
         return [
-            'Test/Condition' => $this->createConditionPlugin(),
+            'Test/Condition' => TestTrueCondition::class,
         ];
     }
 
@@ -120,43 +120,5 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     public function setStateMachineItemsByStateIds(array $stateMachineItemsByStateIds): void
     {
         static::$stateMachineItemsByStateIds = $stateMachineItemsByStateIds;
-    }
-
-    /**
-     * @return \StateMachine\Dependency\CommandPluginInterface
-     */
-    protected function createCommandPlugin(): CommandPluginInterface
-    {
-        return new class implements CommandPluginInterface
-        {
-            /**
-             * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
-             *
-             * @return bool
-             */
-            public function run(ItemDto $itemDto): bool
-            {
-                return true;
-            }
-        };
-    }
-
-    /**
-     * @return \StateMachine\Dependency\ConditionPluginInterface
-     */
-    protected function createConditionPlugin(): ConditionPluginInterface
-    {
-        return new class implements ConditionPluginInterface
-        {
-            /**
-             * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
-             *
-             * @return bool
-             */
-            public function check(ItemDto $itemDto): bool
-            {
-                return true;
-            }
-        };
     }
 }

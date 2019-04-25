@@ -301,7 +301,7 @@ class Builder implements BuilderInterface
      *
      * @return \StateMachine\Business\Process\EventInterface|null
      */
-    protected function createEvent(SimpleXMLElement $xmlEvent): ?\StateMachine\Business\Process\EventInterface
+    protected function createEvent(SimpleXMLElement $xmlEvent): ?EventInterface
     {
         $eventName = $this->getAttributeString($xmlEvent, self::STATE_NAME_ATTRIBUTE);
         if ($eventName === null) {

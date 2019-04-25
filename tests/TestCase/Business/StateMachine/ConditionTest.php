@@ -7,6 +7,8 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
+use App\StateMachine\Condition\TestFalseCondition;
+use App\StateMachine\Condition\TestTrueCondition;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Logger\TransitionLogInterface;
@@ -24,7 +26,6 @@ use StateMachine\Business\StateMachine\StateUpdater;
 use StateMachine\Business\StateMachine\StateUpdaterInterface;
 use StateMachine\Business\StateMachine\Timeout;
 use StateMachine\Business\StateMachine\TimeoutInterface;
-use StateMachine\Dependency\ConditionPluginInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Model\QueryContainer;
@@ -104,7 +105,7 @@ class ConditionTest extends TestCase
      */
     public function testCheckConditionForTransitionShouldReturnTargetStateOfGivenTransition(): void
     {
-        $condition = $this->createCondition(true);
+        $condition = $this->createCondition(TestTrueCondition::class);
 
         $sourceState = $this->createState('source state');
         $targetState = $this->createState('target state');
@@ -126,7 +127,7 @@ class ConditionTest extends TestCase
      */
     public function testCheckConditionForTransitionWhenConditionReturnsFalseShouldReturnSourceState(): void
     {
-        $condition = $this->createCondition(false);
+        $condition = $this->createCondition(TestFalseCondition::class);
 
         $sourceState = $this->createState('source state');
         $targetState = $this->createState('target state');
@@ -146,15 +147,15 @@ class ConditionTest extends TestCase
     }
 
     /**
-     * @param bool $conditionCheckResult
+     * @param string $conditionPluginClassname
      *
      * @return \StateMachine\Business\StateMachine\ConditionInterface
      */
-    protected function createCondition(bool $conditionCheckResult): ConditionInterface
+    protected function createCondition(string $conditionPluginClassname): ConditionInterface
     {
         return new Condition(
             $this->createTransitionLogMock(),
-            $this->createStateMachineResolverMock($conditionCheckResult),
+            $this->createStateMachineResolverMock($conditionPluginClassname),
             $this->createFinderMock(),
             $this->createPersistence(),
             $this->createStateUpdater()
@@ -191,23 +192,18 @@ class ConditionTest extends TestCase
     }
 
     /**
-     * @param bool $conditionCheckResult
+     * @param string $conditionPluginClassname
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\HandlerResolverInterface
      */
-    protected function createStateMachineResolverMock(bool $conditionCheckResult)
+    protected function createStateMachineResolverMock(string $conditionPluginClassname)
     {
-        $conditionPluginMock = $this->createConditionPluginMock();
-        $conditionPluginMock->expects($this->once())
-            ->method('check')
-            ->willReturn($conditionCheckResult);
-
         $stateMachineHandler = $this->createStateMachineHandlerMock();
         $stateMachineHandler->expects($this->exactly(2))
             ->method('getConditions')
             ->willReturn([
-                    'condition' => $conditionPluginMock,
-                ]);
+                'condition' => $conditionPluginClassname,
+            ]);
 
         $stateMachineHandlerResolverMock = $this->createHandlerResolverMock();
         $stateMachineHandlerResolverMock->expects($this->once())
@@ -245,16 +241,6 @@ class ConditionTest extends TestCase
         $stateMachineHandlerMock = $this->getMockBuilder(StateMachineHandlerInterface::class)->getMock();
 
         return $stateMachineHandlerMock;
-    }
-
-    /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\ConditionPluginInterface
-     */
-    protected function createConditionPluginMock()
-    {
-        $conditionPluginMock = $this->getMockBuilder(ConditionPluginInterface::class)->getMock();
-
-        return $conditionPluginMock;
     }
 
     /**

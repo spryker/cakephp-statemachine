@@ -23,7 +23,7 @@ class DemoStateMachineHandler implements StateMachineHandlerInterface
     public function getCommands(): array
     {
         return [
-            'Test/Command' => new TriggerFooCommand(),
+            'Test/Command' => TriggerFooCommand::class,
         ];
     }
 
@@ -33,7 +33,7 @@ class DemoStateMachineHandler implements StateMachineHandlerInterface
     public function getConditions(): array
     {
         return [
-            'Test/Condition' => new IsFooTriggeredCondition(),
+            'Test/Condition' => IsFooTriggeredCondition::class,
         ];
     }
 

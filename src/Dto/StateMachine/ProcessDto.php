@@ -14,8 +14,8 @@ namespace StateMachine\Dto\StateMachine;
  */
 class ProcessDto extends \CakeDto\Dto\AbstractDto {
 
-	const FIELD_PROCESS_NAME = 'processName';
-	const FIELD_STATE_MACHINE_NAME = 'stateMachineName';
+	public const FIELD_PROCESS_NAME = 'processName';
+	public const FIELD_STATE_MACHINE_NAME = 'stateMachineName';
 
 	/**
 	 * @var string|null
@@ -78,7 +78,7 @@ class ProcessDto extends \CakeDto\Dto\AbstractDto {
 	 *
 	 * @return $this
 	 */
-	public function setProcessName(?string $processName = null) {
+	public function setProcessName(?string $processName) {
 		$this->processName = $processName;
 		$this->_touchedFields[self::FIELD_PROCESS_NAME] = true;
 
@@ -108,7 +108,7 @@ class ProcessDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	 * @return bool
 	 */
-	public function hasProcessName() {
+	public function hasProcessName(): bool {
 		return $this->processName !== null;
 	}
 
@@ -117,7 +117,7 @@ class ProcessDto extends \CakeDto\Dto\AbstractDto {
 	 *
 	 * @return $this
 	 */
-	public function setStateMachineName(?string $stateMachineName = null) {
+	public function setStateMachineName(?string $stateMachineName) {
 		$this->stateMachineName = $stateMachineName;
 		$this->_touchedFields[self::FIELD_STATE_MACHINE_NAME] = true;
 
@@ -147,7 +147,7 @@ class ProcessDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	 * @return bool
 	 */
-	public function hasStateMachineName() {
+	public function hasStateMachineName(): bool {
 		return $this->stateMachineName !== null;
 	}
 

@@ -15,13 +15,13 @@ interface StateMachineHandlerInterface
      * List of command classes for this state machine for all processes. Array key is identifier in SM XML file.
      *
      * [
-     *   'Prefix/OneCommand' => new OneCommand(),
-     *   'Prefix/TwoCommand' => new TwoCommand(),
+     *   'Prefix/OneCommand' => OneCommand::class,
+     *   'Prefix/TwoCommand' => TwoCommand::class,
      * ]
      *
      * @api
      *
-     * @return array
+     * @return string[]
      */
     public function getCommands(): array;
 
@@ -29,13 +29,13 @@ interface StateMachineHandlerInterface
      * List of condition classes for this state machine for all processes. Array key is identifier in SM XML file.
      *
      *  [
-     *   'Prefix/OneCondition' => new OneCondition(),
-     *   'Prefix/TwoCondition' => new TwoCondition(),
+     *   'Prefix/OneCondition' => OneCondition::class,
+     *   'Prefix/TwoCondition' => TwoCondition::class,
      * ]
      *
      * @api
      *
-     * @return array
+     * @return string[]
      */
     public function getConditions(): array;
 
