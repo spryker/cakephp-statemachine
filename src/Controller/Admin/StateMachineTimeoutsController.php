@@ -50,58 +50,6 @@ class StateMachineTimeoutsController extends AppController
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $stateMachineTimeout = $this->StateMachineTimeouts->newEntity();
-        if ($this->request->is('post')) {
-            $stateMachineTimeout = $this->StateMachineTimeouts->patchEntity($stateMachineTimeout, (array)$this->request->getData());
-            if ($this->StateMachineTimeouts->save($stateMachineTimeout)) {
-                $this->Flash->success(__('The state machine timeout has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The state machine timeout could not be saved. Please, try again.'));
-            }
-        }
-        $stateMachineItemStates = $this->StateMachineTimeouts->StateMachineItemStates->find('list', ['limit' => 1000]);
-        $stateMachineProcesses = $this->StateMachineTimeouts->StateMachineProcesses->find('list', ['limit' => 1000]);
-
-        $this->set(compact('stateMachineTimeout', 'stateMachineItemStates', 'stateMachineProcesses'));
-        $this->set('_serialize', ['stateMachineTimeout']);
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id State Machine Timeout id.
-     *
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     */
-    public function edit($id = null)
-    {
-        $stateMachineTimeout = $this->StateMachineTimeouts->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $stateMachineTimeout = $this->StateMachineTimeouts->patchEntity($stateMachineTimeout, (array)$this->request->getData());
-            if ($this->StateMachineTimeouts->save($stateMachineTimeout)) {
-                $this->Flash->success(__('The state machine timeout has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The state machine timeout could not be saved. Please, try again.'));
-            }
-        }
-        $stateMachineItemStates = $this->StateMachineTimeouts->StateMachineItemStates->find('list', ['limit' => 1000]);
-        $stateMachineProcesses = $this->StateMachineTimeouts->StateMachineProcesses->find('list', ['limit' => 1000]);
-
-        $this->set(compact('stateMachineTimeout', 'stateMachineItemStates', 'stateMachineProcesses'));
-        $this->set('_serialize', ['stateMachineTimeout']);
-    }
-
-    /**
      * Delete method
      *
      * @param string|null $id State Machine Timeout id.

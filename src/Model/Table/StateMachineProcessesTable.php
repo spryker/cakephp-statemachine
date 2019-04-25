@@ -26,6 +26,7 @@ use Tools\Model\Table\Table;
  * @method \StateMachine\Model\Entity\StateMachineProcess findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @method \StateMachine\Model\Entity\StateMachineProcess saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class StateMachineProcessesTable extends Table
 {
@@ -81,7 +82,7 @@ class StateMachineProcessesTable extends Table
 
         $validator
             ->scalar('state_machine')
-            //->maxLength('state_machine')
+            ->maxLength('state_machine', 90)
             ->requirePresence('state_machine', 'create')
             ->notEmpty('state_machine');
 

@@ -54,6 +54,7 @@ class StateUpdaterTest extends TestCase
      */
     public $fixtures = [
         'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItems',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineTimeouts',

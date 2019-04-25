@@ -29,6 +29,7 @@ class StateMachineItemStateHistoryTableTest extends TestCase
     public $fixtures = [
         'plugin.StateMachine.StateMachineItemStateHistory',
         'plugin.StateMachine.StateMachineItemStates',
+        'plugin.StateMachine.StateMachineItems',
     ];
 
     /**

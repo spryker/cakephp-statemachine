@@ -103,4 +103,11 @@ interface QueryContainerInterface
      * @return \Cake\ORM\Query
      */
     public function queryEventTimeoutByIdentifierAndFkProcess(int $identifier, int $idProcess): Query;
+
+    /**
+     * @param string $stateMachineName
+     *
+     * @return \Cake\ORM\Query
+     */
+    public function queryMatrix(string $stateMachineName);
 }

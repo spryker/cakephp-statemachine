@@ -375,4 +375,28 @@ class Finder implements FinderInterface
 
         return $itemStateCollection;
     }
+
+    /**
+     * @param string $stateMachineName
+     *
+     * @return array
+     */
+    public function getItemMatrix(string $stateMachineName): array
+    {
+        $states = $this->queryContainer->queryMatrix($stateMachineName)->find('list', ['keyField' => 'state', 'valueField' => 'count'])->toArray();
+
+        //TODO: time window?
+        /*
+         * ->withColumn(sprintf(
+                "(CASE WHEN %s > '%s' THEN 'day' WHEN %s > '%s' THEN 'week' ELSE 'other' END)",
+                SpySalesOrderItemTableMap::COL_LAST_STATE_CHANGE,
+                (new DateTime('-1 day'))->format('Y-m-d H:i:s'),
+                SpySalesOrderItemTableMap::COL_LAST_STATE_CHANGE,
+                (new DateTime('-7 day'))->format('Y-m-d H:i:s')
+            ), static::DATE_WINDOW)
+            ->select([
+         */
+
+        return $states;
+    }
 }

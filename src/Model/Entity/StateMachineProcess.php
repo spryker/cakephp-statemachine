@@ -15,8 +15,8 @@ use Tools\Model\Entity\Entity;
  * @property int $id
  * @property string $name
  * @property string $state_machine
- * @property \Cake\I18n\FrozenTime $created
- * @property \Cake\I18n\FrozenTime $modified
+ * @property \Cake\I18n\FrozenTime|null $created
+ * @property \Cake\I18n\FrozenTime|null $modified
  *
  * @property \StateMachine\Model\Entity\StateMachineItemState[] $state_machine_item_states
  * @property \StateMachine\Model\Entity\StateMachineTimeout[] $state_machine_timeouts

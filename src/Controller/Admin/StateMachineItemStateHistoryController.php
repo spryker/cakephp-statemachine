@@ -50,56 +50,6 @@ class StateMachineItemStateHistoryController extends AppController
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->newEntity();
-        if ($this->request->is('post')) {
-            $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->patchEntity($stateMachineItemStateHistory, (array)$this->request->getData());
-            if ($this->StateMachineItemStateHistory->save($stateMachineItemStateHistory)) {
-                $this->Flash->success(__('The state machine item state history has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The state machine item state history could not be saved. Please, try again.'));
-            }
-        }
-        $stateMachineItemStates = $this->StateMachineItemStateHistory->StateMachineItemStates->find('list', ['limit' => 1000]);
-
-        $this->set(compact('stateMachineItemStateHistory', 'stateMachineItemStates'));
-        $this->set('_serialize', ['stateMachineItemStateHistory']);
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id State Machine Item State History id.
-     *
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     */
-    public function edit($id = null)
-    {
-        $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->patchEntity($stateMachineItemStateHistory, (array)$this->request->getData());
-            if ($this->StateMachineItemStateHistory->save($stateMachineItemStateHistory)) {
-                $this->Flash->success(__('The state machine item state history has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The state machine item state history could not be saved. Please, try again.'));
-            }
-        }
-        $stateMachineItemStates = $this->StateMachineItemStateHistory->StateMachineItemStates->find('list', ['limit' => 1000]);
-
-        $this->set(compact('stateMachineItemStateHistory', 'stateMachineItemStates'));
-        $this->set('_serialize', ['stateMachineItemStateHistory']);
-    }
-
-    /**
      * Delete method
      *
      * @param string|null $id State Machine Item State History id.

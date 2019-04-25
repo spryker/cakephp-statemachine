@@ -7,11 +7,13 @@
 
 namespace StateMachine\Business\Logger;
 
+use Cake\ORM\TableRegistry;
 use RuntimeException;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Dependency\CommandPluginInterface;
 use StateMachine\Dependency\ConditionPluginInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
+use StateMachine\Model\Entity\StateMachineItem;
 use StateMachine\Model\Entity\StateMachineTransitionLog;
 use StateMachine\Model\Table\StateMachineTransitionLogsTable;
 
@@ -144,8 +146,11 @@ class TransitionLog implements TransitionLogInterface
      */
     protected function initEntity(ItemDto $itemDto): StateMachineTransitionLog
     {
+        $stateMachineItemEntity = $this->initStateMachineItemEntity($itemDto->getStateMachineNameOrFail(), $itemDto->getIdentifierOrFail());
+
         $stateMachineTransitionLogEntity = $this->createStateMachineTransitionLogEntity();
         $stateMachineTransitionLogEntity->identifier = $itemDto->getIdentifierOrFail();
+        $stateMachineTransitionLogEntity->state_machine_item_id = $stateMachineItemEntity->id;
         $stateMachineTransitionLogEntity->state_machine_process_id = $itemDto->getIdStateMachineProcessOrFail();
 
         $params = [];
@@ -201,5 +206,27 @@ class TransitionLog implements TransitionLogInterface
     protected function getParamsFromQueryString(string $queryString)
     {
         return explode('&', $queryString);
+    }
+
+    /**
+     * @param string $stateMachineName
+     * @param int $identifier
+     *
+     * @return \StateMachine\Model\Entity\StateMachineItem
+     */
+    protected function initStateMachineItemEntity(string $stateMachineName, int $identifier): StateMachineItem
+    {
+        $stateMachineItemsTable = TableRegistry::get('StateMachine.StateMachineItems');
+
+        /** @var \StateMachine\Model\Entity\StateMachineItem $stateMachineItem */
+        $stateMachineItem = $stateMachineItemsTable->findOrCreate([
+            'state_machine' => $stateMachineName,
+            'identifier' => $identifier,
+        ]);
+        if ($stateMachineItem->isNew()) {
+            $stateMachineItemsTable->saveOrFail($stateMachineItem);
+        }
+
+        return $stateMachineItem;
     }
 }

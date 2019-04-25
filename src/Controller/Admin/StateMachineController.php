@@ -12,6 +12,9 @@ use Cake\Http\Exception\NotFoundException;
 use StateMachine\Controller\CastTrait;
 use StateMachine\FactoryTrait;
 
+/**
+ * @property \Cake\ORM\Table $StateMachine
+ */
 class StateMachineController extends AppController
 {
     use FactoryTrait;
@@ -49,5 +52,23 @@ class StateMachineController extends AppController
             ->getProcesses($stateMachineName);
 
         $this->set(compact('stateMachineName', 'processes'));
+    }
+
+    /**
+     * @throws \Cake\Http\Exception\NotFoundException
+     *
+     * @return \Cake\Http\Response|null
+     */
+    public function overview()
+    {
+        $stateMachineName = $this->castString($this->request->getQuery(self::URL_PARAM_STATE_MACHINE)) ?: null;
+        if (!$stateMachineName) {
+            throw new NotFoundException('State Machine is required as param.');
+        }
+
+        $matrix = $this->getFactory()
+            ->createStateMachineFinder()
+            ->getItemMatrix($stateMachineName);
+        dd($matrix);
     }
 }

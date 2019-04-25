@@ -93,6 +93,11 @@ class StateMachineInit extends AbstractMigration
                 'limit' => 11,
                 'null' => false,
             ])
+            ->addColumn('state_machine_item_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
             ->addColumn('identifier', 'integer', [
                 'default' => null,
                 'limit' => 11,
@@ -115,22 +120,22 @@ class StateMachineInit extends AbstractMigration
             ])
             ->addColumn('source_state', 'string', [
                 'default' => null,
-                'limit' => 255,
+                'limit' => 90,
                 'null' => true,
             ])
             ->addColumn('target_state', 'string', [
                 'default' => null,
-                'limit' => 255,
+                'limit' => 90,
                 'null' => true,
             ])
             ->addColumn('command', 'string', [
                 'default' => null,
-                'limit' => 255,
+                'limit' => 90,
                 'null' => true,
             ])
             ->addColumn('condition', 'string', [
                 'default' => null,
-                'limit' => 255,
+                'limit' => 90,
                 'null' => true,
             ])
             ->addColumn('is_error', 'boolean', [
@@ -216,9 +221,14 @@ class StateMachineInit extends AbstractMigration
                 'limit' => 90,
                 'null' => false,
             ])
-            ->addColumn('created', 'datetime', [
+            ->addColumn('state', 'string', [
                 'default' => null,
-                'limit' => null,
+                'limit' => 90,
+                'null' => true,
+            ])
+            ->addColumn('state_machine_transition_log_id', 'integer', [
+                'default' => null,
+                'limit' => 11,
                 'null' => true,
             ])
             ->create();

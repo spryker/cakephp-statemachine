@@ -14,6 +14,9 @@ use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\FacadeAwareTrait;
 
+/**
+ * @property \Cake\ORM\Table $Trigger
+ */
 class TriggerController extends AppController
 {
     use FacadeAwareTrait;

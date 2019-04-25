@@ -55,9 +55,11 @@ class StateMachineFacadeTest extends TestCase
         'plugin.StateMachine.StateMachineItemStateHistory',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItemStates',
+        'plugin.StateMachine.StateMachineItems',
         'plugin.StateMachine.StateMachineTimeouts',
         'plugin.StateMachine.StateMachineLocks',
         'plugin.StateMachine.StateMachineTransitionLogs',
+        'plugin.StateMachine.StateMachineItems',
     ];
 
     /**

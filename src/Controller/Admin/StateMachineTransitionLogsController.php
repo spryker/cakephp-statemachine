@@ -50,56 +50,6 @@ class StateMachineTransitionLogsController extends AppController
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $stateMachineTransitionLog = $this->StateMachineTransitionLogs->newEntity();
-        if ($this->request->is('post')) {
-            $stateMachineTransitionLog = $this->StateMachineTransitionLogs->patchEntity($stateMachineTransitionLog, (array)$this->request->getData());
-            if ($this->StateMachineTransitionLogs->save($stateMachineTransitionLog)) {
-                $this->Flash->success(__('The state machine transition log has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The state machine transition log could not be saved. Please, try again.'));
-            }
-        }
-        $stateMachineProcesses = $this->StateMachineTransitionLogs->StateMachineProcesses->find('list', ['limit' => 1000]);
-
-        $this->set(compact('stateMachineTransitionLog', 'stateMachineProcesses'));
-        $this->set('_serialize', ['stateMachineTransitionLog']);
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id State Machine Transition Log id.
-     *
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     */
-    public function edit($id = null)
-    {
-        $stateMachineTransitionLog = $this->StateMachineTransitionLogs->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $stateMachineTransitionLog = $this->StateMachineTransitionLogs->patchEntity($stateMachineTransitionLog, (array)$this->request->getData());
-            if ($this->StateMachineTransitionLogs->save($stateMachineTransitionLog)) {
-                $this->Flash->success(__('The state machine transition log has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The state machine transition log could not be saved. Please, try again.'));
-            }
-        }
-        $stateMachineProcesses = $this->StateMachineTransitionLogs->StateMachineProcesses->find('list', ['limit' => 1000]);
-
-        $this->set(compact('stateMachineTransitionLog', 'stateMachineProcesses'));
-        $this->set('_serialize', ['stateMachineTransitionLog']);
-    }
-
-    /**
      * Delete method
      *
      * @param string|null $id State Machine Transition Log id.

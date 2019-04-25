@@ -24,6 +24,7 @@ use Tools\Model\Table\Table;
  * @method \StateMachine\Model\Entity\StateMachineTimeout patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTimeout[] patchEntities($entities, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTimeout findOrCreate($search, callable $callback = null, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineTimeout saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class StateMachineTimeoutsTable extends Table
 {

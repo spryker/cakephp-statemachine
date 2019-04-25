@@ -37,8 +37,10 @@ class FinderTest extends TestCase
      */
     public $fixtures = [
         'plugin.StateMachine.StateMachineProcesses',
+        'plugin.StateMachine.StateMachineItems',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItems',
     ];
 
     /**
@@ -162,6 +164,28 @@ class FinderTest extends TestCase
     }
 
     /**
+     * @return void
+     */
+    public function testGetItemMatrix(): void
+    {
+        $states = [
+            $this->createState(StateMachineItemStatesFixture::DEFAULT_STATE_ITEM_NAME, 'test'),
+            $this->createState('random', 'test2'),
+        ];
+
+        $processMock = $this->createProcessMock();
+        $builderMock = $this->createBuilderMock();
+        $builderMock->method('createProcess')->willReturn($processMock);
+
+        $stateMachineQueryContainer = $this->createStateMachineQueryContainer();
+
+        $finder = $this->createFinder(null, $builderMock, $stateMachineQueryContainer);
+        $stateMachineItems = $finder->getItemMatrix('Test');
+
+        $this->assertSame([], $stateMachineItems);
+    }
+
+    /**
      * @param string $name
      * @param string $flag
      *
@@ -240,9 +264,7 @@ class FinderTest extends TestCase
      */
     public function createBuilderMock()
     {
-        $builderMock = $this->getMockBuilder(BuilderInterface::class)->getMock();
-
-        return $builderMock;
+        return $this->getMockBuilder(BuilderInterface::class)->getMock();
     }
 
     /**
@@ -250,8 +272,6 @@ class FinderTest extends TestCase
      */
     protected function createProcessMock()
     {
-        $processMock = $this->getMockBuilder(ProcessInterface::class)->getMock();
-
-        return $processMock;
+        return $this->getMockBuilder(ProcessInterface::class)->getMock();
     }
 }

@@ -15,7 +15,7 @@ use Tools\Model\Entity\Entity;
  * @property int $id
  * @property int $state_machine_process_id
  * @property string $name
- * @property string $description
+ * @property string|null $description
  *
  * @property \StateMachine\Model\Entity\StateMachineProcess $state_machine_process
  * @property \StateMachine\Model\Entity\StateMachineItemStateHistory[] $state_machine_item_state_history

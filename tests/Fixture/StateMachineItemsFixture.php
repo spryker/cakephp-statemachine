@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace StateMachine\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
@@ -6,7 +12,7 @@ use Cake\TestSuite\Fixture\TestFixture;
 /**
  * StateMachineItemFixture
  */
-class StateMachineItemFixture extends TestFixture
+class StateMachineItemsFixture extends TestFixture
 {
     /**
      * Fields
@@ -18,7 +24,8 @@ class StateMachineItemFixture extends TestFixture
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'identifier' => ['type' => 'integer', 'length' => 11, 'null' => false, 'default' => null],
         'state_machine' => ['type' => 'string', 'length' => 90, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'state' => ['type' => 'string', 'length' => 90, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
+        'state_machine_transition_log_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
             'identifier' => ['type' => 'unique', 'columns' => ['identifier', 'state_machine'], 'length' => []],
@@ -41,7 +48,8 @@ class StateMachineItemFixture extends TestFixture
                 'id' => 1,
                 'identifier' => 1,
                 'state_machine' => 'Lorem ipsum dolor sit amet',
-                'created' => '2019-04-20 22:34:41'
+                'state' => null,
+                'state_machine_transition_log_id' => null,
             ],
         ];
         parent::init();

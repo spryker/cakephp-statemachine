@@ -25,6 +25,7 @@ use Tools\Model\Table\Table;
  * @method \StateMachine\Model\Entity\StateMachineItemStateHistory findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @method \StateMachine\Model\Entity\StateMachineItemStateHistory saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class StateMachineItemStateHistoryTable extends Table
 {

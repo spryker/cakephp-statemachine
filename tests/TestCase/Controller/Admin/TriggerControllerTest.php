@@ -25,6 +25,7 @@ class TriggerControllerTest extends IntegrationTestCase
         'plugin.StateMachine.StateMachineLocks',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineTransitionLogs',
+        'plugin.StateMachine.StateMachineItems',
     ];
 
     /**

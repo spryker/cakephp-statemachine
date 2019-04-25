@@ -19,6 +19,7 @@ class StateMachineItemStatesControllerTest extends IntegrationTestCase
     public $fixtures = [
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineProcesses',
+        'plugin.StateMachine.StateMachineItems',
     ];
 
     /**

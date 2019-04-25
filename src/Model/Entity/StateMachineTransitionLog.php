@@ -14,17 +14,18 @@ use Tools\Model\Entity\Entity;
  *
  * @property int $id
  * @property int $state_machine_process_id
+ * @property int $state_machine_item_id
  * @property int $identifier
  * @property bool $locked
- * @property string $event
- * @property string $params
- * @property string $source_state
- * @property string $target_state
- * @property string $command
- * @property string $condition
+ * @property string|null $event
+ * @property string|null $params
+ * @property string|null $source_state
+ * @property string|null $target_state
+ * @property string|null $command
+ * @property string|null $condition
  * @property bool $is_error
- * @property string $error_message
- * @property \Cake\I18n\FrozenTime $created
+ * @property string|null $error_message
+ * @property \Cake\I18n\FrozenTime|null $created
  *
  * @property \StateMachine\Model\Entity\StateMachineProcess $state_machine_process
  */

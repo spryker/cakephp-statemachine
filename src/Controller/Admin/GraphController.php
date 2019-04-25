@@ -12,6 +12,9 @@ use StateMachine\Controller\CastTrait;
 use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\FactoryTrait;
 
+/**
+ * @property \Cake\ORM\Table $Graph
+ */
 class GraphController extends AppController
 {
     use FactoryTrait;

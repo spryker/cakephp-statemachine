@@ -47,54 +47,6 @@ class StateMachineProcessesController extends AppController
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $stateMachineProcess = $this->StateMachineProcesses->newEntity();
-        if ($this->request->is('post')) {
-            $stateMachineProcess = $this->StateMachineProcesses->patchEntity($stateMachineProcess, (array)$this->request->getData());
-            if ($this->StateMachineProcesses->save($stateMachineProcess)) {
-                $this->Flash->success(__('The state machine process has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The state machine process could not be saved. Please, try again.'));
-            }
-        }
-
-        $this->set(compact('stateMachineProcess'));
-        $this->set('_serialize', ['stateMachineProcess']);
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id State Machine Process id.
-     *
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     */
-    public function edit($id = null)
-    {
-        $stateMachineProcess = $this->StateMachineProcesses->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $stateMachineProcess = $this->StateMachineProcesses->patchEntity($stateMachineProcess, (array)$this->request->getData());
-            if ($this->StateMachineProcesses->save($stateMachineProcess)) {
-                $this->Flash->success(__('The state machine process has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The state machine process could not be saved. Please, try again.'));
-            }
-        }
-
-        $this->set(compact('stateMachineProcess'));
-        $this->set('_serialize', ['stateMachineProcess']);
-    }
-
-    /**
      * Delete method
      *
      * @param string|null $id State Machine Process id.

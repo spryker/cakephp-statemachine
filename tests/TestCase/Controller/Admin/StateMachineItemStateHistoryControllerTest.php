@@ -20,6 +20,7 @@ class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
         'plugin.StateMachine.StateMachineItemStateHistory',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineProcesses',
+        'plugin.StateMachine.StateMachineItems',
     ];
 
     /**

@@ -20,6 +20,7 @@ class StateMachineTimeoutsControllerTest extends IntegrationTestCase
         'plugin.StateMachine.StateMachineTimeouts',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineProcesses',
+        'plugin.StateMachine.StateMachineItems',
     ];
 
     /**

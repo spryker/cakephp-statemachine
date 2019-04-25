@@ -25,6 +25,7 @@ use Tools\Model\Table\Table;
  * @method \StateMachine\Model\Entity\StateMachineItemState patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemState[] patchEntities($entities, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemState findOrCreate($search, callable $callback = null, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemState saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class StateMachineItemStatesTable extends Table
 {

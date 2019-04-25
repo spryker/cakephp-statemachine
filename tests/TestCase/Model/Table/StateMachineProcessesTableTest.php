@@ -31,6 +31,7 @@ class StateMachineProcessesTableTest extends TestCase
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineTimeouts',
         'plugin.StateMachine.StateMachineTransitionLogs',
+        'plugin.StateMachine.StateMachineItems',
     ];
 
     /**

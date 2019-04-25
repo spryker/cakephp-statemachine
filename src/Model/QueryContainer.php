@@ -238,4 +238,26 @@ class QueryContainer implements QueryContainerInterface
                 $stateMachineTimeoutsTable->aliasField('state_machine_process_id') => $idProcess,
             ]);
     }
+
+    /**
+     * @param string $stateMachineName
+     * @param array $stateBlackList
+     *
+     * @return \Cake\ORM\Query
+     */
+    public function queryMatrix(string $stateMachineName, array $stateBlackList = [])
+    {
+        $query = $this->getFactory()->createStateMachineItemsTable()
+            ->find();
+
+        $query = $query
+            ->select(['state', 'count' => $query->func()->count('*')])
+            ->group('state')
+            ->where(['state_machine' => $stateMachineName]);
+        if ($stateBlackList) {
+            $query = $query->whereNotInList('state', $stateBlackList);
+        }
+
+        return $query;
+    }
 }

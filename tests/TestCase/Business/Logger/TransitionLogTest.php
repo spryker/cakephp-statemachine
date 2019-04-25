@@ -37,6 +37,7 @@ class TransitionLogTest extends TestCase
     public $fixtures = [
         'plugin.StateMachine.StateMachineTransitionLogs',
         'plugin.StateMachine.StateMachineProcesses',
+        'plugin.StateMachine.StateMachineItems',
     ];
 
     protected const QUERY_DATA = [
@@ -105,6 +106,14 @@ class TransitionLogTest extends TestCase
         $this->assertSame(static::SOURCE_STATE, $stateMachineTransitionLogEntity->source_state);
         $this->assertSame(static::TARGET_STATE, $stateMachineTransitionLogEntity->target_state);
         $this->assertSame($event->getName(), $stateMachineTransitionLogEntity->event);
+
+        $this->StateMachineItems = TableRegistry::getTableLocator()->get('StateMachine.StateMachineItems');
+        /** @var \StateMachine\Model\Entity\StateMachineItem $itemEntity */
+        $itemEntity = $this->StateMachineItems->find()->last();
+        $this->assertSame($itemDto->getIdentifierOrFail(), $itemEntity->identifier);
+        $this->assertSame($itemDto->getStateMachineNameOrFail(), $itemEntity->state_machine);
+        $this->assertSame(static::TARGET_STATE, $itemEntity->state);
+        $this->assertSame($stateMachineTransitionLogEntity->id, $itemEntity->state_machine_transition_log_id);
     }
 
     /**
@@ -145,6 +154,7 @@ class TransitionLogTest extends TestCase
         $itemDto->setStateName(static::STATE_NAME);
         $itemDto->setProcessName(static::PROCESS_NAME);
         $itemDto->setIdStateMachineProcess(1);
+        $itemDto->setStateMachineName(static::PROCESS_NAME);
 
         return $itemDto;
     }

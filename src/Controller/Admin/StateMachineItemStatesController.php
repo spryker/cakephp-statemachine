@@ -50,56 +50,6 @@ class StateMachineItemStatesController extends AppController
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $stateMachineItemState = $this->StateMachineItemStates->newEntity();
-        if ($this->request->is('post')) {
-            $stateMachineItemState = $this->StateMachineItemStates->patchEntity($stateMachineItemState, (array)$this->request->getData());
-            if ($this->StateMachineItemStates->save($stateMachineItemState)) {
-                $this->Flash->success(__('The state machine item state has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The state machine item state could not be saved. Please, try again.'));
-            }
-        }
-        $stateMachineProcesses = $this->StateMachineItemStates->StateMachineProcesses->find('list', ['limit' => 1000]);
-
-        $this->set(compact('stateMachineItemState', 'stateMachineProcesses'));
-        $this->set('_serialize', ['stateMachineItemState']);
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id State Machine Item State id.
-     *
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     */
-    public function edit($id = null)
-    {
-        $stateMachineItemState = $this->StateMachineItemStates->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $stateMachineItemState = $this->StateMachineItemStates->patchEntity($stateMachineItemState, (array)$this->request->getData());
-            if ($this->StateMachineItemStates->save($stateMachineItemState)) {
-                $this->Flash->success(__('The state machine item state has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The state machine item state could not be saved. Please, try again.'));
-            }
-        }
-        $stateMachineProcesses = $this->StateMachineItemStates->StateMachineProcesses->find('list', ['limit' => 1000]);
-
-        $this->set(compact('stateMachineItemState', 'stateMachineProcesses'));
-        $this->set('_serialize', ['stateMachineItemState']);
-    }
-
-    /**
      * Delete method
      *
      * @param string|null $id State Machine Item State id.

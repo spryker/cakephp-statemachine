@@ -30,6 +30,7 @@ class StateMachineShellTest extends TestCase
         'plugin.StateMachine.StateMachineItemStateHistory',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineTimeouts',
+        'plugin.StateMachine.StateMachineItems',
     ];
 
     /**

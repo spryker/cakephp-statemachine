@@ -7,8 +7,13 @@
 
 namespace StateMachine\Model\Table;
 
+use ArrayObject;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\EventInterface;
 use Cake\ORM\RulesChecker;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
+use RuntimeException;
 use Tools\Model\Table\Table;
 
 /**
@@ -25,6 +30,7 @@ use Tools\Model\Table\Table;
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
+ * @method \StateMachine\Model\Entity\StateMachineTransitionLog saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  */
 class StateMachineTransitionLogsTable extends Table
 {
@@ -130,5 +136,31 @@ class StateMachineTransitionLogsTable extends Table
     {
         //$rules->add($rules->existsIn(['state_machine_process_id'], 'StateMachineProcesses'));
         return $rules;
+    }
+
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \StateMachine\Model\Entity\StateMachineTransitionLog $entity
+     * @param \ArrayObject $options
+     *
+     * @throws \RuntimeException
+     *
+     * @return void
+     */
+    public function afterSave(EventInterface $event, EntityInterface $entity, ArrayObject $options): void
+    {
+        $id = $entity->state_machine_item_id;
+        if (!$id) {
+            throw new RuntimeException('Property $state_machine_item_id on entity ' . $entity->id . ' missing after save.');
+        }
+        $fields = [
+            'state' => $entity->target_state,
+            'state_machine_transition_log_id' => $entity->id,
+        ];
+
+        $stateMachineItemsTable = TableRegistry::get('StateMachine.StateMachineItems');
+        if (!$stateMachineItemsTable->updateAll($fields, ['id' => $id])) {
+            throw new RuntimeException('Could not update row, StateMachineItem not found: ' . $id);
+        }
     }
 }

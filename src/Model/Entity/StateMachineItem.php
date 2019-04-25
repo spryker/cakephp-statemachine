@@ -7,19 +7,19 @@
 
 namespace StateMachine\Model\Entity;
 
-use Tools\Model\Entity\Entity;
+use Cake\ORM\Entity;
 
 /**
- * StateMachineItemStateHistory Entity
+ * StateMachineItem Entity
  *
  * @property int $id
- * @property int $state_machine_item_state_id
  * @property int $identifier
+ * @property string $state_machine
+ * @property string|null $state
+ * @property int|null $state_machine_transition_log_id
  * @property \Cake\I18n\FrozenTime|null $created
- *
- * @property \StateMachine\Model\Entity\StateMachineItemState $state_machine_item_state
  */
-class StateMachineItemStateHistory extends Entity
+class StateMachineItem extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -31,9 +31,7 @@ class StateMachineItemStateHistory extends Entity
      * @var array
      */
     protected $_accessible = [
-        'state_machine_item_state_id' => true,
-        'identifier' => true,
-        'created' => true,
-        'state_machine_item_state' => true,
+        'id' => false,
+        '*' => true,
     ];
 }

@@ -45,6 +45,7 @@ use StateMachine\Graph\DrawerInterface;
 use StateMachine\Graph\Graph;
 use StateMachine\Model\QueryContainer;
 use StateMachine\Model\QueryContainerInterface;
+use StateMachine\Model\Table\StateMachineItemsTable;
 use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineLocksTable;
@@ -275,6 +276,14 @@ class PluginFactory
     public function getTableLocator(): LocatorInterface
     {
         return TableRegistry::getTableLocator();
+    }
+
+    /**
+     * @return \StateMachine\Model\Table\StateMachineItemsTable
+     */
+    public function createStateMachineItemsTable(): StateMachineItemsTable
+    {
+        return $this->getTableLocator()->get('StateMachine.StateMachineItems');
     }
 
     /**

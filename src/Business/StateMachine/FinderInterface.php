@@ -84,4 +84,11 @@ interface FinderInterface
      * @return \StateMachine\Business\Process\ProcessInterface[]
      */
     public function findProcessesForItems(array $stateMachineItems): array;
+
+    /**
+     * @param string $stateMachineName
+     *
+     * @return array
+     */
+    public function getItemMatrix(string $stateMachineName): array;
 }
