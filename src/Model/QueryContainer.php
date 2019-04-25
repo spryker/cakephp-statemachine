@@ -277,5 +277,4 @@ class QueryContainer implements QueryContainerInterface
 
         return $query;
     }
-
 }
