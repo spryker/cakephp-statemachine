@@ -18,12 +18,12 @@ class StateMachineInit extends AbstractMigration
         $this->table('state_machine_processes')
             ->addColumn('name', 'string', [
                 'default' => null,
-                'limit' => 150,
+                'limit' => 90,
                 'null' => false,
             ])
             ->addColumn('state_machine', 'string', [
                 'default' => null,
-                'limit' => 150,
+                'limit' => 90,
                 'null' => false,
             ])
             ->addColumn('created', 'datetime', [
@@ -40,22 +40,23 @@ class StateMachineInit extends AbstractMigration
 
         $this->table('state_machine_processes')
             ->addIndex(['name', 'state_machine'], ['unique' => true])
+            ->addIndex(['state_machine'])
             ->update();
 
         $this->table('state_machine_item_states')
             ->addColumn('state_machine_process_id', 'integer', [
                 'default' => null,
-                'limit' => 10,
+                'limit' => 11,
                 'null' => false,
             ])
             ->addColumn('name', 'string', [
                 'default' => null,
-                'limit' => null,
+                'limit' => 100,
                 'null' => false,
             ])
             ->addColumn('description', 'string', [
                 'default' => null,
-                'limit' => null,
+                'limit' => 255,
                 'null' => true,
             ])
             ->create();
@@ -67,12 +68,12 @@ class StateMachineInit extends AbstractMigration
         $this->table('state_machine_item_state_history')
             ->addColumn('state_machine_item_state_id', 'integer', [
                 'default' => null,
-                'limit' => 10,
+                'limit' => 11,
                 'null' => false,
             ])
-            ->addColumn('identifier', 'string', [
+            ->addColumn('identifier', 'integer', [
                 'default' => null,
-                'limit' => 50,
+                'limit' => 11,
                 'null' => false,
             ])
             ->addColumn('created', 'datetime', [
@@ -82,15 +83,19 @@ class StateMachineInit extends AbstractMigration
             ])
             ->create();
 
+        $this->table('state_machine_item_state_history')
+            ->addIndex(['identifier', 'state_machine_item_state_id'])
+            ->update();
+
         $this->table('state_machine_transition_logs')
             ->addColumn('state_machine_process_id', 'integer', [
                 'default' => null,
-                'limit' => 10,
+                'limit' => 11,
                 'null' => false,
             ])
-            ->addColumn('identifier', 'string', [
+            ->addColumn('identifier', 'integer', [
                 'default' => null,
-                'limit' => 50,
+                'limit' => 11,
                 'null' => false,
             ])
             ->addColumn('locked', 'boolean', [
@@ -148,17 +153,17 @@ class StateMachineInit extends AbstractMigration
         $this->table('state_machine_timeouts')
             ->addColumn('state_machine_item_state_id', 'integer', [
                 'default' => null,
-                'limit' => 10,
+                'limit' => 11,
                 'null' => false,
             ])
             ->addColumn('state_machine_process_id', 'integer', [
                 'default' => null,
-                'limit' => 10,
+                'limit' => 11,
                 'null' => false,
             ])
-            ->addColumn('identifier', 'string', [
+            ->addColumn('identifier', 'integer', [
                 'default' => null,
-                'limit' => 50,
+                'limit' => 11,
                 'null' => false,
             ])
             ->addColumn('event', 'string', [
@@ -175,6 +180,7 @@ class StateMachineInit extends AbstractMigration
 
         $this->table('state_machine_timeouts')
             ->addIndex(['identifier', 'state_machine_item_state_id'], ['unique' => true])
+            ->addIndex(['timeout'])
             ->update();
 
         $this->table('state_machine_locks')
@@ -197,6 +203,28 @@ class StateMachineInit extends AbstractMigration
 
         $this->table('state_machine_locks')
             ->addIndex(['identifier'], ['unique' => true])
+            ->update();
+
+        $this->table('state_machine_items')
+            ->addColumn('identifier', 'integer', [
+                'default' => null,
+                'limit' => 11,
+                'null' => false,
+            ])
+            ->addColumn('state_machine', 'string', [
+                'default' => null,
+                'limit' => 90,
+                'null' => false,
+            ])
+            ->addColumn('created', 'datetime', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
+            ])
+            ->create();
+
+        $this->table('state_machine_items')
+            ->addIndex(['identifier', 'state_machine'], ['unique' => true])
             ->update();
     }
 

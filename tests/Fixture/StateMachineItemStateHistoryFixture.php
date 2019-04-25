@@ -25,14 +25,14 @@ class StateMachineItemStateHistoryFixture extends TestFixture
      */
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'state_machine_item_state_id' => ['type' => 'integer', 'length' => 10, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'state_machine_item_state_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'identifier' => ['type' => 'integer', 'length' => 11, 'null' => false, 'default' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
         ],
         '_indexes' => [
-            'identifier' => ['type' => 'index', 'columns' => ['identifier'], 'length' => []],
+            'identifier' => ['type' => 'index', 'columns' => ['identifier', 'state_machine_item_state_id'], 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
