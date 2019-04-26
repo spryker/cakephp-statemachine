@@ -434,7 +434,10 @@ class Builder implements BuilderInterface
         }
 
         $state->setName($name);
-        //$state->setDisplay($this->getAttributeString($xmlState, self::STATE_DISPLAY_ATTRIBUTE));
+        $display = $this->getAttributeString($xmlState, self::STATE_DISPLAY_ATTRIBUTE);
+        if ($display) {
+            $state->setDisplay($display);
+        }
         $state->setProcess($process);
         $state = $this->addFlags($xmlState, $state);
 

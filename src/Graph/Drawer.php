@@ -252,8 +252,9 @@ class Drawer implements DrawerInterface
     {
         $name = $name === null ? $state->getName() : $name;
 
+        $labelName = $state->hasDisplay() ? $state->getDisplay() : $name;
         $label = [];
-        $label[] = str_replace(' ', $this->br, trim($name));
+        $label[] = str_replace(' ', $this->br, $labelName);
 
         if ($state->hasFlags()) {
             $flags = implode(', ', $state->getFlags());
