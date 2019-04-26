@@ -85,6 +85,8 @@ if a certain condition associated to that transition is being satisfied.
 
 The map of condition names and classes in code is done in the StateMachineHandler's `getConditions()`.
 
+
+
 ### Commands
 A transition from one state to another has an event associated to it. 
 The event can have a command associated to it, which is a piece of logic that gets executed when the event is fired.

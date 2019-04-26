@@ -24,9 +24,22 @@
                 </div>
                 <div class="panel-body">
                     <?php
-                    $url = $this->Url->build(['controller' => 'Graph', 'action' => 'draw', '?' => ['process' => $process->getProcessName(), 'state-machine' => $stateMachineName]]);
+                    $urlArray = ['controller' => 'Graph', 'action' => 'draw', '?' => ['process' => $process->getProcessName(), 'state-machine' => $stateMachineName]];
+                    $url = $this->Url->build($urlArray);
                     echo $this->Html->link('<div class="state-machine-preview" style="font-size:10px;"><img src="'. $url . '" alt="' . $process->getProcessName() . '"/></div>', $url, ['escape' => false]);
                     ?>
+
+                    <small>
+                        <?php
+                        $urlArray['?']['format'] = 'png';
+                        echo $this->Html->link('png', $url, ['target' => '_blank']);
+                        ?>
+                        |
+                        <?php
+                        $urlArray['?']['format'] = 'pdf';
+                        echo $this->Html->link('pdf', $url, ['target' => '_blank']);
+                        ?>
+                    </small>
                 </div>
 
             </div>

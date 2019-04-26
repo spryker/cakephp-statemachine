@@ -8,6 +8,7 @@
 namespace StateMachine\Business\StateMachine;
 
 use Exception;
+use RuntimeException;
 use StateMachine\Business\Exception\CommandNotFoundException;
 use StateMachine\Business\Exception\TriggerException;
 use StateMachine\Business\Logger\TransitionLogInterface;
@@ -526,10 +527,17 @@ class Trigger implements TriggerInterface
     /**
      * @param string[] $processes
      *
+     * @throws \RuntimeException
+     *
      * @return string
      */
     protected function getCurrentProcess(array $processes): string
     {
-        return array_pop($processes);
+        $process = array_pop($processes);
+        if (!$process) {
+            throw new RuntimeException('No active processes');
+        }
+
+        return $process;
     }
 }

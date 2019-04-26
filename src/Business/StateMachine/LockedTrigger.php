@@ -7,6 +7,7 @@
 
 namespace StateMachine\Business\StateMachine;
 
+use RuntimeException;
 use StateMachine\Business\Lock\ItemLockInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ProcessDto;
@@ -174,10 +175,17 @@ class LockedTrigger implements TriggerInterface
     /**
      * @param string[] $processes
      *
+     * @throws \RuntimeException
+     *
      * @return string
      */
     protected function getCurrentProcess(array $processes): string
     {
-        return array_pop($processes);
+        $process = array_pop($processes);
+        if (!$process) {
+            throw new RuntimeException('No active processes');
+        }
+
+        return $process;
     }
 }
