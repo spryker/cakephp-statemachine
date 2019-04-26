@@ -48,12 +48,12 @@ interface StateInterface
      *
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getOutgoingTransitionsByEvent(EventInterface $event);
+    public function getOutgoingTransitionsByEvent(EventInterface $event): array;
 
     /**
      * @return \StateMachine\Business\Process\EventInterface[]
      */
-    public function getEvents();
+    public function getEvents(): array;
 
     /**
      * @param string $eventName
@@ -136,7 +136,7 @@ interface StateInterface
      *
      * @return \StateMachine\Business\Process\EventInterface[]
      */
-    public function getTimeoutEvents();
+    public function getTimeoutEvents(): array;
 
     /**
      * @param string $flag
@@ -161,6 +161,11 @@ interface StateInterface
      * @return array
      */
     public function getFlags(): array;
+
+    /**
+     * @return bool
+     */
+    public function hasDisplay(): bool;
 
     /**
      * @return string

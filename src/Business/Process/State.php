@@ -102,7 +102,7 @@ class State implements StateInterface
      *
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getOutgoingTransitionsByEvent(EventInterface $event)
+    public function getOutgoingTransitionsByEvent(EventInterface $event): array
     {
         $transitions = [];
         foreach ($this->outgoingTransitions as $transition) {
@@ -119,7 +119,7 @@ class State implements StateInterface
     /**
      * @return \StateMachine\Business\Process\EventInterface[]
      */
-    public function getEvents()
+    public function getEvents(): array
     {
         $events = [];
         foreach ($this->outgoingTransitions as $transition) {
@@ -311,7 +311,7 @@ class State implements StateInterface
     /**
      * @return \StateMachine\Business\Process\EventInterface[]
      */
-    public function getTimeoutEvents()
+    public function getTimeoutEvents(): array
     {
         $events = [];
 
@@ -363,6 +363,14 @@ class State implements StateInterface
     public function getFlags(): array
     {
         return $this->flags;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasDisplay(): bool
+    {
+        return $this->display !== null;
     }
 
     /**
