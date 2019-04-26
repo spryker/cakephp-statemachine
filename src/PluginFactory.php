@@ -62,7 +62,8 @@ class PluginFactory
     {
         return new LockedTrigger(
             $this->createStateMachineTrigger(),
-            $this->createItemLock()
+            $this->createItemLock(),
+            $this->createHandlerResolver()
         );
     }
 

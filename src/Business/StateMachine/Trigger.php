@@ -396,7 +396,9 @@ class Trigger implements TriggerInterface
         ProcessDto $processDto,
         int $identifier
     ): ItemDto {
-        $processName = $processDto->getProcessNameOrFail();
+        $stateMachineHandler = $this->getStateMachineHandler($processDto->getStateMachineNameOrFail());
+        $processName = $processDto->getProcessName() ?: $this->getCurrentProcess($stateMachineHandler->getActiveProcesses());
+        $processDto->setProcessName($processName);
 
         $itemDto = new ItemDto();
         $processDto->setStateMachineName($processDto->getStateMachineNameOrFail());
@@ -410,8 +412,7 @@ class Trigger implements TriggerInterface
 
         $itemDto->setIdStateMachineProcess($idStateMachineProcess);
 
-        $initialStateName = $this->stateMachineHandlerResolver
-            ->get($processDto->getStateMachineNameOrFail())
+        $initialStateName = $stateMachineHandler
             ->getInitialStateForProcess($processName);
 
         $this->assertInitialStateNameProvided($initialStateName, $processName);
@@ -509,5 +510,26 @@ class Trigger implements TriggerInterface
                 )
             );
         }
+    }
+
+    /**
+     * @param string $stateMachineName
+     *
+     * @return \StateMachine\Dependency\StateMachineHandlerInterface
+     */
+    protected function getStateMachineHandler(string $stateMachineName): StateMachineHandlerInterface
+    {
+        return $this->stateMachineHandlerResolver
+            ->get($stateMachineName);
+    }
+
+    /**
+     * @param string[] $processes
+     *
+     * @return string
+     */
+    protected function getCurrentProcess(array $processes): string
+    {
+        return array_pop($processes);
     }
 }

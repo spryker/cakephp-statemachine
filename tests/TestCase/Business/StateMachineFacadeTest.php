@@ -139,6 +139,50 @@ class StateMachineFacadeTest extends TestCase
     }
 
     /**
+     * Last process in list should be used in this case.
+     *
+     * @return void
+     */
+    public function testTriggerForNewStateMachineItemWithoutSpecificProcess(): void
+    {
+        $processName = static::TEST_PROCESS_NAME;
+        $identifier = 1985;
+
+        $processDto = new ProcessDto();
+        $processDto->setStateMachineName(static::TESTING_SM);
+
+        $stateMachineHandler = $this->createTestStateMachineHandler();
+        $stateMachineFacade = $this->createStateMachineFacade($stateMachineHandler);
+
+        $triggerResult = $stateMachineFacade->triggerForNewStateMachineItem($processDto, $identifier);
+
+        $itemDto = $stateMachineHandler->getItemStateUpdated();
+
+        $stateMachineProcessEntity = $this->StateMachineProcesses
+            ->find()
+            ->where([
+                'name' => $processName,
+                'state_machine' => static::TESTING_SM,
+            ])
+            ->first();
+
+        $stateMachineItemStateEntity = $this->StateMachineItemStates
+            ->find()
+            ->matching($this->StateMachineProcesses->getAlias())
+            ->where([
+                $this->StateMachineItemStates->aliasField('state_machine_process_id') => $stateMachineProcessEntity->id,
+                $this->StateMachineItemStates->aliasField('name') => $stateMachineHandler->getInitialStateForProcess($processName),
+            ])
+            ->first();
+
+        $this->assertNotEmpty($stateMachineItemStateEntity);
+        $this->assertSame(3, $triggerResult);
+        $this->assertSame($identifier, $itemDto->getIdentifier());
+        $this->assertSame('order exported', $itemDto->getStateName());
+        $this->assertSame($processName, $itemDto->getProcessName());
+    }
+
+    /**
      * @return void
      */
     public function testTriggerEventForItemWithManualEventShouldMoveToNextStateWithManualEvent(): void

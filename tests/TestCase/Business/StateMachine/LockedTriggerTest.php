@@ -10,6 +10,7 @@ namespace StateMachine\Test\TestCase\Business\StateMachine;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Exception\LockException;
 use StateMachine\Business\Lock\ItemLockInterface;
+use StateMachine\Business\StateMachine\HandlerResolver;
 use StateMachine\Business\StateMachine\LockedTrigger;
 use StateMachine\Business\StateMachine\TriggerInterface;
 use StateMachine\Dto\StateMachine\ProcessDto;
@@ -69,7 +70,8 @@ class LockedTriggerTest extends TestCase
     {
         return new LockedTrigger(
             $triggerMock,
-            $itemLockMock
+            $itemLockMock,
+            new HandlerResolver([])
         );
     }
 

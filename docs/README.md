@@ -220,16 +220,19 @@ $stateMachineFacade = new StateMachineFacade();
 
 $processDto = new ProcessDto();
 $processDto->setStateMachineName('Test');
-$processDto->setProcessName('Test01');
+$processDto->setProcessName('Test01'); // Optional
 
 $identifier = $myEntity->id;
 
 $stateMachineFacade->triggerForNewStateMachineItem($processDto, $identifier);
 ```
 
+The process is optional, if you do not supply it, the last one of the list of active
+processes will be used.
+
 It should now create the DB records for it and run for this state machine process.
 
-Then start to trigger events where you need to manually transition:
+Now start to trigger events where you need to manually transition:
 ```php
 $stateMachineFacade = new StateMachineFacade();
 
@@ -245,6 +248,8 @@ $itemDto->setStateName('source state'); // or setIdItemState($int)
 $stateMachineFacade->triggerEvent($event, $itemDto);
 ```
 You can use either the state name or the id of that row.
+
+If this was successful, your state should now be the "target_state" of that event transition. 
 
 
 ### Admin backend

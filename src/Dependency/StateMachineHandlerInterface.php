@@ -44,6 +44,7 @@ interface StateMachineHandlerInterface
 
     /**
      * List of active processes used for this state machine.
+     * The last one is used by default for new items if not specified otherwise.
      *
      * [
      *   'ProcessName',

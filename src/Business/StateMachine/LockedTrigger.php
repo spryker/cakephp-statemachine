@@ -8,6 +8,7 @@
 namespace StateMachine\Business\StateMachine;
 
 use StateMachine\Business\Lock\ItemLockInterface;
+use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ProcessDto;
 
 class LockedTrigger implements TriggerInterface
@@ -23,13 +24,23 @@ class LockedTrigger implements TriggerInterface
     protected $stateMachineTrigger;
 
     /**
+     * @var \StateMachine\Business\StateMachine\HandlerResolverInterface
+     */
+    protected $stateMachineHandlerResolver;
+
+    /**
      * @param \StateMachine\Business\StateMachine\TriggerInterface $stateMachineTrigger
      * @param \StateMachine\Business\Lock\ItemLockInterface $itemLock
+     * @param \StateMachine\Business\StateMachine\HandlerResolverInterface $stateMachineHandlerResolver
      */
-    public function __construct(TriggerInterface $stateMachineTrigger, ItemLockInterface $itemLock)
-    {
+    public function __construct(
+        TriggerInterface $stateMachineTrigger,
+        ItemLockInterface $itemLock,
+        HandlerResolverInterface $stateMachineHandlerResolver
+    ) {
         $this->itemLock = $itemLock;
         $this->stateMachineTrigger = $stateMachineTrigger;
+        $this->stateMachineHandlerResolver = $stateMachineHandlerResolver;
     }
 
     /**
@@ -40,10 +51,15 @@ class LockedTrigger implements TriggerInterface
      */
     public function triggerForNewStateMachineItem(ProcessDto $processDto, int $identifier): int
     {
+        $processName = $processDto->getProcessName() ?: $this->getCurrentProcess(
+            $this->getStateMachineHandler($processDto->getStateMachineNameOrFail())->getActiveProcesses()
+        );
+        $processDto->setProcessName($processName);
+
         $lockIdentifier = $this->buildLockIdentifier(
             $identifier,
             $processDto->getStateMachineNameOrFail(),
-            $processDto->getProcessNameOrFail()
+            $processName
         );
 
         $lockHash = $this->hashIdentifier($lockIdentifier);
@@ -142,5 +158,26 @@ class LockedTrigger implements TriggerInterface
     protected function buildLockIdentifier(int $identifier, string $stateMachineName, string $processName): string
     {
         return $identifier . $stateMachineName . $processName;
+    }
+
+    /**
+     * @param string $stateMachineName
+     *
+     * @return \StateMachine\Dependency\StateMachineHandlerInterface
+     */
+    protected function getStateMachineHandler(string $stateMachineName): StateMachineHandlerInterface
+    {
+        return $this->stateMachineHandlerResolver
+            ->get($stateMachineName);
+    }
+
+    /**
+     * @param string[] $processes
+     *
+     * @return string
+     */
+    protected function getCurrentProcess(array $processes): string
+    {
+        return array_pop($processes);
     }
 }
