@@ -221,6 +221,11 @@ class StateMachineInit extends AbstractMigration
                 'limit' => 90,
                 'null' => false,
             ])
+            ->addColumn('process', 'string', [
+                'default' => null,
+                'limit' => 90,
+                'null' => true,
+            ])
             ->addColumn('state', 'string', [
                 'default' => null,
                 'limit' => 90,
@@ -235,6 +240,24 @@ class StateMachineInit extends AbstractMigration
 
         $this->table('state_machine_items')
             ->addIndex(['identifier', 'state_machine'], ['unique' => true])
+            ->update();
+
+        $this->table('state_machine_item_states')
+            ->addForeignKey('state_machine_process_id', 'state_machine_processes', ['id'], ['delete' => 'CASCADE'])
+            ->update();
+
+        $this->table('state_machine_item_state_history')
+            ->addForeignKey('state_machine_item_state_id', 'state_machine_item_states', ['id'], ['delete' => 'CASCADE'])
+            ->update();
+
+        $this->table('state_machine_transition_logs')
+            ->addForeignKey('state_machine_process_id', 'state_machine_processes', ['id'], ['delete' => 'CASCADE'])
+            ->addForeignKey('state_machine_item_id', 'state_machine_items', ['id'], ['delete' => 'CASCADE'])
+            ->update();
+
+        $this->table('state_machine_timeouts')
+            ->addForeignKey('state_machine_process_id', 'state_machine_processes', ['id'], ['delete' => 'CASCADE'])
+            ->addForeignKey('state_machine_item_state_id', 'state_machine_item_states', ['id'], ['delete' => 'CASCADE'])
             ->update();
     }
 

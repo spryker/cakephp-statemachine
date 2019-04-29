@@ -146,7 +146,7 @@ class TransitionLog implements TransitionLogInterface
      */
     protected function initEntity(ItemDto $itemDto): StateMachineTransitionLog
     {
-        $stateMachineItemEntity = $this->initStateMachineItemEntity($itemDto->getStateMachineNameOrFail(), $itemDto->getIdentifierOrFail());
+        $stateMachineItemEntity = $this->initStateMachineItemEntity($itemDto);
 
         $stateMachineTransitionLogEntity = $this->createStateMachineTransitionLogEntity();
         $stateMachineTransitionLogEntity->identifier = $itemDto->getIdentifierOrFail();
@@ -209,21 +209,24 @@ class TransitionLog implements TransitionLogInterface
     }
 
     /**
-     * @param string $stateMachineName
-     * @param int $identifier
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return \StateMachine\Model\Entity\StateMachineItem
      */
-    protected function initStateMachineItemEntity(string $stateMachineName, int $identifier): StateMachineItem
+    protected function initStateMachineItemEntity(ItemDto $itemDto): StateMachineItem
     {
         $stateMachineItemsTable = TableRegistry::get('StateMachine.StateMachineItems');
 
         /** @var \StateMachine\Model\Entity\StateMachineItem $stateMachineItem */
         $stateMachineItem = $stateMachineItemsTable->findOrCreate([
-            'state_machine' => $stateMachineName,
-            'identifier' => $identifier,
+            'state_machine' => $itemDto->getStateMachineNameOrFail(),
+            'identifier' => $itemDto->getIdentifierOrFail(),
         ]);
-        if ($stateMachineItem->isNew()) {
+        if (!$stateMachineItem->process) {
+            $stateMachineItem->process = $itemDto->getProcessNameOrFail();
+        }
+
+        if ($stateMachineItem->isNew() || $stateMachineItem->isDirty()) {
             $stateMachineItemsTable->saveOrFail($stateMachineItem);
         }
 

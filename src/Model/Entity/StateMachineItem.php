@@ -15,6 +15,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $identifier
  * @property string $state_machine
+ * @property string|null $process
  * @property string|null $state
  * @property int|null $state_machine_transition_log_id
  * @property \Cake\I18n\FrozenTime|null $created

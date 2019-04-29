@@ -112,6 +112,7 @@ class TransitionLogTest extends TestCase
         $itemEntity = $this->StateMachineItems->find()->last();
         $this->assertSame($itemDto->getIdentifierOrFail(), $itemEntity->identifier);
         $this->assertSame($itemDto->getStateMachineNameOrFail(), $itemEntity->state_machine);
+        $this->assertSame($itemDto->getProcessNameOrFail(), $itemEntity->process);
         $this->assertSame(static::TARGET_STATE, $itemEntity->state);
         $this->assertSame($stateMachineTransitionLogEntity->id, $itemEntity->state_machine_transition_log_id);
     }

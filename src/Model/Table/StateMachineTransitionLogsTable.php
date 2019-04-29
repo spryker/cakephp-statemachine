@@ -163,4 +163,17 @@ class StateMachineTransitionLogsTable extends Table
             throw new RuntimeException('Could not update row, StateMachineItem not found: ' . $id);
         }
     }
+
+    /**
+     * @param int $stateMachineItemId
+     *
+     * @return array
+     */
+    public function getLogs(int $stateMachineItemId): array
+    {
+        return $this->find()
+            ->where(['state_machine_item_id' => $stateMachineItemId])
+            ->orderDesc('id')
+            ->all()->toArray();
+    }
 }

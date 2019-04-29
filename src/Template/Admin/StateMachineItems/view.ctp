@@ -41,6 +41,10 @@
                 <td><?= h($stateMachineItem->state_machine_transition_log->state_machine_process->name) ?></td>
             </tr>
             <tr>
+                <th><?= __('Event') ?></th>
+                <td><?= h($stateMachineItem->state_machine_transition_log->event) ?></td>
+            </tr>
+            <tr>
                 <th><?= __('Transition') ?></th>
                 <td>
                     <?php if ($stateMachineItem->state_machine_transition_log->source_state || $stateMachineItem->state_machine_transition_log->target_state) { ?>
