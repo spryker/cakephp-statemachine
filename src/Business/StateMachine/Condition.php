@@ -7,6 +7,7 @@
 
 namespace StateMachine\Business\StateMachine;
 
+use Cake\Log\Log;
 use Exception;
 use StateMachine\Business\Exception\ConditionNotFoundException;
 use StateMachine\Business\Logger\TransitionLogInterface;
@@ -130,9 +131,13 @@ class Condition implements ConditionInterface
         try {
             $conditionCheck = $conditionPlugin->check($itemDto);
         } catch (Exception $e) {
+            $errorMessage = get_class($conditionPlugin) . ' - ' . $e->getMessage();
             $transactionLogger->setIsError(true);
-            $transactionLogger->setErrorMessage(get_class($conditionPlugin) . ' - ' . $e->getMessage());
+            $transactionLogger->setErrorMessage($errorMessage);
             $transactionLogger->saveAll();
+
+            Log::write('debug', $errorMessage . PHP_EOL . $e->getTraceAsString(), ['scope' => 'statemachine']);
+
             throw $e;
         }
 

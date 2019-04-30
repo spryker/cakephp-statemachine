@@ -32,6 +32,11 @@ class TransitionLogTest extends TestCase
     public $StateMachineTransitionLogs;
 
     /**
+     * @var \StateMachine\Model\Table\StateMachineItemsTable
+     */
+    public $StateMachineItems;
+
+    /**
      * @var array
      */
     public $fixtures = [
