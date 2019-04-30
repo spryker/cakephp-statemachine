@@ -15,10 +15,9 @@ Use with Caution.
 
 ## License
 
-License is not open source, but open code. Please see LICENSE file for details. 
-Spryker grants to Licensee, during the **45-calendar-day** period (the **"Evaluation Period"**) following the download of the Software,
-the nontransferable, nonexclusive limited, free of charge license to permit Licensee’s employees to internally use the Software
-to test and evaluate the Software.
+License is not open source, but open code.
+
+The modules offered are provided free of charge by Spryker Systems GmbH. They are experimental, but under the Spryker License (see LICENSE file) and can be used. However, Spryker does not warrant or assume any liability for errors that occur during use. Customers use the experimental module at their own risk. Spryker does not guarantee their full functionality neither does Spryker assume liability for any disadvantages related to the use of the experimental module. Spryker does not guarantee any updates, upgrades or similar to the experimental module. Furthermore, Spryker is not obliged to maintain and/or service the module. Customers are responsible for testing the experimental module's functionality before starting productive operation. By installing the experimental module, the customer agrees to these terms of use. Please do not use the experimental module if you do not agree to these terms of use!
 
 ## Install
 
