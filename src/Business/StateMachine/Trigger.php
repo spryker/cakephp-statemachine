@@ -7,6 +7,7 @@
 
 namespace StateMachine\Business\StateMachine;
 
+use Cake\Core\Configure;
 use Exception;
 use RuntimeException;
 use StateMachine\Business\Exception\CommandNotFoundException;
@@ -83,6 +84,14 @@ class Trigger implements TriggerInterface
         $this->stateMachinePersistence = $stateMachinePersistence;
         $this->condition = $condition;
         $this->stateUpdater = $stateUpdater;
+    }
+
+    /**
+     * @return int
+     */
+    protected static function maxEventRepeats(): int
+    {
+        return Configure::read('StateMachine.maxEventRepeats', static::MAX_EVENT_REPEATS);
     }
 
     /**
@@ -337,7 +346,7 @@ class Trigger implements TriggerInterface
         }
         $this->eventCounter[$eventName]++;
 
-        return $this->eventCounter[$eventName] < self::MAX_EVENT_REPEATS;
+        return $this->eventCounter[$eventName] < static::maxEventRepeats();
     }
 
     /**

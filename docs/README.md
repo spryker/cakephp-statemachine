@@ -143,6 +143,20 @@ return [
 ```
 
 
+### Linking your entity to the State Machine
+You can either store the id of the state directly in the entity, adding fields here into each entity.
+Most of the time, however, you wouldn't want to add those on all entities.
+Therefore, you can leverage the state_machine_items pivot table and alias it:
+```php
+$this->hasOne('ItemStates', [
+    'className' => 'StateMachine.StateMachineItems',
+    'foreignKey' => 'identifier',
+    'conditions' => ['ItemStates.state_machine' => 'MyModelName'],
+]);
+```
+This will add a `->item_state` property into your `$entity` if you contain that relation in your finds.
+You can query/read the state on this added property: `$entity->item_state->state`.
+
 ### Implement commands and conditions
 The commands and conditions will most likely be still red, as they are not implemented yet.
 Let's hook them up to the PHP counterpart then.
@@ -251,8 +265,39 @@ $stateMachineFacade->triggerEvent($event, $itemDto);
 ```
 You can use either the state name or the id of that row.
 
-If this was successful, your state should now be the "target_state" of that event transition. 
+If this was successful, your state should now be the "target_state" of that event transition.
 
+You can also display buttons in your entities' view to advance the process. 
+For this, get the events that can be manually executed:
+```php
+$events = $stateMachineFacade->getManualEventsForStateMachineItem($itemDto);
+```
+
+Then display your buttons for them:
+```php
+// $event is a string here
+$url = ['prefix' => 'admin', 'plugin' => 'StateMachine', 
+    'controller' => 'Trigger', 'action' => 'event', 
+    '?' => [
+        'state-machine' => $entity->item_state->state_machine, 
+        'process' => $entity->item_state->process, 
+        'state' => $entity->item_state->state, 
+        'identifier' => $entity->id, 
+        'event' => $event,
+    ],
+];
+echo $this->Form->postLink($event, $url, ['class' => 'button']) . ' ';
+```
+
+#### Display state history and transition logs:
+In your entities' controller action you can extract the current history and logs:
+```php
+$this->loadModel('StateMachine.StateMachineTransitionLogs');
+$logs = $this->StateMachineTransitionLogs->getLogs($entity->item_state->id);
+
+$this->loadModel('StateMachine.StateMachineItemStateHistory');
+$history = $this->StateMachineItemStateHistory->getHistory($entity->item_state);
+```
 
 ### Admin backend
 
@@ -276,6 +321,11 @@ All items with the old process will try to finish using the old one, while all n
 
 Note: If you are sure the ones on the old process will continue fine in the new one, you can also manually set them to the new process
 to continue here on DB level.
+
+
+## Advanced Usage
+If you are using repeating of events heavily, you might want to raise the default limit of 10 repeats of an event.
+Configure key `StateMachine.maxEventRepeats` can be used for this.
 
 
 ## Contributing

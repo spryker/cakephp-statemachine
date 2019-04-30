@@ -27,6 +27,10 @@ class GraphController extends AppController
     public const URL_PARAM_STATE_MACHINE = 'state-machine';
 
     /**
+     * Returns an image of the state machine.
+     *
+     * It can also output in specific format (JPG, PDF, ...)
+     *
      * @return \Cake\Http\Response|null
      */
     public function draw()

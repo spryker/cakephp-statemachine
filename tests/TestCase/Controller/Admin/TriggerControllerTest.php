@@ -47,7 +47,7 @@ class TriggerControllerTest extends IntegrationTestCase
             TriggerController::URL_PARAM_STATE_MACHINE => 'TestingSm',
             TriggerController::URL_PARAM_IDENTIFIER => 1,
         ];
-        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'Trigger', 'action' => 'eventForNewItem', '?' => $query]);
+        $this->post(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'Trigger', 'action' => 'eventForNewItem', '?' => $query]);
 
         $this->assertResponseCode(302);
     }
@@ -73,7 +73,7 @@ class TriggerControllerTest extends IntegrationTestCase
             TriggerController::URL_PARAM_EVENT => 'Foo',
             TriggerController::URL_PARAM_ID_STATE => 1,
         ];
-        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'Trigger', 'action' => 'event', '?' => $query]);
+        $this->post(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'Trigger', 'action' => 'event', '?' => $query]);
 
         $this->assertResponseCode(302);
     }

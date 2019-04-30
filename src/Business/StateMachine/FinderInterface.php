@@ -37,7 +37,7 @@ interface FinderInterface
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
-     * @return array
+     * @return string[]
      */
     public function getManualEventsForStateMachineItem(ItemDto $itemDto): array;
 

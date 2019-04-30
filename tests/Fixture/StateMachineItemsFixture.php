@@ -10,7 +10,7 @@ namespace StateMachine\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * StateMachineItemFixture
+ * StateMachineItemsFixture
  */
 class StateMachineItemsFixture extends TestFixture
 {
@@ -24,7 +24,7 @@ class StateMachineItemsFixture extends TestFixture
     // @codingStandardsIgnoreStart
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
-        'identifier' => ['type' => 'integer', 'length' => 11, 'null' => false, 'default' => null],
+        'identifier' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'state_machine' => ['type' => 'string', 'length' => 90, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'process' => ['type' => 'string', 'length' => 90, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'state' => ['type' => 'string', 'length' => 90, 'null' => true, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],

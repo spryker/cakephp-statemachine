@@ -9,6 +9,9 @@ namespace StateMachine\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
+/**
+ * StateMachineTimeoutsFixture
+ */
 class StateMachineTimeoutsFixture extends TestFixture
 {
     /**
@@ -20,15 +23,17 @@ class StateMachineTimeoutsFixture extends TestFixture
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'state_machine_item_state_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'state_machine_process_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'identifier' => ['type' => 'integer', 'length' => 11, 'null' => false, 'default' => null],
+        'identifier' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'event' => ['type' => 'string', 'length' => 50, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'timeout' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+        '_indexes' => [
+            'timeout' => ['type' => 'index', 'columns' => ['timeout'], 'length' => []],
+        ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
             'identifier' => ['type' => 'unique', 'columns' => ['identifier', 'state_machine_item_state_id'], 'length' => []],
-        ],
-        '_indexes' => [
-            'timeout' => ['type' => 'index', 'columns' => ['timeout'], 'length' => []],
+            'state_machine_process_id' => ['type' => 'foreign', 'columns' => ['state_machine_process_id'], 'references' => ['state_machine_processes', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
+            'state_machine_item_state_id' => ['type' => 'foreign', 'columns' => ['state_machine_item_state_id'], 'references' => ['state_machine_item_states', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
@@ -37,18 +42,22 @@ class StateMachineTimeoutsFixture extends TestFixture
     ];
 
     /**
-     * Records
+     * Init method
      *
-     * @var array
+     * @return void
      */
-    public $records = [
+    public function init()
+    {
+        $this->records = [
             [
                 'id' => 1,
                 'state_machine_item_state_id' => 1,
                 'state_machine_process_id' => 1,
                 'identifier' => 1,
                 'event' => 'Lorem ipsum dolor sit amet',
-                'timeout' => '2018-06-08 22:36:35',
+                'timeout' => '2019-04-22 12:59:50',
             ],
         ];
+        parent::init();
+    }
 }

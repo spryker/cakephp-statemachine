@@ -26,13 +26,14 @@ class StateMachineItemStateHistoryFixture extends TestFixture
     public $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'state_machine_item_state_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'identifier' => ['type' => 'integer', 'length' => 11, 'null' => false, 'default' => null],
+        'identifier' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
-        '_constraints' => [
-            'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-        ],
         '_indexes' => [
             'identifier' => ['type' => 'index', 'columns' => ['identifier', 'state_machine_item_state_id'], 'length' => []],
+        ],
+        '_constraints' => [
+            'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
+            'state_machine_item_state_id' => ['type' => 'foreign', 'columns' => ['state_machine_item_state_id'], 'references' => ['state_machine_item_states', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
@@ -43,14 +44,18 @@ class StateMachineItemStateHistoryFixture extends TestFixture
     /**
      * Records
      *
-     * @var array
+     * @return void
      */
-    public $records = [
+    public function init()
+    {
+        $this->records = [
             [
                 'id' => 1,
                 'state_machine_item_state_id' => 1,
                 'identifier' => 1,
-                'created' => '2018-06-08 22:35:43',
+                'created' => '2019-04-22 12:59:45',
             ],
         ];
+        parent::init();
+    }
 }

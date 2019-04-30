@@ -9,6 +9,7 @@ namespace StateMachine\Model\Table;
 
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
+use StateMachine\Model\Entity\StateMachineItem;
 use Tools\Model\Table\Table;
 
 /**
@@ -87,5 +88,19 @@ class StateMachineItemStateHistoryTable extends Table
     {
         //$rules->add($rules->existsIn(['state_machine_item_state_id'], 'StateMachineItemStates'));
         return $rules;
+    }
+
+    /**
+     * @param \StateMachine\Model\Entity\StateMachineItem $stateMachineItem
+     *
+     * @return array
+     */
+    public function getHistory(StateMachineItem $stateMachineItem): array
+    {
+        return $this->find()
+            ->contain(['StateMachineItemStates' => 'StateMachineProcesses'])
+            ->where(['StateMachineProcesses.id' => $stateMachineItem->state_machine_transition_log->state_machine_process_id])
+            ->orderDesc($this->aliasField('id'))
+            ->all()->toArray();
     }
 }

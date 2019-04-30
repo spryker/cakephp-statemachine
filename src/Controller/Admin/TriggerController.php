@@ -24,7 +24,7 @@ class TriggerController extends AppController
 
     public const URL_PARAM_IDENTIFIER = 'identifier';
     public const URL_PARAM_ID_STATE = 'id-state';
-    public const URL_PARAM_ID_PROCESS = 'id-process';
+    public const URL_PARAM_STATE = 'state';
     public const URL_PARAM_STATE_MACHINE = 'state-machine';
     public const URL_PARAM_PROCESS = 'process';
     public const URL_PARAM_REDIRECT = 'redirect';
@@ -36,10 +36,14 @@ class TriggerController extends AppController
     ];
 
     /**
+     * Trigger event for new identifier.
+     *
      * @return \Cake\Http\Response|null
      */
     public function eventForNewItem(): ?Response
     {
+        $this->request->allowMethod('post');
+
         $stateMachineName = $this->castString($this->request->getQuery(static::URL_PARAM_STATE_MACHINE));
         $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS));
 
@@ -50,41 +54,49 @@ class TriggerController extends AppController
         $identifier = $this->castInt($this->request->getQuery(static::URL_PARAM_IDENTIFIER));
         $this->getFacade()->triggerForNewStateMachineItem($processDto, $identifier);
 
-        $redirect = $this->assertString($this->request->getQuery(static::URL_PARAM_REDIRECT)) ?: static::DEFAULT_REDIRECT_URL;
-        if (!$redirect) {
+        $redirect = $this->assertString($this->request->getQuery(static::URL_PARAM_REDIRECT));
+        if ($redirect === 'no') {
             $this->autoRender = false;
             return null;
         }
 
-        return $this->redirect($redirect);
+        return $this->redirect($redirect ?: $this->referer(static::DEFAULT_REDIRECT_URL, true));
     }
 
     /**
+     * Trigger event for existing identifier/state-machine-process.
+     *
      * @return \Cake\Http\Response|null
      */
     public function event(): ?Response
     {
+        $this->request->allowMethod('post');
+
+        $stateMachineName = $this->castString($this->request->getQuery(static::URL_PARAM_STATE_MACHINE));
+        $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS));
         $identifier = $this->castInt($this->request->getQuery(self::URL_PARAM_IDENTIFIER));
-        $idState = $this->castInt($this->request->getQuery(self::URL_PARAM_ID_STATE));
+        $idState = $this->assertInt($this->request->getQuery(self::URL_PARAM_ID_STATE));
+        $stateName = $this->assertString($this->request->getQuery(self::URL_PARAM_STATE));
 
         $itemDto = new ItemDto();
         $itemDto->setIdentifier($identifier);
-        $itemDto->setIdItemState($idState);
-
-        $stateMachineName = $this->castString($this->request->getQuery(static::URL_PARAM_STATE_MACHINE));
+        if ($idState) {
+            $itemDto->setIdItemState($idState);
+        } else {
+            $itemDto->setStateName($stateName);
+        }
         $itemDto->setStateMachineName($stateMachineName);
-        $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS));
         $itemDto->setProcessName($processName);
 
         $eventName = $this->castString($this->request->getQuery(self::URL_PARAM_EVENT));
         $this->getFacade()->triggerEvent($eventName, $itemDto);
 
-        $redirect = $this->request->getQuery(self::URL_PARAM_REDIRECT, self::DEFAULT_REDIRECT_URL);
-        if (!$redirect) {
+        $redirect = $this->assertString($this->request->getQuery(static::URL_PARAM_REDIRECT));
+        if ($redirect === 'no') {
             $this->autoRender = false;
             return null;
         }
 
-        return $this->redirect($redirect);
+        return $this->redirect($redirect ?: $this->referer(static::DEFAULT_REDIRECT_URL, true));
     }
 }

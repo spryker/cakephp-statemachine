@@ -24,7 +24,9 @@ class StateMachineShell extends Shell
     {
         $this->validateStateMachineName($stateMachine);
 
-        $this->getFacade()->checkTimeouts($stateMachine);
+        $affected = $this->getFacade()->checkTimeouts($stateMachine);
+
+        $this->verbose('Affected: ' . $affected);
     }
 
     /**
@@ -36,7 +38,9 @@ class StateMachineShell extends Shell
     {
         $this->validateStateMachineName($stateMachine);
 
-        $this->getFacade()->checkConditions($stateMachine);
+        $affected = $this->getFacade()->checkConditions($stateMachine);
+
+        $this->verbose('Affected: ' . $affected);
     }
 
     /**
