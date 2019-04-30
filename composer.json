@@ -1,6 +1,6 @@
 {
     "name": "spryker/cakephp-statemachine",
-    "description": "CakePHP StateMachine Plugin by",
+    "description": "CakePHP StateMachine Plugin by Spryker Systems GmbH",
     "type": "cakephp-plugin",
     "license": "proprietary",
     "authors": [
