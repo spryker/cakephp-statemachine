@@ -34,7 +34,19 @@ class StateMachineController extends AppController
             $stateMachines[] = $stateMachineHandler->getStateMachineName();
         }
 
-        $this->set(compact('stateMachines'));
+        $itemsPerStateMachine = [];
+        if ($stateMachines) {
+            $query = $this->getFactory()->getTableLocator()->get('StateMachine.StateMachineItems')
+                ->find();
+            $itemsPerStateMachine = $query
+                ->select(['state_machine', 'count' => $query->func()->count('*')])
+                ->group('state_machine')
+                ->where(['state_machine IN' => $stateMachines])
+                ->find('list', ['keyField' => 'state_machine', 'valueField' => 'count'])
+                ->toArray();
+        }
+
+        $this->set(compact('stateMachines', 'itemsPerStateMachine'));
 
         return null;
     }
@@ -90,23 +102,25 @@ class StateMachineController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
 
-        $this->getTable('StateMachine.StateMachineItems')->truncate();
-        $this->getTable('StateMachine.StateMachineItemStates')->truncate();
-        $this->getTable('StateMachine.StateMachineProcesses')->truncate();
-        $this->getTable('StateMachine.StateMachineItemStateHistory')->truncate();
-        $this->getTable('StateMachine.StateMachineTransitionLogs')->truncate();
-        $this->getTable('StateMachine.StateMachineTimeouts')->truncate();
         $this->getTable('StateMachine.StateMachineLocks')->truncate();
+        $this->getTable('StateMachine.StateMachineTimeouts')->truncate();
+        $this->getTable('StateMachine.StateMachineItemStateHistory')->truncate();
+
+        $this->getTable('StateMachine.StateMachineItems')->deleteAll('1=1');
+        $this->getTable('StateMachine.StateMachineItemStates')->deleteAll('1=1');
+        $this->getTable('StateMachine.StateMachineProcesses')->deleteAll('1=1');
+        $this->getTable('StateMachine.StateMachineTransitionLogs')->deleteAll('1=1');
 
         return $this->redirect($this->referer(['action' => 'index'], true));
     }
 
     /**
+     * @param string $table
+     *
      * @return \Tools\Model\Table\Table
      */
     protected function getTable(string $table): Table
     {
         return $this->getFactory()->getTableLocator()->get($table);
     }
-
 }

@@ -2,6 +2,7 @@
 /**
  * @var \App\View\AppView $this
  * @var string[] $stateMachines
+ * @var int[] $itemsPerStateMachine
  */
 use Cake\Core\Configure;
 ?>
@@ -19,7 +20,14 @@ use Cake\Core\Configure;
 
     <ul>
         <?php foreach ($stateMachines as $stateMachine) { ?>
-        <li><?php echo $this->Html->link($stateMachine, ['action' => 'process', '?' => ['state-machine' => $stateMachine]]); ?></li>
+        <li>
+            <?php echo $this->Html->link($stateMachine, ['action' => 'process', '?' => ['state-machine' => $stateMachine]]); ?>
+            <?php
+                if (!empty($itemsPerStateMachine[$stateMachine])) {
+                    echo ' (' . $itemsPerStateMachine[$stateMachine] . ' items)';
+                }
+            ?>
+        </li>
         <?php } ?>
     </ul>
 </div>
