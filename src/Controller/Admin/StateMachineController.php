@@ -35,6 +35,8 @@ class StateMachineController extends AppController
         }
 
         $this->set(compact('stateMachines'));
+
+        return null;
     }
 
     /**
@@ -54,6 +56,8 @@ class StateMachineController extends AppController
             ->getProcesses($stateMachineName);
 
         $this->set(compact('stateMachineName', 'processes'));
+
+        return null;
     }
 
     /**
@@ -73,6 +77,8 @@ class StateMachineController extends AppController
             ->getItemMatrix($stateMachineName);
 
         $this->set(compact('stateMachineName', 'matrix'));
+
+        return null;
     }
 
     /**
