@@ -7,8 +7,8 @@
 
 namespace StateMachine\Model\Table;
 
-use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Tools\Model\Table\Table;
 
 /**
  * StateMachineLocks Model

@@ -9,8 +9,10 @@ namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
 use Cake\Http\Exception\NotFoundException;
+use Cake\Http\Response;
 use StateMachine\Controller\CastTrait;
 use StateMachine\FactoryTrait;
+use Tools\Model\Table\Table;
 
 /**
  * @property \Cake\ORM\Table $StateMachine
@@ -25,7 +27,7 @@ class StateMachineController extends AppController
     /**
      * @return \Cake\Http\Response|null
      */
-    public function index()
+    public function index(): ?Response
     {
         $stateMachines = [];
         foreach ($this->getFactory()->getStateMachineHandlers() as $stateMachineHandler) {
@@ -40,7 +42,7 @@ class StateMachineController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
-    public function process()
+    public function process(): ?Response
     {
         $stateMachineName = $this->castString($this->request->getQuery(self::URL_PARAM_STATE_MACHINE)) ?: null;
         if (!$stateMachineName) {
@@ -59,7 +61,7 @@ class StateMachineController extends AppController
      *
      * @return \Cake\Http\Response|null
      */
-    public function overview()
+    public function overview(): ?Response
     {
         $stateMachineName = $this->castString($this->request->getQuery(self::URL_PARAM_STATE_MACHINE)) ?: null;
         if (!$stateMachineName) {
@@ -72,4 +74,33 @@ class StateMachineController extends AppController
 
         $this->set(compact('stateMachineName', 'matrix'));
     }
+
+    /**
+     * Trigger event for new identifier.
+     *
+     * @return \Cake\Http\Response|null
+     */
+    public function reset(): ?Response
+    {
+        $this->request->allowMethod(['post', 'delete']);
+
+        $this->getTable('StateMachine.StateMachineItems')->truncate();
+        $this->getTable('StateMachine.StateMachineItemStates')->truncate();
+        $this->getTable('StateMachine.StateMachineProcesses')->truncate();
+        $this->getTable('StateMachine.StateMachineItemStateHistory')->truncate();
+        $this->getTable('StateMachine.StateMachineTransitionLogs')->truncate();
+        $this->getTable('StateMachine.StateMachineTimeouts')->truncate();
+        $this->getTable('StateMachine.StateMachineLocks')->truncate();
+
+        return $this->redirect($this->referer(['action' => 'index'], true));
+    }
+
+    /**
+     * @return \Tools\Model\Table\Table
+     */
+    protected function getTable(string $table): Table
+    {
+        return $this->getFactory()->getTableLocator()->get($table);
+    }
+
 }

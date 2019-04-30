@@ -264,6 +264,7 @@ class QueryContainer implements QueryContainerInterface
      */
     public function queryMatrix(string $stateMachineName, array $stateBlackList = [])
     {
+        /** @var \Cake\ORM\Query $query */
         $query = $this->getFactory()->createStateMachineItemsTable()
             ->find();
 

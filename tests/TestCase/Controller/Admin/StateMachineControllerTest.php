@@ -9,6 +9,7 @@ namespace StateMachine\Test\TestCase\Controller\Admin;
 
 use App\StateMachine\DemoStateMachineHandler;
 use Cake\Core\Configure;
+use Cake\ORM\TableRegistry;
 use Cake\TestSuite\IntegrationTestCase;
 
 class StateMachineControllerTest extends IntegrationTestCase
@@ -22,6 +23,10 @@ class StateMachineControllerTest extends IntegrationTestCase
         'plugin.StateMachine.StateMachineItems',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStates',
+        'plugin.StateMachine.StateMachineTimeouts',
+        'plugin.StateMachine.StateMachineLocks',
+        'plugin.StateMachine.StateMachineTransitionLogs',
     ];
 
     /**
@@ -65,5 +70,24 @@ class StateMachineControllerTest extends IntegrationTestCase
         $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachine', 'action' => 'overview', '?' => ['state-machine' => 'TestingSm']]);
 
         $this->assertResponseCode(200);
+    }
+
+    /**
+     * @return void
+     */
+    public function testReset(): void
+    {
+        $this->disableErrorHandlerMiddleware();
+
+        $stateMachineItemsTable = TableRegistry::get('StateMachine.StateMachineItems');
+        $countBefore = $stateMachineItemsTable->find()->count();
+        $this->assertSame(1, $countBefore);
+
+        $this->post(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachine', 'action' => 'reset']);
+
+        $this->assertResponseCode(302);
+
+        $countAfter = $stateMachineItemsTable->find()->count();
+        $this->assertSame(0, $countAfter);
     }
 }
