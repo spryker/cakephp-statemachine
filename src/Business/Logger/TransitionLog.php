@@ -225,6 +225,9 @@ class TransitionLog implements TransitionLogInterface
         if (!$stateMachineItem->process) {
             $stateMachineItem->process = $itemDto->getProcessNameOrFail();
         }
+        if (!$stateMachineItem->state && $itemDto->hasStateName()) {
+            $stateMachineItem->state = $itemDto->getStateNameOrFail();
+        }
 
         if ($stateMachineItem->isNew() || $stateMachineItem->isDirty()) {
             $stateMachineItemsTable->saveOrFail($stateMachineItem);

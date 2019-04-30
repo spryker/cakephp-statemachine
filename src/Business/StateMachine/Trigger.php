@@ -8,6 +8,7 @@
 namespace StateMachine\Business\StateMachine;
 
 use Cake\Core\Configure;
+use Cake\Log\Log;
 use Exception;
 use RuntimeException;
 use StateMachine\Business\Exception\CommandNotFoundException;
@@ -276,9 +277,13 @@ class Trigger implements TriggerInterface
             try {
                 $commandPlugin->run($itemDto);
             } catch (Exception $e) {
+                $errorMessage = get_class($commandPlugin) . ' - ' . $e->getMessage();
                 $this->transitionLog->setIsError(true);
-                $this->transitionLog->setErrorMessage(get_class($commandPlugin) . ' - ' . $e->getMessage());
+                $this->transitionLog->setErrorMessage($errorMessage);
                 $this->transitionLog->saveAll();
+
+                Log::write('debug', $errorMessage . PHP_EOL . $e->getTraceAsString(), ['scope' => 'statemachine']);
+
                 throw $e;
             }
         }

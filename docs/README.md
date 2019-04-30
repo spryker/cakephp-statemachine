@@ -324,9 +324,24 @@ to continue here on DB level.
 
 
 ## Advanced Usage
-If you are using repeating of events heavily, you might want to raise the default limit of 10 repeats of an event.
+
+### Repeating events often
+If you are using repeating of events heavily (lot of loops can happen), you might want to raise the default limit of 10 repeats of an event.
 Configure key `StateMachine.maxEventRepeats` can be used for this.
 
+### Enable detailed error logging
+Add the detailed log listening into your Configure config (app.php):
+```php
+'Log' => [
+    ...
+    'statemachine' => [
+        'className' => '...',
+        'type' => 'statemachine',
+        'levels' => ['debug'],
+        'scopes' => ['statemachine'],
+    ],
+],
+```
 
 ## Contributing
 

@@ -153,10 +153,13 @@ class StateMachineTransitionLogsTable extends Table
         if (!$id) {
             throw new RuntimeException('Property $state_machine_item_id on entity ' . $entity->id . ' missing after save.');
         }
+
         $fields = [
-            'state' => $entity->target_state,
             'state_machine_transition_log_id' => $entity->id,
         ];
+        if ($entity->target_state) {
+            $fields['state'] = $entity->target_state;
+        }
 
         $stateMachineItemsTable = TableRegistry::get('StateMachine.StateMachineItems');
         if (!$stateMachineItemsTable->updateAll($fields, ['id' => $id])) {
