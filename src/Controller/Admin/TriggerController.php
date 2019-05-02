@@ -9,6 +9,7 @@ namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
 use Cake\Http\Response;
+use Exception;
 use StateMachine\Controller\CastTrait;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Dto\StateMachine\ProcessDto;
@@ -29,6 +30,7 @@ class TriggerController extends AppController
     public const URL_PARAM_PROCESS = 'process';
     public const URL_PARAM_REDIRECT = 'redirect';
     public const URL_PARAM_EVENT = 'event';
+    public const URL_PARAM_CATCH = 'catch';
 
     public const DEFAULT_REDIRECT_URL = [
         'controller' => 'StateMachine',
@@ -36,7 +38,16 @@ class TriggerController extends AppController
     ];
 
     /**
+     * @var array
+     */
+    public $components = [
+        'Flash',
+    ];
+
+    /**
      * Trigger event for new identifier.
+     *
+     * @throws \Exception
      *
      * @return \Cake\Http\Response|null
      */
@@ -52,9 +63,24 @@ class TriggerController extends AppController
         $processDto->setStateMachineName($stateMachineName);
 
         $identifier = $this->castInt($this->request->getQuery(static::URL_PARAM_IDENTIFIER));
-        $this->getFacade()->triggerForNewStateMachineItem($processDto, $identifier);
-
+        $catchException = $this->assertBool($this->request->getQuery(static::URL_PARAM_CATCH));
         $redirect = $this->assertString($this->request->getQuery(static::URL_PARAM_REDIRECT));
+
+        try {
+            $this->getFacade()->triggerForNewStateMachineItem($processDto, $identifier);
+            if ($redirect !== 'no') {
+                $this->Flash->success('Initialized.');
+            }
+        } catch (Exception $exception) {
+            if (!$catchException) {
+                throw $exception;
+            }
+
+            if ($redirect !== 'no') {
+                $this->Flash->error($exception->getMessage());
+            }
+        }
+
         if ($redirect === 'no') {
             $this->autoRender = false;
             return null;
@@ -65,6 +91,8 @@ class TriggerController extends AppController
 
     /**
      * Trigger event for existing identifier/state-machine-process.
+     *
+     * @throws \Exception
      *
      * @return \Cake\Http\Response|null
      */
@@ -89,9 +117,24 @@ class TriggerController extends AppController
         $itemDto->setProcessName($processName);
 
         $eventName = $this->castString($this->request->getQuery(self::URL_PARAM_EVENT));
-        $this->getFacade()->triggerEvent($eventName, $itemDto);
-
+        $catchException = $this->assertBool($this->request->getQuery(static::URL_PARAM_CATCH));
         $redirect = $this->assertString($this->request->getQuery(static::URL_PARAM_REDIRECT));
+
+        try {
+            $this->getFacade()->triggerEvent($eventName, $itemDto);
+            if ($redirect !== 'no') {
+                $this->Flash->success('Initialized.');
+            }
+        } catch (Exception $exception) {
+            if (!$catchException) {
+                throw $exception;
+            }
+
+            if ($redirect !== 'no') {
+                $this->Flash->error($exception->getMessage());
+            }
+        }
+
         if ($redirect === 'no') {
             $this->autoRender = false;
             return null;

@@ -36,7 +36,7 @@ trait CastTrait
     protected function castInt($integer): int
     {
         if (!is_numeric($integer) || $integer === 0) {
-            throw new NotFoundException('The given id is not numeric or 0 (zero): ' . Debugger::exportVar($integer));
+            throw new NotFoundException('The given number is not numeric or 0 (zero): ' . Debugger::exportVar($integer));
         }
 
         return (int)$integer;
@@ -70,5 +70,42 @@ trait CastTrait
         }
 
         return (string)$string;
+    }
+
+    /**
+     * @param mixed|null $boolean
+     *
+     * @return bool|null
+     */
+    protected function assertBool($boolean): ?bool
+    {
+        if ($boolean === null) {
+            return $boolean;
+        }
+
+        return $this->castBool($boolean);
+    }
+
+    /**
+     * @param mixed|null $boolean
+     *
+     * @throws \Cake\Http\Exception\NotFoundException
+     *
+     * @return bool
+     */
+    protected function castBool($boolean): bool
+    {
+        if (!is_scalar($boolean)) {
+            throw new NotFoundException('The given string is not scalar: ' . Debugger::exportVar($boolean));
+        }
+
+        if ($boolean === 'true') {
+            return true;
+        }
+        if ($boolean === 'false') {
+            return false;
+        }
+
+        return (bool)$boolean;
     }
 }
