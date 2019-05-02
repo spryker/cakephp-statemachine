@@ -180,8 +180,8 @@ Let's hook them up to the PHP counterpart then.
 ### Setting up the cronjobs
 In order for the conditions and timeouts to be checked, we need to activate the cronjobs for the commands:
 ```
-bin/cake state_machine check_conditions {StateMachineName01}
-bin/cake state_machine check_timeouts {StateMachineName01}
+bin/cake state_machine check_conditions {StateMachineName}
+bin/cake state_machine check_timeouts {StateMachineName}
 ```
 should be added to e.g. `crontab` in e.g. 1 min intervals to be executed.
 
