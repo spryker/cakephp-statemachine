@@ -203,7 +203,7 @@ class TransitionLog implements TransitionLogInterface
      *
      * @return string[]
      */
-    protected function getParamsFromQueryString(string $queryString)
+    protected function getParamsFromQueryString(string $queryString): array
     {
         return explode('&', $queryString);
     }

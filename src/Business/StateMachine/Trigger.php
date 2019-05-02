@@ -224,7 +224,7 @@ class Trigger implements TriggerInterface
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    protected function filterEventAffectedItems(string $eventName, array $stateMachineItems, $processes)
+    protected function filterEventAffectedItems(string $eventName, array $stateMachineItems, array $processes): array
     {
         $stateMachineItemsFiltered = [];
         foreach ($stateMachineItems as $itemDto) {

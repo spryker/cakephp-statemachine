@@ -14,7 +14,7 @@ interface ProcessInterface
      *
      * @return void
      */
-    public function setSubProcesses($subProcesses): void;
+    public function setSubProcesses(array $subProcesses): void;
 
     /**
      * @return \StateMachine\Business\Process\ProcessInterface[]
@@ -62,7 +62,7 @@ interface ProcessInterface
      *
      * @return void
      */
-    public function setStates($states): void;
+    public function setStates(array $states): void;
 
     /**
      * @param \StateMachine\Business\Process\StateInterface $state
@@ -116,7 +116,7 @@ interface ProcessInterface
      *
      * @return void
      */
-    public function setTransitions($transitions): void;
+    public function setTransitions(array $transitions): void;
 
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]

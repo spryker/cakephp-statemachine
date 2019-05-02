@@ -183,7 +183,7 @@ class StateUpdaterTest extends TestCase
     /**
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    protected function createStateMachineItemsSame()
+    protected function createStateMachineItemsSame(): array
     {
         $items = [];
 
@@ -207,7 +207,7 @@ class StateUpdaterTest extends TestCase
     /**
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
-    protected function createStateMachineItems()
+    protected function createStateMachineItems(): array
     {
         $items = [];
 
@@ -233,7 +233,7 @@ class StateUpdaterTest extends TestCase
     /**
      * @return \StateMachine\Business\Process\Process[]
      */
-    protected function createProcesses()
+    protected function createProcesses(): array
     {
         $processes = [];
 
@@ -245,9 +245,9 @@ class StateUpdaterTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Business\Process\State[]
+     * @return string[]
      */
-    protected function createSourceStateBuffer()
+    protected function createSourceStateBuffer(): array
     {
         $sourceStates = [];
 

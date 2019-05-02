@@ -134,7 +134,7 @@ class Event implements EventInterface
      *
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getTransitionsBySource(StateInterface $sourceState)
+    public function getTransitionsBySource(StateInterface $sourceState): array
     {
         $transitions = [];
 
@@ -171,7 +171,7 @@ class Event implements EventInterface
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getTransitions()
+    public function getTransitions(): array
     {
         return $this->transitions;
     }

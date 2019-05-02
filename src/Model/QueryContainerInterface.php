@@ -117,5 +117,5 @@ interface QueryContainerInterface
      *
      * @return \Cake\ORM\Query
      */
-    public function queryMatrix(string $stateMachineName);
+    public function queryMatrix(string $stateMachineName): Query;
 }

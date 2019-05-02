@@ -391,7 +391,7 @@ class Builder implements BuilderInterface
      *
      * @return \StateMachine\Business\Process\ProcessInterface[]
      */
-    protected function createStates(array $processMap)
+    protected function createStates(array $processMap): array
     {
         $stateToProcessMap = [];
 

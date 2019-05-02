@@ -340,12 +340,13 @@ class Condition implements ConditionInterface
      *
      * @return string[]
      */
-    protected function createStateMap(array $stateMachineItems)
+    protected function createStateMap(array $stateMachineItems): array
     {
         $sourceStates = [];
         foreach ($stateMachineItems as $itemDto) {
             $sourceStates[$itemDto->getIdentifierOrFail()] = $itemDto->getStateNameOrFail();
         }
+
         return $sourceStates;
     }
 }

@@ -46,7 +46,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function setSubProcesses($subProcesses): void
+    public function setSubProcesses(array $subProcesses): void
     {
         $this->subProcesses = $subProcesses;
     }
@@ -118,7 +118,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function setStates($states): void
+    public function setStates(array $states): void
     {
         $this->states = $states;
     }
@@ -208,7 +208,7 @@ class Process implements ProcessInterface
      *
      * @return void
      */
-    public function setTransitions($transitions): void
+    public function setTransitions(array $transitions): void
     {
         $this->transitions = $transitions;
     }

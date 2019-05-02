@@ -8,6 +8,7 @@
 namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Http\Response;
 use StateMachine\Controller\CastTrait;
 use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\FactoryTrait;
@@ -31,9 +32,9 @@ class GraphController extends AppController
      *
      * It can also output in specific format (JPG, PDF, ...)
      *
-     * @return \Cake\Http\Response|null
+     * @return \Cake\Http\Response
      */
-    public function draw()
+    public function draw(): Response
     {
         $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS));
         $stateMachine = $this->castString($this->request->getQuery(self::URL_PARAM_STATE_MACHINE));

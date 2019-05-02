@@ -245,7 +245,7 @@ class PluginFactory
     /**
      * @return \StateMachine\Dependency\StateMachineHandlerInterface[]
      */
-    public function getStateMachineHandlers()
+    public function getStateMachineHandlers(): array
     {
         $handlers = (array)Configure::read('StateMachine.handlers');
         foreach ($handlers as $key => $handler) {
