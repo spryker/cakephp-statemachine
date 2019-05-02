@@ -123,7 +123,7 @@ class TriggerController extends AppController
         try {
             $this->getFacade()->triggerEvent($eventName, $itemDto);
             if ($redirect !== 'no') {
-                $this->Flash->success('Initialized.');
+                $this->Flash->success(sprintf('Event `%s` triggered.', $eventName));
             }
         } catch (Exception $exception) {
             if (!$catchException) {
