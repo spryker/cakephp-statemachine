@@ -50,21 +50,25 @@ They are usually described as actions/verbs ("What do I do?").
 </events>
 ```
 
+#### Manually executable events
+In order to be able to trigger an event manually you need to mark it as manually executable. 
+This means that when an item is in the same state as the source state of a transition that has a manually executable event attached to it, 
+in we can implement a button that corresponds to that event in the GUI. 
+By clicking the button, we are triggering the event associated to it.
+
 #### OnEnter Events
-As seen above, they can have `onEnter=true` to auto-trigger this event when the source state is reached.
+As seen above, they can have `"onEnter"=true` to auto-trigger this event when the source state is reached.
 If nothing fails the state machine then transitions directly to the target state.
 
 By using the OnEnter events you can model a chain of commands that you want to get executed because 
 the state machine always looks if there is another thing to do after any transition that gets executed.
 
 You usually want to make your state-machine as fully automated as possible.
-As such manual events and events without external trigger (for async handling) are usually avoided.
+As such purely manual events and events without external trigger (for async handling) are usually avoided.
 
-#### Manually executable events
-In order to be able to trigger an event manually you need to mark it as manually executable. 
-This means that when an item is in the same state as the source state of a transition that has a manually executable event attached to it, 
-in we can implement a button that corresponds to that event in the GUI. 
-By clicking the button, we are triggering the event associated to it.
+Note that for easier re-trigger in case of failure, it is advised to add `"manual"=true` on top.
+This will display a fallback button to manually retry the event if it failed.
+Without this you need to have a code-trigger for the event (through own button or facade method call).
 
 #### Timeout events
 Events can be triggered after a defined period of time has passed, through a timeout.
@@ -75,6 +79,8 @@ The timeout is defined in PHP string timespan.
 
 Every time the event is fired (automatically, after timeout), the state machine makes sure the associated command is executed. 
 If an exception occurs in the command coding, the item stays in the source state.
+
+Note that you can add `"manual"=true` here to skip the timeout manually and directly trigger the event.
 
 ### Conditions
 A transition can be conditioned: the state machine can move from one state to another 

@@ -300,7 +300,7 @@ class Process implements ProcessInterface
         foreach ($transitions as $transition) {
             if ($transition->hasEvent()) {
                 $event = $transition->getEvent();
-                if ($event->isManual() || $event->isOnEnter()) {
+                if ($event->isManual()) {
                     $manuallyExecutableEventList[] = $event;
                 }
             }

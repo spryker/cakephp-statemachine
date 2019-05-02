@@ -15,7 +15,6 @@ use StateMachine\Business\Process\Transition;
 
 class ProcessTest extends TestCase
 {
-    protected const MANUALLY_EXECUTABLE_EVENTS = 2;
     protected const EVENT_NAME_DEFAULT = 'default';
     protected const EVENT_NAME_MANUAL = 'manual';
     protected const EVENT_NAME_ONENTER = 'onenter';
@@ -23,16 +22,15 @@ class ProcessTest extends TestCase
     /**
      * @return void
      */
-    public function testThatManualEventsIncludeOnEnterEvents(): void
+    public function testThatManualEventsDoNotIncludeOnEnterEvents(): void
     {
         $process = $this->createProcess();
         $process->setTransitions($this->getTransitionsWithManualAndOnEnterEvents());
 
         $result = $process->getManuallyExecutableEvents();
-        $this->assertSame(static::MANUALLY_EXECUTABLE_EVENTS, count($result));
+        $this->assertSame(1, count($result));
 
         $this->assertSame(static::EVENT_NAME_MANUAL, $result[0]->getName());
-        $this->assertSame(static::EVENT_NAME_ONENTER, $result[1]->getName());
     }
 
     /**
