@@ -10,6 +10,10 @@ use Cake\Core\Configure;
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav nav nav-pills nav-stacked">
         <li class="heading"><?= __('Actions') ?></li>
+        <li><?= $this->Html->link(__('List State Machine Items'), ['controller' => 'StateMachineItems', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('List State Machine Item States'), ['controller' => 'StateMachineItemStates', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('List State Machine Locks'), ['controller' => 'StateMachineLocks', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('List State Machine Timeouts'), ['controller' => 'StateMachineTimeouts', 'action' => 'index']) ?> </li>
         <?php if (Configure::read('debug')) { ?>
         <li><?= $this->Form->postLink(__('Reset State Machine'), ['action' => 'reset'], ['confirm' => 'Sure? It will nuke all data.']) ?> </li>
         <?php } ?>
