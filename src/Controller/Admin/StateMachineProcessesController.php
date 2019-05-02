@@ -8,6 +8,7 @@
 namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Http\Response;
 
 /**
  * @property \StateMachine\Model\Table\StateMachineProcessesTable $StateMachineProcesses
@@ -32,14 +33,14 @@ class StateMachineProcessesController extends AppController
     /**
      * View method
      *
-     * @param string|null $id State Machine Process id.
+     * @param int|null $id State Machine Process id.
      *
      * @return \Cake\Http\Response|null
      */
-    public function view($id = null)
+    public function view(?int $id = null)
     {
         $stateMachineProcess = $this->StateMachineProcesses->get($id, [
-            'contain' => ['StateMachineItemStates', 'StateMachineTimeouts', 'StateMachineTransitionLogs'],
+            'contain' => ['StateMachineItemStates', 'StateMachineTimeouts'],
         ]);
 
         $this->set(compact('stateMachineProcess'));
@@ -49,11 +50,11 @@ class StateMachineProcessesController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id State Machine Process id.
+     * @param int|null $id State Machine Process id.
      *
      * @return \Cake\Http\Response|null Redirects to index.
      */
-    public function delete($id = null)
+    public function delete(?int $id = null): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
         $stateMachineProcess = $this->StateMachineProcesses->get($id);

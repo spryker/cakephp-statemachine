@@ -7,9 +7,7 @@
 <nav class="actions large-3 medium-4 columns col-sm-4 col-xs-12" id="actions-sidebar">
     <ul class="side-nav nav nav-pills nav-stacked">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New State Machine Item State History'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('List State Machine Item States'), ['controller' => 'StateMachineItemStates', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New State Machine Item State'), ['controller' => 'StateMachineItemStates', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="content action-index index large-9 medium-8 columns col-sm-8 col-xs-12">
@@ -31,7 +29,6 @@
                 <td><?= $this->Time->nice($stateMachineItemStateHistory->created) ?></td>
                 <td class="actions">
                 <?= $this->Html->link($this->Format->icon('view'), ['action' => 'view', $stateMachineItemStateHistory->id], ['escapeTitle' => false]); ?>
-                <?= $this->Html->link($this->Format->icon('edit'), ['action' => 'edit', $stateMachineItemStateHistory->id], ['escapeTitle' => false]); ?>
                 <?= $this->Form->postLink($this->Format->icon('delete'), ['action' => 'delete', $stateMachineItemStateHistory->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItemStateHistory->id)]); ?>
                 </td>
             </tr>

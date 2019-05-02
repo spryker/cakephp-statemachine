@@ -31,7 +31,6 @@
                 <td><?= $this->Number->format($stateMachineItem->state_machine_transition_log_id) ?></td>
                 <td class="actions">
                 <?= $this->Html->link($this->Format->icon('view'), ['action' => 'view', $stateMachineItem->id], ['escapeTitle' => false]); ?>
-                <?= $this->Html->link($this->Format->icon('edit'), ['action' => 'edit', $stateMachineItem->id], ['escapeTitle' => false]); ?>
                 <?= $this->Form->postLink($this->Format->icon('delete'), ['action' => 'delete', $stateMachineItem->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItem->id)]); ?>
                 </td>
             </tr>
