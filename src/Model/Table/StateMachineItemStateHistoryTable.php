@@ -99,7 +99,11 @@ class StateMachineItemStateHistoryTable extends Table
     {
         return $this->find()
             ->contain(['StateMachineItemStates' => 'StateMachineProcesses'])
-            ->where(['StateMachineProcesses.id' => $stateMachineItem->state_machine_transition_log->state_machine_process_id])
+            ->where([
+                'StateMachineItemStateHistory.identifier' => $stateMachineItem->identifier,
+                'StateMachineProcesses.state_machine' => $stateMachineItem->state_machine,
+                'StateMachineProcesses.id' => $stateMachineItem->state_machine_transition_log->state_machine_process_id
+            ])
             ->orderDesc($this->aliasField('id'))
             ->all()->toArray();
     }

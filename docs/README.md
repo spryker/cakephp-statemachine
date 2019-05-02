@@ -343,6 +343,13 @@ Add the detailed log listening into your Configure config (app.php):
 ],
 ```
 
+### Catching Exceptions on Controller Trigger
+If you trigger events via buttons from your backend, and you know that
+exceptions can be caught and you can safely redirect back to the page you came from, you can
+enable exception-catching:
+Add `'catch' => true` into the URL query string array. This will display an error flash message with the exception message then.
+
+
 ## Contributing
 
 We are looking forward to your contributions.
