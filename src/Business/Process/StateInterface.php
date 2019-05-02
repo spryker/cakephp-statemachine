@@ -36,7 +36,7 @@ interface StateInterface
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getOutgoingTransitions();
+    public function getOutgoingTransitions(): array;
 
     /**
      * @return bool

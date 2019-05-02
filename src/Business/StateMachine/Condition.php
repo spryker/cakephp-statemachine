@@ -172,7 +172,7 @@ class Condition implements ConditionInterface
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[][] $itemsWithOnEnterEvent
      */
-    public function getOnEnterEventsForStatesWithoutTransition(string $stateMachineName, string $processName)
+    public function getOnEnterEventsForStatesWithoutTransition(string $stateMachineName, string $processName): array
     {
         $process = $this->finder->findProcessByStateMachineAndProcessName($stateMachineName, $processName);
         $transitions = $process->getAllTransitionsWithoutEvent();
@@ -214,7 +214,7 @@ class Condition implements ConditionInterface
         string $stateMachineName,
         array $states,
         ProcessInterface $process
-    ) {
+    ): array {
         $stateMachineItemStateIds = $this->stateMachinePersistence->getStateMachineItemIdsByStatesProcessAndStateMachineName(
             $process->getName(),
             $stateMachineName,

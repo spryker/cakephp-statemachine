@@ -19,7 +19,7 @@ interface ProcessInterface
     /**
      * @return \StateMachine\Business\Process\ProcessInterface[]
      */
-    public function getSubProcesses();
+    public function getSubProcesses(): array;
 
     /**
      * @return bool

@@ -84,7 +84,7 @@ class State implements StateInterface
     /**
      * @return \StateMachine\Business\Process\TransitionInterface[]
      */
-    public function getOutgoingTransitions()
+    public function getOutgoingTransitions(): array
     {
         return $this->outgoingTransitions;
     }
