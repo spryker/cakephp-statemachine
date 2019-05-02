@@ -29,7 +29,6 @@
                 <td><?= $this->Time->nice($stateMachineLock->created) ?></td>
                 <td class="actions">
                 <?= $this->Html->link($this->Format->icon('view'), ['action' => 'view', $stateMachineLock->id], ['escapeTitle' => false]); ?>
-                <?= $this->Html->link($this->Format->icon('edit'), ['action' => 'edit', $stateMachineLock->id], ['escapeTitle' => false]); ?>
                 <?= $this->Form->postLink($this->Format->icon('delete'), ['action' => 'delete', $stateMachineLock->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineLock->id)]); ?>
                 </td>
             </tr>

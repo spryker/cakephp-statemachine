@@ -1,7 +1,14 @@
 <?php
+
+/**
+ * Copyright © 2016-present Spryker Systems GmbH. All rights reserved.
+ * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ */
+
 namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Http\Response;
 
 /**
  * @property \StateMachine\Model\Table\StateMachineLocksTable $StateMachineLocks
@@ -10,7 +17,6 @@ use App\Controller\AppController;
  */
 class StateMachineLocksController extends AppController
 {
-
     /**
      * Index method
      *
@@ -26,13 +32,14 @@ class StateMachineLocksController extends AppController
     /**
      * View method
      *
-     * @param string|null $id State Machine Lock id.
+     * @param int|null $id State Machine Lock id.
+     *
      * @return \Cake\Http\Response|null
      */
-    public function view($id = null)
+    public function view(?int $id = null)
     {
         $stateMachineLock = $this->StateMachineLocks->get($id, [
-            'contain' => []
+            'contain' => [],
         ]);
 
         $this->set(compact('stateMachineLock'));
@@ -41,10 +48,11 @@ class StateMachineLocksController extends AppController
     /**
      * Delete method
      *
-     * @param string|null $id State Machine Lock id.
+     * @param int|null $id State Machine Lock id.
+     *
      * @return \Cake\Http\Response|null Redirects to index.
      */
-    public function delete($id = null)
+    public function delete(?int $id = null): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
         $stateMachineLock = $this->StateMachineLocks->get($id);
