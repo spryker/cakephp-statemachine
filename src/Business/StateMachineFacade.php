@@ -18,7 +18,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
     /**
      * {@inheritdoc}
      *
-     *
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param int $identifier - this is id of foreign entity you want to track in state machine, it's stored in history table.
      *
@@ -36,7 +35,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
     /**
      * {@inheritdoc}
      *
-     *
      * @param string $eventName
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
@@ -51,7 +49,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
 
     /**
      * {@inheritdoc}
-     *
      *
      * @param string $eventName
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
@@ -68,7 +65,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
     /**
      * {@inheritdoc}
      *
-     *
      * @param string $stateMachineName
      *
      * @return \StateMachine\Dto\StateMachine\ProcessDto[]
@@ -82,7 +78,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
 
     /**
      * {@inheritdoc}
-     *
      *
      * @param string $stateMachineName
      *
@@ -98,7 +93,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
     /**
      * {@inheritdoc}
      *
-     *
      * @param string $stateMachineName
      *
      * @return bool
@@ -113,7 +107,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
     /**
      * {@inheritdoc}
      *
-     *
      * @param string $stateMachineName
      *
      * @return int
@@ -127,7 +120,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
 
     /**
      * {@inheritdoc}
-     *
      *
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string|null $highlightState
@@ -155,7 +147,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
     /**
      * {@inheritdoc}
      *
-     *
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      *
      * @return int
@@ -169,7 +160,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
 
     /**
      * {@inheritdoc}
-     *
      *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
@@ -185,7 +175,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
     /**
      * {@inheritdoc}
      *
-     *
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return string[][]
@@ -199,7 +188,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
 
     /**
      * {@inheritdoc}
-     *
      *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
@@ -215,7 +203,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
     /**
      * {@inheritdoc}
      *
-     *
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
@@ -229,7 +216,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
 
     /**
      * {@inheritdoc}
-     *
      *
      * @param int $idStateMachineProcess
      * @param int $identifier
@@ -246,7 +232,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
     /**
      * {@inheritdoc}
      *
-     *
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flagName
      *
@@ -262,7 +247,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
     /**
      * {@inheritdoc}
      *
-     *
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flagName
      *
@@ -277,7 +261,6 @@ class StateMachineFacade implements StateMachineFacadeInterface
 
     /**
      * {@inheritdoc}
-     *
      *
      * @return void
      */
