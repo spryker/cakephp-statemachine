@@ -452,14 +452,14 @@ class Builder implements BuilderInterface
      */
     protected function addFlags(SimpleXMLElement $xmlState, StateInterface $state): StateInterface
     {
-        /** @var bool $flag */
-        $flag = $xmlState->flag;
-        if (!$flag) {
+        /** @var \SimpleXMLElement|null $flagElement */
+        $flagElement = $xmlState->flag;
+        if (!$flagElement) {
             return $state;
         }
 
         $flags = $xmlState->children();
-        foreach ($flags->flag as $flag) {
+        foreach ($flags as $flag) {
             $state->addFlag((string)$flag);
         }
 

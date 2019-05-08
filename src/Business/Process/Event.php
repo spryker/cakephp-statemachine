@@ -157,12 +157,12 @@ class Event implements EventInterface
             return ' (on enter)';
         }
 
-        if ($this->isManual()) {
-            return ' (manual)';
-        }
-
         if ($this->hasTimeout()) {
             return ' (timeout)';
+        }
+
+        if ($this->isManual()) {
+            return ' (manual)';
         }
 
         return '';
