@@ -32,12 +32,12 @@
                     <small>
                         <?php
                         $urlArray['?']['format'] = 'png';
-                        echo $this->Html->link('png', $url, ['target' => '_blank']);
+                        echo $this->Html->link('png', $urlArray, ['target' => '_blank']);
                         ?>
                         |
                         <?php
                         $urlArray['?']['format'] = 'pdf';
-                        echo $this->Html->link('pdf', $url, ['target' => '_blank']);
+                        echo $this->Html->link('pdf', $urlArray, ['target' => '_blank']);
                         ?>
                     </small>
                 </div>
