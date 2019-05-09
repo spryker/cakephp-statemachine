@@ -26,6 +26,20 @@ class StateMachineItemsController extends AppController
      */
     public function index()
     {
+        $this->paginate = [
+            'order' => [
+                'state_machine_transition_log_id' => 'DESC',
+            ],
+            'contain' => [
+                'StateMachineTransitionLogs',
+            ],
+        ];
+
+        $stateMachineName = $this->request->getQuery('state-machine');
+        if ($stateMachineName) {
+            $this->paginate['conditions'] = ['state_machine' => $stateMachineName];
+        }
+
         $stateMachineItems = $this->paginate($this->StateMachineItems);
 
         $this->set(compact('stateMachineItems'));

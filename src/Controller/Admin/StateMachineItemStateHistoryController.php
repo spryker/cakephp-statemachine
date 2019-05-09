@@ -25,6 +25,9 @@ class StateMachineItemStateHistoryController extends AppController
     public function index()
     {
         $this->paginate = [
+            'order' => [
+                'id' => 'DESC',
+            ],
             'contain' => ['StateMachineItemStates'],
         ];
         $stateMachineItemStateHistory = $this->paginate();

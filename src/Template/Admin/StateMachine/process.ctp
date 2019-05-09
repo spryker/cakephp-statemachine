@@ -10,6 +10,7 @@
     <ul class="side-nav nav nav-pills nav-stacked">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Back'), ['action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('Items'), ['controller' => 'StateMachineItems', 'action' => 'index', '?' => ['state-machine' => $stateMachineName]]) ?> </li>
         <li><?= $this->Html->link(__('Matrix Overview'), ['action' => 'overview', '?' => ['state-machine' => $stateMachineName]]) ?> </li>
     </ul>
 </nav>

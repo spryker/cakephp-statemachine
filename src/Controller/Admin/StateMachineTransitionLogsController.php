@@ -25,6 +25,9 @@ class StateMachineTransitionLogsController extends AppController
     public function index()
     {
         $this->paginate = [
+            'order' => [
+                'created' => 'DESC',
+            ],
             'contain' => ['StateMachineProcesses'],
         ];
         $stateMachineTransitionLogs = $this->paginate();
