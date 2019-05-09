@@ -7,6 +7,7 @@
 
 namespace StateMachine\Model\Entity;
 
+use Cake\Core\Configure;
 use Cake\ORM\Entity;
 
 /**
@@ -20,6 +21,7 @@ use Cake\ORM\Entity;
  * @property int|null $state_machine_transition_log_id
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \StateMachine\Model\Entity\StateMachineTransitionLog $state_machine_transition_log
+ * @property array|null $url
  */
 class StateMachineItem extends Entity
 {
@@ -36,4 +38,40 @@ class StateMachineItem extends Entity
         'id' => false,
         '*' => true,
     ];
+
+    /**
+     * @return array|null
+     */
+    protected function _getUrl(): ?array
+    {
+        if (!$this->identifier || !$this->state_machine) {
+            return null;
+        }
+
+        $mapElement = Configure::read('StateMachine.map.' . $this->state_machine);
+        if (!$mapElement) {
+            return null;
+        }
+
+        $defaults = [
+            'prefix' => false,
+            'plugin' => false,
+            'action' => 'view',
+        ];
+
+        if (is_bool($mapElement)) {
+            $mapElement = $this->state_machine;
+        }
+        if (is_string($mapElement)) {
+            $url = [
+                'controller' => $mapElement,
+            ] + $defaults;
+        } else {
+            $url = $mapElement + $defaults;
+        }
+
+        return $url + [
+            $this->identifier,
+        ];
+    }
 }

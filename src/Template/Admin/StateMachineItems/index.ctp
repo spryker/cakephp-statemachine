@@ -25,7 +25,7 @@
         <tbody>
             <?php foreach ($stateMachineItems as $stateMachineItem): ?>
             <tr>
-                <td><?= h($stateMachineItem->identifier) ?></td>
+                <td><?= $this->StateMachine->itemLink($stateMachineItem) ?></td>
                 <td><?= h($stateMachineItem->state_machine) ?></td>
                 <td><?= h($stateMachineItem->state) ?></td>
                 <td><?= $this->Time->nice($stateMachineItem->state_machine_transition_log->created) ?></td>

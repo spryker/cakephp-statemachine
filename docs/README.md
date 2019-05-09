@@ -355,6 +355,27 @@ exceptions can be caught and you can safely redirect back to the page you came f
 enable exception-catching:
 Add `'catch' => true` into the URL query string array. This will display an error flash message with the exception message then.
 
+### Linking the state machine items to your entities
+If you want to have clickable links from the items index/view to the actual records in your backend, 
+you need to provide a "map".
+Use the Configure key `StateMachine.map`:
+```
+'StateMachine' => [
+    'map' => [
+        'Foo' => [
+            'controller' => 'FooBars',
+            ...
+        ],
+        'MyStateMachine' => 'MyModel',
+        'MatchesModelName' => true,
+    ],
+];
+```
+You can either use a URL array, or a string map where the value is the controller name.
+For the string map the URL needs to follow the CakePHP conventions for `view` URLs.
+You can also use boolean `true` if the state machine name matches the controller name.
+
+If no map can be found, the identifiers will be just displayed as string.
 
 ## Contributing
 

@@ -17,20 +17,16 @@
     <h2><?= h($stateMachineItem->state_machine) ?> <?= h($stateMachineItem->identifier) ?></h2>
     <table class="table vertical-table">
         <tr>
-            <th><?= __('State') ?></th>
-            <td><?= h($stateMachineItem->state) ?></td>
+            <th><?= __('Identifier') ?></th>
+            <td><?= $this->StateMachine->itemLink($stateMachineItem) ?></td>
         </tr>
         <tr>
-            <th><?= __('Identifier') ?></th>
-            <td><?= $this->Number->format($stateMachineItem->identifier) ?></td>
-        </tr>
-            <tr>
             <th><?= __('State Machine') ?></th>
             <td><?= h($stateMachineItem->state_machine) ?></td>
         </tr>
-                <tr>
-            <th><?= __('State Machine Transition Log Id') ?></th>
-            <td><?= $this->Number->format($stateMachineItem->state_machine_transition_log_id) ?></td>
+        <tr>
+            <th><?= __('State') ?></th>
+            <td><?= h($stateMachineItem->state) ?></td>
         </tr>
     </table>
 

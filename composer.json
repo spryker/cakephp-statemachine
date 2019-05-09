@@ -17,11 +17,11 @@
         "cakephp/migrations": "^2.0",
         "dereuromark/cakephp-dto": "@stable",
         "dereuromark/cakephp-tools": "@stable",
-        "phpdocumentor/graphviz": "*"
+        "phpdocumentor/graphviz": "@stable"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.0.0|^6.0.0",
-        "spryker/code-sniffer": "*",
+        "spryker/code-sniffer": "@stable",
         "slevomat/coding-standard": "^4.0",
         "phpstan/phpstan-shim": "^0.11"
     },
