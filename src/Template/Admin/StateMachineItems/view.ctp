@@ -11,6 +11,7 @@
         <?php if ($stateMachineItem->state_machine_transition_log) { ?>
 
         <?php } ?>
+        <li><?= $this->Form->postLink($this->Format->icon('delete') . ' ' . __('Delete'), ['action' => 'delete', $stateMachineItem->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItem->id)]); ?></li>
     </ul>
 </nav>
 <div class="content action-view view large-9 medium-8 columns col-sm-8 col-xs-12">

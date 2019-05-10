@@ -58,7 +58,7 @@ class StateMachineItemsController extends AppController
             'contain' => ['StateMachineTransitionLogs' => 'StateMachineProcesses'],
         ]);
 
-        $this->set('stateMachineItem', $stateMachineItem);
+        $this->set(compact('stateMachineItem'));
     }
 
     /**
