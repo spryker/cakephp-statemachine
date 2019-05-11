@@ -20,7 +20,7 @@ class StateMachineItemStateHistoryController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null
+     * @return \Cake\Http\Response|null|void
      */
     public function index()
     {
@@ -41,7 +41,7 @@ class StateMachineItemStateHistoryController extends AppController
      *
      * @param int|null $id State Machine Item State History id.
      *
-     * @return \Cake\Http\Response|null
+     * @return \Cake\Http\Response|null|void
      */
     public function view(?int $id = null)
     {

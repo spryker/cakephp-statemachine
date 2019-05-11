@@ -20,7 +20,7 @@ class StateMachineLocksController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null
+     * @return \Cake\Http\Response|null|void
      */
     public function index()
     {
@@ -34,7 +34,7 @@ class StateMachineLocksController extends AppController
      *
      * @param int|null $id State Machine Lock id.
      *
-     * @return \Cake\Http\Response|null
+     * @return \Cake\Http\Response|null|void
      */
     public function view(?int $id = null)
     {

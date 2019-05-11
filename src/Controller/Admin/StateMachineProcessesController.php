@@ -20,7 +20,7 @@ class StateMachineProcessesController extends AppController
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null
+     * @return \Cake\Http\Response|null|void
      */
     public function index()
     {
@@ -35,7 +35,7 @@ class StateMachineProcessesController extends AppController
      *
      * @param int|null $id State Machine Process id.
      *
-     * @return \Cake\Http\Response|null
+     * @return \Cake\Http\Response|null|void
      */
     public function view(?int $id = null)
     {

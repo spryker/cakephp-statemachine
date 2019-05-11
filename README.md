@@ -1,5 +1,9 @@
 #  CakePHP StateMachine Plugin
 
+[![Build Status](https://travis-ci.com/spryker/cakephp-statemachine.svg?branch=master)](https://travis-ci.com/spryker/cakephp-statemachine)
+[![PHPStan level](https://img.shields.io/badge/style-level%207-brightgreen.svg?style=flat-square&label=phpstan)](https://github.com/phpstan/phpstan)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg)](https://php.net/)
+
 StateMachine engine for CakePHP applications.
 
 **This branch is for CakePHP 3.x**
