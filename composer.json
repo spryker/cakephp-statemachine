@@ -42,6 +42,6 @@
         "test-coverage" : "phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
         "phpstan": "vendor/bin/phpstan.phar analyse -c tests/phpstan.neon -l 7 src/",
         "cs-check": "vendor/bin/phpcs --colors --standard=config/ruleset.xml -s -p --ignore=/config/Migrations/,/src/Dto/ src/ tests/ config/",
-        "cs-fix": "vendor/bin/phpcbf --colors --standard=config/ruleset.xml -v --ignore=/config/Migrations/,/src/Dto/ src/ tests/ config/"
+        "cs-fix": "vendor/bin/phpcbf --colors --standard=config/ruleset.xml --ignore=/config/Migrations/,/src/Dto/ src/ tests/ config/"
     }
 }

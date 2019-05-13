@@ -47,11 +47,24 @@ class TransitionLog implements TransitionLogInterface
      */
     public function setEvent(EventInterface $event): void
     {
-        $nameEvent = $event->getName();
-        $nameEvent .= $event->getEventTypeLabel();
+        $eventName = $event->getName();
+        $eventName .= $event->getEventTypeLabel();
 
         foreach ($this->logEntities as $logEntity) {
-            $logEntity->event = $nameEvent;
+            $logEntity->event = $eventName;
+        }
+    }
+
+    /**
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
+     * @param string $eventName
+     *
+     * @return void
+     */
+    public function setEventName(ItemDto $itemDto, string $eventName): void
+    {
+        foreach ($this->logEntities as $logEntity) {
+            $logEntity->event = $eventName;
         }
     }
 

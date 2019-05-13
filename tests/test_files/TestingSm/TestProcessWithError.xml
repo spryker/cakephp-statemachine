@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<statemachine
+        xmlns="spryker:state-machine-01"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="spryker:state-machine-01 http://static.spryker.com/state-machine-01.xsd">
+
+    <process name="TestProcess" main="true">
+        <states>
+            <state name="new"/>
+            <state name="invoice created">
+                <flag>Flag1</flag>
+            </state>
+            <state name="invoice sent">
+                <flag>Flag1</flag>
+                <flag>Flag2</flag>
+            </state>
+            <state name="order exported" />
+        </states>
+
+        <transitions>
+            <transition >
+                <source>new</source>
+                <target>invoice created</target>
+                <event>create invoice</event>
+            </transition>
+
+            <transition>
+                <source>invoice created</source>
+                <target>invoice sent</target>
+                <event>send invoice</event>
+            </transition>
+
+            <transition happy="true" condition="Test/ErrorCondition">
+                <source>invoice sent</source>
+                <target>order exported</target>
+                 <event>export order</event>
+            </transition>
+        </transitions>
+
+        <events>
+            <event name="create invoice" onEnter="true" command="Test/Command" />
+            <event name="send invoice" onEnter="true"/>
+            <event name="export order" onEnter="true" />
+        </events>
+    </process>
+</statemachine>

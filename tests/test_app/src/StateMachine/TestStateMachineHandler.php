@@ -8,6 +8,8 @@
 namespace App\StateMachine;
 
 use App\StateMachine\Command\TestCommand;
+use App\StateMachine\Command\TestErrorCommand;
+use App\StateMachine\Condition\TestErrorCondition;
 use App\StateMachine\Condition\TestTrueCondition;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
@@ -34,6 +36,7 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     {
         return [
             'Test/Command' => TestCommand::class,
+            'Test/ErrorCommand' => TestErrorCommand::class,
         ];
     }
 
@@ -44,6 +47,7 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     {
         return [
             'Test/Condition' => TestTrueCondition::class,
+            'Test/ErrorCondition' => TestErrorCondition::class,
         ];
     }
 

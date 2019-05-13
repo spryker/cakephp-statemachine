@@ -22,6 +22,14 @@ interface TransitionLogInterface
     public function setEvent(EventInterface $event): void;
 
     /**
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
+     * @param string $eventName
+     *
+     * @return void
+     */
+    public function setEventName(ItemDto $itemDto, string $eventName): void;
+
+    /**
      * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return void

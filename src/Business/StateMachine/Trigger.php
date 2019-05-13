@@ -136,6 +136,7 @@ class Trigger implements TriggerInterface
 
         $this->transitionLog->init($stateMachineItems);
         $this->logSourceState($stateMachineItems);
+        $this->logEventName($stateMachineItems, $eventName);
 
         $this->runCommand($eventName, $stateMachineItems, $processes);
 
@@ -381,6 +382,19 @@ class Trigger implements TriggerInterface
     {
         foreach ($stateMachineItems as $itemDto) {
             $this->transitionLog->addSourceState($itemDto, $itemDto->getStateNameOrFail());
+        }
+    }
+
+    /**
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param string $eventName
+     *
+     * @return void
+     */
+    protected function logEventName(array $stateMachineItems, string $eventName): void
+    {
+        foreach ($stateMachineItems as $itemDto) {
+            $this->transitionLog->setEventName($itemDto, $eventName);
         }
     }
 
