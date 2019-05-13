@@ -93,4 +93,12 @@ interface TransitionLogInterface
      * @return void
      */
     public function saveAll(): void;
+
+    /**
+     * @param string $eventName
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     *
+     * @return int
+     */
+    public function getEventCount(string $eventName, array $stateMachineItems = []): int;
 }

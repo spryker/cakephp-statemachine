@@ -204,6 +204,40 @@ class TransitionLog implements TransitionLogInterface
     }
 
     /**
+     * @param string $eventName
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     *
+     * @return int
+     */
+    public function getEventCount(string $eventName, array $stateMachineItems = []): int
+    {
+        if (!$stateMachineItems) {
+            return 0;
+        }
+
+        $conditions = [];
+        foreach ($stateMachineItems as $stateMachineItem) {
+            $conditions[] = [
+                'event' => $eventName,
+                'source_state IS NOT' => null,
+                'target_state IS NOT' => null,
+                'identifier' => $stateMachineItem->getIdentifierOrFail(),
+                'StateMachineProcesses.name' => $stateMachineItem->getProcessNameOrFail()
+            ];
+        }
+
+        $count = $this->stateMachineTransitionLogsTable->find()
+            ->contain(['StateMachineProcesses'])
+            ->where(['OR' => $conditions])
+            ->count();
+        if ($count && count($conditions) > 1) {
+            $count = (int)ceil($count / count($conditions));
+        }
+
+        return $count;
+    }
+
+    /**
      * @return \StateMachine\Model\Entity\StateMachineTransitionLog
      */
     protected function createStateMachineTransitionLogEntity(): StateMachineTransitionLog

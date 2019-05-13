@@ -124,7 +124,7 @@ class Trigger implements TriggerInterface
      */
     public function triggerEvent(string $eventName, array $stateMachineItems): int
     {
-        if ($this->checkForEventRepetitions($eventName) === false) {
+        if ($this->checkForEventRepetitions($eventName, $stateMachineItems) === false) {
             return 0;
         }
 
@@ -342,13 +342,14 @@ class Trigger implements TriggerInterface
      * To protect of loops, every event can only be used some times
      *
      * @param string $eventName
+     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
      *
      * @return bool
      */
-    protected function checkForEventRepetitions(string $eventName): bool
+    protected function checkForEventRepetitions(string $eventName, array $stateMachineItems): bool
     {
-        if (array_key_exists($eventName, $this->eventCounter) === false) {
-            $this->eventCounter[$eventName] = 0;
+        if (!isset($this->eventCounter[$eventName])) {
+            $this->eventCounter[$eventName] = $this->transitionLog->getEventCount($eventName, $stateMachineItems);
         }
         $this->eventCounter[$eventName]++;
 
