@@ -12,21 +12,26 @@ use Cake\Core\Configure;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use InvalidArgumentException;
 use StateMachine\Business\StateMachineFacade;
 use StateMachine\Business\StateMachineFacadeInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Dto\StateMachine\ProcessDto;
+use StateMachine\Model\Table\StateMachineItemsTable;
 use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
+use StateMachine\Model\Table\StateMachineTransitionLogsTable;
 
 class StateMachineFacadeTest extends TestCase
 {
     protected const TESTING_SM = 'TestingSm';
     protected const TEST_PROCESS_NAME = 'TestProcess';
     protected const TEST_PROCESS_WITH_LOOP_NAME = 'TestProcessWithLoop';
+    protected const TEST_PROCESS_WITH_ERROR_NAME = 'TestProcessWithError';
+    protected const TEST_PROCESS_WITH_COMMAND_ERROR_NAME = 'TestProcessWithCommandError';
 
     /**
      * @var \StateMachine\Model\Table\StateMachineItemStateHistoryTable
@@ -47,6 +52,11 @@ class StateMachineFacadeTest extends TestCase
      * @var \StateMachine\Model\Table\StateMachineTimeoutsTable
      */
     protected $StateMachineTimeouts;
+
+    /**
+     * @var \StateMachine\Model\Table\StateMachineTransitionLogsTable
+     */
+    protected $StateMachineTransitionLogs;
 
     /**
      * @var array
@@ -81,6 +91,12 @@ class StateMachineFacadeTest extends TestCase
 
         $config = TableRegistry::getTableLocator()->exists('StateMachineTimeouts') ? [] : ['className' => StateMachineTimeoutsTable::class];
         $this->StateMachineTimeouts = TableRegistry::getTableLocator()->get('StateMachineTimeouts', $config);
+
+        $config = TableRegistry::getTableLocator()->exists('StateMachineTransitionLogs') ? [] : ['className' => StateMachineTransitionLogsTable::class];
+        $this->StateMachineTransitionLogs = TableRegistry::getTableLocator()->get('StateMachineTransitionLogs', $config);
+
+        $config = TableRegistry::getTableLocator()->exists('StateMachineItems') ? [] : ['className' => StateMachineItemsTable::class];
+        $this->StateMachineItems = TableRegistry::getTableLocator()->get('StateMachineItems', $config);
     }
 
     /**
@@ -209,6 +225,86 @@ class StateMachineFacadeTest extends TestCase
         $this->assertSame('waiting for payment', $itemDto->getStateName());
         $this->assertSame($processName, $itemDto->getProcessName());
         $this->assertSame($identifier, $itemDto->getIdentifier());
+    }
+
+    /**
+     * @return void
+     */
+    public function testTriggerEventConditionFailureLogsTransition(): void
+    {
+        $processName = static::TEST_PROCESS_WITH_ERROR_NAME;
+        $identifier = 1985;
+
+        $processDto = new ProcessDto();
+        $processDto->setProcessName($processName);
+        $processDto->setStateMachineName(static::TESTING_SM);
+
+        $stateMachineHandler = $this->createTestStateMachineHandler();
+        $stateMachineFacade = $this->createStateMachineFacade($stateMachineHandler);
+
+        $failed = false;
+        try {
+            $stateMachineFacade->triggerForNewStateMachineItem($processDto, $identifier);
+        } catch (InvalidArgumentException $exception) {
+            $failed = true;
+        }
+        $this->assertTrue($failed, 'Should have thrown exception');
+
+        $itemDto = $stateMachineHandler->getItemStateUpdated();
+        $this->assertSame('invoice sent', $itemDto->getStateName());
+        $this->assertSame($identifier, $itemDto->getIdentifier());
+
+        $stateMachineItem = $this->StateMachineItems->find()->where(['state_machine' => static::TESTING_SM, 'identifier' => $identifier])->firstOrFail();
+
+        $logs = $this->StateMachineTransitionLogs->getLogs($stateMachineItem->id);
+        $this->assertCount(3, $logs);
+
+        $lastLog = array_shift($logs);
+        $this->assertSame('export order (on enter)', $lastLog->event);
+        $this->assertSame('invoice sent', $lastLog->source_state);
+        $this->assertNull($lastLog->target_state);
+        $this->assertTrue($lastLog->is_error);
+        $this->assertContains('Test exception for identity', $lastLog->error_message);
+    }
+
+    /**
+     * @return void
+     */
+    public function testTriggerEventCommandFailureLogsTransition(): void
+    {
+        $processName = static::TEST_PROCESS_WITH_COMMAND_ERROR_NAME;
+        $identifier = 1985;
+
+        $processDto = new ProcessDto();
+        $processDto->setProcessName($processName);
+        $processDto->setStateMachineName(static::TESTING_SM);
+
+        $stateMachineHandler = $this->createTestStateMachineHandler();
+        $stateMachineFacade = $this->createStateMachineFacade($stateMachineHandler);
+
+        $failed = false;
+        try {
+            $stateMachineFacade->triggerForNewStateMachineItem($processDto, $identifier);
+        } catch (InvalidArgumentException $exception) {
+            $failed = true;
+        }
+        $this->assertTrue($failed, 'Should have thrown exception');
+
+        $itemDto = $stateMachineHandler->getItemStateUpdated();
+        $this->assertSame('invoice created', $itemDto->getStateName());
+        $this->assertSame($identifier, $itemDto->getIdentifier());
+
+        $stateMachineItem = $this->StateMachineItems->find()->where(['state_machine' => static::TESTING_SM, 'identifier' => $identifier])->firstOrFail();
+
+        $logs = $this->StateMachineTransitionLogs->getLogs($stateMachineItem->id);
+        $this->assertCount(2, $logs);
+
+        $lastLog = array_shift($logs);
+        $this->assertSame('send invoice', $lastLog->event);
+        $this->assertSame('invoice created', $lastLog->source_state);
+        $this->assertNull($lastLog->target_state);
+        $this->assertTrue($lastLog->is_error);
+        $this->assertContains('Test exception for identity', $lastLog->error_message);
     }
 
     /**

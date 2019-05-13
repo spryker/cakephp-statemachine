@@ -170,7 +170,7 @@ class StateMachineTransitionLogsTable extends Table
     /**
      * @param int $stateMachineItemId
      *
-     * @return array
+     * @return \StateMachine\Model\Entity\StateMachineTransitionLog[]
      */
     public function getLogs(int $stateMachineItemId): array
     {
