@@ -218,11 +218,13 @@ class TransitionLog implements TransitionLogInterface
         $conditions = [];
         foreach ($stateMachineItems as $stateMachineItem) {
             $conditions[] = [
-                'event' => $eventName,
-                'source_state IS NOT' => null,
-                'target_state IS NOT' => null,
-                'identifier' => $stateMachineItem->getIdentifierOrFail(),
-                'StateMachineProcesses.name' => $stateMachineItem->getProcessNameOrFail()
+                'AND' => [
+                    'event' => $eventName,
+                    'source_state IS NOT' => null,
+                    'target_state IS NOT' => null,
+                    'identifier' => $stateMachineItem->getIdentifierOrFail(),
+                    'StateMachineProcesses.name' => $stateMachineItem->getProcessNameOrFail()
+                ],
             ];
         }
 
