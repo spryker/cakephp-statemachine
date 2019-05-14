@@ -223,7 +223,7 @@ class TransitionLog implements TransitionLogInterface
                     'source_state IS NOT' => null,
                     'target_state IS NOT' => null,
                     'identifier' => $stateMachineItem->getIdentifierOrFail(),
-                    'StateMachineProcesses.name' => $stateMachineItem->getProcessNameOrFail()
+                    'StateMachineProcesses.name' => $stateMachineItem->getProcessNameOrFail(),
                 ],
             ];
         }
