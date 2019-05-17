@@ -63,7 +63,7 @@ class QueryContainer implements QueryContainerInterface
             ->find()
             ->contain($this->getFactory()->createStateMachineProcessesTable()->getAlias())
             ->contain($this->getFactory()->createStateMachineItemStateHistoryTable()->getAlias(), function (Query $query) use ($itemDto) {
-                return $query->where(['identifier' => $itemDto->getIdentifierOrFail()]);
+                return $query->where(['identifier' => $itemDto->getIdentifierOrFail()])->orderDesc('id');
             })
             ->where([$stateMachineItemStatesTable->aliasField('id') => $itemDto->getIdItemStateOrFail()]);
     }
