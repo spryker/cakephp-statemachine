@@ -289,7 +289,7 @@ class Persistence implements PersistenceInterface
             ->first();
 
         if ($stateMachineItemStateEntity === null) {
-            throw new StateMachineException('State machine item not found.');
+            throw new StateMachineException('State machine item not found: ' . $itemDto->getIdentifier());
         }
 
         $stateMachineProcessEntity = $stateMachineItemStateEntity->state_machine_process;
