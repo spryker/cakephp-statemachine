@@ -230,6 +230,35 @@ class StateMachineFacadeTest extends TestCase
     /**
      * @return void
      */
+    public function testTriggerEventForItemWithManualEventWithoutSpecificProcess(): void
+    {
+        $identifier = 1985;
+        $processDto = new ProcessDto();
+        $processDto->setStateMachineName(static::TESTING_SM);
+
+        $stateMachineHandler = $this->createTestStateMachineHandler();
+        $stateMachineFacade = $this->createStateMachineFacade($stateMachineHandler);
+
+        $stateMachineFacade->triggerForNewStateMachineItem($processDto, $identifier);
+
+        $itemDto = $stateMachineHandler->getItemStateUpdated();
+        $itemDto->setProcessName(null);
+
+        // We call getProcessedItemDto() here then
+        $itemDto = $stateMachineFacade->getProcessedItemDto($itemDto);
+        $triggerResult = $stateMachineFacade->triggerEvent('ship order', $itemDto);
+
+        $itemDto = $stateMachineHandler->getItemStateUpdated();
+
+        $this->assertSame(2, $triggerResult);
+        $this->assertSame('waiting for payment', $itemDto->getStateName());
+        $this->assertSame(static::TEST_PROCESS_NAME, $itemDto->getProcessName());
+        $this->assertSame($identifier, $itemDto->getIdentifier());
+    }
+
+    /**
+     * @return void
+     */
     public function testTriggerEventConditionFailureLogsTransition(): void
     {
         $processName = static::TEST_PROCESS_WITH_ERROR_NAME;
