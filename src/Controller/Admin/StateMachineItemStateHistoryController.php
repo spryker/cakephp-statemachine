@@ -69,6 +69,7 @@ class StateMachineItemStateHistoryController extends AppController
         } else {
             $this->Flash->error(__('The state machine item state history could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

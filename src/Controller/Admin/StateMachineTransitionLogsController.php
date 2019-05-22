@@ -69,6 +69,7 @@ class StateMachineTransitionLogsController extends AppController
         } else {
             $this->Flash->error(__('The state machine transition log could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

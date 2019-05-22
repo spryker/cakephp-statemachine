@@ -63,6 +63,7 @@ class StateMachineProcessesController extends AppController
         } else {
             $this->Flash->error(__('The state machine process could not be deleted. Please, try again.'));
         }
+
         return $this->redirect(['action' => 'index']);
     }
 }

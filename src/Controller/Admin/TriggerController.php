@@ -83,6 +83,7 @@ class TriggerController extends AppController
 
         if ($redirect === 'no') {
             $this->autoRender = false;
+
             return null;
         }
 
@@ -137,6 +138,7 @@ class TriggerController extends AppController
 
         if ($redirect === 'no') {
             $this->autoRender = false;
+
             return null;
         }
 

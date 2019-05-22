@@ -153,6 +153,7 @@ class QueryContainer implements QueryContainerInterface
         $stateMachineProcessesTable = $this->getFactory()->createStateMachineProcessesTable();
 
         $states = $states ?: [-1];
+
         return $stateMachineItemStatesTable
             ->find()
             ->contain($stateMachineItemStateHistoryTable->getAlias())

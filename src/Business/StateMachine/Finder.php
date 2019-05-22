@@ -252,6 +252,7 @@ class Finder implements FinderInterface
     public function findProcessByStateMachineAndProcessName(string $stateMachineName, string $processName): ProcessInterface
     {
         $processDto = $this->createProcessDto($stateMachineName, $processName);
+
         return $this->builder->createProcess($processDto);
     }
 

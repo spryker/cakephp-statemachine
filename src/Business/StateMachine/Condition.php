@@ -143,6 +143,7 @@ class Condition implements ConditionInterface
 
         if ($conditionCheck === true) {
             $transactionLogger->addCondition($itemDto, $conditionPlugin);
+
             return true;
         }
 
@@ -163,6 +164,7 @@ class Condition implements ConditionInterface
             $selectedTransition = array_shift($possibleTransitions);
             $targetState = $selectedTransition->getTargetState();
         }
+
         return $targetState;
     }
 
