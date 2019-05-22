@@ -335,6 +335,10 @@ to continue here on DB level.
 If you are using repeating of events heavily (lot of loops can happen), you might want to raise the default limit of 10 repeats of an event.
 Configure key `StateMachine.maxEventRepeats` can be used for this.
 
+If you not only want to prevent immediate loops, but also take the whole history into account, you can use the the slightly slower
+lookup in the persistence for this: Configure key `StateMachine.maxLookupInPersistence` can be set to `true` here.
+This way you can also prevent timeout loops to run forever. Careful to include a manual event then around the loop to escape if that happens.
+
 ### Enable detailed error logging
 Add the detailed log listening into your Configure config (app.php):
 ```php

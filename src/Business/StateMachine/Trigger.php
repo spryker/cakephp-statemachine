@@ -349,7 +349,9 @@ class Trigger implements TriggerInterface
     protected function checkForEventRepetitions(string $eventName, array $stateMachineItems): bool
     {
         if (!isset($this->eventCounter[$eventName])) {
-            $this->eventCounter[$eventName] = $this->transitionLog->getEventCount($eventName, $stateMachineItems);
+            $count = (bool)Configure::read('StateMachine.maxLookupInPersistence')
+                ? $this->transitionLog->getEventCount($eventName, $stateMachineItems) : 0;
+            $this->eventCounter[$eventName] = $count;
         }
         $this->eventCounter[$eventName]++;
 

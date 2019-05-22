@@ -8,6 +8,7 @@ return [
         ],
         'graphAdapter' => PhpDocumentorGraphAdapter::class,
         'maxEventRepeats' => 10,
+        'maxLookupInPersistence' => false,
         'pathToXml' => null,
     ],
 ];
