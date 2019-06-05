@@ -21,7 +21,12 @@ Use with Caution.
 
 License is not open source, but open code.
 
-The modules offered are provided free of charge by Spryker Systems GmbH. They are experimental, but under the Spryker License (see LICENSE file) and can be used. However, Spryker does not warrant or assume any liability for errors that occur during use. Customers use the experimental module at their own risk. Spryker does not guarantee their full functionality neither does Spryker assume liability for any disadvantages related to the use of the experimental module. Spryker does not guarantee any updates, upgrades or similar to the experimental module. Furthermore, Spryker is not obliged to maintain and/or service the module. Customers are responsible for testing the experimental module's functionality before starting productive operation. By installing the experimental module, the customer agrees to these terms of use. Please do not use the experimental module if you do not agree to these terms of use!
+The plugin is offered are provided free of charge by Spryker Systems GmbH and can be used in any CakePHP project. 
+They are experimental and under the Spryker Sandbox License (see LICENSE file). 
+However, Spryker does not warrant or assume any liability for errors that occur during use.  
+Spryker does not guarantee their full functionality neither does Spryker assume liability for any disadvantages related to the use of the experimental plugin. 
+Spryker does not guarantee any updates, upgrades or similar to the experimental plugin.  
+By installing the experimental plugin, the project agrees to these terms of use. Please check LICENSE every 90 days.
 
 ## Install
 
