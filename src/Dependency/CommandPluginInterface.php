@@ -17,7 +17,7 @@ interface CommandPluginInterface
      *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
-     * @return bool
+     * @return void
      */
-    public function run(ItemDto $itemDto): bool;
+    public function run(ItemDto $itemDto): void;
 }

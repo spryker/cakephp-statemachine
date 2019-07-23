@@ -20,9 +20,9 @@ class TestErrorCommand implements CommandPluginInterface
      *
      * @throws \InvalidArgumentException
      *
-     * @return bool
+     * @return void
      */
-    public function run(ItemDto $itemDto): bool
+    public function run(ItemDto $itemDto): void
     {
         throw new InvalidArgumentException('Test exception for identity: ' . $itemDto->getIdentifierOrFail());
     }

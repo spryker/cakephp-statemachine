@@ -17,12 +17,10 @@ class TriggerFooCommand implements CommandPluginInterface
      *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
-     * @return bool
+     * @return void
      */
-    public function run(ItemDto $itemDto): bool
+    public function run(ItemDto $itemDto): void
     {
         file_put_contents(TMP . 'triggered.txt', date('Y-m-d H:i:s'));
-
-        return true;
     }
 }
