@@ -63,13 +63,13 @@ class StateMachineItemsTable extends Table
         $validator
             ->integer('identifier')
             ->requirePresence('identifier', 'create')
-            ->allowEmptyString('identifier', false);
+            ->allowEmptyString('identifier');
 
         $validator
             ->scalar('state_machine')
             ->maxLength('state_machine', 90)
             ->requirePresence('state_machine', 'create')
-            ->allowEmptyString('state_machine', false);
+            ->allowEmptyString('state_machine');
 
         return $validator;
     }
