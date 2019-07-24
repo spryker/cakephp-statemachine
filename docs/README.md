@@ -404,6 +404,33 @@ You can also use boolean `true` if the state machine name matches the controller
 
 If no map can be found, the identifiers will be just displayed as string.
 
+## Illuminator StateTask
+
+If you installed the optional [IdeHelper](https://travis-ci.org/dereuromark/cakephp-ide-helper) plugin, 
+you can use its Illuminator to auto-add class constants to the handler classes for all your states.
+
+Activate the task in your config as documented in IdeHelper:
+```php
+    'IdeHelper' => [
+        'illuminatorTasks' => [
+            \StateMachine\Illuminator\Task\StateTask::class,
+        ],
+    ],
+```
+Then run it over your StateMachineHandlers:
+```
+bin/cake illuminator illuminate src/StateMachine/ 
+```
+Tip: Add `-v -d` to dry-run it first.
+
+Now it is convienient and DRY to use the class constants instead of magic strings in your code:
+```php
+if ($entity->state === MyStateMachineHandler::STATE_DONE) {
+    ...
+} 
+```
+
+
 ## Contributing
 
 We are looking forward to your contributions.

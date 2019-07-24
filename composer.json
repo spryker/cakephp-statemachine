@@ -21,6 +21,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0.0",
+        "dereuromark/cakephp-ide-helper": "@stable",
         "spryker/code-sniffer": "@stable",
         "phpstan/phpstan-shim": "^0.11"
     },
