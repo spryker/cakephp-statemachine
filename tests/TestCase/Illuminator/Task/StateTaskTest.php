@@ -78,6 +78,7 @@ class StateTaskTest extends TestCase
         $result = $task->run(file_get_contents($path), $path);
 
         $this->assertTextContains('const STATE_NEW = \'new\';', $result);
+        $this->assertTextContains('const STATE_INVOICE_CREATED = \'invoice created\';', $result);
     }
 
     /**

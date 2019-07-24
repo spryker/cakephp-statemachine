@@ -164,69 +164,6 @@ class StateTask extends AbstractTask
 
     /**
      * @param \PHP_CodeSniffer\Files\File $file
-     * @param int $classIndex
-     *
-     * @return array
-     */
-    protected function __getStates(File $file, int $classIndex): array
-    {
-        $tokens = $file->getTokens();
-
-        $docBlockCloseTagIndex = $this->_findDocBlockCloseTagIndex($file, $classIndex);
-        if (!$docBlockCloseTagIndex || empty($tokens[$docBlockCloseTagIndex]['comment_opener'])) {
-            return [];
-        }
-
-        $states = [];
-        for ($i = $tokens[$docBlockCloseTagIndex]['comment_opener'] + 1; $i < $docBlockCloseTagIndex; $i++) {
-            if ($tokens[$i]['code'] !== T_DOC_COMMENT_TAG) {
-                continue;
-            }
-            if ($tokens[$i]['content'] !== '@property') {
-                continue;
-            }
-
-            $pieces = explode(' ', $tokens[$i + 2]['content']);
-            if (count($pieces) < 2) {
-                continue;
-            }
-            $state = mb_substr($pieces[1], 1);
-            if (strpos($state, ' ') === 0 || strpos($state, '_') === 0) {
-                continue;
-            }
-            // We also skip camelCase as those are not the convention
-            if (Inflector::underscore($state) !== $state) {
-                continue;
-            }
-
-            $states[$state] = [
-                'name' => $state,
-                'constant' => static::PREFIX . mb_strtoupper($state),
-                'index' => $i,
-            ];
-        }
-
-        return $states;
-    }
-
-    /**
-     * @param \PHP_CodeSniffer\Files\File $file
-     * @param int $index First functional code after docblock
-     *
-     * @return int|false
-     */
-    protected function _findDocBlockCloseTagIndex(File $file, int $index)
-    {
-        $prevCode = $file->findPrevious(Tokens::$emptyTokens, $index - 1, null, true);
-        if (!$prevCode) {
-            return false;
-        }
-
-        return $file->findPrevious(T_DOC_COMMENT_CLOSE_TAG, $index - 1, $prevCode);
-    }
-
-    /**
-     * @param \PHP_CodeSniffer\Files\File $file
      * @param array $states
      * @param int $index Index of first token of previous line
      * @param bool $addToExisting
@@ -307,7 +244,7 @@ class StateTask extends AbstractTask
 
             $constant = $tokens[$index]['content'];
 
-            $pos = strpos($constant, '_');
+            $pos = strpos($constant, '_') ?: null;
             $prefix = substr($constant, 0, $pos);
             if ($prefix . '_' !== static::PREFIX) {
                 continue;
