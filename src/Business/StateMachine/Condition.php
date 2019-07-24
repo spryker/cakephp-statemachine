@@ -13,7 +13,7 @@ use StateMachine\Business\Exception\ConditionNotFoundException;
 use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Business\Process\StateInterface;
-use StateMachine\Dependency\ConditionPluginInterface;
+use StateMachine\Dependency\StateMachineConditionInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
@@ -303,9 +303,9 @@ class Condition implements ConditionInterface
      * @param string $conditionString
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Dependency\ConditionPluginInterface
+     * @return \StateMachine\Dependency\StateMachineConditionInterface
      */
-    protected function getCondition(string $conditionString, string $stateMachineName): ConditionPluginInterface
+    protected function getCondition(string $conditionString, string $stateMachineName): StateMachineConditionInterface
     {
         $stateMachineHandler = $this->stateMachineHandlerResolver->get($stateMachineName);
 

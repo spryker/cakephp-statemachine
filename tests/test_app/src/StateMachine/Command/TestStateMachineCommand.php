@@ -7,10 +7,10 @@
 
 namespace App\StateMachine\Command;
 
-use StateMachine\Dependency\CommandPluginInterface;
+use StateMachine\Dependency\StateMachineCommandInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
-class TriggerFooCommand implements CommandPluginInterface
+class TestStateMachineCommand implements StateMachineCommandInterface
 {
     /**
      * This method is called when event have concrete command assigned.
@@ -21,6 +21,5 @@ class TriggerFooCommand implements CommandPluginInterface
      */
     public function run(ItemDto $itemDto): void
     {
-        file_put_contents(TMP . 'triggered.txt', date('Y-m-d H:i:s'));
     }
 }

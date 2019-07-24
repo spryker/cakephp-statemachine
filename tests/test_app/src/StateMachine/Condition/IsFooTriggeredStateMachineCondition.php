@@ -7,10 +7,10 @@
 
 namespace App\StateMachine\Condition;
 
-use StateMachine\Dependency\ConditionPluginInterface;
+use StateMachine\Dependency\StateMachineConditionInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
-class IsFooTriggeredCondition implements ConditionPluginInterface
+class IsFooTriggeredStateMachineCondition implements StateMachineConditionInterface
 {
     /**
      * Specification:

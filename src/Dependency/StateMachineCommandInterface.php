@@ -9,15 +9,15 @@ namespace StateMachine\Dependency;
 
 use StateMachine\Dto\StateMachine\ItemDto;
 
-interface ConditionPluginInterface
+interface StateMachineCommandInterface
 {
     /**
      * Specification:
-     * - This method is called when transition in SM xml file have concrete condition assigned.
+     * - This method is called when event have concrete command assigned.
      *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
-     * @return bool
+     * @return void
      */
-    public function check(ItemDto $itemDto): bool;
+    public function run(ItemDto $itemDto): void;
 }

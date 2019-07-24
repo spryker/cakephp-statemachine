@@ -7,10 +7,10 @@
 
 namespace App\StateMachine;
 
-use App\StateMachine\Command\TestCommand;
-use App\StateMachine\Command\TestErrorCommand;
-use App\StateMachine\Condition\TestErrorCondition;
-use App\StateMachine\Condition\TestTrueCondition;
+use App\StateMachine\Command\TestErrorStateMachineCommand;
+use App\StateMachine\Command\TestStateMachineCommand;
+use App\StateMachine\Condition\TestErrorStateMachineCondition;
+use App\StateMachine\Condition\TestTrueStateMachineCondition;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
@@ -35,8 +35,8 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     public function getCommands(): array
     {
         return [
-            'Test/Command' => TestCommand::class,
-            'Test/ErrorCommand' => TestErrorCommand::class,
+            'Test/Command' => TestStateMachineCommand::class,
+            'Test/ErrorCommand' => TestErrorStateMachineCommand::class,
         ];
     }
 
@@ -46,8 +46,8 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     public function getConditions(): array
     {
         return [
-            'Test/Condition' => TestTrueCondition::class,
-            'Test/ErrorCondition' => TestErrorCondition::class,
+            'Test/Condition' => TestTrueStateMachineCondition::class,
+            'Test/ErrorCondition' => TestErrorStateMachineCondition::class,
         ];
     }
 

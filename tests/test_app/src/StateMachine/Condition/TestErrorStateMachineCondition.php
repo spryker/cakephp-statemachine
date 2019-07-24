@@ -5,24 +5,25 @@
  * Use of this software requires acceptance of the License Agreement. See LICENSE file.
  */
 
-namespace App\StateMachine\Command;
+namespace App\StateMachine\Condition;
 
 use InvalidArgumentException;
-use StateMachine\Dependency\CommandPluginInterface;
+use StateMachine\Dependency\StateMachineConditionInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
-class TestErrorCommand implements CommandPluginInterface
+class TestErrorStateMachineCondition implements StateMachineConditionInterface
 {
     /**
-     * This method is called when event have concrete command assigned.
+     * Specification:
+     * - This method is called when transition in SM xml file have concrete condition assigned.
      *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @throws \InvalidArgumentException
      *
-     * @return void
+     * @return bool
      */
-    public function run(ItemDto $itemDto): void
+    public function check(ItemDto $itemDto): bool
     {
         throw new InvalidArgumentException('Test exception for identity: ' . $itemDto->getIdentifierOrFail());
     }

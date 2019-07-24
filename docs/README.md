@@ -166,7 +166,29 @@ You can query/read the state on this added property: `$entity->item_state->state
 ### Implement commands and conditions
 The commands and conditions will most likely be still red, as they are not implemented yet.
 Create your custom commands and conditions now.
-                                            
+
+```php
+namespace App\StateMachine\Command;
+
+use StateMachine\Dependency\StateMachineCommandInterface;
+
+class MyCommand implements StateMachineCommandInterface
+{
+    ...
+}
+```
+and 
+```php
+namespace App\StateMachine\Condition;
+
+use StateMachine\Dependency\StateMachineCommandInterface;
+
+class MyCondition implements StateMachineConditionInterface
+{
+    ...
+}
+```
+
 Let's hook them up to the PHP counterpart then:
 ```php
     public function getCommands(): array

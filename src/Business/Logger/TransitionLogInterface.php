@@ -8,8 +8,8 @@
 namespace StateMachine\Business\Logger;
 
 use StateMachine\Business\Process\EventInterface;
-use StateMachine\Dependency\CommandPluginInterface;
-use StateMachine\Dependency\ConditionPluginInterface;
+use StateMachine\Dependency\StateMachineCommandInterface;
+use StateMachine\Dependency\StateMachineConditionInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
 interface TransitionLogInterface
@@ -38,19 +38,19 @@ interface TransitionLogInterface
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem
-     * @param \StateMachine\Dependency\CommandPluginInterface $command
+     * @param \StateMachine\Dependency\StateMachineCommandInterface $command
      *
      * @return void
      */
-    public function addCommand(ItemDto $stateMachineItem, CommandPluginInterface $command): void;
+    public function addCommand(ItemDto $stateMachineItem, StateMachineCommandInterface $command): void;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem
-     * @param \StateMachine\Dependency\ConditionPluginInterface $condition
+     * @param \StateMachine\Dependency\StateMachineConditionInterface $condition
      *
      * @return void
      */
-    public function addCondition(ItemDto $stateMachineItem, ConditionPluginInterface $condition): void;
+    public function addCondition(ItemDto $stateMachineItem, StateMachineConditionInterface $condition): void;
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $stateMachineItem

@@ -14,7 +14,7 @@ use RuntimeException;
 use StateMachine\Business\Exception\CommandNotFoundException;
 use StateMachine\Business\Exception\TriggerException;
 use StateMachine\Business\Logger\TransitionLogInterface;
-use StateMachine\Dependency\CommandPluginInterface;
+use StateMachine\Dependency\StateMachineCommandInterface;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Dto\StateMachine\ProcessDto;
@@ -405,9 +405,9 @@ class Trigger implements TriggerInterface
      * @param string $commandString
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Dependency\CommandPluginInterface
+     * @return \StateMachine\Dependency\StateMachineCommandInterface
      */
-    protected function getCommand(string $commandString, string $stateMachineName): CommandPluginInterface
+    protected function getCommand(string $commandString, string $stateMachineName): StateMachineCommandInterface
     {
         $stateMachineHandler = $this->stateMachineHandlerResolver->get($stateMachineName);
 

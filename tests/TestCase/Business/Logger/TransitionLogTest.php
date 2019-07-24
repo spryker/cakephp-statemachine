@@ -12,8 +12,8 @@ use Cake\TestSuite\TestCase;
 use StateMachine\Business\Logger\TransitionLog;
 use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\Event;
-use StateMachine\Dependency\CommandPluginInterface;
-use StateMachine\Dependency\ConditionPluginInterface;
+use StateMachine\Dependency\StateMachineCommandInterface;
+use StateMachine\Dependency\StateMachineConditionInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Model\Table\StateMachineTransitionLogsTable;
 
@@ -176,21 +176,21 @@ class TransitionLogTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\CommandPluginInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\StateMachineCommandInterface
      */
     protected function createCommandMock()
     {
-        $commandMock = $this->getMockBuilder(CommandPluginInterface::class)->getMock();
+        $commandMock = $this->getMockBuilder(StateMachineCommandInterface::class)->getMock();
 
         return $commandMock;
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\ConditionPluginInterface
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\StateMachineConditionInterface
      */
     protected function createConditionPluginMock()
     {
-        $conditionPluginMock = $this->getMockBuilder(ConditionPluginInterface::class)->getMock();
+        $conditionPluginMock = $this->getMockBuilder(StateMachineConditionInterface::class)->getMock();
 
         return $conditionPluginMock;
     }

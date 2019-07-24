@@ -7,8 +7,8 @@
 
 namespace App\StateMachine;
 
-use App\StateMachine\Command\TriggerFooCommand;
-use App\StateMachine\Condition\IsFooTriggeredCondition;
+use App\StateMachine\Command\TriggerFooStateMachineCommand;
+use App\StateMachine\Condition\IsFooTriggeredStateMachineCondition;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
@@ -23,7 +23,7 @@ class DemoStateMachineHandler implements StateMachineHandlerInterface
     public function getCommands(): array
     {
         return [
-            'Test/Command' => TriggerFooCommand::class,
+            'Test/Command' => TriggerFooStateMachineCommand::class,
         ];
     }
 
@@ -33,7 +33,7 @@ class DemoStateMachineHandler implements StateMachineHandlerInterface
     public function getConditions(): array
     {
         return [
-            'Test/Condition' => IsFooTriggeredCondition::class,
+            'Test/Condition' => IsFooTriggeredStateMachineCondition::class,
         ];
     }
 

@@ -5,21 +5,19 @@
  * Use of this software requires acceptance of the License Agreement. See LICENSE file.
  */
 
-namespace App\StateMachine\Command;
+namespace StateMachine\Dependency;
 
-use StateMachine\Dependency\CommandPluginInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
-class TestCommand implements CommandPluginInterface
+interface StateMachineConditionInterface
 {
     /**
-     * This method is called when event have concrete command assigned.
+     * Specification:
+     * - This method is called when transition in SM xml file have concrete condition assigned.
      *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
-     * @return void
+     * @return bool
      */
-    public function run(ItemDto $itemDto): void
-    {
-    }
+    public function check(ItemDto $itemDto): bool;
 }

@@ -7,8 +7,8 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
-use App\StateMachine\Condition\TestFalseCondition;
-use App\StateMachine\Condition\TestTrueCondition;
+use App\StateMachine\Condition\TestFalseStateMachineCondition;
+use App\StateMachine\Condition\TestTrueStateMachineCondition;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Logger\TransitionLogInterface;
@@ -106,7 +106,7 @@ class ConditionTest extends TestCase
      */
     public function testCheckConditionForTransitionShouldReturnTargetStateOfGivenTransition(): void
     {
-        $condition = $this->createCondition(TestTrueCondition::class);
+        $condition = $this->createCondition(TestTrueStateMachineCondition::class);
 
         $sourceState = $this->createState('source state');
         $targetState = $this->createState('target state');
@@ -128,7 +128,7 @@ class ConditionTest extends TestCase
      */
     public function testCheckConditionForTransitionWhenConditionReturnsFalseShouldReturnSourceState(): void
     {
-        $condition = $this->createCondition(TestFalseCondition::class);
+        $condition = $this->createCondition(TestFalseStateMachineCondition::class);
 
         $sourceState = $this->createState('source state');
         $targetState = $this->createState('target state');

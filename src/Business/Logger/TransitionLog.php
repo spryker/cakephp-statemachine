@@ -10,8 +10,8 @@ namespace StateMachine\Business\Logger;
 use Cake\ORM\TableRegistry;
 use RuntimeException;
 use StateMachine\Business\Process\EventInterface;
-use StateMachine\Dependency\CommandPluginInterface;
-use StateMachine\Dependency\ConditionPluginInterface;
+use StateMachine\Dependency\StateMachineCommandInterface;
+use StateMachine\Dependency\StateMachineConditionInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Model\Entity\StateMachineItem;
 use StateMachine\Model\Entity\StateMachineTransitionLog;
@@ -84,22 +84,22 @@ class TransitionLog implements TransitionLogInterface
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
-     * @param \StateMachine\Dependency\CommandPluginInterface $command
+     * @param \StateMachine\Dependency\StateMachineCommandInterface $command
      *
      * @return void
      */
-    public function addCommand(ItemDto $itemDto, CommandPluginInterface $command): void
+    public function addCommand(ItemDto $itemDto, StateMachineCommandInterface $command): void
     {
         $this->logEntities[$itemDto->getIdentifierOrFail()]->command = get_class($command);
     }
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
-     * @param \StateMachine\Dependency\ConditionPluginInterface $condition
+     * @param \StateMachine\Dependency\StateMachineConditionInterface $condition
      *
      * @return void
      */
-    public function addCondition(ItemDto $itemDto, ConditionPluginInterface $condition): void
+    public function addCondition(ItemDto $itemDto, StateMachineConditionInterface $condition): void
     {
         $this->logEntities[$itemDto->getIdentifierOrFail()]->condition = get_class($condition);
     }
