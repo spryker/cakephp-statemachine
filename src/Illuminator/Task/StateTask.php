@@ -110,13 +110,17 @@ class StateTask extends AbstractTask
     /**
      * @param array $xml
      *
-     * @return string[]
+     * @return array
      */
     protected function getStates(array $xml): array
     {
         $stateToProcessMap = [];
 
         $xmlProcesses = $xml['statemachine']['process'];
+        if (isset($xmlProcesses['@name'])) {
+            $xmlProcesses = [$xmlProcesses];
+        }
+
         foreach ($xmlProcesses as $xmlProcess) {
             if (empty($xmlProcess['states']['state'])) {
                 continue;
@@ -130,7 +134,7 @@ class StateTask extends AbstractTask
                 }
 
                 $state = $xmlState['@name'];
-                $constant = strtoupper(Inflector::underscore($state));
+                $constant = strtoupper(Inflector::underscore(str_replace(' ', '-', $state)));
                 $stateToProcessMap[$state] = [
                     'name' => $state,
                     'constant' => static::PREFIX . $constant,
@@ -173,7 +177,7 @@ class StateTask extends AbstractTask
             return [];
         }
 
-        $fields = [];
+        $states = [];
         for ($i = $tokens[$docBlockCloseTagIndex]['comment_opener'] + 1; $i < $docBlockCloseTagIndex; $i++) {
             if ($tokens[$i]['code'] !== T_DOC_COMMENT_TAG) {
                 continue;
@@ -186,23 +190,23 @@ class StateTask extends AbstractTask
             if (count($pieces) < 2) {
                 continue;
             }
-            $field = mb_substr($pieces[1], 1);
-            if (strpos($field, ' ') === 0 || strpos($field, '_') === 0) {
+            $state = mb_substr($pieces[1], 1);
+            if (strpos($state, ' ') === 0 || strpos($state, '_') === 0) {
                 continue;
             }
             // We also skip camelCase as those are not the convention
-            if (Inflector::underscore($field) !== $field) {
+            if (Inflector::underscore($state) !== $state) {
                 continue;
             }
 
-            $fields[$field] = [
-                'name' => $field,
-                'constant' => static::PREFIX . mb_strtoupper($field),
+            $states[$state] = [
+                'name' => $state,
+                'constant' => static::PREFIX . mb_strtoupper($state),
                 'index' => $i,
             ];
         }
 
-        return $fields;
+        return $states;
     }
 
     /**
@@ -223,7 +227,7 @@ class StateTask extends AbstractTask
 
     /**
      * @param \PHP_CodeSniffer\Files\File $file
-     * @param string[] $states
+     * @param array $states
      * @param int $index Index of first token of previous line
      * @param bool $addToExisting
      * @param int $level
@@ -309,13 +313,13 @@ class StateTask extends AbstractTask
                 continue;
             }
 
-            $field = substr($constant, $pos + 1);
-            $field = strtolower($field);
+            $value = $tokens[$index + 4]['content'];
+            $state = substr($value, 1, -1);
 
-            $constants[$field] = [
+            $constants[$state] = [
                 'index' => $i,
                 'prefix' => $prefix,
-                'name' => $field,
+                'name' => $state,
                 'constant' => $constant,
             ];
         }
