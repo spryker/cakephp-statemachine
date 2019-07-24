@@ -12,7 +12,6 @@ use Cake\Utility\Xml;
 use IdeHelper\Annotator\Traits\FileTrait;
 use IdeHelper\Illuminator\Task\AbstractTask;
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Util\Tokens;
 use RuntimeException;
 use StateMachine\StateMachineConfig;
 
