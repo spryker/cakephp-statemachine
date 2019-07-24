@@ -165,8 +165,9 @@ You can query/read the state on this added property: `$entity->item_state->state
 
 ### Implement commands and conditions
 The commands and conditions will most likely be still red, as they are not implemented yet.
-Let's hook them up to the PHP counterpart then.
-
+Create your custom commands and conditions now.
+                                            
+Let's hook them up to the PHP counterpart then:
 ```php
     public function getCommands(): array
     {
