@@ -15,12 +15,12 @@ use Tools\Model\Table\Table;
 /**
  * StateMachineItemStateHistory Model
  *
- * @property \StateMachine\Model\Table\StateMachineItemStatesTable|\Cake\ORM\Association\BelongsTo $StateMachineItemStates
+ * @property \StateMachine\Model\Table\StateMachineItemStatesTable&\Cake\ORM\Association\BelongsTo $StateMachineItemStates
  *
  * @method \StateMachine\Model\Entity\StateMachineItemStateHistory get($primaryKey, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateHistory newEntity($data = null, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[] newEntities(array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateHistory|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateHistory patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[] patchEntities($entities, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateHistory findOrCreate($search, callable $callback = null, $options = [])

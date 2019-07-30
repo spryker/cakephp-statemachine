@@ -16,14 +16,14 @@ use Tools\Model\Table\Table;
  * @method \StateMachine\Model\Entity\StateMachineItem get($primaryKey, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItem newEntity($data = null, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItem[] newEntities(array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItem|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItem|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItem saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItem patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItem[] patchEntities($entities, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItem findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @property \StateMachine\Model\Table\StateMachineTransitionLogsTable|\Cake\ORM\Association\BelongsTo $StateMachineTransitionLogs
+ * @property \StateMachine\Model\Table\StateMachineTransitionLogsTable&\Cake\ORM\Association\BelongsTo $StateMachineTransitionLogs
  */
 class StateMachineItemsTable extends Table
 {

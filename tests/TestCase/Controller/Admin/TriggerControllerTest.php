@@ -12,6 +12,9 @@ use Cake\Core\Configure;
 use Cake\TestSuite\IntegrationTestCase;
 use StateMachine\Controller\Admin\TriggerController;
 
+/**
+ * @uses \StateMachine\Controller\Admin\TriggerController
+ */
 class TriggerControllerTest extends IntegrationTestCase
 {
     /**
