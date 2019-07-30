@@ -13,14 +13,14 @@ use Tools\Model\Table\Table;
 /**
  * StateMachineProcesses Model
  *
- * @property \StateMachine\Model\Table\StateMachineItemStatesTable|\Cake\ORM\Association\HasMany $StateMachineItemStates
- * @property \StateMachine\Model\Table\StateMachineTimeoutsTable|\Cake\ORM\Association\HasMany $StateMachineTimeouts
- * @property \StateMachine\Model\Table\StateMachineTransitionLogsTable|\Cake\ORM\Association\HasMany $StateMachineTransitionLogs
+ * @property \StateMachine\Model\Table\StateMachineItemStatesTable&\Cake\ORM\Association\HasMany $StateMachineItemStates
+ * @property \StateMachine\Model\Table\StateMachineTimeoutsTable&\Cake\ORM\Association\HasMany $StateMachineTimeouts
+ * @property \StateMachine\Model\Table\StateMachineTransitionLogsTable&\Cake\ORM\Association\HasMany $StateMachineTransitionLogs
  *
  * @method \StateMachine\Model\Entity\StateMachineProcess get($primaryKey, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess newEntity($data = null, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess[] newEntities(array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineProcess|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineProcess|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess[] patchEntities($entities, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess findOrCreate($search, callable $callback = null, $options = [])

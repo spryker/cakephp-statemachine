@@ -14,13 +14,13 @@ use Tools\Model\Table\Table;
 /**
  * StateMachineTimeouts Model
  *
- * @property \StateMachine\Model\Table\StateMachineItemStatesTable|\Cake\ORM\Association\BelongsTo $StateMachineItemStates
- * @property \StateMachine\Model\Table\StateMachineProcessesTable|\Cake\ORM\Association\BelongsTo $StateMachineProcesses
+ * @property \StateMachine\Model\Table\StateMachineItemStatesTable&\Cake\ORM\Association\BelongsTo $StateMachineItemStates
+ * @property \StateMachine\Model\Table\StateMachineProcessesTable&\Cake\ORM\Association\BelongsTo $StateMachineProcesses
  *
  * @method \StateMachine\Model\Entity\StateMachineTimeout get($primaryKey, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTimeout newEntity($data = null, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTimeout[] newEntities(array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTimeout|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineTimeout|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTimeout patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTimeout[] patchEntities($entities, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTimeout findOrCreate($search, callable $callback = null, $options = [])

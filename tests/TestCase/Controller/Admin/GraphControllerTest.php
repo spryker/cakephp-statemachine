@@ -12,6 +12,9 @@ use Cake\Core\Configure;
 use Cake\TestSuite\IntegrationTestCase;
 use StateMachine\Controller\Admin\GraphController;
 
+/**
+ * @uses \StateMachine\Controller\Admin\GraphController
+ */
 class GraphControllerTest extends IntegrationTestCase
 {
     /**

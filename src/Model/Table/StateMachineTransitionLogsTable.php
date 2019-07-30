@@ -19,12 +19,12 @@ use Tools\Model\Table\Table;
 /**
  * StateMachineTransitionLogs Model
  *
- * @property \StateMachine\Model\Table\StateMachineProcessesTable|\Cake\ORM\Association\BelongsTo $StateMachineProcesses
+ * @property \StateMachine\Model\Table\StateMachineProcessesTable&\Cake\ORM\Association\BelongsTo $StateMachineProcesses
  *
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog get($primaryKey, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog newEntity($data = null, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog[] newEntities(array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTransitionLog|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineTransitionLog|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog[] patchEntities($entities, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog findOrCreate($search, callable $callback = null, $options = [])

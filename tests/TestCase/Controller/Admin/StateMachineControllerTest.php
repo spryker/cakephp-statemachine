@@ -12,6 +12,9 @@ use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\IntegrationTestCase;
 
+/**
+ * @uses \StateMachine\Controller\Admin\StateMachineController
+ */
 class StateMachineControllerTest extends IntegrationTestCase
 {
     /**

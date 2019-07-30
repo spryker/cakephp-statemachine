@@ -9,6 +9,9 @@ namespace StateMachine\Test\TestCase\Controller\Admin;
 
 use Cake\TestSuite\IntegrationTestCase;
 
+/**
+ * @uses \StateMachine\Controller\Admin\StateMachineTimeoutsController
+ */
 class StateMachineTimeoutsControllerTest extends IntegrationTestCase
 {
     /**
