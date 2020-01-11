@@ -234,7 +234,7 @@ class FinderTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\StateMachineHandlerInterface
      */
-    protected function createStateMachineHandlerMock()
+    protected function createStateMachineHandlerMock(): StateMachineHandlerInterface
     {
         $stateMachineHandlerMock = $this->getMockBuilder(StateMachineHandlerInterface::class)->getMock();
 
@@ -244,7 +244,7 @@ class FinderTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\HandlerResolverInterface
      */
-    protected function createHandlerResolverMock()
+    protected function createHandlerResolverMock(): HandlerResolverInterface
     {
         $handlerResolverMock = $this->getMockBuilder(HandlerResolverInterface::class)->getMock();
 
@@ -262,7 +262,7 @@ class FinderTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\BuilderInterface
      */
-    public function createBuilderMock()
+    public function createBuilderMock(): BuilderInterface
     {
         return $this->getMockBuilder(BuilderInterface::class)->getMock();
     }
@@ -270,7 +270,7 @@ class FinderTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\Process\ProcessInterface
      */
-    protected function createProcessMock()
+    protected function createProcessMock(): ProcessInterface
     {
         return $this->getMockBuilder(ProcessInterface::class)->getMock();
     }

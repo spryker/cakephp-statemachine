@@ -178,7 +178,7 @@ class TransitionLogTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\StateMachineCommandInterface
      */
-    protected function createCommandMock()
+    protected function createCommandMock(): StateMachineCommandInterface
     {
         $commandMock = $this->getMockBuilder(StateMachineCommandInterface::class)->getMock();
 
@@ -188,7 +188,7 @@ class TransitionLogTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\StateMachineConditionInterface
      */
-    protected function createConditionPluginMock()
+    protected function createConditionPluginMock(): StateMachineConditionInterface
     {
         $conditionPluginMock = $this->getMockBuilder(StateMachineConditionInterface::class)->getMock();
 

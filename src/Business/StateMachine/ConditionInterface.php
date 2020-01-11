@@ -34,7 +34,7 @@ interface ConditionInterface
      * @param string $stateMachineName
      * @param string $processName
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[][] $itemsWithOnEnterEvent
+     * @return \StateMachine\Dto\StateMachine\ItemDto[][]
      */
     public function getOnEnterEventsForStatesWithoutTransition(string $stateMachineName, string $processName): array;
 }

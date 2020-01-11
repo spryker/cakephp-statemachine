@@ -51,7 +51,7 @@ class HandlerResolverTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\StateMachineHandlerInterface
      */
-    protected function createStateMachineHandlerMock()
+    protected function createStateMachineHandlerMock(): StateMachineHandlerInterface
     {
         $stateMachineHandlerMock = $this->getMockBuilder(StateMachineHandlerInterface::class)->getMock();
 

@@ -20,16 +20,6 @@ use StateMachine\Dto\StateMachine\ItemDto;
 class Condition implements ConditionInterface
 {
     /**
-     * @var array
-     */
-    protected $eventCounter = [];
-
-    /**
-     * @var array
-     */
-    protected $processBuffer = [];
-
-    /**
      * @var \StateMachine\Business\Logger\TransitionLogInterface
      */
     protected $transitionLog;
@@ -172,7 +162,7 @@ class Condition implements ConditionInterface
      * @param string $stateMachineName
      * @param string $processName
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[][] $itemsWithOnEnterEvent
+     * @return \StateMachine\Dto\StateMachine\ItemDto[][]
      */
     public function getOnEnterEventsForStatesWithoutTransition(string $stateMachineName, string $processName): array
     {

@@ -11,6 +11,7 @@ use App\StateMachine\Condition\TestFalseStateMachineCondition;
 use App\StateMachine\Condition\TestTrueStateMachineCondition;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use StateMachine\Business\Logger\TransitionLog;
 use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\State;
 use StateMachine\Business\Process\StateInterface;
@@ -197,7 +198,7 @@ class ConditionTest extends TestCase
      *
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\HandlerResolverInterface
      */
-    protected function createStateMachineResolverMock(string $conditionPluginClassname)
+    protected function createStateMachineResolverMock(string $conditionPluginClassname): HandlerResolverInterface
     {
         $stateMachineHandler = $this->createStateMachineHandlerMock();
         $stateMachineHandler->expects($this->exactly(2))
@@ -217,7 +218,7 @@ class ConditionTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\Logger\TransitionLog
      */
-    protected function createTransitionLogMock()
+    protected function createTransitionLogMock(): TransitionLog
     {
         $transitionLogMock = $this->getMockBuilder(TransitionLogInterface::class)->getMock();
 
@@ -227,7 +228,7 @@ class ConditionTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\HandlerResolverInterface
      */
-    protected function createHandlerResolverMock()
+    protected function createHandlerResolverMock(): HandlerResolverInterface
     {
         $handlerResolverMock = $this->getMockBuilder(HandlerResolverInterface::class)->getMock();
 
@@ -237,7 +238,7 @@ class ConditionTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\StateMachineHandlerInterface
      */
-    protected function createStateMachineHandlerMock()
+    protected function createStateMachineHandlerMock(): StateMachineHandlerInterface
     {
         $stateMachineHandlerMock = $this->getMockBuilder(StateMachineHandlerInterface::class)->getMock();
 
@@ -247,7 +248,7 @@ class ConditionTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\FinderInterface
      */
-    protected function createFinderMock()
+    protected function createFinderMock(): FinderInterface
     {
         $finderMock = $this->getMockBuilder(FinderInterface::class)->getMock();
 

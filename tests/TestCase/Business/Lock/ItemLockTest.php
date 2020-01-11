@@ -109,7 +109,7 @@ class ItemLockTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\StateMachineConfig
      */
-    protected function createStateMachineConfigMock()
+    protected function createStateMachineConfigMock(): StateMachineConfig
     {
         $stateMachineConfigMock = $this->getMockBuilder(StateMachineConfig::class)->getMock();
 

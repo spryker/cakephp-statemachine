@@ -340,7 +340,7 @@ class Persistence implements PersistenceInterface
     /**
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[] $expiredStateMachineItemsTransfer
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getItemsWithExpiredTimeouts(string $stateMachineName): array
     {

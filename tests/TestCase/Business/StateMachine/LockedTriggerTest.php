@@ -78,7 +78,7 @@ class LockedTriggerTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\TriggerInterface
      */
-    protected function createTriggerMock()
+    protected function createTriggerMock(): TriggerInterface
     {
         $triggerLockMock = $this->getMockBuilder(TriggerInterface::class)->getMock();
 
@@ -88,7 +88,7 @@ class LockedTriggerTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\Lock\ItemLockInterface
      */
-    protected function createItemLockMock()
+    protected function createItemLockMock(): ItemLockInterface
     {
         $itemLockMock = $this->getMockBuilder(ItemLockInterface::class)->getMock();
 

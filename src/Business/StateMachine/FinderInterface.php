@@ -45,7 +45,7 @@ interface FinderInterface
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flag
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[] $itemDto
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getItemsWithFlag(ProcessDto $processDto, string $flag): array;
 
@@ -53,7 +53,7 @@ interface FinderInterface
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flag
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[] $itemDto
+     * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getItemsWithoutFlag(ProcessDto $processDto, string $flag): array;
 

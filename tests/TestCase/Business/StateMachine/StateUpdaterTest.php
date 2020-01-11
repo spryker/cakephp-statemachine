@@ -297,7 +297,7 @@ class StateUpdaterTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\HandlerResolverInterface
      */
-    protected function createHandlerResolverMock()
+    protected function createHandlerResolverMock(): HandlerResolverInterface
     {
         $handlerResolverMock = $this->getMockBuilder(HandlerResolverInterface::class)->getMock();
 
@@ -321,7 +321,7 @@ class StateUpdaterTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Dependency\StateMachineHandlerInterface
      */
-    protected function createStateMachineHandlerMock()
+    protected function createStateMachineHandlerMock(): StateMachineHandlerInterface
     {
         $stateMachineHandlerMock = $this->getMockBuilder(StateMachineHandlerInterface::class)->getMock();
 
@@ -331,7 +331,7 @@ class StateUpdaterTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\StateMachine\TimeoutInterface
      */
-    protected function createTimeoutMock()
+    protected function createTimeoutMock(): TimeoutInterface
     {
         $timeoutMock = $this->getMockBuilder(TimeoutInterface::class)->getMock();
 

@@ -190,7 +190,7 @@ class BuilderTest extends TestCase
     /**
      * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\StateMachineConfig
      */
-    protected function createStateMachineConfig()
+    protected function createStateMachineConfig(): StateMachineConfig
     {
         $stateMachineConfigMock = $this->getMockBuilder(StateMachineConfig::class)->getMock();
 
