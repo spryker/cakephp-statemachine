@@ -11,7 +11,6 @@ use App\StateMachine\Condition\TestFalseStateMachineCondition;
 use App\StateMachine\Condition\TestTrueStateMachineCondition;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use StateMachine\Business\Logger\TransitionLog;
 use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\State;
 use StateMachine\Business\Process\StateInterface;
