@@ -216,9 +216,9 @@ class ConditionTest extends TestCase
     }
 
     /**
-     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\Logger\TransitionLog
+     * @return \PHPUnit\Framework\MockObject\MockObject|\StateMachine\Business\Logger\TransitionLogInterface
      */
-    protected function createTransitionLogMock(): TransitionLog
+    protected function createTransitionLogMock(): TransitionLogInterface
     {
         $transitionLogMock = $this->getMockBuilder(TransitionLogInterface::class)->getMock();
 
