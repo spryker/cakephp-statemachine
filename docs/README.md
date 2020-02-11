@@ -54,7 +54,7 @@ They are usually described as actions/verbs ("What do I do?").
 In order to be able to trigger an event manually you need to mark it as manually executable. 
 This means that when an item is in the same state as the source state of a transition that has a manually executable event attached to it, 
 in we can implement a button that corresponds to that event in the GUI. 
-By clicking the button, we are triggering the event associated to it.
+By clicking the button, we are triggering the event associated with it.
 
 #### OnEnter Events
 As seen above, they can have `"onEnter"=true` to auto-trigger this event when the source state is reached.
@@ -84,7 +84,7 @@ Note that you can add `"manual"=true` here to skip the timeout manually and dire
 
 ### Conditions
 A transition can be conditioned: the state machine can move from one state to another 
-if a certain condition associated to that transition is being satisfied.
+if a certain condition associated with that transition is being satisfied.
 ```xml
 <transition condition="Test/Condition">
 ```
@@ -94,8 +94,8 @@ The map of condition names and classes in code is done in the StateMachineHandle
 
 
 ### Commands
-A transition from one state to another has an event associated to it. 
-The event can have a command associated to it, which is a piece of logic that gets executed when the event is fired.
+A transition from one state to another has an event associated with it. 
+The event can have a command hooked up, which is a piece of logic that gets executed when the event is fired.
 ```xml
 <event name="create pdf" command="Test/Command" />
 ```
