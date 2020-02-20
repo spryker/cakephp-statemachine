@@ -287,6 +287,7 @@ class Drawer implements DrawerInterface
         foreach ($transitions as $transition) {
             if ($transition->getTargetState()->getName() !== $state->getName()) {
                 $hasOnlySelfReferences = false;
+
                 break;
             }
         }
