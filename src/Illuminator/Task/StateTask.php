@@ -78,7 +78,7 @@ class StateTask extends AbstractTask
             throw new RuntimeException('XML Path not found: `' . $pathToXml . '`');
         }
 
-        $xml = Xml::build($pathToXml);
+        $xml = Xml::build($pathToXml, ['readFile' => true]);
         $states = $this->getStates(Xml::toArray($xml));
 
         $file = $this->getFile('', $content);

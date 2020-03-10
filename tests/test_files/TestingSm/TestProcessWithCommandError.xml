@@ -32,7 +32,7 @@
 
         <events>
             <event name="create invoice" onEnter="true"/>
-            <event name="send invoice" onEnter="true" command="Test/ErrorCommand" />
+            <event name="send invoice" onEnter="true" command="Test/ErrorCommand"/>
         </events>
     </process>
 </statemachine>
