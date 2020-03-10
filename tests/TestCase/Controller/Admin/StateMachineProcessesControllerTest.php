@@ -32,7 +32,7 @@ class StateMachineProcessesControllerTest extends IntegrationTestCase
     {
         $this->disableErrorHandlerMiddleware();
 
-        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachineProcesses', 'action' => 'index']);
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'StateMachineProcesses', 'action' => 'index']);
 
         $this->assertResponseCode(200);
     }

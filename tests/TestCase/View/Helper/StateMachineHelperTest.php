@@ -25,7 +25,7 @@ class StateMachineHelperTest extends TestCase
         $map = [
             'Demo' => [
                 'plugin' => 'StateMachine',
-                'prefix' => 'admin',
+                'prefix' => 'Admin',
                 'controller' => 'Records',
             ],
         ];

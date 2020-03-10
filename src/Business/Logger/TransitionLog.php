@@ -244,7 +244,7 @@ class TransitionLog implements TransitionLogInterface
      */
     protected function createStateMachineTransitionLogEntity(): StateMachineTransitionLog
     {
-        return $this->stateMachineTransitionLogsTable->newEntity();
+        return $this->stateMachineTransitionLogsTable->newEmptyEntity();
     }
 
     /**

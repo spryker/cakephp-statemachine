@@ -36,7 +36,7 @@ class StateTask extends AbstractTask
      *
      * @return bool
      */
-    public function shouldRun($path): bool
+    public function shouldRun(string $path): bool
     {
         $className = pathinfo($path, PATHINFO_FILENAME);
         if (strpos($path, 'src' . DS . 'StateMachine' . DS) === false || substr($className, -strlen('StateMachineHandler')) !== 'StateMachineHandler') {
@@ -54,7 +54,7 @@ class StateTask extends AbstractTask
      *
      * @return string
      */
-    public function run($content, $path): string
+    public function run(string $content, string $path): string
     {
         $className = pathinfo($path, PATHINFO_FILENAME);
 
@@ -81,7 +81,7 @@ class StateTask extends AbstractTask
         $xml = Xml::build($pathToXml);
         $states = $this->getStates(Xml::toArray($xml));
 
-        $file = $this->_getFile('', $content);
+        $file = $this->getFile('', $content);
 
         $classIndex = $file->findNext(T_CLASS, 0);
         if (!$classIndex) {
@@ -200,7 +200,7 @@ class StateTask extends AbstractTask
         $beginIndex = $lastTokenOfLastLine;
         $visibility = $this->getConfig('visibility') ? $this->getConfig('visibility') . ' ' : '';
 
-        $fixer = $this->_getFixer($file);
+        $fixer = $this->getFixer($file);
 
         $fixer->beginChangeset();
 

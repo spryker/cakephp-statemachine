@@ -11,8 +11,8 @@ use App\StateMachine\DemoStateMachineHandler;
 use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
+use Shim\TestSuite\ConsoleOutput;
 use StateMachine\Shell\StateMachineShell;
-use Tools\TestSuite\ConsoleOutput;
 
 class StateMachineShellTest extends TestCase
 {
@@ -34,12 +34,12 @@ class StateMachineShellTest extends TestCase
     ];
 
     /**
-     * @var \Tools\TestSuite\ConsoleOutput
+     * @var \Shim\TestSuite\ConsoleOutput
      */
     protected $out;
 
     /**
-     * @var \Tools\TestSuite\ConsoleOutput
+     * @var \Shim\TestSuite\ConsoleOutput
      */
     protected $err;
 

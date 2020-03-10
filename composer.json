@@ -1,6 +1,6 @@
 {
     "name": "spryker/cakephp-statemachine",
-    "description": "CakePHP StateMachine Plugin by Spryker Systems GmbH",
+    "description": "CakePHP StateMachine Plugin",
     "type": "cakephp-plugin",
     "license": "proprietary",
     "authors": [
@@ -10,20 +10,18 @@
         }
     ],
     "require": {
-        "ext-json": "*",
-        "ext-simplexml": "*",
-        "php": ">=7.1",
-        "cakephp/cakephp": "^3.7",
-        "cakephp/migrations": "^2.0",
-        "dereuromark/cakephp-dto": "@stable",
-        "dereuromark/cakephp-tools": "@stable",
+        "php": ">=7.2",
+        "cakephp/cakephp": "^4.0",
+        "dereuromark/cakephp-dto": "^1.0",
         "phpdocumentor/graphviz": "@stable"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0.0",
-        "dereuromark/cakephp-ide-helper": "@stable",
+        "dereuromark/cakephp-tools": "^2.0",
+        "dereuromark/cakephp-ide-helper": "^1.0",
+        "cakephp/migrations": "^3.0",
+        "phpunit/phpunit": "^8.5",
         "spryker/code-sniffer": "@stable",
-        "phpstan/phpstan-shim": "^0.11"
+        "phpstan/phpstan": "^0.12"
     },
     "autoload": {
         "psr-4": {
@@ -38,10 +36,12 @@
             "App\\": "tests/test_app/src/"
         }
     },
+    "prefer-stable": true,
+    "minimum-stability": "dev",
     "scripts": {
-        "test": "phpunit",
-        "test-coverage" : "phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
-        "phpstan": "vendor/bin/phpstan.phar analyse -c tests/phpstan.neon -l 7 src/",
+        "test": "vendor/bin/phpunit",
+        "test-coverage" : "vendor/bin/phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
+        "stan": "vendor/bin/phpstan analyse -c tests/phpstan.neon -l 7 src/",
         "cs-check": "vendor/bin/phpcs --colors --standard=config/ruleset.xml -s -p --ignore=/config/Migrations/,/src/Dto/ src/ tests/ config/",
         "cs-fix": "vendor/bin/phpcbf --colors --standard=config/ruleset.xml -p --ignore=/config/Migrations/,/src/Dto/ src/ tests/ config/"
     }

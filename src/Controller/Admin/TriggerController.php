@@ -38,11 +38,14 @@ class TriggerController extends AppController
     ];
 
     /**
-     * @var array
+     * @return void
      */
-    public $components = [
-        'Flash',
-    ];
+    public function initialize(): void
+    {
+        parent::initialize();
+
+        $this->loadComponent('Flash');
+    }
 
     /**
      * Trigger event for new identifier.

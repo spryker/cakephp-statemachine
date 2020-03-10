@@ -191,7 +191,7 @@ class Persistence implements PersistenceInterface
      */
     public function saveItemStateHistory(ItemDto $itemDto): void
     {
-        $stateMachineItemStateHistory = $this->stateMachineItemStateHistoryTable->newEntity();
+        $stateMachineItemStateHistory = $this->stateMachineItemStateHistoryTable->newEmptyEntity();
         $stateMachineItemStateHistory->identifier = $itemDto->getIdentifierOrFail();
         $stateMachineItemStateHistory->state_machine_item_state_id = $itemDto->getIdItemStateOrFail();
         $this->stateMachineItemStateHistoryTable->saveOrFail($stateMachineItemStateHistory);
@@ -384,7 +384,7 @@ class Persistence implements PersistenceInterface
         FrozenTime $timeoutDate,
         string $eventName
     ): StateMachineTimeout {
-        $stateMachineItemTimeoutEntity = $this->stateMachineTimeoutsTable->newEntity();
+        $stateMachineItemTimeoutEntity = $this->stateMachineTimeoutsTable->newEmptyEntity();
         $stateMachineItemTimeoutEntity->timeout = $timeoutDate;
         $stateMachineItemTimeoutEntity->identifier = $itemDto->getIdentifierOrFail();
         $stateMachineItemTimeoutEntity->state_machine_item_state_id = $itemDto->getIdItemStateOrFail();
@@ -417,7 +417,7 @@ class Persistence implements PersistenceInterface
      */
     protected function saveStateMachineProcess(ProcessDto $processDto): StateMachineProcess
     {
-        $stateMachineProcessEntity = $this->stateMachineProcessesTable->newEntity();
+        $stateMachineProcessEntity = $this->stateMachineProcessesTable->newEmptyEntity();
         $stateMachineProcessEntity->name = $processDto->getProcessNameOrFail();
         $stateMachineProcessEntity->state_machine = $processDto->getStateMachineNameOrFail();
 
@@ -434,7 +434,7 @@ class Persistence implements PersistenceInterface
      */
     protected function saveStateMachineItemEntity(ItemDto $itemDto, string $stateName): StateMachineItemState
     {
-        $stateMachineItemStateEntity = $this->stateMachineItemStatesTable->newEntity();
+        $stateMachineItemStateEntity = $this->stateMachineItemStatesTable->newEmptyEntity();
         $stateMachineItemStateEntity->name = $stateName;
         $stateMachineItemStateEntity->state_machine_process_id = $itemDto->getIdStateMachineProcessOrFail();
 

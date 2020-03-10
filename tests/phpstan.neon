@@ -1,9 +1,10 @@
 parameters:
-  autoload_files:
-    - %rootDir%/../../../tests/bootstrap.php
-  excludes_analyse:
-    - %rootDir%/../../../../src/Transfer/*
-  ignoreErrors:
-    - '#Method .+::.+Table\(\) should return .+Table but returns Cake\\ORM\\Table.#'
-    - '#Cannot call method (contain|where)\(\) on .+.#'
-    - '#Parameter \#1 $message of method .+FlashComponent::success\(\) expects string, string|null given.#'
+    autoload_files:
+        - %rootDir%/../../../tests/bootstrap.php
+    excludes_analyse:
+        - %rootDir%/../../../../src/Transfer/*
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    ignoreErrors:
+        - '#Unsafe usage of new static\(\).#'
+        - '#Method .+::.+Table\(\) should return .+Table but returns Cake\\ORM\\Table.#'

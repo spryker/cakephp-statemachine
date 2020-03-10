@@ -44,7 +44,7 @@ class GraphControllerTest extends IntegrationTestCase
             GraphController::URL_PARAM_PROCESS => 'TestProcess',
             GraphController::URL_PARAM_STATE_MACHINE => 'TestingSm',
         ];
-        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'Graph', 'action' => 'draw', '?' => $query]);
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'Graph', 'action' => 'draw', '?' => $query]);
 
         $this->assertResponseCode(200);
 
