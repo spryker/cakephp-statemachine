@@ -14,16 +14,21 @@ use Tools\Model\Table\Table;
  * StateMachineItems Model
  *
  * @method \StateMachine\Model\Entity\StateMachineItem get($primaryKey, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItem newEntity($data = null, array $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItem newEntity(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItem[] newEntities(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItem|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItem saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItem patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItem[] patchEntities($entities, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItem findOrCreate($search, callable $callback = null, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItem[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItem findOrCreate($search, ?callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @property \StateMachine\Model\Table\StateMachineTransitionLogsTable&\Cake\ORM\Association\BelongsTo $StateMachineTransitionLogs
+ * @method \StateMachine\Model\Entity\StateMachineItem newEmptyEntity()
+ * @method \StateMachine\Model\Entity\StateMachineItem[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItem[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItem[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItem[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class StateMachineItemsTable extends Table
 {

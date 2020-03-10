@@ -22,15 +22,20 @@ use Tools\Model\Table\Table;
  * @property \StateMachine\Model\Table\StateMachineProcessesTable&\Cake\ORM\Association\BelongsTo $StateMachineProcesses
  *
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog get($primaryKey, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTransitionLog newEntity($data = null, array $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineTransitionLog newEntity(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog[] newEntities(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTransitionLog[] patchEntities($entities, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTransitionLog findOrCreate($search, callable $callback = null, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineTransitionLog[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineTransitionLog findOrCreate($search, ?callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineTransitionLog newEmptyEntity()
+ * @method \StateMachine\Model\Entity\StateMachineTransitionLog[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineTransitionLog[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineTransitionLog[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineTransitionLog[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class StateMachineTransitionLogsTable extends Table
 {
