@@ -39,11 +39,11 @@ class StateMachineItemStateHistoryController extends AppController
     /**
      * View method
      *
-     * @param int|null $id State Machine Item State History id.
+     * @param string|int|null $id State Machine Item State History id.
      *
      * @return \Cake\Http\Response|null|void
      */
-    public function view(?int $id = null)
+    public function view($id = null)
     {
         $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->get($id, [
             'contain' => ['StateMachineItemStates'],
@@ -56,11 +56,11 @@ class StateMachineItemStateHistoryController extends AppController
     /**
      * Delete method
      *
-     * @param int|null $id State Machine Item State History id.
+     * @param string|int|null $id State Machine Item State History id.
      *
      * @return \Cake\Http\Response|null Redirects to index.
      */
-    public function delete(?int $id = null): ?Response
+    public function delete($id = null): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
         $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->get($id);

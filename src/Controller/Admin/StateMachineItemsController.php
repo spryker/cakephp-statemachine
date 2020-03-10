@@ -48,11 +48,11 @@ class StateMachineItemsController extends AppController
     /**
      * View method
      *
-     * @param int|null $id State Machine Item id.
+     * @param string|int|null $id State Machine Item id.
      *
      * @return \Cake\Http\Response|null|void
      */
-    public function view(?int $id = null)
+    public function view($id = null)
     {
         $stateMachineItem = $this->StateMachineItems->get($id, [
             'contain' => ['StateMachineTransitionLogs' => 'StateMachineProcesses'],
@@ -64,11 +64,11 @@ class StateMachineItemsController extends AppController
     /**
      * Delete method
      *
-     * @param int|null $id State Machine Item id.
+     * @param string|int|null $id State Machine Item id.
      *
      * @return \Cake\Http\Response|null Redirects to index.
      */
-    public function delete(?int $id = null): ?Response
+    public function delete($id = null): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
         $stateMachineItem = $this->StateMachineItems->get($id);

@@ -67,11 +67,7 @@ $cache = [
 
 Cake\Cache\Cache::setConfig($cache);
 
-//Cake\Core\Plugin::getCollection()->add(new \Tools\Plugin());
-//Cake\Core\Plugin::getCollection()->add(new \Translate\Plugin());
-
-//DispatcherFactory::add('Routing');
-//DispatcherFactory::add('ControllerFactory');
+Cake\Core\Plugin::getCollection()->add(new \Tools\Plugin());
 
 // Ensure default test connection is defined
 if (!getenv('db_class')) {

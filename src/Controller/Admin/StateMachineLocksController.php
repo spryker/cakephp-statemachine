@@ -32,11 +32,11 @@ class StateMachineLocksController extends AppController
     /**
      * View method
      *
-     * @param int|null $id State Machine Lock id.
+     * @param string|int|null $id State Machine Lock id.
      *
      * @return \Cake\Http\Response|null|void
      */
-    public function view(?int $id = null)
+    public function view($id = null)
     {
         $stateMachineLock = $this->StateMachineLocks->get($id, [
             'contain' => [],
@@ -48,11 +48,11 @@ class StateMachineLocksController extends AppController
     /**
      * Delete method
      *
-     * @param int|null $id State Machine Lock id.
+     * @param string|int|null $id State Machine Lock id.
      *
      * @return \Cake\Http\Response|null Redirects to index.
      */
-    public function delete(?int $id = null): ?Response
+    public function delete($id = null): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
         $stateMachineLock = $this->StateMachineLocks->get($id);
