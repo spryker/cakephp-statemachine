@@ -109,7 +109,7 @@ class ItemLock implements ItemLockInterface
             $this->stateMachineConfig->getStateMachineItemLockExpirationInterval()
         );
         $expirationDate = new FrozenTime();
-        $expirationDate->add($dateInterval);
+        $expirationDate = $expirationDate->add($dateInterval);
 
         return $expirationDate;
     }
