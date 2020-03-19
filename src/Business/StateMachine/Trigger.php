@@ -476,7 +476,7 @@ class Trigger implements TriggerInterface
         if (!$initialStateName) {
             throw new TriggerException(
                 sprintf(
-                    'Initial state name for process "%s" is not provided. You can provide it in "%s::getInitialStateForProcess" method.',
+                    'Initial state name for process "%s" is not provided. You can provide it in %s::getInitialStateForProcess() method.',
                     $processName,
                     StateMachineHandlerInterface::class
                 )
