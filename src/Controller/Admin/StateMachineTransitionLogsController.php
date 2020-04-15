@@ -39,11 +39,11 @@ class StateMachineTransitionLogsController extends AppController
     /**
      * View method
      *
-     * @param int|null $id State Machine Transition Log id.
+     * @param string|int|null $id State Machine Transition Log id.
      *
      * @return \Cake\Http\Response|null|void
      */
-    public function view(?int $id = null)
+    public function view($id = null)
     {
         $stateMachineTransitionLog = $this->StateMachineTransitionLogs->get($id, [
             'contain' => ['StateMachineProcesses'],
@@ -56,11 +56,11 @@ class StateMachineTransitionLogsController extends AppController
     /**
      * Delete method
      *
-     * @param int|null $id State Machine Transition Log id.
+     * @param string|int|null $id State Machine Transition Log id.
      *
      * @return \Cake\Http\Response|null Redirects to index.
      */
-    public function delete(?int $id = null): ?Response
+    public function delete($id = null): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
         $stateMachineTransitionLog = $this->StateMachineTransitionLogs->get($id);

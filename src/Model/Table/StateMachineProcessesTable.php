@@ -18,15 +18,20 @@ use Tools\Model\Table\Table;
  * @property \StateMachine\Model\Table\StateMachineTransitionLogsTable&\Cake\ORM\Association\HasMany $StateMachineTransitionLogs
  *
  * @method \StateMachine\Model\Entity\StateMachineProcess get($primaryKey, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineProcess newEntity($data = null, array $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineProcess newEntity(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess[] newEntities(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineProcess[] patchEntities($entities, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineProcess findOrCreate($search, callable $callback = null, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineProcess[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineProcess findOrCreate($search, ?callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \StateMachine\Model\Entity\StateMachineProcess saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineProcess newEmptyEntity()
+ * @method \StateMachine\Model\Entity\StateMachineProcess[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineProcess[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineProcess[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineProcess[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class StateMachineProcessesTable extends Table
 {

@@ -2,13 +2,13 @@
 
 ## Terminology
 
-State machines are a model of computation used to automate processes. 
+State machines are a model of computation used to automate processes.
 The machine can be in one of a finite number of states and it can be only in one state at a time for a specific identifier.
 
 ### States
 
-States allow describing in which state a state machine is. They are usually described as adjectives ("What state am I in?"). 
- 
+States allow describing in which state a state machine is. They are usually described as adjectives ("What state am I in?").
+
 ```xml
 <states>
     <state name="new" display="name display value"/>
@@ -18,7 +18,7 @@ States allow describing in which state a state machine is. They are usually desc
 ```
 
 ### Transitions
-States can be connected one to another through transitions, similar to a finite graph. 
+States can be connected one to another through transitions, similar to a finite graph.
 They are defined via "source" and "target" state.
 Such a transition is bound to an event, which tells when the item can leave the current state.
 
@@ -51,16 +51,16 @@ They are usually described as actions/verbs ("What do I do?").
 ```
 
 #### Manually executable events
-In order to be able to trigger an event manually you need to mark it as manually executable. 
-This means that when an item is in the same state as the source state of a transition that has a manually executable event attached to it, 
-in we can implement a button that corresponds to that event in the GUI. 
+In order to be able to trigger an event manually you need to mark it as manually executable.
+This means that when an item is in the same state as the source state of a transition that has a manually executable event attached to it,
+in we can implement a button that corresponds to that event in the GUI.
 By clicking the button, we are triggering the event associated with it.
 
 #### OnEnter Events
 As seen above, they can have `"onEnter"=true` to auto-trigger this event when the source state is reached.
 If nothing fails the state machine then transitions directly to the target state.
 
-By using the OnEnter events you can model a chain of commands that you want to get executed because 
+By using the OnEnter events you can model a chain of commands that you want to get executed because
 the state machine always looks if there is another thing to do after any transition that gets executed.
 
 You usually want to make your state-machine as fully automated as possible.
@@ -77,13 +77,13 @@ The timeout is defined in PHP string timespan.
 <event name="sendFirstReminder" manual="true" timeout="10 days"/>
 ```
 
-Every time the event is fired (automatically, after timeout), the state machine makes sure the associated command is executed. 
+Every time the event is fired (automatically, after timeout), the state machine makes sure the associated command is executed.
 If an exception occurs in the command coding, the item stays in the source state.
 
 Note that you can add `"manual"=true` here to skip the timeout manually and directly trigger the event.
 
 ### Conditions
-A transition can be conditioned: the state machine can move from one state to another 
+A transition can be conditioned: the state machine can move from one state to another
 if a certain condition associated with that transition is being satisfied.
 ```xml
 <transition condition="Test/Condition">
@@ -94,7 +94,7 @@ The map of condition names and classes in code is done in the StateMachineHandle
 
 
 ### Commands
-A transition from one state to another has an event associated with it. 
+A transition from one state to another has an event associated with it.
 The event can have a command hooked up, which is a piece of logic that gets executed when the event is fired.
 ```xml
 <event name="create pdf" command="Test/Command" />
@@ -177,7 +177,7 @@ class MyCommand implements StateMachineCommandInterface
     ...
 }
 ```
-and 
+and
 ```php
 namespace App\StateMachine\Condition;
 
@@ -234,7 +234,7 @@ Events can be triggered via:
 - timeout automatically (bin/cake state_machine check_timeout)
 - cronjob (bin/cake state_machine check_conditions)
 
-Note: The process needs to be in a state, where it is actually waiting for the event you are triggering. 
+Note: The process needs to be in a state, where it is actually waiting for the event you are triggering.
 Otherwise, the event would not be processed.
 
 ### Facade methods
@@ -296,7 +296,7 @@ You can use either the state name or the id of that row.
 
 If this was successful, your state should now be the "target_state" of that event transition.
 
-You can also display buttons in your entities' view to advance the process. 
+You can also display buttons in your entities' view to advance the process.
 For this, get the events that can be manually executed:
 ```php
 $events = $stateMachineFacade->getManualEventsForStateMachineItem($itemDto);
@@ -305,13 +305,13 @@ $events = $stateMachineFacade->getManualEventsForStateMachineItem($itemDto);
 Then display your buttons for them:
 ```php
 // $event is a string here
-$url = ['prefix' => 'admin', 'plugin' => 'StateMachine', 
-    'controller' => 'Trigger', 'action' => 'event', 
+$url = ['prefix' => 'admin', 'plugin' => 'StateMachine',
+    'controller' => 'Trigger', 'action' => 'event',
     '?' => [
-        'state-machine' => $entity->item_state->state_machine, 
-        'process' => $entity->item_state->process, 
-        'state' => $entity->item_state->state, 
-        'identifier' => $entity->id, 
+        'state-machine' => $entity->item_state->state_machine,
+        'process' => $entity->item_state->process,
+        'state' => $entity->item_state->state,
+        'identifier' => $entity->id,
         'event' => $event,
     ],
 ];
@@ -337,11 +337,11 @@ $this->loadHelper('Tools.Format');
 
 
 ## Versioning the State Machines
-The ideal case would be that after designing your state machines and you start using them in production environment, 
+The ideal case would be that after designing your state machines and you start using them in production environment,
 they stay the same and don’t need any further adjustments.
 
-However, we all know that a software product is subject of change in time. 
-The state machines that model the order processing touch many critical parts of the system so it’s very likely 
+However, we all know that a software product is subject of change in time.
+The state machines that model the order processing touch many critical parts of the system so it’s very likely
 to need updates in the future.
 
 When a state machine is changed but there are already orders which use this process, this part becomes important.
@@ -383,7 +383,7 @@ enable exception-catching:
 Add `'catch' => true` into the URL query string array. This will display an error flash message with the exception message then.
 
 ### Linking the state machine items to your entities
-If you want to have clickable links from the items index/view to the actual records in your backend, 
+If you want to have clickable links from the items index/view to the actual records in your backend,
 you need to provide a "map".
 Use the Configure key `StateMachine.map`:
 ```
@@ -406,7 +406,7 @@ If no map can be found, the identifiers will be just displayed as string.
 
 ## Illuminator StateTask
 
-If you installed the optional [IdeHelper](https://travis-ci.org/dereuromark/cakephp-ide-helper) plugin, 
+If you installed the optional [IdeHelper](https://travis-ci.org/dereuromark/cakephp-ide-helper) plugin,
 you can use its Illuminator to auto-add class constants to the handler classes for all your states.
 
 Activate the task in your config as documented in IdeHelper:
@@ -419,7 +419,7 @@ Activate the task in your config as documented in IdeHelper:
 ```
 Then run it over your StateMachineHandlers:
 ```
-bin/cake illuminator illuminate src/StateMachine/ 
+bin/cake illuminator illuminate src/StateMachine/
 ```
 Tip: Add `-v -d` to dry-run it first.
 
@@ -427,7 +427,7 @@ Now it is convienient and DRY to use the class constants instead of magic string
 ```php
 if ($entity->state === MyStateMachineHandler::STATE_DONE) {
     ...
-} 
+}
 ```
 
 
@@ -443,7 +443,7 @@ bin/cake dto generate -p StateMachine
 There are a few guidelines to follow:
 * Passing tests (`composer test`) - Travis will also automatically check those for any PR then
 * Coding standards (`composer cs-check` to check and `composer cs-fix` to fix)
-* PHPStan (`composer phpstan`) -  The higher level, the better
+* PHPStan (`composer stan`) -  The higher level, the better
 
 You can check coverage using
 ```

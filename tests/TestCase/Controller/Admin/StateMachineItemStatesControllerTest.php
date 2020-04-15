@@ -34,7 +34,7 @@ class StateMachineItemStatesControllerTest extends IntegrationTestCase
     {
         $this->disableErrorHandlerMiddleware();
 
-        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachineItemStates', 'action' => 'index']);
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'StateMachineItemStates', 'action' => 'index']);
 
         $this->assertResponseCode(200);
     }

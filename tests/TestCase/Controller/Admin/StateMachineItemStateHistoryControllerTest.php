@@ -35,7 +35,7 @@ class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
     {
         $this->disableErrorHandlerMiddleware();
 
-        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachineItemStateHistory', 'action' => 'index']);
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'StateMachineItemStateHistory', 'action' => 'index']);
 
         $this->assertResponseCode(200);
     }

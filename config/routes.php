@@ -4,7 +4,7 @@ use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
 
-Router::prefix('admin', function (RouteBuilder $routes): void {
+Router::prefix('Admin', function (RouteBuilder $routes): void {
     $routes->plugin('StateMachine', ['path' => '/state-machine'], function (RouteBuilder $routes): void {
         $routes->connect('/', ['controller' => 'StateMachine', 'action' => 'index'], ['routeClass' => DashedRoute::class]);
 

@@ -11,19 +11,19 @@ use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Console\Io;
+use Shim\TestSuite\ConsoleOutput;
+use Shim\TestSuite\TestCase;
 use StateMachine\Illuminator\Task\StateTask;
-use Tools\TestSuite\ConsoleOutput;
-use Tools\TestSuite\TestCase;
 
 class StateTaskTest extends TestCase
 {
     /**
-     * @var \Tools\TestSuite\ConsoleOutput
+     * @var \Shim\TestSuite\ConsoleOutput
      */
     protected $out;
 
     /**
-     * @var \Tools\TestSuite\ConsoleOutput
+     * @var \Shim\TestSuite\ConsoleOutput
      */
     protected $err;
 

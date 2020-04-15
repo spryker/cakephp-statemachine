@@ -119,6 +119,6 @@ class ItemLock implements ItemLockInterface
      */
     protected function createStateMachineLockEntity(): StateMachineLock
     {
-        return $this->stateMachineLocksTable->newEntity();
+        return $this->stateMachineLocksTable->newEmptyEntity();
     }
 }

@@ -35,7 +35,7 @@ class StateMachineTimeoutsControllerTest extends IntegrationTestCase
     {
         $this->disableErrorHandlerMiddleware();
 
-        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachineTimeouts', 'action' => 'index']);
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'StateMachineTimeouts', 'action' => 'index']);
 
         $this->assertResponseCode(200);
     }

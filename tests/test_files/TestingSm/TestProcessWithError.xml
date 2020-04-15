@@ -14,7 +14,7 @@
                 <flag>Flag1</flag>
                 <flag>Flag2</flag>
             </state>
-            <state name="order exported" />
+            <state name="order exported"/>
         </states>
 
         <transitions>
@@ -38,9 +38,9 @@
         </transitions>
 
         <events>
-            <event name="create invoice" onEnter="true" command="Test/Command" />
+            <event name="create invoice" onEnter="true" command="Test/Command"/>
             <event name="send invoice" onEnter="true"/>
-            <event name="export order" onEnter="true" />
+            <event name="export order" onEnter="true"/>
         </events>
     </process>
 </statemachine>

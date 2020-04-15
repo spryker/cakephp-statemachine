@@ -293,7 +293,7 @@ class StateMachineFacadeTest extends TestCase
         $this->assertSame('invoice sent', $lastLog->source_state);
         $this->assertNull($lastLog->target_state);
         $this->assertTrue($lastLog->is_error);
-        $this->assertContains('Test exception for identity', $lastLog->error_message);
+        $this->assertStringContainsString('Test exception for identity', $lastLog->error_message);
     }
 
     /**
@@ -333,7 +333,7 @@ class StateMachineFacadeTest extends TestCase
         $this->assertSame('invoice created', $lastLog->source_state);
         $this->assertNull($lastLog->target_state);
         $this->assertTrue($lastLog->is_error);
-        $this->assertContains('Test exception for identity', $lastLog->error_message);
+        $this->assertStringContainsString('Test exception for identity', $lastLog->error_message);
     }
 
     /**

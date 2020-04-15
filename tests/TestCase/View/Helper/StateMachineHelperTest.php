@@ -8,6 +8,9 @@
 namespace StateMachine\Test\TestCase\View\Helper;
 
 use Cake\Core\Configure;
+use Cake\Routing\Route\DashedRoute;
+use Cake\Routing\RouteBuilder;
+use Cake\Routing\Router;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 use StateMachine\Model\Entity\StateMachineItem;
@@ -25,11 +28,19 @@ class StateMachineHelperTest extends TestCase
         $map = [
             'Demo' => [
                 'plugin' => 'StateMachine',
-                'prefix' => 'admin',
+                'prefix' => 'Admin',
                 'controller' => 'Records',
             ],
         ];
         Configure::write('StateMachine.map', $map);
+
+        Router::prefix('admin', function (RouteBuilder $routes): void {
+            $routes->plugin('StateMachine', ['path' => '/state-machine'], function (RouteBuilder $routes): void {
+                $routes->connect('/', ['controller' => 'StateMachine', 'action' => 'index'], ['routeClass' => DashedRoute::class]);
+
+                $routes->fallbacks(DashedRoute::class);
+            });
+        });
     }
 
     /**

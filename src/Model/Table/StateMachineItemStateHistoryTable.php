@@ -18,15 +18,20 @@ use Tools\Model\Table\Table;
  * @property \StateMachine\Model\Table\StateMachineItemStatesTable&\Cake\ORM\Association\BelongsTo $StateMachineItemStates
  *
  * @method \StateMachine\Model\Entity\StateMachineItemStateHistory get($primaryKey, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory newEntity($data = null, array $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateHistory newEntity(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[] newEntities(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateHistory|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateHistory patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[] patchEntities($entities, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory findOrCreate($search, callable $callback = null, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateHistory findOrCreate($search, ?callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \StateMachine\Model\Entity\StateMachineItemStateHistory saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateHistory newEmptyEntity()
+ * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class StateMachineItemStateHistoryTable extends Table
 {

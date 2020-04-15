@@ -33,7 +33,7 @@ class StateMachineTransitionLogsControllerTest extends IntegrationTestCase
     {
         $this->disableErrorHandlerMiddleware();
 
-        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachineTransitionLogs', 'action' => 'index']);
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'StateMachineTransitionLogs', 'action' => 'index']);
 
         $this->assertResponseCode(200);
     }

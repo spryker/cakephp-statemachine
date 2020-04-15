@@ -41,7 +41,7 @@ class StateMachineControllerTest extends IntegrationTestCase
     {
         $this->disableErrorHandlerMiddleware();
 
-        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachine', 'action' => 'index']);
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'StateMachine', 'action' => 'index']);
 
         $this->assertResponseCode(200);
     }
@@ -58,7 +58,7 @@ class StateMachineControllerTest extends IntegrationTestCase
             DemoStateMachineHandler::class,
         ]);
 
-        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachine', 'action' => 'process', '?' => ['state-machine' => 'TestingSm']]);
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'StateMachine', 'action' => 'process', '?' => ['state-machine' => 'TestingSm']]);
 
         $this->assertResponseCode(200);
     }
@@ -70,7 +70,7 @@ class StateMachineControllerTest extends IntegrationTestCase
     {
         $this->disableErrorHandlerMiddleware();
 
-        $this->get(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachine', 'action' => 'overview', '?' => ['state-machine' => 'TestingSm']]);
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'StateMachine', 'action' => 'overview', '?' => ['state-machine' => 'TestingSm']]);
 
         $this->assertResponseCode(200);
     }
@@ -86,7 +86,7 @@ class StateMachineControllerTest extends IntegrationTestCase
         $countBefore = $stateMachineItemsTable->find()->count();
         $this->assertSame(1, $countBefore);
 
-        $this->post(['plugin' => 'StateMachine', 'prefix' => 'admin', 'controller' => 'StateMachine', 'action' => 'reset']);
+        $this->post(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'StateMachine', 'action' => 'reset']);
 
         $this->assertResponseCode(302);
 

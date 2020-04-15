@@ -69,7 +69,7 @@ class Drawer implements DrawerInterface
     /**
      * @var string
      */
-    protected $brLeft = '<br align="left" />  ';
+    protected $brLeft = '<br align="left"/>';
 
     /**
      * @var string

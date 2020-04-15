@@ -33,11 +33,11 @@ class StateMachineProcessesController extends AppController
     /**
      * View method
      *
-     * @param int|null $id State Machine Process id.
+     * @param string|int|null $id State Machine Process id.
      *
      * @return \Cake\Http\Response|null|void
      */
-    public function view(?int $id = null)
+    public function view($id = null)
     {
         $stateMachineProcess = $this->StateMachineProcesses->get($id, [
             'contain' => ['StateMachineItemStates', 'StateMachineTimeouts'],
@@ -50,11 +50,11 @@ class StateMachineProcessesController extends AppController
     /**
      * Delete method
      *
-     * @param int|null $id State Machine Process id.
+     * @param string|int|null $id State Machine Process id.
      *
      * @return \Cake\Http\Response|null Redirects to index.
      */
-    public function delete(?int $id = null): ?Response
+    public function delete($id = null): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
         $stateMachineProcess = $this->StateMachineProcesses->get($id);
