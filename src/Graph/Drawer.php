@@ -304,8 +304,13 @@ class Drawer implements DrawerInterface
      *
      * @return void
      */
-    protected function addEdge(TransitionInterface $transition, string $type = self::EDGE_FULL, array $attributes = [], ?string $fromName = null, ?string $toName = null): void
-    {
+    protected function addEdge(
+        TransitionInterface $transition,
+        string $type = self::EDGE_FULL,
+        array $attributes = [],
+        ?string $fromName = null,
+        ?string $toName = null
+    ): void {
         $label = [];
 
         if ($type !== self::EDGE_LOWER_HALF) {
