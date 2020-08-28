@@ -36,8 +36,6 @@
             "App\\": "tests/test_app/src/"
         }
     },
-    "prefer-stable": true,
-    "minimum-stability": "beta",
     "scripts": {
         "test": "vendor/bin/phpunit",
         "test-coverage" : "vendor/bin/phpunit --log-junit tmp/coverage/unitreport.xml --coverage-html tmp/coverage --coverage-clover tmp/coverage/coverage.xml",
