@@ -76,7 +76,7 @@ class StateMachineItemStateHistoryTable extends Table
             ->scalar('identifier')
             //->maxLength('identifier')
             ->requirePresence('identifier', 'create')
-            ->notEmpty('identifier');
+            ->notEmptyString('identifier');
 
         return $validator;
     }

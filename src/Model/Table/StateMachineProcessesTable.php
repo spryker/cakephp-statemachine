@@ -83,13 +83,13 @@ class StateMachineProcessesTable extends Table
             ->scalar('name')
             //->maxLength('name')
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmptyString('name');
 
         $validator
             ->scalar('state_machine')
             ->maxLength('state_machine', 90)
             ->requirePresence('state_machine', 'create')
-            ->notEmpty('state_machine');
+            ->notEmptyString('state_machine');
 
         return $validator;
     }

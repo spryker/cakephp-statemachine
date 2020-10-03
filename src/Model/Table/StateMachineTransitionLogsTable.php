@@ -80,7 +80,7 @@ class StateMachineTransitionLogsTable extends Table
             ->scalar('identifier')
             //->maxLength('identifier')
             ->requirePresence('identifier', 'create')
-            ->notEmpty('identifier');
+            ->notEmptyString('identifier');
 
         $validator
             ->boolean('locked')
@@ -90,7 +90,7 @@ class StateMachineTransitionLogsTable extends Table
         $validator
             ->scalar('event')
             //->maxLength('event')
-            ->allowEmpty('event');
+            ->allowEmptyString('event');
 
         $validator
             ->scalar('params')
@@ -100,22 +100,22 @@ class StateMachineTransitionLogsTable extends Table
         $validator
             ->scalar('source_state')
             //->maxLength('source_state')
-            ->allowEmpty('source_state');
+            ->allowEmptyString('source_state');
 
         $validator
             ->scalar('target_state')
             //->maxLength('target_state')
-            ->allowEmpty('target_state');
+            ->allowEmptyString('target_state');
 
         $validator
             ->scalar('command')
             //->maxLength('command')
-            ->allowEmpty('command');
+            ->allowEmptyString('command');
 
         $validator
             ->scalar('condition')
             //->maxLength('condition')
-            ->allowEmpty('condition');
+            ->allowEmptyString('condition');
 
         $validator
             ->boolean('is_error')
@@ -124,7 +124,7 @@ class StateMachineTransitionLogsTable extends Table
 
         $validator
             ->scalar('error_message')
-            ->allowEmpty('error_message');
+            ->allowEmptyString('error_message');
 
         return $validator;
     }

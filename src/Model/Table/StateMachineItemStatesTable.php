@@ -81,12 +81,12 @@ class StateMachineItemStatesTable extends Table
             ->scalar('name')
             //->maxLength('name')
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->notEmptyString('name');
 
         $validator
             ->scalar('description')
             //->maxLength('description')
-            ->allowEmpty('description');
+            ->notEmptyString('description');
 
         return $validator;
     }

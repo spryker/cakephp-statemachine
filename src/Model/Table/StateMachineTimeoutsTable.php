@@ -77,13 +77,13 @@ class StateMachineTimeoutsTable extends Table
             ->scalar('identifier')
             //->maxLength('identifier')
             ->requirePresence('identifier', 'create')
-            ->notEmpty('identifier');
+            ->notEmptyString('identifier');
 
         $validator
             ->scalar('event')
             //->maxLength('event')
             ->requirePresence('event', 'create')
-            ->notEmpty('event');
+            ->notEmptyString('event');
 
         $validator
             ->dateTime('timeout')
