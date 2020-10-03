@@ -143,7 +143,7 @@ You can set a custom graph renderer, for example:
 return [
     ...
     'StateMachine' => [
-        'graphAdapter' => PhpDocumentorGraphAdapter::class,
+        'graphAdapter' => \App\Graph\Adapter\PhpDocumentorGraphAdapter::class,
     ],
 ];
 ```
