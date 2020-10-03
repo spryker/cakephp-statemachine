@@ -33,7 +33,6 @@ class StateMachineTransitionLogsFixture extends TestFixture
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_indexes' => [
             'state_machine_process_id' => ['type' => 'index', 'columns' => ['state_machine_process_id'], 'length' => []],
-            //'state_machine_item_id' => ['type' => 'index', 'columns' => ['state_machine_item_id'], 'length' => []],
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],

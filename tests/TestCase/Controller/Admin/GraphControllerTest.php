@@ -22,7 +22,7 @@ class GraphControllerTest extends IntegrationTestCase
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.StateMachine.StateMachineProcesses',
     ];
 

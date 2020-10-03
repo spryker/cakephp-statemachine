@@ -26,7 +26,7 @@ class ItemLockTest extends TestCase
     /**
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.StateMachine.StateMachineLocks',
     ];
 

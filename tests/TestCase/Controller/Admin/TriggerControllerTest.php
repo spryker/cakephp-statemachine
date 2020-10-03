@@ -22,7 +22,7 @@ class TriggerControllerTest extends IntegrationTestCase
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItemStateHistory',
         'plugin.StateMachine.StateMachineLocks',

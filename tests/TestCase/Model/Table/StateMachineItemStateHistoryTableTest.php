@@ -10,6 +10,7 @@ namespace StateMachine\Test\TestCase\Model\Table;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Model\Entity\StateMachineItemStateHistory;
+use StateMachine\Model\Entity\StateMachineTransitionLog;
 use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
 
 class StateMachineItemStateHistoryTableTest extends TestCase
@@ -19,17 +20,18 @@ class StateMachineItemStateHistoryTableTest extends TestCase
      *
      * @var \StateMachine\Model\Table\StateMachineItemStateHistoryTable
      */
-    public $StateMachineItemStateHistory;
+    protected $StateMachineItemStateHistory;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.StateMachine.StateMachineItemStateHistory',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineItems',
+        'plugin.StateMachine.StateMachineProcesses',
     ];
 
     /**
@@ -75,32 +77,32 @@ class StateMachineItemStateHistoryTableTest extends TestCase
     }
 
     /**
-     * Test initialize method
-     *
      * @return void
      */
-    public function testInitialize(): void
+    public function testSave(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $data = [
+            'state_machine_item_state_id' => 1,
+            'identifier' => 1,
+        ];
+        $history = $this->StateMachineItemStateHistory->newEntity($data);
+        $this->StateMachineItemStateHistory->saveOrFail($history);
+
+        $this->assertNotEmpty($history->created);
     }
 
     /**
-     * Test validationDefault method
-     *
      * @return void
      */
-    public function testValidationDefault(): void
+    public function testGetHistory(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        /** @var \StateMachine\Model\Entity\StateMachineItem $stateMachineItem */
+        $stateMachineItem = $this->getTableLocator()->get('StateMachine.StateMachineItems')->find()
+            ->firstOrFail();
+        $stateMachineItem->state_machine_transition_log = new StateMachineTransitionLog();
+        $stateMachineItem->state_machine_transition_log->state_machine_process_id = 1;
 
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $result = $this->StateMachineItemStateHistory->getHistory($stateMachineItem);
+        $this->assertCount(1, $result);
     }
 }

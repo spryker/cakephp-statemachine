@@ -19,12 +19,12 @@ class StateMachineShellTest extends TestCase
     /**
      * @var \StateMachine\Shell\StateMachineShell|\PHPUnit\Framework\MockObject\MockObject
      */
-    public $Shell;
+    protected $Shell;
 
     /**
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.StateMachine.StateMachineLocks',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineItemStateHistory',

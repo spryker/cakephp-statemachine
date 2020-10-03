@@ -7,6 +7,7 @@
 
 namespace StateMachine\Test\TestCase\Model\Table;
 
+use Cake\I18n\FrozenTime;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Model\Table\StateMachineLocksTable;
@@ -21,14 +22,14 @@ class StateMachineLocksTableTest extends TestCase
      *
      * @var \StateMachine\Model\Table\StateMachineLocksTable
      */
-    public $StateMachineLocks;
+    protected $StateMachineLocks;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.StateMachine.StateMachineLocks',
     ];
 
@@ -57,22 +58,17 @@ class StateMachineLocksTableTest extends TestCase
     }
 
     /**
-     * Test initialize method
-     *
      * @return void
      */
-    public function testInitialize(): void
+    public function testSave(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        $data = [
+            'identifier' => 1,
+            'expires' => new FrozenTime('+1 minute'),
+        ];
+        $item = $this->StateMachineLocks->newEntity($data);
+        $this->StateMachineLocks->saveOrFail($item);
 
-    /**
-     * Test validationDefault method
-     *
-     * @return void
-     */
-    public function testValidationDefault(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->assertNotEmpty($item->id);
     }
 }

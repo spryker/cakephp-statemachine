@@ -7,6 +7,7 @@
 
 namespace StateMachine\Test\TestCase\Model\Table;
 
+use Cake\I18n\FrozenTime;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Model\Entity\StateMachineTimeout;
@@ -19,14 +20,14 @@ class StateMachineTimeoutsTableTest extends TestCase
      *
      * @var \StateMachine\Model\Table\StateMachineTimeoutsTable
      */
-    public $StateMachineTimeouts;
+    protected $StateMachineTimeouts;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.StateMachine.StateMachineTimeouts',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineProcesses',
@@ -76,32 +77,20 @@ class StateMachineTimeoutsTableTest extends TestCase
     }
 
     /**
-     * Test initialize method
-     *
      * @return void
      */
-    public function testInitialize(): void
+    public function testSave(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        $data = [
+            'state_machine_item_state_id' => 1,
+            'state_machine_process_id' => 1,
+            'identifier' => 2,
+            'event' => 'E',
+            'timeout' => new FrozenTime('+1 minute'),
+        ];
+        $item = $this->StateMachineTimeouts->newEntity($data);
+        $this->StateMachineTimeouts->saveOrFail($item);
 
-    /**
-     * Test validationDefault method
-     *
-     * @return void
-     */
-    public function testValidationDefault(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->assertNotEmpty($item->id);
     }
 }

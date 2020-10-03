@@ -58,7 +58,7 @@ class TimeoutTest extends TestCase
     /**
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.StateMachine.StateMachineItemStateHistory',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItems',

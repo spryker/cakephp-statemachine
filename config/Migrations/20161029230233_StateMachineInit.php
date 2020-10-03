@@ -13,7 +13,7 @@ class StateMachineInit extends AbstractMigration
     /**
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         $this->table('state_machine_processes')
             ->addColumn('name', 'string', [
@@ -264,14 +264,14 @@ class StateMachineInit extends AbstractMigration
     /**
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        $this->dropTable('state_machine_processes');
-        $this->dropTable('state_machine_items');
-        $this->dropTable('state_machine_item_states');
-        $this->dropTable('state_machine_item_state_history');
-        $this->dropTable('state_machine_transition_logs');
-        $this->dropTable('state_machine_timeouts');
-        $this->dropTable('state_machine_locks');
+        $this->table('state_machine_processes')->drop()->save();
+        $this->table('state_machine_items')->drop()->save();
+        $this->table('state_machine_item_states')->drop()->save();
+        $this->table('state_machine_item_state_history')->drop()->save();
+        $this->table('state_machine_transition_logs')->drop()->save();
+        $this->table('state_machine_timeouts')->drop()->save();
+        $this->table('state_machine_locks')->drop()->save();
     }
 }

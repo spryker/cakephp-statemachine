@@ -19,16 +19,17 @@ class StateMachineTransitionLogsTableTest extends TestCase
      *
      * @var \StateMachine\Model\Table\StateMachineTransitionLogsTable
      */
-    public $StateMachineTransitionLogs;
+    protected $StateMachineTransitionLogs;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.StateMachine.StateMachineTransitionLogs',
         'plugin.StateMachine.StateMachineProcesses',
+        'plugin.StateMachine.StateMachineItems',
     ];
 
     /**
@@ -74,32 +75,20 @@ class StateMachineTransitionLogsTableTest extends TestCase
     }
 
     /**
-     * Test initialize method
-     *
      * @return void
      */
-    public function testInitialize(): void
+    public function testSave(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        $data = [
+            'state_machine_process_id' => 1,
+            'identifier' => 2,
+            'locked' => false,
+            'is_error' => false,
+        ];
+        $item = $this->StateMachineTransitionLogs->newEntity($data);
+        $item->state_machine_item_id = 1;
+        $this->StateMachineTransitionLogs->saveOrFail($item);
 
-    /**
-     * Test validationDefault method
-     *
-     * @return void
-     */
-    public function testValidationDefault(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test buildRules method
-     *
-     * @return void
-     */
-    public function testBuildRules(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->assertNotEmpty($item->id);
     }
 }

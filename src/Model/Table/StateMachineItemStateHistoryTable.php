@@ -110,6 +110,7 @@ class StateMachineItemStateHistoryTable extends Table
                 'StateMachineProcesses.id' => $stateMachineItem->state_machine_transition_log->state_machine_process_id,
             ])
             ->orderDesc($this->aliasField('id'))
-            ->all()->toArray();
+            ->all()
+            ->toArray();
     }
 }

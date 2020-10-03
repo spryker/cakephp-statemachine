@@ -29,17 +29,17 @@ class TransitionLogTest extends TestCase
     /**
      * @var \StateMachine\Model\Table\StateMachineTransitionLogsTable
      */
-    public $StateMachineTransitionLogs;
+    protected $StateMachineTransitionLogs;
 
     /**
      * @var \StateMachine\Model\Table\StateMachineItemsTable
      */
-    public $StateMachineItems;
+    protected $StateMachineItems;
 
     /**
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.StateMachine.StateMachineTransitionLogs',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItems',

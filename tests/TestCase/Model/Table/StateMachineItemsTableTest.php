@@ -21,14 +21,14 @@ class StateMachineItemsTableTest extends TestCase
      *
      * @var \StateMachine\Model\Table\StateMachineItemsTable
      */
-    public $StateMachineItems;
+    protected $StateMachineItems;
 
     /**
      * Fixtures
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.StateMachine.StateMachineItems',
     ];
 
@@ -57,22 +57,19 @@ class StateMachineItemsTableTest extends TestCase
     }
 
     /**
-     * Test initialize method
-     *
      * @return void
      */
-    public function testInitialize(): void
+    public function testSave(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        $data = [
+            'identifier' => 1,
+            'state_machine' => 'Foo',
+            'process' => 'P',
+            'state' => 'S',
+        ];
+        $item = $this->StateMachineItems->newEntity($data);
+        $this->StateMachineItems->saveOrFail($item);
 
-    /**
-     * Test validationDefault method
-     *
-     * @return void
-     */
-    public function testValidationDefault(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->assertNotEmpty($item->id);
     }
 }

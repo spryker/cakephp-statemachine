@@ -19,7 +19,7 @@ class StateMachineLocksControllerTest extends IntegrationTestCase
      *
      * @var array
      */
-    public $fixtures = [
+    protected $fixtures = [
         'plugin.StateMachine.StateMachineLocks',
     ];
 
