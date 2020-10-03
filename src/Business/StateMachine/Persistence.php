@@ -153,8 +153,10 @@ class Persistence implements PersistenceInterface
      */
     public function saveStateMachineItem(ItemDto $itemDto, string $stateName): ItemDto
     {
-        if (isset($this->persistedStates[$stateName])) {
-            $stateMachineItemStateEntity = $this->persistedStates[$stateName];
+        $persistedStateKey = $itemDto->getIdStateMachineProcess() . $stateName;
+
+        if (isset($this->persistedStates[$persistedStateKey])) {
+            $stateMachineItemStateEntity = $this->persistedStates[$persistedStateKey];
         } else {
             /** @var \StateMachine\Model\Entity\StateMachineItemState|null $stateMachineItemStateEntity */
             $stateMachineItemStateEntity = $this->stateMachineQueryContainer
@@ -172,7 +174,7 @@ class Persistence implements PersistenceInterface
                         $stateName
                     )->firstOrFail();
             }
-            $this->persistedStates[$stateName] = $stateMachineItemStateEntity;
+            $this->persistedStates[$persistedStateKey] = $stateMachineItemStateEntity;
         }
 
         $itemDto->setIdItemState($stateMachineItemStateEntity->id);
