@@ -18,7 +18,7 @@ use Tools\Model\Entity\Entity;
  * @property string|null $description
  *
  * @property \StateMachine\Model\Entity\StateMachineProcess $state_machine_process
- * @property \StateMachine\Model\Entity\StateMachineItemStateHistory[] $state_machine_item_state_history
+ * @property \StateMachine\Model\Entity\StateMachineItemStateLog[] $state_machine_item_state_logs
  * @property \StateMachine\Model\Entity\StateMachineTimeout[] $state_machine_timeouts
  */
 class StateMachineItemState extends Entity
@@ -37,7 +37,7 @@ class StateMachineItemState extends Entity
         'name' => true,
         'description' => true,
         'state_machine_process' => true,
-        'state_machine_item_state_history' => true,
+        'state_machine_item_state_logs' => true,
         'state_machine_timeouts' => true,
     ];
 }

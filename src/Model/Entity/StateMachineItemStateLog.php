@@ -10,7 +10,7 @@ namespace StateMachine\Model\Entity;
 use Tools\Model\Entity\Entity;
 
 /**
- * StateMachineItemStateHistory Entity
+ * StateMachineItemStateLogs Entity
  *
  * @property int $id
  * @property int $state_machine_item_state_id
@@ -19,7 +19,7 @@ use Tools\Model\Entity\Entity;
  *
  * @property \StateMachine\Model\Entity\StateMachineItemState $state_machine_item_state
  */
-class StateMachineItemStateHistory extends Entity
+class StateMachineItemStateLog extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

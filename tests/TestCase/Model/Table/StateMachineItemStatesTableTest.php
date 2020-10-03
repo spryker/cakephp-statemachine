@@ -29,7 +29,7 @@ class StateMachineItemStatesTableTest extends TestCase
     protected $fixtures = [
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineProcesses',
-        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStateLogs',
         'plugin.StateMachine.StateMachineTimeouts',
         'plugin.StateMachine.StateMachineItems',
     ];

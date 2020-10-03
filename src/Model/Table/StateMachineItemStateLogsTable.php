@@ -13,27 +13,25 @@ use StateMachine\Model\Entity\StateMachineItem;
 use Tools\Model\Table\Table;
 
 /**
- * StateMachineItemStateHistory Model
- *
  * @property \StateMachine\Model\Table\StateMachineItemStatesTable&\Cake\ORM\Association\BelongsTo $StateMachineItemStates
  *
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory get($primaryKey, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory newEntity(array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[] newEntities(array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory findOrCreate($search, ?callable $callback = null, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog get($primaryKey, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog newEntity(array $data, array $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog[] newEntities(array $data, array $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog findOrCreate($search, ?callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory newEmptyEntity()
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog newEmptyEntity()
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
-class StateMachineItemStateHistoryTable extends Table
+class StateMachineItemStateLogsTable extends Table
 {
     /**
      * Initialize method
@@ -46,7 +44,7 @@ class StateMachineItemStateHistoryTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('state_machine_item_state_history');
+        $this->setTable('state_machine_item_state_logs');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
@@ -105,7 +103,7 @@ class StateMachineItemStateHistoryTable extends Table
         return $this->find()
             ->contain(['StateMachineItemStates' => 'StateMachineProcesses'])
             ->where([
-                'StateMachineItemStateHistory.identifier' => $stateMachineItem->identifier,
+                'StateMachineItemStateLogs.identifier' => $stateMachineItem->identifier,
                 'StateMachineProcesses.state_machine' => $stateMachineItem->state_machine,
                 'StateMachineProcesses.id' => $stateMachineItem->state_machine_transition_log->state_machine_process_id,
             ])

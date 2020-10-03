@@ -30,7 +30,7 @@ use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Model\QueryContainer;
 use StateMachine\Model\QueryContainerInterface;
-use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
+use StateMachine\Model\Table\StateMachineItemStateLogsTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
@@ -38,9 +38,9 @@ use StateMachine\Model\Table\StateMachineTimeoutsTable;
 class ConditionTest extends TestCase
 {
     /**
-     * @var \StateMachine\Model\Table\StateMachineItemStateHistoryTable
+     * @var \StateMachine\Model\Table\StateMachineItemStateLogsTable
      */
-    protected $StateMachineItemStateHistory;
+    protected $StateMachineItemStateLogs;
 
     /**
      * @var \StateMachine\Model\Table\StateMachineProcessesTable
@@ -61,7 +61,7 @@ class ConditionTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStateLogs',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItems',
         'plugin.StateMachine.StateMachineItemStates',
@@ -76,8 +76,8 @@ class ConditionTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('StateMachineItemStateHistory') ? [] : ['className' => StateMachineItemStateHistoryTable::class];
-        $this->StateMachineItemStateHistory = TableRegistry::getTableLocator()->get('StateMachineItemStateHistory', $config);
+        $config = TableRegistry::getTableLocator()->exists('StateMachineItemStateLogs') ? [] : ['className' => StateMachineItemStateLogsTable::class];
+        $this->StateMachineItemStateLogs = TableRegistry::getTableLocator()->get('StateMachineItemStateLogs', $config);
 
         $config = TableRegistry::getTableLocator()->exists('StateMachineProcesses') ? [] : ['className' => StateMachineProcessesTable::class];
         $this->StateMachineProcesses = TableRegistry::getTableLocator()->get('StateMachineProcesses', $config);
@@ -96,7 +96,7 @@ class ConditionTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->StateMachineItemStateHistory, $this->StateMachineProcesses, $this->StateMachineItemStates, $this->StateMachineTimeouts);
+        unset($this->StateMachineItemStateLogs, $this->StateMachineProcesses, $this->StateMachineItemStates, $this->StateMachineTimeouts);
 
         parent::tearDown();
     }
@@ -269,7 +269,7 @@ class ConditionTest extends TestCase
     {
         return new Persistence(
             $this->createQueryContainer(),
-            $this->StateMachineItemStateHistory,
+            $this->StateMachineItemStateLogs,
             $this->StateMachineProcesses,
             $this->StateMachineItemStates,
             $this->StateMachineTimeouts

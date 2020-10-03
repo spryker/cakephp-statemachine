@@ -334,7 +334,7 @@ class Finder implements FinderInterface
         $itemDto->setStateName($stateMachineItemEntity->name);
         $itemDto->setStateMachineName($stateMachineProcessEntity->state_machine);
 
-        $stateMachineItemHistoryEntities = $stateMachineItemEntity->state_machine_item_state_history;
+        $stateMachineItemHistoryEntities = $stateMachineItemEntity->state_machine_item_state_logs;
         if (count($stateMachineItemHistoryEntities) > 0) {
             $itemIdentifier = $stateMachineItemHistoryEntities[0]->identifier;
             $itemDto->setIdentifier($itemIdentifier);

@@ -12,11 +12,11 @@ use StateMachine\Business\Exception\StateMachineException;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\Model\Entity\StateMachineItemState;
-use StateMachine\Model\Entity\StateMachineItemStateHistory;
+use StateMachine\Model\Entity\StateMachineItemStateLog;
 use StateMachine\Model\Entity\StateMachineProcess;
 use StateMachine\Model\Entity\StateMachineTimeout;
 use StateMachine\Model\QueryContainerInterface;
-use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
+use StateMachine\Model\Table\StateMachineItemStateLogsTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
@@ -39,9 +39,9 @@ class Persistence implements PersistenceInterface
     protected $stateMachineQueryContainer;
 
     /**
-     * @var \StateMachine\Model\Table\StateMachineItemStateHistoryTable
+     * @var \StateMachine\Model\Table\StateMachineItemStateLogsTable
      */
-    protected $stateMachineItemStateHistoryTable;
+    protected $stateMachineItemStateLogsTable;
 
     /**
      * @var \StateMachine\Model\Table\StateMachineProcessesTable
@@ -60,20 +60,20 @@ class Persistence implements PersistenceInterface
 
     /**
      * @param \StateMachine\Model\QueryContainerInterface $stateMachineQueryContainer
-     * @param \StateMachine\Model\Table\StateMachineItemStateHistoryTable $stateMachineItemStateHistoryTable
+     * @param \StateMachine\Model\Table\StateMachineItemStateLogsTable $stateMachineItemStateLogsTable
      * @param \StateMachine\Model\Table\StateMachineProcessesTable $stateMachineProcessesTable
      * @param \StateMachine\Model\Table\StateMachineItemStatesTable $stateMachineItemStatesTable
      * @param \StateMachine\Model\Table\StateMachineTimeoutsTable $stateMachineTimeoutsTable
      */
     public function __construct(
         QueryContainerInterface $stateMachineQueryContainer,
-        StateMachineItemStateHistoryTable $stateMachineItemStateHistoryTable,
+        StateMachineItemStateLogsTable $stateMachineItemStateLogsTable,
         StateMachineProcessesTable $stateMachineProcessesTable,
         StateMachineItemStatesTable $stateMachineItemStatesTable,
         StateMachineTimeoutsTable $stateMachineTimeoutsTable
     ) {
         $this->stateMachineQueryContainer = $stateMachineQueryContainer;
-        $this->stateMachineItemStateHistoryTable = $stateMachineItemStateHistoryTable;
+        $this->stateMachineItemStateLogsTable = $stateMachineItemStateLogsTable;
         $this->stateMachineProcessesTable = $stateMachineProcessesTable;
         $this->stateMachineItemStatesTable = $stateMachineItemStatesTable;
         $this->stateMachineTimeoutsTable = $stateMachineTimeoutsTable;
@@ -87,7 +87,7 @@ class Persistence implements PersistenceInterface
      */
     public function getStateHistoryByStateItemIdentifier(int $itemIdentifier, int $idStateMachineProcess): array
     {
-        /** @var \StateMachine\Model\Entity\StateMachineItemStateHistory[] $stateMachineHistoryItems */
+        /** @var \StateMachine\Model\Entity\StateMachineItemStateLog[] $stateMachineHistoryItems */
         $stateMachineHistoryItems = $this->stateMachineQueryContainer
             ->queryItemHistoryByStateItemIdentifier($itemIdentifier, $idStateMachineProcess)
             ->all();
@@ -191,10 +191,10 @@ class Persistence implements PersistenceInterface
      */
     public function saveItemStateHistory(ItemDto $itemDto): void
     {
-        $stateMachineItemStateHistory = $this->stateMachineItemStateHistoryTable->newEmptyEntity();
-        $stateMachineItemStateHistory->identifier = $itemDto->getIdentifierOrFail();
-        $stateMachineItemStateHistory->state_machine_item_state_id = $itemDto->getIdItemStateOrFail();
-        $this->stateMachineItemStateHistoryTable->saveOrFail($stateMachineItemStateHistory);
+        $stateMachineItemStateLog = $this->stateMachineItemStateLogsTable->newEmptyEntity();
+        $stateMachineItemStateLog->identifier = $itemDto->getIdentifierOrFail();
+        $stateMachineItemStateLog->state_machine_item_state_id = $itemDto->getIdItemStateOrFail();
+        $this->stateMachineItemStateLogsTable->saveOrFail($stateMachineItemStateLog);
     }
 
     /**
@@ -445,13 +445,13 @@ class Persistence implements PersistenceInterface
 
     /**
      * @param int $itemIdentifier
-     * @param \StateMachine\Model\Entity\StateMachineItemStateHistory $stateMachineItemHistoryEntity
+     * @param \StateMachine\Model\Entity\StateMachineItemStateLog $stateMachineItemHistoryEntity
      *
      * @return \StateMachine\Dto\StateMachine\ItemDto
      */
     protected function createItemTransferForStateHistory(
         int $itemIdentifier,
-        StateMachineItemStateHistory $stateMachineItemHistoryEntity
+        StateMachineItemStateLog $stateMachineItemHistoryEntity
     ): ItemDto {
         $itemStateEntity = $stateMachineItemHistoryEntity->state_machine_item_state;
         $processEntity = $itemStateEntity->state_machine_process;

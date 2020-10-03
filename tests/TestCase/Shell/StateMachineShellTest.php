@@ -27,7 +27,7 @@ class StateMachineShellTest extends TestCase
     protected $fixtures = [
         'plugin.StateMachine.StateMachineLocks',
         'plugin.StateMachine.StateMachineItemStates',
-        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStateLogs',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineTimeouts',
         'plugin.StateMachine.StateMachineItems',

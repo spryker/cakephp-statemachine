@@ -10,9 +10,9 @@ namespace StateMachine\Test\TestCase\Controller\Admin;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
- * @uses \StateMachine\Controller\Admin\StateMachineItemStateHistoryController
+ * @uses \StateMachine\Controller\Admin\StateMachineItemStateLogsController
  */
-class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
+class StateMachineItemStateLogsControllerTest extends IntegrationTestCase
 {
     /**
      * Fixtures
@@ -20,7 +20,7 @@ class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
      * @var array
      */
     protected $fixtures = [
-        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStateLogs',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItems',
@@ -35,7 +35,7 @@ class StateMachineItemStateHistoryControllerTest extends IntegrationTestCase
     {
         $this->disableErrorHandlerMiddleware();
 
-        $this->get(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'StateMachineItemStateHistory', 'action' => 'index']);
+        $this->get(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'StateMachineItemStateLogs', 'action' => 'index']);
 
         $this->assertResponseCode(200);
     }

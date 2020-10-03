@@ -11,11 +11,11 @@ use App\Controller\AppController;
 use Cake\Http\Response;
 
 /**
- * @property \StateMachine\Model\Table\StateMachineItemStateHistoryTable $StateMachineItemStateHistory
+ * @property \StateMachine\Model\Table\StateMachineItemStateLogsTable $StateMachineItemStateLogs
  *
- * @method \StateMachine\Model\Entity\StateMachineItemStateHistory[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \StateMachine\Model\Entity\StateMachineItemStateLog[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class StateMachineItemStateHistoryController extends AppController
+class StateMachineItemStateLogsController extends AppController
 {
     /**
      * Index method
@@ -30,10 +30,10 @@ class StateMachineItemStateHistoryController extends AppController
             ],
             'contain' => ['StateMachineItemStates'],
         ];
-        $stateMachineItemStateHistory = $this->paginate();
+        $stateMachineItemStateLogs = $this->paginate();
 
-        $this->set(compact('stateMachineItemStateHistory'));
-        $this->set('_serialize', ['stateMachineItemStateHistory']);
+        $this->set(compact('stateMachineItemStateLogs'));
+        $this->set('_serialize', ['stateMachineItemStateLogs']);
     }
 
     /**
@@ -45,12 +45,11 @@ class StateMachineItemStateHistoryController extends AppController
      */
     public function view($id = null)
     {
-        $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->get($id, [
+        $stateMachineItemStateLog = $this->StateMachineItemStateLogs->get($id, [
             'contain' => ['StateMachineItemStates'],
         ]);
 
-        $this->set(compact('stateMachineItemStateHistory'));
-        $this->set('_serialize', ['stateMachineItemStateHistory']);
+        $this->set(compact('stateMachineItemStateLog'));
     }
 
     /**
@@ -63,11 +62,11 @@ class StateMachineItemStateHistoryController extends AppController
     public function delete($id = null): ?Response
     {
         $this->request->allowMethod(['post', 'delete']);
-        $stateMachineItemStateHistory = $this->StateMachineItemStateHistory->get($id);
-        if ($this->StateMachineItemStateHistory->delete($stateMachineItemStateHistory)) {
-            $this->Flash->success(__('The state machine item state history has been deleted.'));
+        $stateMachineItemStateLog = $this->StateMachineItemStateLogs->get($id);
+        if ($this->StateMachineItemStateLogs->delete($stateMachineItemStateLog)) {
+            $this->Flash->success(__('The state machine item state log has been deleted.'));
         } else {
-            $this->Flash->error(__('The state machine item state history could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The state machine item state log could not be deleted. Please, try again.'));
         }
 
         return $this->redirect(['action' => 'index']);

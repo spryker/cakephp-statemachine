@@ -46,7 +46,7 @@ use StateMachine\Graph\Graph;
 use StateMachine\Model\QueryContainer;
 use StateMachine\Model\QueryContainerInterface;
 use StateMachine\Model\Table\StateMachineItemsTable;
-use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
+use StateMachine\Model\Table\StateMachineItemStateLogsTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineLocksTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
@@ -174,7 +174,7 @@ class PluginFactory
     {
         return new Persistence(
             $this->getQueryContainer(),
-            $this->createStateMachineItemStateHistoryTable(),
+            $this->createStateMachineItemStateLogsTable(),
             $this->createStateMachineProcessesTable(),
             $this->createStateMachineItemStatesTable(),
             $this->createStateMachineTimeoutsTable()
@@ -288,11 +288,11 @@ class PluginFactory
     }
 
     /**
-     * @return \StateMachine\Model\Table\StateMachineItemStateHistoryTable
+     * @return \StateMachine\Model\Table\StateMachineItemStateLogsTable
      */
-    public function createStateMachineItemStateHistoryTable(): StateMachineItemStateHistoryTable
+    public function createStateMachineItemStateLogsTable(): StateMachineItemStateLogsTable
     {
-        return $this->getTableLocator()->get('StateMachine.StateMachineItemStateHistory');
+        return $this->getTableLocator()->get('StateMachine.StateMachineItemStateLogs');
     }
 
     /**
