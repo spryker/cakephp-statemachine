@@ -219,11 +219,11 @@ class Persistence implements PersistenceInterface
                         $itemDto->getStateNameOrFail(),
                         $itemDto->getProcessNameOrFail()
                     )->first();
-                if ($stateMachineItemStateEntity === null) {
-                    continue;
-                }
             }
 
+            if ($stateMachineItemStateEntity === null) {
+                continue;
+            }
             $updatedItemDto = $this->hydrateItemTransferFromEntity($stateMachineItemStateEntity);
 
             $updatedStateMachineItems[] = $itemDto->fromArray(

@@ -8,3 +8,4 @@ parameters:
     ignoreErrors:
         - '#Unsafe usage of new static\(\).#'
         - '#Method .+::.+Table\(\) should return .+Table but returns Cake\\ORM\\Table.#'
+        - '#Offset .+ does not exist on SimpleXMLElement\|null.#'
