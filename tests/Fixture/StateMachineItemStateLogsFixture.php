@@ -9,14 +9,14 @@ namespace StateMachine\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 
-class StateMachineItemStateHistoryFixture extends TestFixture
+class StateMachineItemStateLogsFixture extends TestFixture
 {
     /**
      * Table name
      *
      * @var string
      */
-    public $table = 'state_machine_item_state_history';
+    public $table = 'state_machine_item_state_logs';
 
     /**
      * Fields

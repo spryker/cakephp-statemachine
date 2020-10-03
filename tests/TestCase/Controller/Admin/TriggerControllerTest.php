@@ -24,7 +24,7 @@ class TriggerControllerTest extends IntegrationTestCase
      */
     protected $fixtures = [
         'plugin.StateMachine.StateMachineProcesses',
-        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStateLogs',
         'plugin.StateMachine.StateMachineLocks',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineTransitionLogs',

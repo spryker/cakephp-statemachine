@@ -104,7 +104,7 @@ class StateMachineController extends AppController
 
         $this->getTable('StateMachine.StateMachineLocks')->truncate();
         $this->getTable('StateMachine.StateMachineTimeouts')->truncate();
-        $this->getTable('StateMachine.StateMachineItemStateHistory')->truncate();
+        $this->getTable('StateMachine.StateMachineItemStateLogs')->truncate();
 
         $this->getTable('StateMachine.StateMachineItems')->deleteAll('1=1');
         $this->getTable('StateMachine.StateMachineItemStates')->deleteAll('1=1');

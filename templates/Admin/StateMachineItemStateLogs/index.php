@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \StateMachine\Model\Entity\StateMachineItemStateHistory $stateMachineItemStateHistory
+ * @var \StateMachine\Model\Entity\StateMachineItemStateLog $stateMachineItemStateLogs
  */
 ?>
 <nav class="actions large-3 medium-4 columns col-sm-4 col-xs-12" id="actions-sidebar">
@@ -22,14 +22,14 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($stateMachineItemStateHistory as $stateMachineItemStateHistory): ?>
+            <?php foreach ($stateMachineItemStateLogs as $stateMachineItemStateLog): ?>
             <tr>
-                <td><?= $stateMachineItemStateHistory->has('state_machine_item_state') ? $this->Html->link($stateMachineItemStateHistory->state_machine_item_state->name, ['controller' => 'StateMachineItemStates', 'action' => 'view', $stateMachineItemStateHistory->state_machine_item_state->id]) : '' ?></td>
-                <td><?= h($stateMachineItemStateHistory->identifier) ?></td>
-                <td><?= $this->Time->nice($stateMachineItemStateHistory->created) ?></td>
+                <td><?= $stateMachineItemStateLog->has('state_machine_item_state') ? $this->Html->link($stateMachineItemStateLog->state_machine_item_state->name, ['controller' => 'StateMachineItemStates', 'action' => 'view', $stateMachineItemStateLog->state_machine_item_state->id]) : '' ?></td>
+                <td><?= h($stateMachineItemStateLog->identifier) ?></td>
+                <td><?= $this->Time->nice($stateMachineItemStateLog->created) ?></td>
                 <td class="actions">
-                <?= $this->Html->link($this->Format->icon('view'), ['action' => 'view', $stateMachineItemStateHistory->id], ['escapeTitle' => false]); ?>
-                <?= $this->Form->postLink($this->Format->icon('delete'), ['action' => 'delete', $stateMachineItemStateHistory->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItemStateHistory->id)]); ?>
+                <?= $this->Html->link($this->Format->icon('view'), ['action' => 'view', $stateMachineItemStateLog->id], ['escapeTitle' => false]); ?>
+                <?= $this->Form->postLink($this->Format->icon('delete'), ['action' => 'delete', $stateMachineItemStateLog->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItemStateLog->id)]); ?>
                 </td>
             </tr>
             <?php endforeach; ?>

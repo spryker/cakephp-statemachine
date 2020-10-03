@@ -39,7 +39,7 @@ class FinderTest extends TestCase
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItems',
         'plugin.StateMachine.StateMachineItemStates',
-        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStateLogs',
         'plugin.StateMachine.StateMachineItems',
     ];
 

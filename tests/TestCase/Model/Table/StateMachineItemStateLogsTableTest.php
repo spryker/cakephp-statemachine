@@ -9,18 +9,18 @@ namespace StateMachine\Test\TestCase\Model\Table;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use StateMachine\Model\Entity\StateMachineItemStateHistory;
+use StateMachine\Model\Entity\StateMachineItemStateLog;
 use StateMachine\Model\Entity\StateMachineTransitionLog;
-use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
+use StateMachine\Model\Table\StateMachineItemStateLogsTable;
 
-class StateMachineItemStateHistoryTableTest extends TestCase
+class StateMachineItemStateLogsTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var \StateMachine\Model\Table\StateMachineItemStateHistoryTable
+     * @var \StateMachine\Model\Table\StateMachineItemStateLogsTable
      */
-    protected $StateMachineItemStateHistory;
+    protected $StateMachineItemStateLogs;
 
     /**
      * Fixtures
@@ -28,7 +28,7 @@ class StateMachineItemStateHistoryTableTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStateLogs',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineItems',
         'plugin.StateMachine.StateMachineProcesses',
@@ -42,8 +42,8 @@ class StateMachineItemStateHistoryTableTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('StateMachineItemStateHistory') ? [] : ['className' => StateMachineItemStateHistoryTable::class];
-        $this->StateMachineItemStateHistory = TableRegistry::getTableLocator()->get('StateMachineItemStateHistory', $config);
+        $config = TableRegistry::getTableLocator()->exists('StateMachineItemStateLogs') ? [] : ['className' => StateMachineItemStateLogsTable::class];
+        $this->StateMachineItemStateLogs = TableRegistry::getTableLocator()->get('StateMachineItemStateLogs', $config);
     }
 
     /**
@@ -53,7 +53,7 @@ class StateMachineItemStateHistoryTableTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->StateMachineItemStateHistory);
+        unset($this->StateMachineItemStateLogs);
 
         parent::tearDown();
     }
@@ -63,7 +63,7 @@ class StateMachineItemStateHistoryTableTest extends TestCase
      */
     public function testInstance(): void
     {
-        $this->assertInstanceOf(StateMachineItemStateHistoryTable::class, $this->StateMachineItemStateHistory);
+        $this->assertInstanceOf(StateMachineItemStateLogsTable::class, $this->StateMachineItemStateLogs);
     }
 
     /**
@@ -71,9 +71,9 @@ class StateMachineItemStateHistoryTableTest extends TestCase
      */
     public function testFind(): void
     {
-        $result = $this->StateMachineItemStateHistory->find()->first();
+        $result = $this->StateMachineItemStateLogs->find()->first();
         $this->assertTrue(!empty($result));
-        $this->assertInstanceOf(StateMachineItemStateHistory::class, $result);
+        $this->assertInstanceOf(StateMachineItemStateLog::class, $result);
     }
 
     /**
@@ -85,10 +85,10 @@ class StateMachineItemStateHistoryTableTest extends TestCase
             'state_machine_item_state_id' => 1,
             'identifier' => 1,
         ];
-        $history = $this->StateMachineItemStateHistory->newEntity($data);
-        $this->StateMachineItemStateHistory->saveOrFail($history);
+        $log = $this->StateMachineItemStateLogs->newEntity($data);
+        $this->StateMachineItemStateLogs->saveOrFail($log);
 
-        $this->assertNotEmpty($history->created);
+        $this->assertNotEmpty($log->created);
     }
 
     /**
@@ -102,7 +102,7 @@ class StateMachineItemStateHistoryTableTest extends TestCase
         $stateMachineItem->state_machine_transition_log = new StateMachineTransitionLog();
         $stateMachineItem->state_machine_transition_log->state_machine_process_id = 1;
 
-        $result = $this->StateMachineItemStateHistory->getHistory($stateMachineItem);
+        $result = $this->StateMachineItemStateLogs->getHistory($stateMachineItem);
         $this->assertCount(1, $result);
     }
 }

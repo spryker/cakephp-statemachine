@@ -20,7 +20,7 @@ use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Model\QueryContainer;
 use StateMachine\Model\QueryContainerInterface;
-use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
+use StateMachine\Model\Table\StateMachineItemStateLogsTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
@@ -30,9 +30,9 @@ class StateUpdaterTest extends TestCase
     protected const TEST_STATE_MACHINE_NAME = 'test state machine name';
 
     /**
-     * @var \StateMachine\Model\Table\StateMachineItemStateHistoryTable
+     * @var \StateMachine\Model\Table\StateMachineItemStateLogsTable
      */
-    protected $StateMachineItemStateHistory;
+    protected $StateMachineItemStateLogs;
 
     /**
      * @var \StateMachine\Model\Table\StateMachineProcessesTable
@@ -53,7 +53,7 @@ class StateUpdaterTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStateLogs',
         'plugin.StateMachine.StateMachineItems',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItemStates',
@@ -68,8 +68,8 @@ class StateUpdaterTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('StateMachineItemStateHistory') ? [] : ['className' => StateMachineItemStateHistoryTable::class];
-        $this->StateMachineItemStateHistory = TableRegistry::getTableLocator()->get('StateMachineItemStateHistory', $config);
+        $config = TableRegistry::getTableLocator()->exists('StateMachineItemStateLogs') ? [] : ['className' => StateMachineItemStateLogsTable::class];
+        $this->StateMachineItemStateLogs = TableRegistry::getTableLocator()->get('StateMachineItemStateLogs', $config);
 
         $config = TableRegistry::getTableLocator()->exists('StateMachineProcesses') ? [] : ['className' => StateMachineProcessesTable::class];
         $this->StateMachineProcesses = TableRegistry::getTableLocator()->get('StateMachineProcesses', $config);
@@ -88,7 +88,7 @@ class StateUpdaterTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->StateMachineItemStateHistory, $this->StateMachineProcesses, $this->StateMachineItemStates, $this->StateMachineTimeouts);
+        unset($this->StateMachineItemStateLogs, $this->StateMachineProcesses, $this->StateMachineItemStates, $this->StateMachineTimeouts);
 
         parent::tearDown();
     }
@@ -100,8 +100,8 @@ class StateUpdaterTest extends TestCase
     {
         $stateUpdater = $this->createStateUpdater();
 
-        $stateMachineItemStateHistoryCount = $this->StateMachineItemStateHistory->find()->count();
-        $this->assertSame(1, $stateMachineItemStateHistoryCount);
+        $stateMachineItemStateLogsCount = $this->StateMachineItemStateLogs->find()->count();
+        $this->assertSame(1, $stateMachineItemStateLogsCount);
 
         $stateUpdater->updateStateMachineItemState(
             [$this->createStateMachineItems()[0]],
@@ -109,8 +109,8 @@ class StateUpdaterTest extends TestCase
             $this->createSourceStateBuffer()
         );
 
-        $stateMachineItemStateHistoryCount = $this->StateMachineItemStateHistory->find()->count();
-        $this->assertSame(1, $stateMachineItemStateHistoryCount);
+        $stateMachineItemStateLogsCount = $this->StateMachineItemStateLogs->find()->count();
+        $this->assertSame(1, $stateMachineItemStateLogsCount);
     }
 
     /**
@@ -167,8 +167,8 @@ class StateUpdaterTest extends TestCase
     {
         $stateUpdater = $this->createStateUpdater();
 
-        $stateMachineItemStateHistoryCount = $this->StateMachineItemStateHistory->find()->count();
-        $this->assertSame(1, $stateMachineItemStateHistoryCount);
+        $stateMachineItemStateLogsCount = $this->StateMachineItemStateLogs->find()->count();
+        $this->assertSame(1, $stateMachineItemStateLogsCount);
 
         $stateUpdater->updateStateMachineItemState(
             [$this->createStateMachineItems()[1]],
@@ -176,8 +176,8 @@ class StateUpdaterTest extends TestCase
             $this->createSourceStateBuffer()
         );
 
-        $stateMachineItemStateHistoryCount = $this->StateMachineItemStateHistory->find()->count();
-        $this->assertSame(2, $stateMachineItemStateHistoryCount);
+        $stateMachineItemStateLogsCount = $this->StateMachineItemStateLogs->find()->count();
+        $this->assertSame(2, $stateMachineItemStateLogsCount);
     }
 
     /**
@@ -311,7 +311,7 @@ class StateUpdaterTest extends TestCase
     {
         return new Persistence(
             $this->createQueryContainer(),
-            $this->StateMachineItemStateHistory,
+            $this->StateMachineItemStateLogs,
             $this->StateMachineProcesses,
             $this->StateMachineItemStates,
             $this->StateMachineTimeouts

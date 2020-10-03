@@ -25,7 +25,7 @@ class StateMachineControllerTest extends IntegrationTestCase
     protected $fixtures = [
         'plugin.StateMachine.StateMachineItems',
         'plugin.StateMachine.StateMachineProcesses',
-        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStateLogs',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineTimeouts',
         'plugin.StateMachine.StateMachineLocks',

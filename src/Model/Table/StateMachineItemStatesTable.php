@@ -15,7 +15,7 @@ use Tools\Model\Table\Table;
  * StateMachineItemStates Model
  *
  * @property \StateMachine\Model\Table\StateMachineProcessesTable&\Cake\ORM\Association\BelongsTo $StateMachineProcesses
- * @property \StateMachine\Model\Table\StateMachineItemStateHistoryTable&\Cake\ORM\Association\HasMany $StateMachineItemStateHistory
+ * @property \StateMachine\Model\Table\StateMachineItemStateLogsTable&\Cake\ORM\Association\HasMany $StateMachineItemStateLogs
  * @property \StateMachine\Model\Table\StateMachineTimeoutsTable&\Cake\ORM\Association\HasMany $StateMachineTimeouts
  *
  * @method \StateMachine\Model\Entity\StateMachineItemState get($primaryKey, $options = [])
@@ -54,9 +54,9 @@ class StateMachineItemStatesTable extends Table
             'joinType' => 'INNER',
             'className' => 'StateMachine.StateMachineProcesses',
         ]);
-        $this->hasMany('StateMachineItemStateHistory', [
+        $this->hasMany('StateMachineItemStateLogs', [
             'foreignKey' => 'state_machine_item_state_id',
-            'className' => 'StateMachine.StateMachineItemStateHistory',
+            'className' => 'StateMachine.StateMachineItemStateLogs',
         ]);
         $this->hasMany('StateMachineTimeouts', [
             'foreignKey' => 'state_machine_item_state_id',

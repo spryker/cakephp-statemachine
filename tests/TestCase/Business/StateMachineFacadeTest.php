@@ -19,7 +19,7 @@ use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\Model\Table\StateMachineItemsTable;
-use StateMachine\Model\Table\StateMachineItemStateHistoryTable;
+use StateMachine\Model\Table\StateMachineItemStateLogsTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
@@ -34,9 +34,9 @@ class StateMachineFacadeTest extends TestCase
     protected const TEST_PROCESS_WITH_COMMAND_ERROR_NAME = 'TestProcessWithCommandError';
 
     /**
-     * @var \StateMachine\Model\Table\StateMachineItemStateHistoryTable
+     * @var \StateMachine\Model\Table\StateMachineItemStateLogsTable
      */
-    protected $StateMachineItemStateHistory;
+    protected $StateMachineItemStateLogs;
 
     /**
      * @var \StateMachine\Model\Table\StateMachineProcessesTable
@@ -62,7 +62,7 @@ class StateMachineFacadeTest extends TestCase
      * @var array
      */
     protected $fixtures = [
-        'plugin.StateMachine.StateMachineItemStateHistory',
+        'plugin.StateMachine.StateMachineItemStateLogs',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineItems',
@@ -80,8 +80,8 @@ class StateMachineFacadeTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('StateMachineItemStateHistory') ? [] : ['className' => StateMachineItemStateHistoryTable::class];
-        $this->StateMachineItemStateHistory = TableRegistry::getTableLocator()->get('StateMachineItemStateHistory', $config);
+        $config = TableRegistry::getTableLocator()->exists('StateMachineItemStateLogs') ? [] : ['className' => StateMachineItemStateLogsTable::class];
+        $this->StateMachineItemStateLogs = TableRegistry::getTableLocator()->get('StateMachineItemStateLogs', $config);
 
         $config = TableRegistry::getTableLocator()->exists('StateMachineProcesses') ? [] : ['className' => StateMachineProcessesTable::class];
         $this->StateMachineProcesses = TableRegistry::getTableLocator()->get('StateMachineProcesses', $config);
@@ -106,7 +106,7 @@ class StateMachineFacadeTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->StateMachineItemStateHistory, $this->StateMachineProcesses, $this->StateMachineItemStates, $this->StateMachineTimeouts);
+        unset($this->StateMachineItemStateLogs, $this->StateMachineProcesses, $this->StateMachineItemStates, $this->StateMachineTimeouts);
 
         parent::tearDown();
     }

@@ -23,7 +23,7 @@ interface StateMachineFacadeInterface
      * - Returns with the number of transitioned items.
      *
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
-     * @param int $identifier - this is id of foreign entity you want to track in state machine, it's stored in history table.
+     * @param int $identifier - this is id of foreign entity you want to track in state machine, it's stored in logs table.
      *
      * @return int
      */
