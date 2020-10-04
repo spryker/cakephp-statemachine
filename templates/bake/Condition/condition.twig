@@ -1,0 +1,18 @@
+<?php
+namespace {{ namespace }};
+
+use StateMachine\Dependency\StateMachineConditionInterface;
+use StateMachine\Dto\StateMachine\ItemDto;
+
+class {{ name }}Condition implements StateMachineConditionInterface
+{
+    /**
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
+     *
+     * @return bool
+     */
+    public function check(ItemDto $itemDto): bool
+    {
+        // TODO: Implement check() method.
+    }
+}

@@ -34,4 +34,12 @@ use Cake\Core\Configure;
         </li>
         <?php } ?>
     </ul>
+
+
+
+    <hr>
+
+    <h2>Create a new state machine</h2>
+    <p>Create an XML using CLI and the documented `bin/cake state_machine init` command.</p>
+
 </div>

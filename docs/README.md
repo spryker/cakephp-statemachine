@@ -189,6 +189,10 @@ class MyCondition implements StateMachineConditionInterface
 }
 ```
 
+Tip: You can use bake to quickly generate them for you:
+- `bin/cake bake state_machine_command MyCommand`
+- `bin/cake bake state_machine_condition MyCondition`
+
 Let's hook them up to the PHP counterpart then:
 ```php
     public function getCommands(): array
@@ -219,12 +223,10 @@ bin/cake state_machine clear_locks
 ```
 can be added with a bit bigger interval.
 
-
 ## Using it
 Once your XML is ready to be validated, check it out as live preview in the backend:
 - Go to `/admin/state-machine` and select the process
 - Adjust your state machine further and just press F5 to reload the preview until it looks as expected
-
 
 ### Invoking an Event
 Events can be triggered via:
