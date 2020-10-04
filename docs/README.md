@@ -317,7 +317,7 @@ $url = ['prefix' => 'admin', 'plugin' => 'StateMachine',
         'event' => $event,
     ],
 ];
-echo $this->Form->postLink($event, $url, ['class' => 'button']) . ' ';
+echo $this->Form->postLink($event, $url) . ' ';
 ```
 
 #### Display state history and transition logs:
@@ -328,6 +328,27 @@ $logs = $this->StateMachineTransitionLogs->getLogs($entity->item_state->id);
 
 $this->loadModel('StateMachine.StateMachineItemStateHistory');
 $history = $this->StateMachineItemStateHistory->getHistory($entity->item_state);
+```
+
+### Build your own custom dashboard
+For each entity you will most likely want to have your own dashboard for the state machine, including
+the buttons and the specific graph of the current state using `highlight-state` query string:
+
+Here the link/URL to generate the image in that dashboard:
+```php
+$url = [
+    'prefix' => 'Admin',
+    'plugin' => 'StateMachine',
+    'controller' => 'Graph',
+    'action' => 'draw',
+    '?' => [
+        'state-machine' => $entity->item_state->state_machine,
+        'process' => $entity->item_state->process,
+        'highlight-state' => $entity->item_state->state,
+    ],
+];
+$image = $this->Html->image($url);
+echo $this->Html->link($image, $url, ['escapeTitle' => false, 'target' => '_blank']);
 ```
 
 ### Admin backend

@@ -8,7 +8,10 @@
 namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
+use App\StateMachine\MyProcessNameStateMachineHandler;
 use Cake\Http\Response;
+use StateMachine\Business\StateMachineFacade;
+use StateMachine\Dto\StateMachine\ItemDto;
 
 /**
  * StateMachineItems Controller
@@ -58,7 +61,15 @@ class StateMachineItemsController extends AppController
             'contain' => ['StateMachineTransitionLogs' => 'StateMachineProcesses'],
         ]);
 
-        $this->set(compact('stateMachineItem'));
+        $stateMachineFacade = new StateMachineFacade();
+        $itemDto = new ItemDto();
+        $itemDto->setStateMachineName($stateMachineItem->state_machine);
+        $itemDto->setProcessName($stateMachineItem->process);
+        $itemDto->setIdentifier($stateMachineItem->identifier);
+        $itemDto->setStateName($stateMachineItem->state);
+        $events = $stateMachineFacade->getManualEventsForStateMachineItem($itemDto);
+
+        $this->set(compact('stateMachineItem', 'events'));
     }
 
     /**

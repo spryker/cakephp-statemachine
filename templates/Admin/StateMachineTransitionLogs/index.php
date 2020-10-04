@@ -4,13 +4,13 @@
  * @var \StateMachine\Model\Entity\StateMachineTransitionLog[]|\Cake\Collection\CollectionInterface $stateMachineTransitionLogs
  */
 ?>
-<nav class="actions large-3 medium-4 columns col-sm-4 col-xs-12" id="actions-sidebar">
+<nav class="actions large-3 medium-4 columns col-sm-4 col-12" id="actions-sidebar">
     <ul class="side-nav nav nav-pills nav-stacked">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List State Machine Processes'), ['controller' => 'StateMachineProcesses', 'action' => 'index']) ?></li>
+        <li class="nav-item heading"><?= __('Actions') ?></li>
+        <li class="nav-link"><?= $this->Html->link(__('List State Machine Processes'), ['controller' => 'StateMachineProcesses', 'action' => 'index']) ?></li>
     </ul>
 </nav>
-<div class="content action-index index large-9 medium-8 columns col-sm-8 col-xs-12">
+<div class="content action-index index large-9 medium-8 columns col-sm-8 col-12">
     <h2><?= __('State Machine Transition Logs') ?></h2>
     <table class="table table-striped">
         <thead>

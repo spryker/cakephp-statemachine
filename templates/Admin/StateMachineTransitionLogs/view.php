@@ -4,15 +4,15 @@
  * @var \StateMachine\Model\Entity\StateMachineTransitionLog $stateMachineTransitionLog
  */
 ?>
-<nav class="actions large-3 medium-4 columns col-sm-4 col-xs-12" id="actions-sidebar">
+<nav class="actions large-3 medium-4 columns col-sm-4 col-12" id="actions-sidebar">
     <ul class="side-nav nav nav-pills nav-stacked">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(__('Delete State Machine Transition Log'), ['action' => 'delete', $stateMachineTransitionLog->id], ['confirm' => __('Are you sure you want to delete # {0}?', $stateMachineTransitionLog->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List State Machine Transition Logs'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('List State Machine Processes'), ['controller' => 'StateMachineProcesses', 'action' => 'index']) ?> </li>
+        <li class="nav-item heading"><?= __('Actions') ?></li>
+        <li class="nav-link"><?= $this->Form->postLink(__('Delete State Machine Transition Log'), ['action' => 'delete', $stateMachineTransitionLog->id], ['confirm' => __('Are you sure you want to delete # {0}?', $stateMachineTransitionLog->id)]) ?> </li>
+        <li class="nav-link"><?= $this->Html->link(__('List State Machine Transition Logs'), ['action' => 'index']) ?> </li>
+        <li class="nav-link"><?= $this->Html->link(__('List State Machine Processes'), ['controller' => 'StateMachineProcesses', 'action' => 'index']) ?> </li>
     </ul>
 </nav>
-<div class="content action-view view large-9 medium-8 columns col-sm-8 col-xs-12">
+<div class="content action-view view large-9 medium-8 columns col-sm-8 col-12">
     <h2><?= h($stateMachineTransitionLog->id) ?></h2>
     <table class="table vertical-table">
             <tr>
