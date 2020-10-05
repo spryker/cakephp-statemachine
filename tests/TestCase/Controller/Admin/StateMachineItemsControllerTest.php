@@ -7,6 +7,7 @@
 
 namespace StateMachine\Test\TestCase\Controller\Admin;
 
+use Cake\Core\Configure;
 use Cake\TestSuite\IntegrationTestCase;
 
 /**
@@ -46,6 +47,8 @@ class StateMachineItemsControllerTest extends IntegrationTestCase
      */
     public function testView(): void
     {
+        Configure::write('StateMachine.pathToXml', TESTS . 'test_files' . DS);
+
         $this->disableErrorHandlerMiddleware();
 
         $this->get(['plugin' => 'StateMachine', 'prefix' => 'Admin', 'controller' => 'StateMachineItems', 'action' => 'view', 1]);

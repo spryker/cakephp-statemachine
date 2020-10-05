@@ -14,8 +14,6 @@ use Cake\TestSuite\Fixture\TestFixture;
  */
 class StateMachineItemsFixture extends TestFixture
 {
-    public const DEFAULT_TEST_STATE_MACHINE_NAME = 'TestingSm';
-
     /**
      * Fields
      *
@@ -50,9 +48,9 @@ class StateMachineItemsFixture extends TestFixture
             [
                 'id' => 1,
                 'identifier' => 1,
-                'state_machine' => static::DEFAULT_TEST_STATE_MACHINE_NAME,
-                'process' => static::DEFAULT_TEST_STATE_MACHINE_NAME,
-                'state' => null,
+                'state_machine' => 'TestingSm',
+                'process' => 'TestProcess',
+                'state' => 'Init',
                 'state_machine_transition_log_id' => 1,
             ],
         ];
