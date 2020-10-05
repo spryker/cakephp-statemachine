@@ -8,7 +8,6 @@
 namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
-use App\StateMachine\MyProcessNameStateMachineHandler;
 use Cake\Http\Response;
 use StateMachine\Business\StateMachineFacade;
 use StateMachine\Dto\StateMachine\ItemDto;
