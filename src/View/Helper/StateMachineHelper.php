@@ -30,7 +30,7 @@ class StateMachineHelper extends Helper
     {
         $url = $stateMachineItem->url;
         if (!$url) {
-            return h($stateMachineItem->identifier);
+            return $this->Html->link($stateMachineItem->identifier, ['action' => 'view', $stateMachineItem->id]);
         }
 
         return $this->Html->link((string)$stateMachineItem->identifier, $url, $options);
