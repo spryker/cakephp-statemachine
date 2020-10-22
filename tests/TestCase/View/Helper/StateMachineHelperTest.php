@@ -8,6 +8,7 @@
 namespace StateMachine\Test\TestCase\View\Helper;
 
 use Cake\Core\Configure;
+use Cake\Http\ServerRequest;
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
@@ -34,7 +35,7 @@ class StateMachineHelperTest extends TestCase
         ];
         Configure::write('StateMachine.map', $map);
 
-        Router::prefix('admin', function (RouteBuilder $routes): void {
+        Router::prefix('Admin', function (RouteBuilder $routes): void {
             $routes->plugin('StateMachine', ['path' => '/state-machine'], function (RouteBuilder $routes): void {
                 $routes->connect('/', ['controller' => 'StateMachine', 'action' => 'index'], ['routeClass' => DashedRoute::class]);
 
@@ -60,11 +61,14 @@ class StateMachineHelperTest extends TestCase
     {
         $stateMachineItem = new StateMachineItem();
         $stateMachineItem->identifier = 3;
+        $stateMachineItem->id = 2;
 
-        $helper = new StateMachineHelper(new View());
+        $request = new ServerRequest(['url' => '/admin/state-machine']);
+        $helper = new StateMachineHelper(new View($request));
 
         $result = $helper->itemLink($stateMachineItem);
-        $this->assertSame('3', $result);
+        $expected = '<a href="/admin/state-machine/state-machine-items/view/2">3</a>';
+        $this->assertSame($expected, $result);
 
         $stateMachineItem->state_machine = 'Demo';
 

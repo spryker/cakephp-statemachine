@@ -30,7 +30,9 @@ class StateMachineHelper extends Helper
     {
         $url = $stateMachineItem->url;
         if (!$url) {
-            return $this->Html->link($stateMachineItem->identifier, ['action' => 'view', $stateMachineItem->id]);
+            $urlArray = ['prefix' => 'Admin', 'plugin' => 'StateMachine', 'controller' => 'StateMachineItems', 'action' => 'view', $stateMachineItem->id];
+
+            return $this->Html->link((string)$stateMachineItem->identifier, $urlArray);
         }
 
         return $this->Html->link((string)$stateMachineItem->identifier, $url, $options);
