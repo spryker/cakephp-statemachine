@@ -10,12 +10,20 @@ namespace StateMachine;
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
 use Cake\Core\Plugin as CakePlugin;
+use StateMachine\Shell\StateMachineShell;
 
 /**
  * Plugin for StateMachine
  */
 class Plugin extends BasePlugin
 {
+    /**
+     * Plugin name.
+     *
+     * @var string
+     */
+    protected $name = 'StateMachine';
+
     /**
      * @var bool
      */
@@ -27,19 +35,36 @@ class Plugin extends BasePlugin
     protected $bootstrapEnabled = false;
 
     /**
+     * @var string[]
+     */
+    protected $stateMachineCommandsList = [
+        StateMachineShell::class,
+    ];
+
+    /**
      * @inheritDoc
      */
     public function console(CommandCollection $commands): CommandCollection
     {
-        $commandCollection = $commands->discoverPlugin($this->getName());
-        if (!CakePlugin::isLoaded('Bake')) {
-            foreach ($commandCollection as $key => $value) {
-                if (strpos($value, '\\Bake') !== false) {
-                    unset($commandCollection[$key]);
-                }
-            }
+        if (class_exists('Bake\Command\SimpleBakeCommand')) {
+            $commandList = $commands->discoverPlugin($this->getName());
+
+            return $commands->addMany($commandList);
         }
 
-        return $commands->addMany($commandCollection);
+        $commandList = [];
+        foreach ($this->stateMachineCommandsList as $class) {
+            $name = $class::defaultName();
+            // If the short name has been used, use the full name.
+            // This allows app commands to have name preference.
+            // and app commands to overwrite migration commands.
+            if (!$commands->has($name)) {
+                $commandList[$name] = $class;
+            }
+            // full name
+            $commandList['state_machine.' . $name] = $class;
+        }
+
+        return $commands->addMany($commandList);
     }
 }

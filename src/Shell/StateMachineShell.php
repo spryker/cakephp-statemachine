@@ -18,6 +18,14 @@ class StateMachineShell extends Shell
     use FacadeAwareTrait;
 
     /**
+     * @return string
+     */
+    public static function defaultName(): string
+    {
+        return 'state_machine';
+    }
+
+    /**
      * @param string $stateMachine
      *
      * @return void
