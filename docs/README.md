@@ -193,6 +193,8 @@ Tip: You can use bake to quickly generate them for you:
 - `bin/cake bake state_machine_command MyCommand`
 - `bin/cake bake state_machine_condition MyCondition`
 
+Make sure to load the Bake plugin before this one, though, for the bake commands to be enabled.
+
 Let's hook them up to the PHP counterpart then:
 ```php
     public function getCommands(): array
