@@ -9,9 +9,7 @@
     <file>config/</file>
     <file>tests/</file>
 
-    <!-- Too soon
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
-    -->
 
     <rule ref="PSR2.Methods.MethodDeclaration.Underscore">
         <severity>0</severity>
