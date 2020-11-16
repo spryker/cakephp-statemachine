@@ -100,10 +100,10 @@ class StateMachineItemStateLogsTable extends Table
      */
     public function getHistory(StateMachineItem $stateMachineItem): array
     {
-        if (!$stateMachineItem->state_machine_transition_log) {
+        if ($stateMachineItem->state_machine_transition_log === null) {
             return [];
         }
-        
+
         return $this->find()
             ->contain(['StateMachineItemStates' => 'StateMachineProcesses'])
             ->where([
