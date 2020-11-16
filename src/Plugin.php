@@ -9,7 +9,6 @@ namespace StateMachine;
 
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
-use Cake\Core\Plugin as CakePlugin;
 use StateMachine\Shell\StateMachineShell;
 
 /**

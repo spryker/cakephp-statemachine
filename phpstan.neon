@@ -1,5 +1,5 @@
 parameters:
-    level: 1
+    level: 8
     bootstrapFiles:
         - %rootDir%/../../../tests/bootstrap.php
     excludes_analyse:
@@ -7,3 +7,6 @@ parameters:
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
+        - '#Unsafe usage of new static\(\).#'
+        - '#Method .+::.+Table\(\) should return .+Table but returns Cake\\ORM\\Table.#'
+        - '#Offset .+ does not exist on SimpleXMLElement\|null.#'

@@ -43,7 +43,7 @@ before_script:
 script:
   - if [[ $DEFAULT == 1 ]]; then vendor/bin/phpunit; fi
 
-  - if [[ $CHECKS == 1 ]]; then composer stan; fi
+  - if [[ $CHECKS == 1 ]]; then composer stan && composer stan-tests; fi
   - if [[ $CHECKS == 1 ]]; then composer cs-check; fi
 
 cache:

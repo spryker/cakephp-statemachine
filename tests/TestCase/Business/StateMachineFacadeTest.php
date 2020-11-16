@@ -49,6 +49,11 @@ class StateMachineFacadeTest extends TestCase
     protected $StateMachineItemStates;
 
     /**
+     * @var \StateMachine\Model\Table\StateMachineItemsTable
+     */
+    protected $StateMachineItems;
+
+    /**
      * @var \StateMachine\Model\Table\StateMachineTimeoutsTable
      */
     protected $StateMachineTimeouts;
