@@ -12,7 +12,7 @@
     "require": {
         "php": ">=7.2",
         "cakephp/cakephp": "^4.0",
-        "dereuromark/cakephp-dto": "^1.1",
+        "dereuromark/cakephp-dto": "^1.2",
         "dereuromark/cakephp-tools": "^2.0",
         "phpdocumentor/graphviz": "^1.0.4"
     },
