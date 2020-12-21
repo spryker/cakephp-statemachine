@@ -37,6 +37,7 @@ class StateMachineItemsFixture extends TestFixture
         ],
     ];
     // @codingStandardsIgnoreEnd
+
     /**
      * Init method
      *
