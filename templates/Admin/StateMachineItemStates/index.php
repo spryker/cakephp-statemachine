@@ -8,7 +8,6 @@
     <ul class="side-nav nav nav-pills nav-stacked">
         <li class="nav-item heading"><?= __('Actions') ?></li>
         <li class="nav-link"><?= $this->Html->link(__('List State Machine Processes'), ['controller' => 'StateMachineProcesses', 'action' => 'index']) ?></li>
-        <li class="nav-link"><?= $this->Html->link(__('List State Machine Item State History'), ['controller' => 'StateMachineItemStateHistory', 'action' => 'index']) ?></li>
         <li class="nav-link"><?= $this->Html->link(__('List State Machine Timeouts'), ['controller' => 'StateMachineTimeouts', 'action' => 'index']) ?></li>
     </ul>
 </nav>

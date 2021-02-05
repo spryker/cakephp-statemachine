@@ -328,8 +328,8 @@ In your entities' controller action you can extract the current history and logs
 $this->loadModel('StateMachine.StateMachineTransitionLogs');
 $logs = $this->StateMachineTransitionLogs->getLogs($entity->item_state->id);
 
-$this->loadModel('StateMachine.StateMachineItemStateHistory');
-$history = $this->StateMachineItemStateHistory->getHistory($entity->item_state);
+$this->loadModel('StateMachine.StateMachineItemStateLogs');
+$history = $this->StateMachineItemStateLogs->getHistory($entity->item_state);
 ```
 
 ### Build your own custom dashboard

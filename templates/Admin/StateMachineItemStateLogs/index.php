@@ -11,7 +11,7 @@
     </ul>
 </nav>
 <div class="content action-index index large-9 medium-8 columns col-sm-8 col-12">
-    <h2><?= __('State Machine Item State History') ?></h2>
+    <h2><?= __('State Machine Item State Logs') ?></h2>
     <table class="table table-striped">
         <thead>
             <tr>

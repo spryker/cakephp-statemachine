@@ -10,9 +10,6 @@
         <li class="nav-item heading"><?= __('Actions') ?></li>
         <li class="nav-link"><?= $this->Form->postLink(__('Delete State Machine Item State'), ['action' => 'delete', $stateMachineItemState->id], ['confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItemState->id)]) ?> </li>
         <li class="nav-link"><?= $this->Html->link(__('List State Machine Item States'), ['action' => 'index']) ?> </li>
-        <li class="nav-link"><?= $this->Html->link(__('List State Machine Processes'), ['controller' => 'StateMachineProcesses', 'action' => 'index']) ?> </li>
-        <li class="nav-link"><?= $this->Html->link(__('List State Machine Item State History'), ['controller' => 'StateMachineItemStateHistory', 'action' => 'index']) ?> </li>
-        <li class="nav-link"><?= $this->Html->link(__('List State Machine Timeouts'), ['controller' => 'StateMachineTimeouts', 'action' => 'index']) ?> </li>
     </ul>
 </nav>
 <div class="content action-view view large-9 medium-8 columns col-sm-8 col-12">
