@@ -101,14 +101,13 @@ class BuilderTest extends TestCase
      */
     public function testCreateProcessShouldThrowExceptionWhenStateMachineXmlFileNotFound(): void
     {
-        $this->expectException(StateMachineException::class);
-
         $builder = $this->createBuilder();
         $processDto = $this->createProcessDto();
         $processDto->setStateMachineName('Random');
-        $process = $builder->createProcess($processDto);
 
-        $this->assertTrue($process->getIsMain());
+        $this->expectException(StateMachineException::class);
+
+        $builder->createProcess($processDto);
     }
 
     /**
@@ -116,14 +115,13 @@ class BuilderTest extends TestCase
      */
     public function testCreateProcessShouldThrowExceptionWhenProcessXmlFileNotFound(): void
     {
-        $this->expectException(StateMachineException::class);
-
         $builder = $this->createBuilder();
         $processDto = $this->createProcessDto();
         $processDto->setProcessName('Random');
-        $process = $builder->createProcess($processDto);
 
-        $this->assertTrue($process->getIsMain());
+        $this->expectException(StateMachineException::class);
+
+        $builder->createProcess($processDto);
     }
 
     /**
