@@ -91,7 +91,11 @@ class PhpDocumentorGraphAdapter implements GraphAdapterInterface
      */
     public function addEdge(string $fromNode, string $toNode, array $attributes = [])
     {
-        $edge = new Edge($this->graph->findNode($fromNode), $this->graph->findNode($toNode));
+        /** @var \phpDocumentor\GraphViz\Node $from */
+        $from = $this->graph->findNode($fromNode);
+        /** @var \phpDocumentor\GraphViz\Node $to */
+        $to = $this->graph->findNode($toNode);
+        $edge = new Edge($from, $to);
         $this->addAttributesTo($attributes, $edge);
 
         $this->graph->link($edge);
