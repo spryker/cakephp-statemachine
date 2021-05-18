@@ -108,6 +108,11 @@ jobs:
         key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
         restore-keys: ${{ runner.os }}-composer-
 
+    - name: Install dot
+      run: |
+        sudo apt-get -qq update > /dev/null
+        sudo apt-get -qq install graphviz > /dev/null
+
     - name: Run phpstan
       run: vendor/bin/phpstan analyse --error-format=github
 
