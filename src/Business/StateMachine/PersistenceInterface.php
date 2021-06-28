@@ -112,4 +112,12 @@ interface PersistenceInterface
      * @return \StateMachine\Dto\StateMachine\ItemDto[]
      */
     public function getItemsWithExpiredTimeouts(string $stateMachineName): array;
+
+    /**
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
+     * @param string $eventName
+     *
+     * @return int
+     */
+    public function getEventCountByItem(ItemDto $itemDto, string $eventName): int;
 }

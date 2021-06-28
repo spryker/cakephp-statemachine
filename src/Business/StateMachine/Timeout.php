@@ -7,9 +7,12 @@
 
 namespace StateMachine\Business\StateMachine;
 
+use Cake\Core\Configure;
+use Cake\Event\EventDispatcherTrait;
 use Cake\I18n\FrozenTime;
 use DateInterval;
 use StateMachine\Business\Exception\StateMachineException;
+use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Business\Process\ProcessInterface;
 use StateMachine\Business\Process\StateInterface;
@@ -17,6 +20,8 @@ use StateMachine\Dto\StateMachine\ItemDto;
 
 class Timeout implements TimeoutInterface
 {
+    use EventDispatcherTrait;
+
     /**
      * @var \Cake\I18n\FrozenTime[]
      */
@@ -33,11 +38,17 @@ class Timeout implements TimeoutInterface
     protected $stateMachinePersistence;
 
     /**
+     * @var \StateMachine\Business\Logger\TransitionLogInterface
+     */
+    protected $transitionLog;
+
+    /**
      * @param \StateMachine\Business\StateMachine\PersistenceInterface $stateMachinePersistence
      */
-    public function __construct(PersistenceInterface $stateMachinePersistence)
+    public function __construct(PersistenceInterface $stateMachinePersistence, TransitionLogInterface $transitionLog)
     {
         $this->stateMachinePersistence = $stateMachinePersistence;
+        $this->transitionLog = $transitionLog;
     }
 
     /**
@@ -67,6 +78,8 @@ class Timeout implements TimeoutInterface
             $this->stateMachinePersistence->dropTimeoutByItem($itemDto);
 
             $this->stateMachinePersistence->saveStateMachineItemTimeout($itemDto, $timeoutDate, $event->getName());
+
+            $this->eventRepeatAction($itemDto, $event);
         }
     }
 
@@ -150,5 +163,29 @@ class Timeout implements TimeoutInterface
         }
 
         return $intervalSum;
+    }
+
+    /**
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
+     * @param \StateMachine\Business\Process\EventInterface $event
+     *
+     * @return void
+     */
+    protected function eventRepeatAction(ItemDto $itemDto, EventInterface $event): void
+    {
+        $moduloValue = (int)Configure::read('StateMachine.eventRepeatAction');
+        if (!$moduloValue) {
+            return;
+        }
+
+        $eventName = $event->getName();
+        $eventName .= $event->getEventTypeLabel();
+
+        $count = $this->transitionLog->getEventCount($eventName, [$itemDto]);
+        if ($count < $moduloValue || $count % $moduloValue !== 0) {
+            return;
+        }
+
+        $this->dispatchEvent('StateMachine.eventRepeatAction', compact('event', 'count', 'itemDto'));
     }
 }

@@ -7,8 +7,12 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
+use Cake\Core\Configure;
+use Cake\Event\Event as CakeEvent;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use StateMachine\Business\Logger\TransitionLog;
+use StateMachine\Business\Logger\TransitionLogInterface;
 use StateMachine\Business\Process\Event;
 use StateMachine\Business\Process\EventInterface;
 use StateMachine\Business\Process\Process;
@@ -28,17 +32,24 @@ use StateMachine\Model\Table\StateMachineItemStateLogsTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
+use StateMachine\Model\Table\StateMachineTransitionLogsTable;
 
 class TimeoutTest extends TestCase
 {
     protected const STATE_WITH_TIMEOUT = 'State with timeout';
     protected const IDENTIFIER = 1;
     protected const EVENT_NAME = 'Timeout event';
+    protected const PROCESS_NAME = 'Process name';
 
     /**
      * @var \StateMachine\Model\Table\StateMachineItemStateLogsTable
      */
     protected $StateMachineItemStateLogs;
+
+    /**
+     * @var \StateMachine\Model\Table\StateMachineTransitionLogsTable
+     */
+    protected $StateMachineTransitionLogs;
 
     /**
      * @var \StateMachine\Model\Table\StateMachineProcessesTable
@@ -64,6 +75,7 @@ class TimeoutTest extends TestCase
         'plugin.StateMachine.StateMachineItems',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineTimeouts',
+        'plugin.StateMachine.StateMachineTransitionLogs',
     ];
 
     /**
@@ -77,6 +89,9 @@ class TimeoutTest extends TestCase
         $config = TableRegistry::getTableLocator()->exists('StateMachineItemStateLogs') ? [] : ['className' => StateMachineItemStateLogsTable::class];
         $this->StateMachineItemStateLogs = TableRegistry::getTableLocator()->get('StateMachineItemStateLogs', $config);
 
+        $config = TableRegistry::getTableLocator()->exists('StateMachineTransitionLogs') ? [] : ['className' => StateMachineTransitionLogsTable::class];
+        $this->StateMachineTransitionLogs = TableRegistry::getTableLocator()->get('StateMachineTransitionLogs', $config);
+
         $config = TableRegistry::getTableLocator()->exists('StateMachineProcesses') ? [] : ['className' => StateMachineProcessesTable::class];
         $this->StateMachineProcesses = TableRegistry::getTableLocator()->get('StateMachineProcesses', $config);
 
@@ -85,6 +100,8 @@ class TimeoutTest extends TestCase
 
         $config = TableRegistry::getTableLocator()->exists('StateMachineTimeouts') ? [] : ['className' => StateMachineTimeoutsTable::class];
         $this->StateMachineTimeouts = TableRegistry::getTableLocator()->get('StateMachineTimeouts', $config);
+
+        Configure::write('StateMachine.eventRepeatAction', 2);
     }
 
     /**
@@ -94,7 +111,8 @@ class TimeoutTest extends TestCase
      */
     public function tearDown(): void
     {
-        unset($this->StateMachineItemStateLogs, $this->StateMachineProcesses, $this->StateMachineItemStates, $this->StateMachineTimeouts);
+        unset($this->StateMachineItemStateLogs, $this->StateMachineTransitionLogs, $this->StateMachineProcesses, $this->StateMachineItemStates, $this->StateMachineTimeouts);
+        Configure::delete('StateMachine.eventRepeatAction');
 
         parent::tearDown();
     }
@@ -133,6 +151,31 @@ class TimeoutTest extends TestCase
         $timeout = $this->StateMachineTimeouts->find()->where(['identifier' => static::IDENTIFIER])->first();
 
         $this->assertNull($timeout);
+    }
+
+    /**
+     * @return void
+     */
+    public function testSetTimeoutShouldAlertIfRepeatActionIsSet(): void
+    {
+        $timeout = $this->createTimeout();
+        $dispatched = false;
+        $timeout->getEventManager()->on(
+            'StateMachine.eventRepeatAction',
+            function (CakeEvent $cakeEvent, Event $event, int $count, ItemDto $itemDto) use (&$dispatched) {
+                $this->assertSame('Timeout event', $event->getName());
+                $dispatched = true;
+            }
+        );
+
+        $timeout->setNewTimeout(
+            $this->createProcess(),
+            $this->createItemDto()
+        );
+
+        //TODO
+
+        $this->assertTrue($dispatched);
     }
 
     /**
@@ -189,6 +232,7 @@ class TimeoutTest extends TestCase
         $itemDto = new ItemDto();
         $itemDto
             ->setStateName(static::STATE_WITH_TIMEOUT)
+            ->setProcessName(static::PROCESS_NAME)
             ->setIdentifier(static::IDENTIFIER)
             ->setIdItemState(1)
             ->setIdStateMachineProcess(1);
@@ -197,11 +241,11 @@ class TimeoutTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Business\StateMachine\TimeoutInterface
+     * @return \StateMachine\Business\StateMachine\TimeoutInterface|\Cake\Event\EventDispatcherInterface
      */
     protected function createTimeout(): TimeoutInterface
     {
-        return new Timeout($this->createPersistence());
+        return new Timeout($this->createPersistence(), $this->createTransitionLog());
     }
 
     /**
@@ -224,5 +268,13 @@ class TimeoutTest extends TestCase
             $this->StateMachineItemStates,
             $this->StateMachineTimeouts
         );
+    }
+
+    /**
+     * @return \StateMachine\Business\Logger\TransitionLogInterface
+     */
+    protected function createTransitionLog(): TransitionLogInterface
+    {
+        return new TransitionLog($this->StateMachineTransitionLogs);
     }
 }

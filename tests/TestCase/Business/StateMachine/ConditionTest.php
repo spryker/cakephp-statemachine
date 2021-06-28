@@ -294,6 +294,6 @@ class ConditionTest extends TestCase
      */
     protected function createTimeout(): TimeoutInterface
     {
-        return new Timeout($this->createPersistence());
+        return new Timeout($this->createPersistence(), $this->createTransitionLogMock());
     }
 }

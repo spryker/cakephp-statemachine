@@ -192,8 +192,8 @@ class Trigger implements TriggerInterface
         $stateMachineItems = $this->stateMachinePersistence->getItemsWithExpiredTimeouts($stateMachineName);
 
         $groupedStateMachineItems = $this->groupItemsByEvent($stateMachineItems);
-        foreach ($groupedStateMachineItems as $event => $stateMachineItems) {
-            $this->triggerEvent($event, $stateMachineItems);
+        foreach ($groupedStateMachineItems as $eventName => $stateMachineItems) {
+            $this->triggerEvent($eventName, $stateMachineItems);
         }
 
         return $this->affectedItems;
