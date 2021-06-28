@@ -250,12 +250,12 @@ $stateMachineFacade->triggerForNewStateMachineItem($processDto, $identifier);
 will initialize a state machine for an item (unique $identifier for a process);
 
 ```php
-$stateMachineFacade->triggerEvent($eventName, $itemDto)
+$stateMachineFacade->triggerEvent($eventName, $itemDto);
 ```
 will trigger a specific event for an item.
 
 ```php
-$stateMachineFacade->triggerEventForItems($eventName, $itemDtos)
+$stateMachineFacade->triggerEventForItems($eventName, $itemDtos);
 ```
 will trigger a specific event for a collection of items.
 
@@ -380,12 +380,57 @@ to continue here on DB level.
 ## Advanced Usage
 
 ### Repeating events often
-If you are using repeating of events heavily (lot of loops can happen), you might want to raise the default limit of 10 repeats of an event.
+If you are using repeating of events heavily (lot of loops can happen),
+you might want to raise the default limit of 10 repeats of an event.
 Configure key `StateMachine.maxEventRepeats` can be used for this.
 
-If you not only want to prevent immediate loops, but also take the whole history into account, you can use the the slightly slower
-lookup in the persistence for this: Configure key `StateMachine.maxLookupInPersistence` can be set to `true` here.
-This way you can also prevent timeout loops to run forever. Careful to include a manual event then around the loop to escape if that happens.
+If you not only want to prevent immediate loops, but also take the whole
+history into account, you can use the slightly slower lookup in the
+persistence for this: Configure key `StateMachine.maxLookupInPersistence`
+can be set to `true` here. This way you can also prevent timeout loops to run forever.
+Careful to include a manual event then around the loop to escape if that happens.
+Alternatively, some "event logs" here could be purged from the history to allow
+for the state machine to run again, once all issues that caused the loop
+have been resolved.
+**Note**: This is deprecated as this is not working!
+
+If you want a more proactive solution to your loop issues, you can set
+`StateMachine.eventRepeatAction` to a value > 0.
+It will register an event `StateMachine.eventRepeatAction` that you can use
+to provide some callback logic to handle this kind of repeating every x times.
+
+Example:
+```php
+class EventRepeatAlerter implements EventListenerInterface
+{
+    public function implementedEvents(): array
+    {
+        return [
+            'StateMachine.eventRepeatAction' => 'notify',
+        ];
+    }
+
+    /**
+     * @param \Cake\Event\EventInterface $event
+     * @param \StateMachine\Business\Process\EventInterface $event
+     * @param int $count
+     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
+     * @return void
+     */
+    public function notify(EventInterface $cakeEvent, EventInterface $event, int $count, ItemDto $itemDto): void
+    {
+        // Execute your alert logic here, via email, slack or otherwise
+    }
+}
+```
+
+To register the event listener:
+```php
+use Cake\Event\EventManager;
+
+// In Application::bootstrap() or Application::middleware()
+EventManager::instance()->on(new EventRepeatAlerter());
+```
 
 ### Enable detailed error logging
 Add the detailed log listening into your Configure config (app.php):

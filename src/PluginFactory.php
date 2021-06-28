@@ -153,7 +153,8 @@ class PluginFactory
     public function createStateMachineTimeout(): TimeoutInterface
     {
         return new Timeout(
-            $this->createStateMachinePersistence()
+            $this->createStateMachinePersistence(),
+            $this->createLoggerTransitionLog()
         );
     }
 
