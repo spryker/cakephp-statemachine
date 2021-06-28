@@ -468,17 +468,4 @@ class Persistence implements PersistenceInterface
 
         return $itemDto;
     }
-
-    /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
-     * @param string $eventName
-     *
-     * @return int
-     */
-    public function getEventCountByItem(ItemDto $itemDto, string $eventName): int
-    {
-        return $this->stateMachineItemStateLogsTable->find()
-            ->where(['identifier'])
-            ->count();
-    }
 }
