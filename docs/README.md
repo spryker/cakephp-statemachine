@@ -401,6 +401,11 @@ to provide some callback logic to handle this kind of repeating every x times.
 
 Example:
 ```php
+use Cake\Event\EventInterface as CakeEventInterface;
+use Cake\Event\EventListenerInterface;
+use StateMachine\Business\Process\EventInterface;
+use StateMachine\Dto\StateMachine\ItemDto;
+
 class EventRepeatAlerter implements EventListenerInterface
 {
     public function implementedEvents(): array
@@ -411,13 +416,13 @@ class EventRepeatAlerter implements EventListenerInterface
     }
 
     /**
-     * @param \Cake\Event\EventInterface $event
+     * @param \Cake\Event\EventInterface $cakeEvent
      * @param \StateMachine\Business\Process\EventInterface $event
      * @param int $count
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      * @return void
      */
-    public function notify(EventInterface $cakeEvent, EventInterface $event, int $count, ItemDto $itemDto): void
+    public function notify(CakeEventInterface $cakeEvent, EventInterface $event, int $count, ItemDto $itemDto): void
     {
         // Execute your alert logic here, via email, slack or otherwise
     }
