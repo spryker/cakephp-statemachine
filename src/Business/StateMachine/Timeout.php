@@ -44,6 +44,7 @@ class Timeout implements TimeoutInterface
 
     /**
      * @param \StateMachine\Business\StateMachine\PersistenceInterface $stateMachinePersistence
+     * @param \StateMachine\Business\Logger\TransitionLogInterface $transitionLog
      */
     public function __construct(PersistenceInterface $stateMachinePersistence, TransitionLogInterface $transitionLog)
     {
@@ -182,7 +183,7 @@ class Timeout implements TimeoutInterface
         $eventName .= $event->getEventTypeLabel();
 
         $count = $this->transitionLog->getEventCount($eventName, [$itemDto]);
-        if ($count < $moduloValue || $count % $moduloValue !== 0) {
+        if (!$count || $count % $moduloValue !== 0) {
             return;
         }
 

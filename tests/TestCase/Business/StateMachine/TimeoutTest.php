@@ -158,12 +158,40 @@ class TimeoutTest extends TestCase
      */
     public function testSetTimeoutShouldAlertIfRepeatActionIsSet(): void
     {
+        $log = $this->StateMachineTransitionLogs->newEntity([
+            'event' => static::EVENT_NAME . ' (timeout)',
+            'source_state' => 'foo',
+            'target_state' => 'bar',
+            'identifier' => static::IDENTIFIER,
+            'state_machine_process' => [
+                'name' => static::PROCESS_NAME,
+                'state_machine' => 'TestingSm',
+            ],
+            'locked' => false,
+            'is_error' => false,
+        ]);
+        $log->state_machine_item_id = 1;
+        $this->StateMachineTransitionLogs->saveOrFail($log);
+
+        // This now will be the modulo number and triggers the event
+        $log = $this->StateMachineTransitionLogs->newEntity([
+            'event' => static::EVENT_NAME . ' (timeout)',
+            'source_state' => 'foo',
+            'target_state' => 'bar',
+            'identifier' => static::IDENTIFIER,
+            'state_machine_process_id' => $log->state_machine_process_id,
+            'locked' => false,
+            'is_error' => false,
+        ]);
+        $log->state_machine_item_id = 1;
+        $this->StateMachineTransitionLogs->saveOrFail($log);
+
         $timeout = $this->createTimeout();
         $dispatched = false;
         $timeout->getEventManager()->on(
             'StateMachine.eventRepeatAction',
             function (CakeEvent $cakeEvent, Event $event, int $count, ItemDto $itemDto) use (&$dispatched) {
-                $this->assertSame('Timeout event', $event->getName());
+                $this->assertSame(static::EVENT_NAME, $event->getName());
                 $dispatched = true;
             }
         );
@@ -172,8 +200,6 @@ class TimeoutTest extends TestCase
             $this->createProcess(),
             $this->createItemDto()
         );
-
-        //TODO
 
         $this->assertTrue($dispatched);
     }
