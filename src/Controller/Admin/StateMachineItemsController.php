@@ -41,6 +41,10 @@ class StateMachineItemsController extends AppController
         if ($stateMachineName) {
             $this->paginate['conditions'] = ['state_machine' => $stateMachineName];
         }
+        $stateName = $this->request->getQuery('state');
+        if ($stateName) {
+            $this->paginate['conditions']['state'] = $stateName;
+        }
 
         $stateMachineItems = $this->paginate($this->StateMachineItems);
 

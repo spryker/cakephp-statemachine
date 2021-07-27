@@ -23,7 +23,7 @@
                 </div>
                 <div class="panel-body">
                     <?php
-                    echo $itemCount;
+                    echo $this->Html->link($itemCount, ['controller' => 'StateMachineItems', 'action' => 'index', '?' => ['state' => $state]]);
                     ?>
                 </div>
             </div>
