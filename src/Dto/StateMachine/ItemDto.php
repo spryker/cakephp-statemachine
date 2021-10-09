@@ -224,7 +224,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 * @return int
 	 */
 	public function getIdentifierOrFail(): int {
-		if (!isset($this->identifier)) {
+		if ($this->identifier === null) {
 			throw new \RuntimeException('Value not set for field `identifier` (expected to be not null)');
 		}
 
@@ -263,7 +263,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 * @return int
 	 */
 	public function getIdStateMachineProcessOrFail(): int {
-		if (!isset($this->idStateMachineProcess)) {
+		if ($this->idStateMachineProcess === null) {
 			throw new \RuntimeException('Value not set for field `idStateMachineProcess` (expected to be not null)');
 		}
 
@@ -302,7 +302,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 * @return int
 	 */
 	public function getIdItemStateOrFail(): int {
-		if (!isset($this->idItemState)) {
+		if ($this->idItemState === null) {
 			throw new \RuntimeException('Value not set for field `idItemState` (expected to be not null)');
 		}
 
@@ -341,7 +341,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 * @return string
 	 */
 	public function getProcessNameOrFail(): string {
-		if (!isset($this->processName)) {
+		if ($this->processName === null) {
 			throw new \RuntimeException('Value not set for field `processName` (expected to be not null)');
 		}
 
@@ -380,7 +380,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 * @return string
 	 */
 	public function getStateMachineNameOrFail(): string {
-		if (!isset($this->stateMachineName)) {
+		if ($this->stateMachineName === null) {
 			throw new \RuntimeException('Value not set for field `stateMachineName` (expected to be not null)');
 		}
 
@@ -419,7 +419,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 * @return string
 	 */
 	public function getStateNameOrFail(): string {
-		if (!isset($this->stateName)) {
+		if ($this->stateName === null) {
 			throw new \RuntimeException('Value not set for field `stateName` (expected to be not null)');
 		}
 
@@ -458,7 +458,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 * @return string
 	 */
 	public function getEventNameOrFail(): string {
-		if (!isset($this->eventName)) {
+		if ($this->eventName === null) {
 			throw new \RuntimeException('Value not set for field `eventName` (expected to be not null)');
 		}
 
@@ -497,7 +497,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 * @return string
 	 */
 	public function getCreatedAtOrFail(): string {
-		if (!isset($this->createdAt)) {
+		if ($this->createdAt === null) {
 			throw new \RuntimeException('Value not set for field `createdAt` (expected to be not null)');
 		}
 

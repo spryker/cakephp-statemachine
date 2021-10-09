@@ -98,7 +98,7 @@ class ProcessDto extends \CakeDto\Dto\AbstractDto {
 	 * @return string
 	 */
 	public function getProcessNameOrFail(): string {
-		if (!isset($this->processName)) {
+		if ($this->processName === null) {
 			throw new \RuntimeException('Value not set for field `processName` (expected to be not null)');
 		}
 
@@ -137,7 +137,7 @@ class ProcessDto extends \CakeDto\Dto\AbstractDto {
 	 * @return string
 	 */
 	public function getStateMachineNameOrFail(): string {
-		if (!isset($this->stateMachineName)) {
+		if ($this->stateMachineName === null) {
 			throw new \RuntimeException('Value not set for field `stateMachineName` (expected to be not null)');
 		}
 
