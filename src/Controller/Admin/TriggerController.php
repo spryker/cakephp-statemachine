@@ -23,15 +23,42 @@ class TriggerController extends AppController
     use FacadeAwareTrait;
     use CastTrait;
 
+    /**
+     * @var string
+     */
     public const URL_PARAM_IDENTIFIER = 'identifier';
+    /**
+     * @var string
+     */
     public const URL_PARAM_ID_STATE = 'id-state';
+    /**
+     * @var string
+     */
     public const URL_PARAM_STATE = 'state';
+    /**
+     * @var string
+     */
     public const URL_PARAM_STATE_MACHINE = 'state-machine';
+    /**
+     * @var string
+     */
     public const URL_PARAM_PROCESS = 'process';
+    /**
+     * @var string
+     */
     public const URL_PARAM_REDIRECT = 'redirect';
+    /**
+     * @var string
+     */
     public const URL_PARAM_EVENT = 'event';
+    /**
+     * @var string
+     */
     public const URL_PARAM_CATCH = 'catch';
 
+    /**
+     * @var array
+     */
     public const DEFAULT_REDIRECT_URL = [
         'controller' => 'StateMachine',
         'action' => 'index',

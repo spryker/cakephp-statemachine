@@ -9,6 +9,9 @@ namespace StateMachine\Graph;
 
 interface GraphInterface
 {
+    /**
+     * @var string
+     */
     public const DEFAULT_GROUP = 'default';
 
     /**

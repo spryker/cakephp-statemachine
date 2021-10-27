@@ -21,6 +21,9 @@ use StateMachine\Dto\StateMachine\ProcessDto;
 
 class Trigger implements TriggerInterface
 {
+    /**
+     * @var int
+     */
     public const MAX_EVENT_REPEATS = 10;
 
     /**

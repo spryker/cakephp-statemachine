@@ -19,11 +19,29 @@ use StateMachine\Model\Table\StateMachineTransitionLogsTable;
 
 class TransitionLogTest extends TestCase
 {
+    /**
+     * @var string
+     */
     protected const SOURCE_STATE = 'source state';
+    /**
+     * @var string
+     */
     protected const TARGET_STATE = 'target state';
+    /**
+     * @var string
+     */
     protected const ERROR_MESSAGE = 'Failure';
+    /**
+     * @var string
+     */
     protected const EVENT_NAME = 'Event';
+    /**
+     * @var string
+     */
     protected const STATE_NAME = 'state';
+    /**
+     * @var string
+     */
     protected const PROCESS_NAME = 'process';
 
     /**
@@ -45,6 +63,9 @@ class TransitionLogTest extends TestCase
         'plugin.StateMachine.StateMachineItems',
     ];
 
+    /**
+     * @var array
+     */
     protected const QUERY_DATA = [
         ['foo' => 'bar'],
         ['param' => 'value'],

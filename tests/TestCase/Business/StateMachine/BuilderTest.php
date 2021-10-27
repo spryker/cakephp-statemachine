@@ -24,14 +24,32 @@ use StateMachine\StateMachineConfig;
 
 class BuilderTest extends TestCase
 {
+    /**
+     * @var int
+     */
     protected const STATES_COUNT = 14;
+    /**
+     * @var string
+     */
     protected const STATE_NAME = 'completed';
 
+    /**
+     * @var int
+     */
     protected const TRANSITION_COUNT = 22;
 
+    /**
+     * @var int
+     */
     protected const SUBPROCESSES_COUNT = 2;
 
+    /**
+     * @var string
+     */
     protected const STATEMACHINE_NAME = 'TestingSm';
+    /**
+     * @var string
+     */
     protected const PROCESS_NAME = 'TestProcess';
 
     /**

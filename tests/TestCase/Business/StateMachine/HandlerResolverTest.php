@@ -15,6 +15,9 @@ use StateMachine\Dependency\StateMachineHandlerInterface;
 
 class HandlerResolverTest extends TestCase
 {
+    /**
+     * @var string
+     */
     public const TEST_HANDLER_NAME = 'testing state machine name';
 
     /**

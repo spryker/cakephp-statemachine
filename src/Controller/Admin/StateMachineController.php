@@ -22,6 +22,9 @@ class StateMachineController extends AppController
     use FactoryTrait;
     use CastTrait;
 
+    /**
+     * @var string
+     */
     public const URL_PARAM_STATE_MACHINE = 'state-machine';
 
     /**

@@ -9,9 +9,21 @@ namespace StateMachine\Business\Logger;
 
 class PathFinder implements PathFinderInterface
 {
+    /**
+     * @var string
+     */
     public const SAPI_CLI = 'cli';
+    /**
+     * @var string
+     */
     public const SAPI_PHPDBG = 'phpdbg';
+    /**
+     * @var string
+     */
     public const DOCUMENT_URI = 'DOCUMENT_URI';
+    /**
+     * @var string
+     */
     public const ARGV = 'argv';
 
     /**

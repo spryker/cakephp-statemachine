@@ -22,6 +22,9 @@ class StateTask extends AbstractTask
 {
     use FileTrait;
 
+    /**
+     * @var string
+     */
     public const PREFIX = 'STATE_';
 
     /**

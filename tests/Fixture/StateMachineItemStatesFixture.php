@@ -11,6 +11,9 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 class StateMachineItemStatesFixture extends TestFixture
 {
+    /**
+     * @var string
+     */
     public const DEFAULT_STATE_ITEM_NAME = 'new';
 
     /**

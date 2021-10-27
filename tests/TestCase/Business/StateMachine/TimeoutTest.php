@@ -36,9 +36,21 @@ use StateMachine\Model\Table\StateMachineTransitionLogsTable;
 
 class TimeoutTest extends TestCase
 {
+    /**
+     * @var string
+     */
     protected const STATE_WITH_TIMEOUT = 'State with timeout';
+    /**
+     * @var int
+     */
     protected const IDENTIFIER = 1;
+    /**
+     * @var string
+     */
     protected const EVENT_NAME = 'Timeout event';
+    /**
+     * @var string
+     */
     protected const PROCESS_NAME = 'Process name';
 
     /**

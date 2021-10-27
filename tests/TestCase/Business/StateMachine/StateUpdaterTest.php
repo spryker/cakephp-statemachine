@@ -27,6 +27,9 @@ use StateMachine\Model\Table\StateMachineTimeoutsTable;
 
 class StateUpdaterTest extends TestCase
 {
+    /**
+     * @var string
+     */
     protected const TEST_STATE_MACHINE_NAME = 'test state machine name';
 
     /**

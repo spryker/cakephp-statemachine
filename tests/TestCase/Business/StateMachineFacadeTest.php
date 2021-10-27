@@ -27,10 +27,25 @@ use StateMachine\Model\Table\StateMachineTransitionLogsTable;
 
 class StateMachineFacadeTest extends TestCase
 {
+    /**
+     * @var string
+     */
     protected const TESTING_SM = 'TestingSm';
+    /**
+     * @var string
+     */
     protected const TEST_PROCESS_NAME = 'TestProcess';
+    /**
+     * @var string
+     */
     protected const TEST_PROCESS_WITH_LOOP_NAME = 'TestProcessWithLoop';
+    /**
+     * @var string
+     */
     protected const TEST_PROCESS_WITH_ERROR_NAME = 'TestProcessWithError';
+    /**
+     * @var string
+     */
     protected const TEST_PROCESS_WITH_COMMAND_ERROR_NAME = 'TestProcessWithCommandError';
 
     /**

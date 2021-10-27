@@ -11,8 +11,17 @@ use Cake\TestSuite\Fixture\TestFixture;
 
 class StateMachineProcessesFixture extends TestFixture
 {
+    /**
+     * @var string
+     */
     public const DEFAULT_TEST_STATE_MACHINE_NAME = 'TestingSm';
+    /**
+     * @var string
+     */
     public const PROCESS_NAME_1 = 'TestProcess';
+    /**
+     * @var string
+     */
     public const PROCESS_NAME_2 = 'Process2';
 
     /**

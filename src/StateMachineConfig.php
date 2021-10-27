@@ -11,6 +11,9 @@ use Cake\Core\Configure;
 
 class StateMachineConfig
 {
+    /**
+     * @var string
+     */
     public const GRAPH_NAME = 'Statemachine';
 
     /**

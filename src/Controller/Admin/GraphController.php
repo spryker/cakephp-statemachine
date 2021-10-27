@@ -21,10 +21,25 @@ class GraphController extends AppController
     use FactoryTrait;
     use CastTrait;
 
+    /**
+     * @var string
+     */
     public const URL_PARAM_PROCESS = 'process';
+    /**
+     * @var string
+     */
     public const URL_PARAM_FORMAT = 'format';
+    /**
+     * @var string
+     */
     public const URL_PARAM_FONT_SIZE = 'font';
+    /**
+     * @var string
+     */
     public const URL_PARAM_HIGHLIGHT_STATE = 'highlight-state';
+    /**
+     * @var string
+     */
     public const URL_PARAM_STATE_MACHINE = 'state-machine';
 
     /**
