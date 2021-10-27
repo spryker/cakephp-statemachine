@@ -53,6 +53,7 @@ class Plugin extends BasePlugin
 
         $commandList = [];
         foreach ($this->stateMachineCommandsList as $class) {
+            /** @var string $name */
             $name = $class::defaultName();
             // If the short name has been used, use the full name.
             // This allows app commands to have name preference.

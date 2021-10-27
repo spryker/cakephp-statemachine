@@ -1,5 +1,8 @@
 parameters:
     level: 8
+    paths:
+        - src/
+
     bootstrapFiles:
         - %rootDir%/../../../tests/bootstrap.php
     excludes_analyse:
@@ -10,3 +13,4 @@ parameters:
         - '#Unsafe usage of new static\(\).#'
         - '#Method .+::.+Table\(\) should return .+Table but returns Cake\\ORM\\Table.#'
         - '#Offset .+ does not exist on SimpleXMLElement\|null.#'
+        - '#SimpleXMLElement.* does not accept string.#'

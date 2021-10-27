@@ -34,7 +34,7 @@ class Persistence implements PersistenceInterface
     protected $persistedStates;
 
     /**
-     * @var \StateMachine\Model\QueryContainerInterface $stateMachineQueryContainer
+     * @var \StateMachine\Model\QueryContainerInterface
      */
     protected $stateMachineQueryContainer;
 

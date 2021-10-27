@@ -1,5 +1,8 @@
 parameters:
     level: 1
+    paths:
+        - tests/
+
     bootstrapFiles:
         - %rootDir%/../../../tests/bootstrap.php
     excludes_analyse:
