@@ -10,9 +10,9 @@ namespace StateMachine\Business\StateMachine;
 interface StateUpdaterInterface
 {
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
-     * @param \StateMachine\Business\Process\ProcessInterface[] $processes
-     * @param string[] $sourceStates
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $processes
+     * @param array<string> $sourceStates
      *
      * @return void
      */

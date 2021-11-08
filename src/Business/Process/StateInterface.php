@@ -10,14 +10,14 @@ namespace StateMachine\Business\Process;
 interface StateInterface
 {
     /**
-     * @param \StateMachine\Business\Process\TransitionInterface[] $incomingTransitions
+     * @param array<\StateMachine\Business\Process\TransitionInterface> $incomingTransitions
      *
      * @return $this
      */
     public function setIncomingTransitions(array $incomingTransitions);
 
     /**
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getIncomingTransitions(): array;
 
@@ -27,14 +27,14 @@ interface StateInterface
     public function hasIncomingTransitions(): bool;
 
     /**
-     * @param \StateMachine\Business\Process\TransitionInterface[] $outgoingTransitions
+     * @param array<\StateMachine\Business\Process\TransitionInterface> $outgoingTransitions
      *
      * @return $this
      */
     public function setOutgoingTransitions(array $outgoingTransitions);
 
     /**
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getOutgoingTransitions(): array;
 
@@ -46,12 +46,12 @@ interface StateInterface
     /**
      * @param \StateMachine\Business\Process\EventInterface $event
      *
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getOutgoingTransitionsByEvent(EventInterface $event): array;
 
     /**
-     * @return \StateMachine\Business\Process\EventInterface[]
+     * @return array<\StateMachine\Business\Process\EventInterface>
      */
     public function getEvents(): array;
 
@@ -134,7 +134,7 @@ interface StateInterface
     /**
      * @throws \Exception
      *
-     * @return \StateMachine\Business\Process\EventInterface[]
+     * @return array<\StateMachine\Business\Process\EventInterface>
      */
     public function getTimeoutEvents(): array;
 

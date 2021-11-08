@@ -63,7 +63,7 @@ class PluginFactory
         return new LockedTrigger(
             $this->createStateMachineTrigger(),
             $this->createItemLock(),
-            $this->createHandlerResolver()
+            $this->createHandlerResolver(),
         );
     }
 
@@ -78,7 +78,7 @@ class PluginFactory
             $this->createStateMachineFinder(),
             $this->createStateMachinePersistence(),
             $this->createStateMachineCondition(),
-            $this->createStateUpdater()
+            $this->createStateUpdater(),
         );
     }
 
@@ -90,7 +90,7 @@ class PluginFactory
         return new ItemLock(
             $this->getQueryContainer(),
             $this->getConfig(),
-            $this->createStateMachineLocksTable()
+            $this->createStateMachineLocksTable(),
         );
     }
 
@@ -104,7 +104,7 @@ class PluginFactory
             $this->createHandlerResolver(),
             $this->createStateMachineFinder(),
             $this->createStateMachinePersistence(),
-            $this->createStateUpdater()
+            $this->createStateUpdater(),
         );
     }
 
@@ -117,7 +117,7 @@ class PluginFactory
             $this->createStateMachineTimeout(),
             $this->createHandlerResolver(),
             $this->createStateMachinePersistence(),
-            $this->getQueryContainer()
+            $this->getQueryContainer(),
         );
     }
 
@@ -131,7 +131,7 @@ class PluginFactory
             $this->createProcessState(),
             $this->createProcessTransition(),
             $this->createProcessProcess(),
-            $this->getConfig()
+            $this->getConfig(),
         );
     }
 
@@ -143,7 +143,7 @@ class PluginFactory
         return new Finder(
             $this->createStateMachineBuilder(),
             $this->createHandlerResolver(),
-            $this->getQueryContainer()
+            $this->getQueryContainer(),
         );
     }
 
@@ -154,7 +154,7 @@ class PluginFactory
     {
         return new Timeout(
             $this->createStateMachinePersistence(),
-            $this->createLoggerTransitionLog()
+            $this->createLoggerTransitionLog(),
         );
     }
 
@@ -164,7 +164,7 @@ class PluginFactory
     public function createLoggerTransitionLog(): TransitionLogInterface
     {
         return new TransitionLog(
-            $this->createStateMachineTransitionLogsTable()
+            $this->createStateMachineTransitionLogsTable(),
         );
     }
 
@@ -178,7 +178,7 @@ class PluginFactory
             $this->createStateMachineItemStateLogsTable(),
             $this->createStateMachineProcessesTable(),
             $this->createStateMachineItemStatesTable(),
-            $this->createStateMachineTimeoutsTable()
+            $this->createStateMachineTimeoutsTable(),
         );
     }
 
@@ -231,7 +231,7 @@ class PluginFactory
     {
         return new Drawer(
             Graph::create(StateMachineConfig::GRAPH_NAME, $this->getConfig()->getGraphDefaults(), true, false),
-            $this->createHandlerResolver()->get($stateMachineName)
+            $this->createHandlerResolver()->get($stateMachineName),
         );
     }
 
@@ -244,7 +244,7 @@ class PluginFactory
     }
 
     /**
-     * @return \StateMachine\Dependency\StateMachineHandlerInterface[]
+     * @return array<\StateMachine\Dependency\StateMachineHandlerInterface>
      */
     public function getStateMachineHandlers(): array
     {

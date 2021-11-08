@@ -15,7 +15,7 @@ class Event implements EventInterface
     protected $id;
 
     /**
-     * @var \StateMachine\Business\Process\TransitionInterface[]
+     * @var array<\StateMachine\Business\Process\TransitionInterface>
      */
     protected $transitions = [];
 
@@ -132,7 +132,7 @@ class Event implements EventInterface
     /**
      * @param \StateMachine\Business\Process\StateInterface $sourceState
      *
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getTransitionsBySource(StateInterface $sourceState): array
     {
@@ -169,7 +169,7 @@ class Event implements EventInterface
     }
 
     /**
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getTransitions(): array
     {

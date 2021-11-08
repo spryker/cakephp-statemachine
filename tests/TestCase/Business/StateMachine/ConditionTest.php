@@ -117,7 +117,7 @@ class ConditionTest extends TestCase
             $transitions,
             (new ItemDto())->setStateMachineName('Test'),
             new State(),
-            $this->createTransitionLogMock()
+            $this->createTransitionLogMock(),
         );
 
         $this->assertSame($targetState->getName(), $processedTargetState->getName());
@@ -141,7 +141,7 @@ class ConditionTest extends TestCase
             $transitions,
             (new ItemDto())->setStateMachineName('Test'),
             $sourceState,
-            $this->createTransitionLogMock()
+            $this->createTransitionLogMock(),
         );
 
         $this->assertSame($sourceState->getName(), $processedTargetState->getName());
@@ -159,7 +159,7 @@ class ConditionTest extends TestCase
             $this->createStateMachineResolverMock($conditionPluginClassname),
             $this->createFinderMock(),
             $this->createPersistence(),
-            $this->createStateUpdater()
+            $this->createStateUpdater(),
         );
     }
 
@@ -272,7 +272,7 @@ class ConditionTest extends TestCase
             $this->StateMachineItemStateLogs,
             $this->StateMachineProcesses,
             $this->StateMachineItemStates,
-            $this->StateMachineTimeouts
+            $this->StateMachineTimeouts,
         );
     }
 
@@ -285,7 +285,7 @@ class ConditionTest extends TestCase
             $this->createTimeout(),
             $this->createHandlerResolverMock(),
             $this->createPersistence(),
-            $this->createQueryContainer()
+            $this->createQueryContainer(),
         );
     }
 

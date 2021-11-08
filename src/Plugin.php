@@ -34,7 +34,7 @@ class Plugin extends BasePlugin
     protected $bootstrapEnabled = false;
 
     /**
-     * @var string[]
+     * @var array<string>
      */
     protected $stateMachineCommandsList = [
         StateMachineShell::class,

@@ -55,7 +55,7 @@ interface StateMachineFacadeInterface
      * - Returns with the number of transitioned items.
      *
      * @param string $eventName
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return int
      */
@@ -68,7 +68,7 @@ interface StateMachineFacadeInterface
      *
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Dto\StateMachine\ProcessDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ProcessDto>
      */
     public function getProcesses(string $stateMachineName): array;
 
@@ -140,7 +140,7 @@ interface StateMachineFacadeInterface
      *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getManualEventsForStateMachineItem(ItemDto $itemDto): array;
 
@@ -150,9 +150,9 @@ interface StateMachineFacadeInterface
      * - Retrieves manual event list per items identifier.
      * - Items without any manual events are not part of result.
      *
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
-     * @return string[][]
+     * @return array<array<string>>
      */
     public function getManualEventsForStateMachineItems(array $stateMachineItems): array;
 
@@ -170,9 +170,9 @@ interface StateMachineFacadeInterface
      * Specification:
      * - Retrieves hydrated item transfers by provided item id and identifier pairs.
      *
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getProcessedStateMachineItems(array $stateMachineItems): array;
 
@@ -183,7 +183,7 @@ interface StateMachineFacadeInterface
      * @param int $idStateMachineProcess
      * @param int $identifier
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getStateHistoryByStateItemIdentifier(int $idStateMachineProcess, int $identifier): array;
 
@@ -195,7 +195,7 @@ interface StateMachineFacadeInterface
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flagName
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getItemsWithFlag(ProcessDto $processDto, string $flagName): array;
 
@@ -207,7 +207,7 @@ interface StateMachineFacadeInterface
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flagName
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getItemsWithoutFlag(ProcessDto $processDto, string $flagName): array;
 

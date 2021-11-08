@@ -53,9 +53,9 @@ class StateUpdater implements StateUpdaterInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
-     * @param \StateMachine\Business\Process\ProcessInterface[] $processes
-     * @param string[] $sourceStates
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $processes
+     * @param array<string> $sourceStates
      *
      * @return void
      */
@@ -74,8 +74,8 @@ class StateUpdater implements StateUpdaterInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\ProcessInterface[] $processes
-     * @param string[] $sourceStates
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $processes
+     * @param array<string> $sourceStates
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
      * @return void
@@ -109,7 +109,7 @@ class StateUpdater implements StateUpdaterInterface
     ): void {
         if (!isset($sourceStateBuffer[$itemDto->getIdentifierOrFail()])) {
             throw new StateMachineException(
-                sprintf('Could not update state, source state not found for identifier ' . $itemDto->getIdentifierOrFail() . '.')
+                sprintf('Could not update state, source state not found for identifier ' . $itemDto->getIdentifierOrFail() . '.'),
             );
         }
     }

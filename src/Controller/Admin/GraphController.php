@@ -25,18 +25,22 @@ class GraphController extends AppController
      * @var string
      */
     public const URL_PARAM_PROCESS = 'process';
+
     /**
      * @var string
      */
     public const URL_PARAM_FORMAT = 'format';
+
     /**
      * @var string
      */
     public const URL_PARAM_FONT_SIZE = 'font';
+
     /**
      * @var string
      */
     public const URL_PARAM_HIGHLIGHT_STATE = 'highlight-state';
+
     /**
      * @var string
      */
@@ -76,7 +80,7 @@ class GraphController extends AppController
 
         $response = $this->getFactory()
             ->createGraphDrawer(
-                $processDto->getStateMachineNameOrFail()
+                $processDto->getStateMachineNameOrFail(),
             )->draw($process, $highlightState, $format, $fontSize);
 
         $this->response = $this->response->withType($format);

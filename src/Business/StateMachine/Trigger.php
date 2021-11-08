@@ -121,7 +121,7 @@ class Trigger implements TriggerInterface
 
     /**
      * @param string $eventName
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return int
      */
@@ -148,13 +148,13 @@ class Trigger implements TriggerInterface
         $this->stateUpdater->updateStateMachineItemState(
             $stateMachineItems,
             $processes,
-            $sourceStateBuffer
+            $sourceStateBuffer,
         );
 
         $stateMachineItemsWithOnEnterEvent = $this->finder->filterItemsWithOnEnterEvent(
             $stateMachineItems,
             $processes,
-            $sourceStateBuffer
+            $sourceStateBuffer,
         );
 
         $this->transitionLog->saveAll();
@@ -177,7 +177,7 @@ class Trigger implements TriggerInterface
         foreach ($stateMachineHandler->getActiveProcesses() as $processName) {
             $stateMachineItemsWithOnEnterEvent = $this->condition->getOnEnterEventsForStatesWithoutTransition(
                 $stateMachineName,
-                $processName
+                $processName,
             );
             $this->triggerOnEnterEvents($stateMachineItemsWithOnEnterEvent);
         }
@@ -203,7 +203,7 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return array
      */
@@ -223,10 +223,10 @@ class Trigger implements TriggerInterface
 
     /**
      * @param string $eventName
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
-     * @param \StateMachine\Business\Process\ProcessInterface[] $processes
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $processes
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     protected function filterEventAffectedItems(string $eventName, array $stateMachineItems, array $processes): array
     {
@@ -250,8 +250,8 @@ class Trigger implements TriggerInterface
 
     /**
      * @param string $eventName
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
-     * @param \StateMachine\Business\Process\ProcessInterface[] $processes
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $processes
      *
      * @throws \Exception
      *
@@ -295,7 +295,7 @@ class Trigger implements TriggerInterface
 
     /**
      * @param string $eventName
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return array
      */
@@ -309,7 +309,7 @@ class Trigger implements TriggerInterface
 
             $process = $this->finder->findProcessByStateMachineAndProcessName(
                 $itemDto->getStateMachineNameOrFail(),
-                $itemDto->getProcessNameOrFail()
+                $itemDto->getProcessNameOrFail(),
             );
 
             $sourceState = $process->getStateFromAllProcesses($stateName);
@@ -326,7 +326,7 @@ class Trigger implements TriggerInterface
                     $transitions,
                     $itemDto,
                     $sourceState,
-                    $this->transitionLog
+                    $this->transitionLog,
                 );
                 $this->transitionLog->addTargetState($itemDto, $targetState->getName());
             }
@@ -345,7 +345,7 @@ class Trigger implements TriggerInterface
      * To protect of loops, every event can only be used some times
      *
      * @param string $eventName
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return bool
      */
@@ -362,7 +362,7 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[][] $itemsWithOnEnterEvent Keys are event names, values are collections of ItemDto.
+     * @param array<array<\StateMachine\Dto\StateMachine\ItemDto>> $itemsWithOnEnterEvent Keys are event names, values are collections of ItemDto.
      *
      * @return bool
      */
@@ -380,7 +380,7 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return void
      */
@@ -392,7 +392,7 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      * @param string $eventName
      *
      * @return void
@@ -456,7 +456,7 @@ class Trigger implements TriggerInterface
         $idStateMachineItemState = $this->stateMachinePersistence
             ->getInitialStateIdByStateName(
                 $itemDto,
-                $initialStateName
+                $initialStateName,
             );
 
         $this->assertInitialStateCreated($idStateMachineItemState, $initialStateName);
@@ -481,8 +481,8 @@ class Trigger implements TriggerInterface
                 sprintf(
                     'Initial state name for process "%s" is not provided. You can provide it in %s::getInitialStateForProcess() method.',
                     $processName,
-                    StateMachineHandlerInterface::class
-                )
+                    StateMachineHandlerInterface::class,
+                ),
             );
         }
     }
@@ -501,8 +501,8 @@ class Trigger implements TriggerInterface
             throw new TriggerException(
                 sprintf(
                     'Initial state "%s" could not be created.',
-                    $initialStateName
-                )
+                    $initialStateName,
+                ),
             );
         }
     }
@@ -520,8 +520,8 @@ class Trigger implements TriggerInterface
             throw new TriggerException(
                 sprintf(
                     'Process with name "%s" not found!',
-                    $idStateMachineProcess
-                )
+                    $idStateMachineProcess,
+                ),
             );
         }
     }
@@ -541,8 +541,8 @@ class Trigger implements TriggerInterface
                 sprintf(
                     'Command "%s" not registered in "%s" class. Please add it to getCommands() method.',
                     $commandString,
-                    get_class($stateMachineHandler)
-                )
+                    get_class($stateMachineHandler),
+                ),
             );
         }
     }
@@ -559,7 +559,7 @@ class Trigger implements TriggerInterface
     }
 
     /**
-     * @param string[] $processes
+     * @param array<string> $processes
      *
      * @throws \RuntimeException
      *

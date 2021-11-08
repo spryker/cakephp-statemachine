@@ -31,18 +31,22 @@ class StateMachineFacadeTest extends TestCase
      * @var string
      */
     protected const TESTING_SM = 'TestingSm';
+
     /**
      * @var string
      */
     protected const TEST_PROCESS_NAME = 'TestProcess';
+
     /**
      * @var string
      */
     protected const TEST_PROCESS_WITH_LOOP_NAME = 'TestProcessWithLoop';
+
     /**
      * @var string
      */
     protected const TEST_PROCESS_WITH_ERROR_NAME = 'TestProcessWithError';
+
     /**
      * @var string
      */
@@ -494,7 +498,7 @@ class StateMachineFacadeTest extends TestCase
         $stateMachineHandler = $this->createTestStateMachineHandler();
         $stateMachineFacade = $this->createStateMachineFacade($stateMachineHandler);
 
-        /** @var \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems */
+        /** @var array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems */
         $stateMachineItems = [];
         $stateMachineFacade->triggerForNewStateMachineItem($processDto, $firstItemIdentifier);
         $stateMachineItems[] = $stateMachineHandler->getItemStateUpdated();
@@ -505,7 +509,7 @@ class StateMachineFacadeTest extends TestCase
         $stateMachineHandler = $this->createTestStateMachineHandler();
         $stateMachineFacade = $this->createStateMachineFacade($stateMachineHandler);
 
-        /** @var \StateMachine\Dto\StateMachine\ItemDto[] $updatedStateMachineItems */
+        /** @var array<\StateMachine\Dto\StateMachine\ItemDto> $updatedStateMachineItems */
         $updatedStateMachineItems = $stateMachineFacade->getProcessedStateMachineItems($stateMachineItems);
 
         $this->assertCount(2, $updatedStateMachineItems);
@@ -514,46 +518,46 @@ class StateMachineFacadeTest extends TestCase
         $firstBeforeUpdateItemDto = $stateMachineItems[0];
         $this->assertSame(
             $firstUpdatedItemDto->getIdItemState(),
-            $firstBeforeUpdateItemDto->getIdItemState()
+            $firstBeforeUpdateItemDto->getIdItemState(),
         );
         $this->assertSame(
             $firstUpdatedItemDto->getProcessName(),
-            $firstBeforeUpdateItemDto->getProcessName()
+            $firstBeforeUpdateItemDto->getProcessName(),
         );
         $this->assertSame(
             $firstUpdatedItemDto->getIdStateMachineProcess(),
-            $firstBeforeUpdateItemDto->getIdStateMachineProcess()
+            $firstBeforeUpdateItemDto->getIdStateMachineProcess(),
         );
         $this->assertSame(
             $firstUpdatedItemDto->getStateName(),
-            $firstBeforeUpdateItemDto->getStateName()
+            $firstBeforeUpdateItemDto->getStateName(),
         );
         $this->assertSame(
             $firstUpdatedItemDto->getIdentifier(),
-            $firstBeforeUpdateItemDto->getIdentifier()
+            $firstBeforeUpdateItemDto->getIdentifier(),
         );
 
         $secondUpdatedItemDto = $updatedStateMachineItems[1];
         $secondBeforeUpdateItemDto = $stateMachineItems[1];
         $this->assertSame(
             $secondUpdatedItemDto->getIdItemState(),
-            $secondBeforeUpdateItemDto->getIdItemState()
+            $secondBeforeUpdateItemDto->getIdItemState(),
         );
         $this->assertSame(
             $secondUpdatedItemDto->getProcessName(),
-            $secondBeforeUpdateItemDto->getProcessName()
+            $secondBeforeUpdateItemDto->getProcessName(),
         );
         $this->assertSame(
             $secondUpdatedItemDto->getIdStateMachineProcess(),
-            $secondBeforeUpdateItemDto->getIdStateMachineProcess()
+            $secondBeforeUpdateItemDto->getIdStateMachineProcess(),
         );
         $this->assertSame(
             $secondUpdatedItemDto->getStateName(),
-            $secondBeforeUpdateItemDto->getStateName()
+            $secondBeforeUpdateItemDto->getStateName(),
         );
         $this->assertSame(
             $secondUpdatedItemDto->getIdentifier(),
-            $secondBeforeUpdateItemDto->getIdentifier()
+            $secondBeforeUpdateItemDto->getIdentifier(),
         );
     }
 
@@ -583,23 +587,23 @@ class StateMachineFacadeTest extends TestCase
 
         $this->assertSame(
             $updatedItemDto->getIdItemState(),
-            $itemDto->getIdItemState()
+            $itemDto->getIdItemState(),
         );
         $this->assertSame(
             $updatedItemDto->getProcessName(),
-            $itemDto->getProcessName()
+            $itemDto->getProcessName(),
         );
         $this->assertSame(
             $updatedItemDto->getIdStateMachineProcess(),
-            $itemDto->getIdStateMachineProcess()
+            $itemDto->getIdStateMachineProcess(),
         );
         $this->assertSame(
             $updatedItemDto->getStateName(),
-            $itemDto->getStateName()
+            $itemDto->getStateName(),
         );
         $this->assertSame(
             $updatedItemDto->getIdentifier(),
-            $itemDto->getIdentifier()
+            $itemDto->getIdentifier(),
         );
     }
 
@@ -623,7 +627,7 @@ class StateMachineFacadeTest extends TestCase
 
         $stateMachineItemsTransfer = $stateMachineFacade->getStateHistoryByStateItemIdentifier(
             $itemDto->getIdStateMachineProcess(),
-            $identifier
+            $identifier,
         );
 
         $this->assertCount(3, $stateMachineItemsTransfer);
@@ -657,7 +661,7 @@ class StateMachineFacadeTest extends TestCase
 
         $stateMachineItemsWithGivenFlag = $stateMachineFacade->getItemsWithFlag(
             $processDto,
-            'Flag1'
+            'Flag1',
         );
 
         $this->assertCount(2, $stateMachineItemsWithGivenFlag);
@@ -673,7 +677,7 @@ class StateMachineFacadeTest extends TestCase
 
         $stateMachineItemsWithGivenFlag = $stateMachineFacade->getItemsWithFlag(
             $processDto,
-            'Flag2'
+            'Flag2',
         );
 
         $this->assertCount(1, $stateMachineItemsWithGivenFlag);

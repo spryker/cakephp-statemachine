@@ -23,10 +23,10 @@ use Tools\Model\Table\Table;
  *
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog get($primaryKey, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog newEntity(array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTransitionLog[] newEntities(array $data, array $options = [])
+ * @method array<\StateMachine\Model\Entity\StateMachineTransitionLog> newEntities(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTransitionLog[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method array<\StateMachine\Model\Entity\StateMachineTransitionLog> patchEntities(iterable $entities, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog findOrCreate($search, ?callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
@@ -175,7 +175,7 @@ class StateMachineTransitionLogsTable extends Table
     /**
      * @param int $stateMachineItemId
      *
-     * @return \StateMachine\Model\Entity\StateMachineTransitionLog[]
+     * @return array<\StateMachine\Model\Entity\StateMachineTransitionLog>
      */
     public function getLogs(int $stateMachineItemId): array
     {

@@ -23,12 +23,12 @@ class Timeout implements TimeoutInterface
     use EventDispatcherTrait;
 
     /**
-     * @var \Cake\I18n\FrozenTime[]
+     * @var array<\Cake\I18n\FrozenTime>
      */
     protected $eventToTimeoutBuffer = [];
 
     /**
-     * @var \StateMachine\Business\Process\StateInterface[]
+     * @var array<\StateMachine\Business\Process\StateInterface>
      */
     protected $stateIdToModelBuffer = [];
 
@@ -158,8 +158,8 @@ class Timeout implements TimeoutInterface
             throw new StateMachineException(
                 sprintf(
                     'Invalid format for timeout "%s"',
-                    $timeout
-                )
+                    $timeout,
+                ),
             );
         }
 

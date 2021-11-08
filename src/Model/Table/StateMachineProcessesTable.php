@@ -19,10 +19,10 @@ use Tools\Model\Table\Table;
  *
  * @method \StateMachine\Model\Entity\StateMachineProcess get($primaryKey, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess newEntity(array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineProcess[] newEntities(array $data, array $options = [])
+ * @method array<\StateMachine\Model\Entity\StateMachineProcess> newEntities(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineProcess[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method array<\StateMachine\Model\Entity\StateMachineProcess> patchEntities(iterable $entities, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess findOrCreate($search, ?callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior

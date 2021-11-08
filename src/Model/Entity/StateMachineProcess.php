@@ -18,9 +18,9 @@ use Tools\Model\Entity\Entity;
  * @property \Cake\I18n\FrozenTime|null $created
  * @property \Cake\I18n\FrozenTime|null $modified
  *
- * @property \StateMachine\Model\Entity\StateMachineItemState[] $state_machine_item_states
- * @property \StateMachine\Model\Entity\StateMachineTimeout[] $state_machine_timeouts
- * @property \StateMachine\Model\Entity\StateMachineTransitionLog[] $state_machine_transition_logs
+ * @property array<\StateMachine\Model\Entity\StateMachineItemState> $state_machine_item_states
+ * @property array<\StateMachine\Model\Entity\StateMachineTimeout> $state_machine_timeouts
+ * @property array<\StateMachine\Model\Entity\StateMachineTransitionLog> $state_machine_transition_logs
  */
 class StateMachineProcess extends Entity
 {

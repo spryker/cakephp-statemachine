@@ -24,12 +24,12 @@ use StateMachine\Model\Table\StateMachineTimeoutsTable;
 class Persistence implements PersistenceInterface
 {
     /**
-     * @var \StateMachine\Model\Entity\StateMachineProcess[]
+     * @var array<\StateMachine\Model\Entity\StateMachineProcess>
      */
     protected $processEntityBuffer = [];
 
     /**
-     * @var \StateMachine\Model\Entity\StateMachineItemState[]
+     * @var array<\StateMachine\Model\Entity\StateMachineItemState>
      */
     protected $persistedStates;
 
@@ -83,11 +83,11 @@ class Persistence implements PersistenceInterface
      * @param int $itemIdentifier
      * @param int $idStateMachineProcess
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getStateHistoryByStateItemIdentifier(int $itemIdentifier, int $idStateMachineProcess): array
     {
-        /** @var \StateMachine\Model\Entity\StateMachineItemStateLog[] $stateMachineHistoryItems */
+        /** @var array<\StateMachine\Model\Entity\StateMachineItemStateLog> $stateMachineHistoryItems */
         $stateMachineHistoryItems = $this->stateMachineQueryContainer
             ->queryItemHistoryByStateItemIdentifier($itemIdentifier, $idStateMachineProcess)
             ->all();
@@ -96,7 +96,7 @@ class Persistence implements PersistenceInterface
         foreach ($stateMachineHistoryItems as $stateMachineHistoryItemEntity) {
             $itemDto = $this->createItemTransferForStateHistory(
                 $itemIdentifier,
-                $stateMachineHistoryItemEntity
+                $stateMachineHistoryItemEntity,
             );
 
             $stateMachineItems[] = $itemDto;
@@ -120,7 +120,7 @@ class Persistence implements PersistenceInterface
         /** @var \StateMachine\Model\Entity\StateMachineProcess|null $stateMachineProcessEntity */
         $stateMachineProcessEntity = $this->stateMachineQueryContainer
             ->queryProcessByProcessName(
-                $processName
+                $processName,
             )->first();
 
         if ($stateMachineProcessEntity === null) {
@@ -162,7 +162,7 @@ class Persistence implements PersistenceInterface
             $stateMachineItemStateEntity = $this->stateMachineQueryContainer
                 ->queryItemStateByIdProcessAndStateName(
                     $itemDto->getIdStateMachineProcessOrFail(),
-                    $stateName
+                    $stateName,
                 )->first();
 
             if ($stateMachineItemStateEntity === null) {
@@ -171,7 +171,7 @@ class Persistence implements PersistenceInterface
                 $stateMachineItemStateEntity = $this->stateMachineQueryContainer
                     ->queryItemStateByIdProcessAndStateName(
                         $itemDto->getIdStateMachineProcessOrFail(),
-                        $stateName
+                        $stateName,
                     )->firstOrFail();
             }
             $this->persistedStates[$persistedStateKey] = $stateMachineItemStateEntity;
@@ -180,7 +180,7 @@ class Persistence implements PersistenceInterface
         $itemDto->setIdItemState($stateMachineItemStateEntity->id);
         $itemDto->setStateName($stateMachineItemStateEntity->name);
         $itemDto->setStateMachineName(
-            $stateMachineItemStateEntity->state_machine_process->state_machine
+            $stateMachineItemStateEntity->state_machine_process->state_machine,
         );
 
         return $itemDto;
@@ -200,9 +200,9 @@ class Persistence implements PersistenceInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function updateStateMachineItemsFromPersistence(array $stateMachineItems): array
     {
@@ -212,14 +212,14 @@ class Persistence implements PersistenceInterface
                 /** @var \StateMachine\Model\Entity\StateMachineItemState|null $stateMachineItemStateEntity */
                 $stateMachineItemStateEntity = $this->stateMachineQueryContainer
                     ->queryStateByIdState(
-                        $itemDto->getIdItemStateOrFail()
+                        $itemDto->getIdItemStateOrFail(),
                     )->firstOrFail();
             } else {
                 /** @var \StateMachine\Model\Entity\StateMachineItemState|null $stateMachineItemStateEntity */
                 $stateMachineItemStateEntity = $this->stateMachineQueryContainer
                     ->queryStateByNameAndProcess(
                         $itemDto->getStateNameOrFail(),
-                        $itemDto->getProcessNameOrFail()
+                        $itemDto->getProcessNameOrFail(),
                     )->first();
             }
 
@@ -230,7 +230,7 @@ class Persistence implements PersistenceInterface
 
             $updatedStateMachineItems[] = $itemDto->fromArray(
                 $updatedItemDto->touchedToArray(),
-                true
+                true,
             );
         }
 
@@ -249,7 +249,7 @@ class Persistence implements PersistenceInterface
         $itemDto->setStateName($stateMachineItemStateEntity->name);
         $itemDto->setIdItemState($stateMachineItemStateEntity->id);
         $itemDto->setIdStateMachineProcess(
-            $stateMachineProcessEntity->id
+            $stateMachineProcessEntity->id,
         );
         $itemDto->setProcessName($stateMachineProcessEntity->name);
         $itemDto->setStateMachineName($stateMachineProcessEntity->state_machine);
@@ -258,9 +258,9 @@ class Persistence implements PersistenceInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getProcessedStateMachineItems(array $stateMachineItems): array
     {
@@ -269,7 +269,7 @@ class Persistence implements PersistenceInterface
             $updatedItemDto = $this->getProcessedItemDto($itemDto);
             $updatedStateMachineItems[] = $itemDto->fromArray(
                 $updatedItemDto->touchedToArray(),
-                true
+                true,
             );
         }
 
@@ -310,9 +310,9 @@ class Persistence implements PersistenceInterface
     /**
      * @param string $processName
      * @param string $stateMachineName
-     * @param string[] $states
+     * @param array<string> $states
      *
-     * @return int[]
+     * @return array<int>
      */
     public function getStateMachineItemIdsByStatesProcessAndStateMachineName(
         string $processName,
@@ -323,7 +323,7 @@ class Persistence implements PersistenceInterface
             ->queryItemsByIdStateMachineProcessAndItemStates(
                 $stateMachineName,
                 $processName,
-                $states
+                $states,
             )->all();
 
         if ($stateMachineStateItems->count() === 0) {
@@ -342,15 +342,15 @@ class Persistence implements PersistenceInterface
     /**
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getItemsWithExpiredTimeouts(string $stateMachineName): array
     {
-        /** @var \StateMachine\Model\Entity\StateMachineTimeout[] $stateMachineExpiredItems */
+        /** @var array<\StateMachine\Model\Entity\StateMachineTimeout> $stateMachineExpiredItems */
         $stateMachineExpiredItems = $this->stateMachineQueryContainer
             ->queryItemsWithExpiredTimeout(
                 new FrozenTime('now'),
-                $stateMachineName
+                $stateMachineName,
             )->all();
 
         $expiredStateMachineItemsTransfer = [];
@@ -408,7 +408,7 @@ class Persistence implements PersistenceInterface
         $this->stateMachineQueryContainer
             ->queryEventTimeoutByIdentifierAndFkProcess(
                 $itemDto->getIdentifierOrFail(),
-                $itemDto->getIdStateMachineProcessOrFail()
+                $itemDto->getIdStateMachineProcessOrFail(),
             )->delete()->execute();
     }
 

@@ -227,7 +227,7 @@ class FinderTest extends TestCase
         return new Finder(
             $builderMock,
             $handlerResolverMock,
-            $stateMachineQueryContainer
+            $stateMachineQueryContainer,
         );
     }
 

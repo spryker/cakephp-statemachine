@@ -17,12 +17,12 @@ class Process implements ProcessInterface
     protected $name;
 
     /**
-     * @var \StateMachine\Business\Process\StateInterface[]
+     * @var array<\StateMachine\Business\Process\StateInterface>
      */
     protected $states = [];
 
     /**
-     * @var \StateMachine\Business\Process\TransitionInterface[]
+     * @var array<\StateMachine\Business\Process\TransitionInterface>
      */
     protected $transitions = [];
 
@@ -37,12 +37,12 @@ class Process implements ProcessInterface
     protected $file;
 
     /**
-     * @var \StateMachine\Business\Process\ProcessInterface[]
+     * @var array<\StateMachine\Business\Process\ProcessInterface>
      */
     protected $subProcesses = [];
 
     /**
-     * @param \StateMachine\Business\Process\ProcessInterface[] $subProcesses
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $subProcesses
      *
      * @return void
      */
@@ -52,7 +52,7 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @return \StateMachine\Business\Process\ProcessInterface[]
+     * @return array<\StateMachine\Business\Process\ProcessInterface>
      */
     public function getSubProcesses(): array
     {
@@ -114,7 +114,7 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\StateInterface[] $states
+     * @param array<\StateMachine\Business\Process\StateInterface> $states
      *
      * @return void
      */
@@ -172,13 +172,13 @@ class Process implements ProcessInterface
         throw new StateMachineException(
             sprintf(
                 'State "%s" not found in any of state machine processes. Is state defined in xml definition file?',
-                $stateName
-            )
+                $stateName,
+            ),
         );
     }
 
     /**
-     * @return \StateMachine\Business\Process\StateInterface[]
+     * @return array<\StateMachine\Business\Process\StateInterface>
      */
     public function getStates(): array
     {
@@ -204,7 +204,7 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\TransitionInterface[] $transitions
+     * @param array<\StateMachine\Business\Process\TransitionInterface> $transitions
      *
      * @return void
      */
@@ -214,7 +214,7 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getTransitions(): array
     {
@@ -230,7 +230,7 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @return \StateMachine\Business\Process\StateInterface[]
+     * @return array<\StateMachine\Business\Process\StateInterface>
      */
     public function getAllStates(): array
     {
@@ -254,7 +254,7 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getAllTransitions(): array
     {
@@ -272,7 +272,7 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getAllTransitionsWithoutEvent(): array
     {
@@ -291,7 +291,7 @@ class Process implements ProcessInterface
     /**
      * Gets all "manual" and "on enter" events as manually executable ones.
      *
-     * @return \StateMachine\Business\Process\EventInterface[]
+     * @return array<\StateMachine\Business\Process\EventInterface>
      */
     public function getManuallyExecutableEvents(): array
     {
@@ -310,7 +310,7 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @return string[][]
+     * @return array<array<string>>
      */
     public function getManuallyExecutableEventsBySource(): array
     {
@@ -322,7 +322,7 @@ class Process implements ProcessInterface
             $eventsBySource = $this->groupTransitionsBySourceName(
                 $transitions,
                 $eventsBySource,
-                $event
+                $event,
             );
         }
 
@@ -352,7 +352,7 @@ class Process implements ProcessInterface
     }
 
     /**
-     * @return \StateMachine\Business\Process\ProcessInterface[]
+     * @return array<\StateMachine\Business\Process\ProcessInterface>
      */
     public function getAllProcesses(): array
     {

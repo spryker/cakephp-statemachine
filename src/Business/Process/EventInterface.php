@@ -77,12 +77,12 @@ interface EventInterface
     /**
      * @param \StateMachine\Business\Process\StateInterface $sourceState
      *
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getTransitionsBySource(StateInterface $sourceState): array;
 
     /**
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getTransitions(): array;
 

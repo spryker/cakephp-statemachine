@@ -15,11 +15,11 @@ use Tools\Model\Table\Table;
  *
  * @method \StateMachine\Model\Entity\StateMachineLock get($primaryKey, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineLock newEntity(array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineLock[] newEntities(array $data, array $options = [])
+ * @method array<\StateMachine\Model\Entity\StateMachineLock> newEntities(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineLock|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineLock saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineLock patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineLock[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method array<\StateMachine\Model\Entity\StateMachineLock> patchEntities(iterable $entities, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineLock findOrCreate($search, ?callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior

@@ -19,10 +19,12 @@ class ProcessTest extends TestCase
      * @var string
      */
     protected const EVENT_NAME_DEFAULT = 'default';
+
     /**
      * @var string
      */
     protected const EVENT_NAME_MANUAL = 'manual';
+
     /**
      * @var string
      */

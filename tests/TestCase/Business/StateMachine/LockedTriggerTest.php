@@ -36,9 +36,9 @@ class LockedTriggerTest extends TestCase
         $lockedTrigger->triggerForNewStateMachineItem(
             $this->createProcessDto(
                 StateMachineProcessesFixture::PROCESS_NAME_1,
-                StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME
+                StateMachineProcessesFixture::DEFAULT_TEST_STATE_MACHINE_NAME,
             ),
-            1
+            1,
         );
     }
 
@@ -71,7 +71,7 @@ class LockedTriggerTest extends TestCase
         return new LockedTrigger(
             $triggerMock,
             $itemLockMock,
-            new HandlerResolver([])
+            new HandlerResolver([]),
         );
     }
 

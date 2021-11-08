@@ -68,10 +68,10 @@ class ItemLock implements ItemLockInterface
             throw new LockException(
                 sprintf(
                     'State machine trigger is locked. DB exception: %s',
-                    $exception->getMessage()
+                    $exception->getMessage(),
                 ),
                 $exception->getCode(),
-                $exception
+                $exception,
             );
         }
 
@@ -106,7 +106,7 @@ class ItemLock implements ItemLockInterface
     protected function createExpirationDate(): FrozenTime
     {
         $dateInterval = DateInterval::createFromDateString(
-            $this->stateMachineConfig->getStateMachineItemLockExpirationInterval()
+            $this->stateMachineConfig->getStateMachineItemLockExpirationInterval(),
         );
         $expirationDate = new FrozenTime();
         $expirationDate = $expirationDate->add($dateInterval);

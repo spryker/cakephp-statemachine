@@ -14,7 +14,7 @@ use StateMachine\Dto\StateMachine\ItemDto;
 interface ConditionInterface
 {
     /**
-     * @param \StateMachine\Business\Process\TransitionInterface[] $transitions
+     * @param array<\StateMachine\Business\Process\TransitionInterface> $transitions
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      * @param \StateMachine\Business\Process\StateInterface $sourceState
      * @param \StateMachine\Business\Logger\TransitionLogInterface $transactionLogger
@@ -34,7 +34,7 @@ interface ConditionInterface
      * @param string $stateMachineName
      * @param string $processName
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[][]
+     * @return array<array<\StateMachine\Dto\StateMachine\ItemDto>>
      */
     public function getOnEnterEventsForStatesWithoutTransition(string $stateMachineName, string $processName): array;
 }

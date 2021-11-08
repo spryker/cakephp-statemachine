@@ -109,7 +109,7 @@ class StateUpdaterTest extends TestCase
         $stateUpdater->updateStateMachineItemState(
             [$this->createStateMachineItems()[0]],
             $this->createProcesses(),
-            $this->createSourceStateBuffer()
+            $this->createSourceStateBuffer(),
         );
 
         $stateMachineItemStateLogsCount = $this->StateMachineItemStateLogs->find()->count();
@@ -132,13 +132,13 @@ class StateUpdaterTest extends TestCase
 
         $stateUpdater = $this->createStateUpdater(
             null,
-            $stateMachineHandlerResolverMock
+            $stateMachineHandlerResolverMock,
         );
 
         $stateUpdater->updateStateMachineItemState(
             $this->createStateMachineItems(),
             $this->createProcesses(),
-            $this->createSourceStateBuffer()
+            $this->createSourceStateBuffer(),
         );
     }
 
@@ -153,13 +153,13 @@ class StateUpdaterTest extends TestCase
         $timeoutMock->expects($this->once())->method('setNewTimeout');
 
         $stateUpdater = $this->createStateUpdater(
-            $timeoutMock
+            $timeoutMock,
         );
 
         $stateUpdater->updateStateMachineItemState(
             $this->createStateMachineItems(),
             $this->createProcesses(),
-            $this->createSourceStateBuffer()
+            $this->createSourceStateBuffer(),
         );
     }
 
@@ -176,7 +176,7 @@ class StateUpdaterTest extends TestCase
         $stateUpdater->updateStateMachineItemState(
             [$this->createStateMachineItems()[1]],
             $this->createProcesses(),
-            $this->createSourceStateBuffer()
+            $this->createSourceStateBuffer(),
         );
 
         $stateMachineItemStateLogsCount = $this->StateMachineItemStateLogs->find()->count();
@@ -184,7 +184,7 @@ class StateUpdaterTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     protected function createStateMachineItemsSame(): array
     {
@@ -208,7 +208,7 @@ class StateUpdaterTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     protected function createStateMachineItems(): array
     {
@@ -234,7 +234,7 @@ class StateUpdaterTest extends TestCase
     }
 
     /**
-     * @return \StateMachine\Business\Process\Process[]
+     * @return array<\StateMachine\Business\Process\Process>
      */
     protected function createProcesses(): array
     {
@@ -248,7 +248,7 @@ class StateUpdaterTest extends TestCase
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     protected function createSourceStateBuffer(): array
     {
@@ -285,7 +285,7 @@ class StateUpdaterTest extends TestCase
             $timeout,
             $handlerResolver,
             $this->createPersistence(),
-            $this->createQueryContainer()
+            $this->createQueryContainer(),
         );
     }
 
@@ -317,7 +317,7 @@ class StateUpdaterTest extends TestCase
             $this->StateMachineItemStateLogs,
             $this->StateMachineProcesses,
             $this->StateMachineItemStates,
-            $this->StateMachineTimeouts
+            $this->StateMachineTimeouts,
         );
     }
 

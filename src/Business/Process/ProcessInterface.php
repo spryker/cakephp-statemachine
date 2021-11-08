@@ -10,14 +10,14 @@ namespace StateMachine\Business\Process;
 interface ProcessInterface
 {
     /**
-     * @param \StateMachine\Business\Process\ProcessInterface[] $subProcesses
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $subProcesses
      *
      * @return void
      */
     public function setSubProcesses(array $subProcesses): void;
 
     /**
-     * @return \StateMachine\Business\Process\ProcessInterface[]
+     * @return array<\StateMachine\Business\Process\ProcessInterface>
      */
     public function getSubProcesses(): array;
 
@@ -58,7 +58,7 @@ interface ProcessInterface
     public function getName(): string;
 
     /**
-     * @param \StateMachine\Business\Process\StateInterface[] $states
+     * @param array<\StateMachine\Business\Process\StateInterface> $states
      *
      * @return void
      */
@@ -95,7 +95,7 @@ interface ProcessInterface
     public function getStateFromAllProcesses(string $stateName): StateInterface;
 
     /**
-     * @return \StateMachine\Business\Process\StateInterface[]
+     * @return array<\StateMachine\Business\Process\StateInterface>
      */
     public function getStates(): array;
 
@@ -112,14 +112,14 @@ interface ProcessInterface
     public function addTransition(TransitionInterface $transition): void;
 
     /**
-     * @param \StateMachine\Business\Process\TransitionInterface[] $transitions
+     * @param array<\StateMachine\Business\Process\TransitionInterface> $transitions
      *
      * @return void
      */
     public function setTransitions(array $transitions): void;
 
     /**
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getTransitions(): array;
 
@@ -129,32 +129,32 @@ interface ProcessInterface
     public function hasTransitions(): bool;
 
     /**
-     * @return \StateMachine\Business\Process\StateInterface[]
+     * @return array<\StateMachine\Business\Process\StateInterface>
      */
     public function getAllStates(): array;
 
     /**
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getAllTransitions(): array;
 
     /**
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getAllTransitionsWithoutEvent(): array;
 
     /**
-     * @return \StateMachine\Business\Process\EventInterface[]
+     * @return array<\StateMachine\Business\Process\EventInterface>
      */
     public function getManuallyExecutableEvents(): array;
 
     /**
-     * @return string[][]
+     * @return array<array<string>>
      */
     public function getManuallyExecutableEventsBySource(): array;
 
     /**
-     * @return \StateMachine\Business\Process\ProcessInterface[]
+     * @return array<\StateMachine\Business\Process\ProcessInterface>
      */
     public function getAllProcesses(): array;
 

@@ -30,7 +30,7 @@ interface TransitionLogInterface
     public function setEventName(ItemDto $itemDto, string $eventName): void;
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return void
      */
@@ -96,7 +96,7 @@ interface TransitionLogInterface
 
     /**
      * @param string $eventName
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return int
      */

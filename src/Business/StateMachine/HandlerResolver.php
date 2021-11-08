@@ -13,12 +13,12 @@ use StateMachine\Dependency\StateMachineHandlerInterface;
 class HandlerResolver implements HandlerResolverInterface
 {
     /**
-     * @var \StateMachine\Dependency\StateMachineHandlerInterface[]
+     * @var array<\StateMachine\Dependency\StateMachineHandlerInterface>
      */
     protected $handlers = [];
 
     /**
-     * @param \StateMachine\Dependency\StateMachineHandlerInterface[] $handlers
+     * @param array<\StateMachine\Dependency\StateMachineHandlerInterface> $handlers
      */
     public function __construct(array $handlers)
     {
@@ -42,8 +42,8 @@ class HandlerResolver implements HandlerResolverInterface
         throw new StateMachineHandlerNotFound(
             sprintf(
                 'State machine handler with name "%s" not found',
-                $stateMachineName
-            )
+                $stateMachineName,
+            ),
         );
     }
 

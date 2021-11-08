@@ -51,7 +51,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      * {@inheritDoc}
      *
      * @param string $eventName
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return int
      */
@@ -67,7 +67,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Dto\StateMachine\ProcessDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ProcessDto>
      */
     public function getProcesses(string $stateMachineName): array
     {
@@ -140,7 +140,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
 
         return $this->getFactory()
             ->createGraphDrawer(
-                $processDto->getStateMachineNameOrFail()
+                $processDto->getStateMachineNameOrFail(),
             )->draw($process, $highlightState, $format, $fontSize);
     }
 
@@ -163,7 +163,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      *
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getManualEventsForStateMachineItem(ItemDto $itemDto): array
     {
@@ -175,9 +175,9 @@ class StateMachineFacade implements StateMachineFacadeInterface
     /**
      * {@inheritDoc}
      *
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
-     * @return string[][]
+     * @return array<array<string>>
      */
     public function getManualEventsForStateMachineItems(array $stateMachineItems): array
     {
@@ -203,9 +203,9 @@ class StateMachineFacade implements StateMachineFacadeInterface
     /**
      * {@inheritDoc}
      *
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getProcessedStateMachineItems(array $stateMachineItems): array
     {
@@ -220,7 +220,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      * @param int $idStateMachineProcess
      * @param int $identifier
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getStateHistoryByStateItemIdentifier(int $idStateMachineProcess, int $identifier): array
     {
@@ -235,7 +235,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flagName
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getItemsWithFlag(ProcessDto $processDto, string $flagName): array
     {
@@ -250,7 +250,7 @@ class StateMachineFacade implements StateMachineFacadeInterface
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flagName
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getItemsWithoutFlag(ProcessDto $processDto, string $flagName): array
     {

@@ -17,10 +17,10 @@ use Tools\Model\Table\Table;
  *
  * @method \StateMachine\Model\Entity\StateMachineItemStateLog get($primaryKey, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateLog newEntity(array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateLog[] newEntities(array $data, array $options = [])
+ * @method array<\StateMachine\Model\Entity\StateMachineItemStateLog> newEntities(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateLog|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateLog patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateLog[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method array<\StateMachine\Model\Entity\StateMachineItemStateLog> patchEntities(iterable $entities, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateLog findOrCreate($search, ?callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
@@ -96,7 +96,7 @@ class StateMachineItemStateLogsTable extends Table
     /**
      * @param \StateMachine\Model\Entity\StateMachineItem $stateMachineItem
      *
-     * @return \StateMachine\Model\Entity\StateMachineTransitionLog[]
+     * @return array<\StateMachine\Model\Entity\StateMachineTransitionLog>
      */
     public function getHistory(StateMachineItem $stateMachineItem): array
     {

@@ -25,7 +25,7 @@ class TransitionLog implements TransitionLogInterface
     public const QUERY_STRING = 'QUERY_STRING';
 
     /**
-     * @var \StateMachine\Model\Entity\StateMachineTransitionLog[]
+     * @var array<\StateMachine\Model\Entity\StateMachineTransitionLog>
      */
     protected $logEntities;
 
@@ -72,7 +72,7 @@ class TransitionLog implements TransitionLogInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return void
      */
@@ -208,7 +208,7 @@ class TransitionLog implements TransitionLogInterface
 
     /**
      * @param string $eventName
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return int
      */
@@ -253,7 +253,7 @@ class TransitionLog implements TransitionLogInterface
     /**
      * @param string $queryString
      *
-     * @return string[]
+     * @return array<string>
      */
     protected function getParamsFromQueryString(string $queryString): array
     {

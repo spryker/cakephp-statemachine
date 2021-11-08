@@ -24,18 +24,22 @@ class Drawer implements DrawerInterface
      * @var string
      */
     public const EDGE_UPPER_HALF = 'upper half';
+
     /**
      * @var string
      */
     public const EDGE_LOWER_HALF = 'lower half';
+
     /**
      * @var string
      */
     public const EDGE_FULL = 'edge full';
+
     /**
      * @var string
      */
     public const HIGHLIGHT_COLOR = '#FFFFCC';
+
     /**
      * @var string
      */
@@ -268,7 +272,7 @@ class Drawer implements DrawerInterface
      */
     protected function addNode(StateInterface $state, array $attributes = [], ?string $name = null, bool $highlighted = false): void
     {
-        $name = $name === null ? $state->getName() : $name;
+        $name = $name ?? $state->getName();
 
         $labelName = $state->hasDisplay() ? $state->getDisplay() : $name;
         $label = [];
@@ -468,7 +472,7 @@ class Drawer implements DrawerInterface
      */
     protected function addEdgeFromState(TransitionInterface $transition, ?string $fromName): string
     {
-        $fromName = $fromName !== null ? $fromName : $transition->getSourceState()->getName();
+        $fromName = $fromName ?? $transition->getSourceState()->getName();
 
         return $fromName;
     }
@@ -481,7 +485,7 @@ class Drawer implements DrawerInterface
      */
     protected function addEdgeToState(TransitionInterface $transition, ?string $toName): string
     {
-        $toName = $toName !== null ? $toName : $transition->getTargetState()->getName();
+        $toName = $toName ?? $transition->getTargetState()->getName();
 
         return $toName;
     }

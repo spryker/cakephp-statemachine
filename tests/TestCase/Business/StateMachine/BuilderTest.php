@@ -28,6 +28,7 @@ class BuilderTest extends TestCase
      * @var int
      */
     protected const STATES_COUNT = 14;
+
     /**
      * @var string
      */
@@ -47,6 +48,7 @@ class BuilderTest extends TestCase
      * @var string
      */
     protected const STATEMACHINE_NAME = 'TestingSm';
+
     /**
      * @var string
      */
@@ -167,7 +169,7 @@ class BuilderTest extends TestCase
             $this->createState(),
             $this->createTransition(),
             $this->createProcess(),
-            $this->createStateMachineConfig()
+            $this->createStateMachineConfig(),
         );
     }
 

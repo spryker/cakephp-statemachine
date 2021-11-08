@@ -66,7 +66,7 @@ class Condition implements ConditionInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\TransitionInterface[] $transitions
+     * @param array<\StateMachine\Business\Process\TransitionInterface> $transitions
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      * @param \StateMachine\Business\Process\StateInterface $sourceState
      * @param \StateMachine\Business\Logger\TransitionLogInterface $transactionLogger
@@ -85,7 +85,7 @@ class Condition implements ConditionInterface
                 $isValidCondition = $this->checkCondition(
                     $itemDto,
                     $transactionLogger,
-                    $transition->getCondition()
+                    $transition->getCondition(),
                 );
 
                 if ($isValidCondition) {
@@ -115,7 +115,7 @@ class Condition implements ConditionInterface
     ): bool {
         $conditionPlugin = $this->getCondition(
             $conditionName,
-            $itemDto->getStateMachineNameOrFail()
+            $itemDto->getStateMachineNameOrFail(),
         );
 
         try {
@@ -142,7 +142,7 @@ class Condition implements ConditionInterface
 
     /**
      * @param \StateMachine\Business\Process\StateInterface $sourceState
-     * @param \StateMachine\Business\Process\TransitionInterface[] $possibleTransitions
+     * @param array<\StateMachine\Business\Process\TransitionInterface> $possibleTransitions
      *
      * @return \StateMachine\Business\Process\StateInterface
      */
@@ -162,7 +162,7 @@ class Condition implements ConditionInterface
      * @param string $stateMachineName
      * @param string $processName
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[][]
+     * @return array<array<\StateMachine\Dto\StateMachine\ItemDto>>
      */
     public function getOnEnterEventsForStatesWithoutTransition(string $stateMachineName, string $processName): array
     {
@@ -183,13 +183,13 @@ class Condition implements ConditionInterface
         $this->stateUpdater->updateStateMachineItemState(
             $stateMachineItems,
             $processes,
-            $sourceStates
+            $sourceStates,
         );
 
         $itemsWithOnEnterEvent = $this->finder->filterItemsWithOnEnterEvent(
             $stateMachineItems,
             $processes,
-            $sourceStates
+            $sourceStates,
         );
 
         return $itemsWithOnEnterEvent;
@@ -197,10 +197,10 @@ class Condition implements ConditionInterface
 
     /**
      * @param string $stateMachineName
-     * @param string[] $states
+     * @param array<string> $states
      * @param \StateMachine\Business\Process\ProcessInterface $process
 
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     protected function getItemsByStatesAndProcessName(
         string $stateMachineName,
@@ -210,7 +210,7 @@ class Condition implements ConditionInterface
         $stateMachineItemStateIds = $this->stateMachinePersistence->getStateMachineItemIdsByStatesProcessAndStateMachineName(
             $process->getName(),
             $stateMachineName,
-            array_keys($states)
+            array_keys($states),
         );
 
         $stateMachineItems = $this->stateMachineHandlerResolver
@@ -226,7 +226,7 @@ class Condition implements ConditionInterface
     /**
      * @param string $stateMachineName
      * @param array $states Keys are state names, values are collections of TransitionInterface.
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return void
      */
@@ -241,7 +241,7 @@ class Condition implements ConditionInterface
 
             $process = $this->finder->findProcessByStateMachineAndProcessName(
                 $stateMachineName,
-                $itemDto->getProcessNameOrFail()
+                $itemDto->getProcessNameOrFail(),
             );
 
             $sourceState = $process->getStateFromAllProcesses($stateName);
@@ -256,7 +256,7 @@ class Condition implements ConditionInterface
                     $transitions,
                     $itemDto,
                     $sourceState,
-                    $this->transitionLog
+                    $this->transitionLog,
                 );
             }
 
@@ -321,16 +321,16 @@ class Condition implements ConditionInterface
                 sprintf(
                     'Condition "%s" not registered in "%s" class. Please add it to getConditions() method.',
                     $conditionString,
-                    get_class($this->stateMachineHandlerResolver)
-                )
+                    get_class($this->stateMachineHandlerResolver),
+                ),
             );
         }
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
-     * @return string[]
+     * @return array<string>
      */
     protected function createStateMap(array $stateMachineItems): array
     {

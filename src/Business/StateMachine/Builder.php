@@ -23,6 +23,7 @@ class Builder implements BuilderInterface
      * @var string
      */
     public const STATE_NAME_ATTRIBUTE = 'name';
+
     /**
      * @var string
      */
@@ -32,10 +33,12 @@ class Builder implements BuilderInterface
      * @var string
      */
     public const PROCESS_NAME_ATTRIBUTE = 'name';
+
     /**
      * @var string
      */
     public const PROCESS_FILE_ATTRIBUTE = 'file';
+
     /**
      * @var string
      */
@@ -45,14 +48,17 @@ class Builder implements BuilderInterface
      * @var string
      */
     public const EVENT_COMMAND_ATTRIBUTE = 'command';
+
     /**
      * @var string
      */
     public const EVENT_MANUAL_ATTRIBUTE = 'manual';
+
     /**
      * @var string
      */
     public const EVENT_ON_ENTER_ATTRIBUTE = 'onEnter';
+
     /**
      * @var string
      */
@@ -62,6 +68,7 @@ class Builder implements BuilderInterface
      * @var string
      */
     public const TRANSITION_CONDITION_ATTRIBUTE = 'condition';
+
     /**
      * @var string
      */
@@ -73,7 +80,7 @@ class Builder implements BuilderInterface
     protected $rootElement;
 
     /**
-     * @var \StateMachine\Business\Process\ProcessInterface[]
+     * @var array<\StateMachine\Business\Process\ProcessInterface>
      */
     protected static $processBuffer = [];
 
@@ -190,7 +197,7 @@ class Builder implements BuilderInterface
      */
     protected function recursiveMerge(SimpleXMLElement $fromXmlElement, SimpleXMLElement $intoXmlNode, ?string $prefix = null): void
     {
-        /** @var \SimpleXMLElement[] $xmlElements */
+        /** @var array<\SimpleXMLElement> $xmlElements */
         $xmlElements = $fromXmlElement->children();
         if (!$xmlElements) {
             return;
@@ -201,7 +208,7 @@ class Builder implements BuilderInterface
             $xmlElement = $this->prefixSubProcessElementAttributes($xmlElement, $prefix);
 
             $child = $intoXmlNode->addChild($xmlElement->getName(), $xmlElement);
-            /** @var string[] $attributes */
+            /** @var array<string> $attributes */
             $attributes = $xmlElement->attributes();
             foreach ($attributes as $name => $value) {
                 $child->addAttribute($name, $value);
@@ -270,8 +277,8 @@ class Builder implements BuilderInterface
             throw new StateMachineException(
                 sprintf(
                     'State machine XML file not found in "%s".',
-                    $pathToXml
-                )
+                    $pathToXml,
+                ),
             );
         }
 
@@ -396,7 +403,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\ProcessInterface[] $processMap
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $processMap
      *
      * @return void
      */
@@ -420,9 +427,9 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\ProcessInterface[] $processMap
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $processMap
      *
-     * @return \StateMachine\Business\Process\ProcessInterface[]
+     * @return array<\StateMachine\Business\Process\ProcessInterface>
      */
     protected function createStates(array $processMap): array
     {
@@ -500,9 +507,9 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\ProcessInterface[] $stateToProcessMap
-     * @param \StateMachine\Business\Process\ProcessInterface[] $processMap
-     * @param \StateMachine\Business\Process\EventInterface[] $eventMap
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $stateToProcessMap
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $processMap
+     * @param array<\StateMachine\Business\Process\EventInterface> $eventMap
      *
      * @return void
      */
@@ -524,8 +531,8 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\ProcessInterface[] $stateToProcessMap
-     * @param \StateMachine\Business\Process\EventInterface[] $eventMap
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $stateToProcessMap
+     * @param array<\StateMachine\Business\Process\EventInterface> $eventMap
      * @param \SimpleXMLElement $xmlTransition
      *
      * @return \StateMachine\Business\Process\TransitionInterface
@@ -542,8 +549,8 @@ class Builder implements BuilderInterface
         $transition->setHappyCase(
             $this->getAttributeBoolean(
                 $xmlTransition,
-                self::TRANSITION_HAPPY_PATH_ATTRIBUTE
-            )
+                self::TRANSITION_HAPPY_PATH_ATTRIBUTE,
+            ),
         );
 
         $sourceState = (string)$xmlTransition->source;
@@ -556,7 +563,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\ProcessInterface[] $stateToProcessMap
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $stateToProcessMap
      * @param string $sourceName
      * @param \StateMachine\Business\Process\TransitionInterface $transition
      *
@@ -574,7 +581,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\ProcessInterface[] $stateToProcessMap
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $stateToProcessMap
      * @param \SimpleXMLElement $xmlTransition
      * @param string $sourceName
      * @param \StateMachine\Business\Process\TransitionInterface $transition
@@ -595,8 +602,8 @@ class Builder implements BuilderInterface
                 sprintf(
                     'Target: "%s" does not exist from source: "%s"',
                     $targetStateName,
-                    $sourceName
-                )
+                    $sourceName,
+                ),
             );
         }
 
@@ -607,7 +614,7 @@ class Builder implements BuilderInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\EventInterface[] $eventMap
+     * @param array<\StateMachine\Business\Process\EventInterface> $eventMap
      * @param \SimpleXMLElement $xmlTransition
      * @param string $sourceState
      * @param \StateMachine\Business\Process\TransitionInterface $transition
@@ -688,8 +695,8 @@ class Builder implements BuilderInterface
                 sprintf(
                     'Event: "%s" does not exist from source: "%s"',
                     $eventName,
-                    $sourceName
-                )
+                    $sourceName,
+                ),
             );
         }
     }

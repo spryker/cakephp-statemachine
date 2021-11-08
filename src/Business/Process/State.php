@@ -32,17 +32,17 @@ class State implements StateInterface
     protected $flags = [];
 
     /**
-     * @var \StateMachine\Business\Process\TransitionInterface[]
+     * @var array<\StateMachine\Business\Process\TransitionInterface>
      */
     protected $outgoingTransitions = [];
 
     /**
-     * @var \StateMachine\Business\Process\TransitionInterface[]
+     * @var array<\StateMachine\Business\Process\TransitionInterface>
      */
     protected $incomingTransitions = [];
 
     /**
-     * @param \StateMachine\Business\Process\TransitionInterface[] $incomingTransitions
+     * @param array<\StateMachine\Business\Process\TransitionInterface> $incomingTransitions
      *
      * @return $this
      */
@@ -54,7 +54,7 @@ class State implements StateInterface
     }
 
     /**
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getIncomingTransitions(): array
     {
@@ -70,7 +70,7 @@ class State implements StateInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\TransitionInterface[] $outgoingTransitions
+     * @param array<\StateMachine\Business\Process\TransitionInterface> $outgoingTransitions
      *
      * @return $this
      */
@@ -82,7 +82,7 @@ class State implements StateInterface
     }
 
     /**
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getOutgoingTransitions(): array
     {
@@ -100,7 +100,7 @@ class State implements StateInterface
     /**
      * @param \StateMachine\Business\Process\EventInterface $event
      *
-     * @return \StateMachine\Business\Process\TransitionInterface[]
+     * @return array<\StateMachine\Business\Process\TransitionInterface>
      */
     public function getOutgoingTransitionsByEvent(EventInterface $event): array
     {
@@ -117,7 +117,7 @@ class State implements StateInterface
     }
 
     /**
-     * @return \StateMachine\Business\Process\EventInterface[]
+     * @return array<\StateMachine\Business\Process\EventInterface>
      */
     public function getEvents(): array
     {
@@ -152,8 +152,8 @@ class State implements StateInterface
         throw new StateMachineException(
             sprintf(
                 'Event "%d" not found. Have you added this event to transition?',
-                $eventName
-            )
+                $eventName,
+            ),
         );
     }
 
@@ -286,8 +286,8 @@ class State implements StateInterface
         throw new StateMachineException(
             sprintf(
                 'There is no onEnter event for state "%s"',
-                $this->getName()
-            )
+                $this->getName(),
+            ),
         );
     }
 
@@ -309,7 +309,7 @@ class State implements StateInterface
     }
 
     /**
-     * @return \StateMachine\Business\Process\EventInterface[]
+     * @return array<\StateMachine\Business\Process\EventInterface>
      */
     public function getTimeoutEvents(): array
     {

@@ -25,7 +25,7 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     protected static $itemStateUpdated;
 
     /**
-     * @var \StateMachine\Dto\StateMachine\ItemDto[]
+     * @var array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     protected static $stateMachineItemsByStateIds = [];
 
@@ -60,7 +60,7 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function getActiveProcesses(): array
     {
@@ -92,9 +92,9 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     }
 
     /**
-     * @param int[] $stateIds
+     * @param array<int> $stateIds
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getStateMachineItemsByStateIds(array $stateIds = []): array
     {
@@ -117,7 +117,7 @@ class TestStateMachineHandler implements StateMachineHandlerInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItemsByStateIds
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItemsByStateIds
      *
      * @return void
      */

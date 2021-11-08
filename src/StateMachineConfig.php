@@ -62,7 +62,7 @@ class StateMachineConfig
     }
 
     /**
-     * @return string[]
+     * @return array<string>
      */
     public function getGraphFormatContentTypes(): array
     {

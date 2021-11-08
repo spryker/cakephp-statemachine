@@ -38,9 +38,9 @@ interface PersistenceInterface
     public function saveStateMachineItem(ItemDto $itemDto, string $stateName): ItemDto;
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function updateStateMachineItemsFromPersistence(array $stateMachineItems): array;
 
@@ -48,7 +48,7 @@ interface PersistenceInterface
      * @param int $itemIdentifier
      * @param int $idStateMachineProcess
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getStateHistoryByStateItemIdentifier(int $itemIdentifier, int $idStateMachineProcess): array;
 
@@ -60,18 +60,18 @@ interface PersistenceInterface
     public function getProcessedItemDto(ItemDto $itemDto): ItemDto;
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getProcessedStateMachineItems(array $stateMachineItems): array;
 
     /**
      * @param string $processName
      * @param string $stateMachineName
-     * @param string[] $states
+     * @param array<string> $states
      *
-     * @return int[]
+     * @return array<int>
      */
     public function getStateMachineItemIdsByStatesProcessAndStateMachineName(
         string $processName,
@@ -109,7 +109,7 @@ interface PersistenceInterface
     /**
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getItemsWithExpiredTimeouts(string $stateMachineName): array;
 }

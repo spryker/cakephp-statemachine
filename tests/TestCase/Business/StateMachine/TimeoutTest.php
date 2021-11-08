@@ -40,14 +40,17 @@ class TimeoutTest extends TestCase
      * @var string
      */
     protected const STATE_WITH_TIMEOUT = 'State with timeout';
+
     /**
      * @var int
      */
     protected const IDENTIFIER = 1;
+
     /**
      * @var string
      */
     protected const EVENT_NAME = 'Timeout event';
+
     /**
      * @var string
      */
@@ -137,7 +140,7 @@ class TimeoutTest extends TestCase
         $timeout = $this->createTimeout();
         $timeout->setNewTimeout(
             $this->createProcess(),
-            $this->createItemDto()
+            $this->createItemDto(),
         );
 
         $timeout = $this->StateMachineTimeouts->find()->where(['identifier' => static::IDENTIFIER])->first();
@@ -157,7 +160,7 @@ class TimeoutTest extends TestCase
         $timeout->dropOldTimeout(
             $this->createProcess(),
             static::STATE_WITH_TIMEOUT,
-            $this->createItemDto()
+            $this->createItemDto(),
         );
 
         $timeout = $this->StateMachineTimeouts->find()->where(['identifier' => static::IDENTIFIER])->first();
@@ -205,12 +208,12 @@ class TimeoutTest extends TestCase
             function (CakeEvent $cakeEvent, Event $event, int $count, ItemDto $itemDto) use (&$dispatched) {
                 $this->assertSame(static::EVENT_NAME, $event->getName());
                 $dispatched = true;
-            }
+            },
         );
 
         $timeout->setNewTimeout(
             $this->createProcess(),
-            $this->createItemDto()
+            $this->createItemDto(),
         );
 
         $this->assertTrue($dispatched);
@@ -304,7 +307,7 @@ class TimeoutTest extends TestCase
             $this->StateMachineItemStateLogs,
             $this->StateMachineProcesses,
             $this->StateMachineItemStates,
-            $this->StateMachineTimeouts
+            $this->StateMachineTimeouts,
         );
     }
 

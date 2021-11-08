@@ -19,7 +19,7 @@ interface StateMachineHandlerInterface
      *   'Prefix/TwoCommand' => TwoCommand::class,
      * ]
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getCommands(): array;
 
@@ -31,7 +31,7 @@ interface StateMachineHandlerInterface
      *   'Prefix/TwoCondition' => TwoCondition::class,
      * ]
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getConditions(): array;
 
@@ -51,7 +51,7 @@ interface StateMachineHandlerInterface
      *   'ProcessName2 ,
      * ]
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getActiveProcesses(): array;
 
@@ -77,9 +77,9 @@ interface StateMachineHandlerInterface
     /**
      * This method should return all list of ItemDto, with (identifier, IdStateMachineProcess, IdItemState)
      *
-     * @param int[] $stateIds
+     * @param array<int> $stateIds
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getStateMachineItemsByStateIds(array $stateIds = []): array;
 }

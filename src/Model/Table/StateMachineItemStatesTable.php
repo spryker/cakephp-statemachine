@@ -20,10 +20,10 @@ use Tools\Model\Table\Table;
  *
  * @method \StateMachine\Model\Entity\StateMachineItemState get($primaryKey, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemState newEntity(array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemState[] newEntities(array $data, array $options = [])
+ * @method array<\StateMachine\Model\Entity\StateMachineItemState> newEntities(array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemState|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemState patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemState[] patchEntities(iterable $entities, array $data, array $options = [])
+ * @method array<\StateMachine\Model\Entity\StateMachineItemState> patchEntities(iterable $entities, array $data, array $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemState findOrCreate($search, ?callable $callback = null, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemState saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemState newEmptyEntity()

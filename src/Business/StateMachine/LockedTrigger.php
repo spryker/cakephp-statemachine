@@ -53,14 +53,14 @@ class LockedTrigger implements TriggerInterface
     public function triggerForNewStateMachineItem(ProcessDto $processDto, int $identifier): int
     {
         $processName = $processDto->getProcessName() ?: $this->getCurrentProcess(
-            $this->getStateMachineHandler($processDto->getStateMachineNameOrFail())->getActiveProcesses()
+            $this->getStateMachineHandler($processDto->getStateMachineNameOrFail())->getActiveProcesses(),
         );
         $processDto->setProcessName($processName);
 
         $lockIdentifier = $this->buildLockIdentifier(
             $identifier,
             $processDto->getStateMachineNameOrFail(),
-            $processName
+            $processName,
         );
 
         $lockHash = $this->hashIdentifier($lockIdentifier);
@@ -78,7 +78,7 @@ class LockedTrigger implements TriggerInterface
 
     /**
      * @param string $eventName
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return int
      */
@@ -108,7 +108,7 @@ class LockedTrigger implements TriggerInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
      * @return string
      */
@@ -122,7 +122,7 @@ class LockedTrigger implements TriggerInterface
             $identifier .= $this->buildLockIdentifier(
                 $itemDto->getIdentifierOrFail(),
                 $itemDto->getProcessNameOrFail(),
-                $itemDto->getStateMachineNameOrFail()
+                $itemDto->getStateMachineNameOrFail(),
             );
         }
 
@@ -173,7 +173,7 @@ class LockedTrigger implements TriggerInterface
     }
 
     /**
-     * @param string[] $processes
+     * @param array<string> $processes
      *
      * @throws \RuntimeException
      *

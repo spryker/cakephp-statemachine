@@ -55,7 +55,7 @@ class DemoStateMachineHandler implements StateMachineHandlerInterface
      *   'ProcessName2 ,
      * ]
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getActiveProcesses(): array
     {
@@ -92,9 +92,9 @@ class DemoStateMachineHandler implements StateMachineHandlerInterface
     /**
      * This method should return all list of ItemDto, with (identifier, IdStateMachineProcess, IdItemState)
      *
-     * @param int[] $stateIds
+     * @param array<int> $stateIds
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getStateMachineItemsByStateIds(array $stateIds = []): array
     {

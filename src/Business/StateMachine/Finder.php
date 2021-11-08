@@ -61,7 +61,7 @@ class Finder implements FinderInterface
     /**
      * @param string $stateMachineName
      *
-     * @return \StateMachine\Dto\StateMachine\ProcessDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ProcessDto>
      */
     public function getProcesses(string $stateMachineName): array
     {
@@ -75,9 +75,9 @@ class Finder implements FinderInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
-     * @return string[][]
+     * @return array<array<string>>
      */
     public function getManualEventsForStateMachineItems(array $stateMachineItems): array
     {
@@ -96,7 +96,7 @@ class Finder implements FinderInterface
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getManualEventsForStateMachineItem(ItemDto $itemDto): array
     {
@@ -106,7 +106,7 @@ class Finder implements FinderInterface
 
         $processDto = $this->createProcessDto(
             $itemDto->getStateMachineNameOrFail(),
-            $processName
+            $processName,
         );
 
         $process = $processBuilder->createProcess($processDto);
@@ -124,7 +124,7 @@ class Finder implements FinderInterface
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flag
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getItemsWithFlag(ProcessDto $processDto, string $flag): array
     {
@@ -135,7 +135,7 @@ class Finder implements FinderInterface
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param string $flag
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     public function getItemsWithoutFlag(ProcessDto $processDto, string $flag): array
     {
@@ -147,7 +147,7 @@ class Finder implements FinderInterface
      * @param string $flagName
      * @param bool $hasFlag
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[]
+     * @return array<\StateMachine\Dto\StateMachine\ItemDto>
      */
     protected function getItemsByFlag(ProcessDto $processDto, string $flagName, bool $hasFlag): array
     {
@@ -163,7 +163,7 @@ class Finder implements FinderInterface
 
         $stateMachineItems = $this->getFlaggedStateMachineItems(
             $processDto,
-            array_keys($statesByFlag)
+            array_keys($statesByFlag),
         );
 
         $stateMachineItemsWithFlag = [];
@@ -171,7 +171,7 @@ class Finder implements FinderInterface
             $itemDto = $this->createStateMachineHistoryItemTransfer(
                 $processDto,
                 $stateMachineItemEntity,
-                $stateMachineProcessEntity
+                $stateMachineProcessEntity,
             );
 
             $stateMachineItemsWithFlag[] = $itemDto;
@@ -185,7 +185,7 @@ class Finder implements FinderInterface
      * @param string $flag
      * @param bool $hasFlag
      *
-     * @return \StateMachine\Business\Process\StateInterface[]
+     * @return array<\StateMachine\Business\Process\StateInterface>
      */
     protected function getStatesByFlag(ProcessDto $processDto, string $flag, bool $hasFlag): array
     {
@@ -204,11 +204,11 @@ class Finder implements FinderInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
-     * @param \StateMachine\Business\Process\ProcessInterface[] $processes
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $processes
      * @param array $sourceStates
      *
-     * @return \StateMachine\Dto\StateMachine\ItemDto[][]
+     * @return array<array<\StateMachine\Dto\StateMachine\ItemDto>>
      */
     public function filterItemsWithOnEnterEvent(
         array $stateMachineItems,
@@ -257,9 +257,9 @@ class Finder implements FinderInterface
     }
 
     /**
-     * @param \StateMachine\Dto\StateMachine\ItemDto[] $stateMachineItems
+     * @param array<\StateMachine\Dto\StateMachine\ItemDto> $stateMachineItems
      *
-     * @return \StateMachine\Business\Process\ProcessInterface[]
+     * @return array<\StateMachine\Business\Process\ProcessInterface>
      */
     public function findProcessesForItems(array $stateMachineItems): array
     {
@@ -272,7 +272,7 @@ class Finder implements FinderInterface
 
             $processes[$processName] = $this->findProcessByStateMachineAndProcessName(
                 $itemDto->getStateMachineNameOrFail(),
-                $processName
+                $processName,
             );
         }
 
@@ -295,7 +295,7 @@ class Finder implements FinderInterface
     }
 
     /**
-     * @param \StateMachine\Business\Process\ProcessInterface[] $processes
+     * @param array<\StateMachine\Business\Process\ProcessInterface> $processes
      * @param string $processName
      *
      * @throws \StateMachine\Business\Exception\StateMachineException
@@ -309,8 +309,8 @@ class Finder implements FinderInterface
                 sprintf(
                     'Unknown process "%s" for state machine "%s".',
                     $processName,
-                    'SM'
-                )
+                    'SM',
+                ),
             );
         }
     }
@@ -353,7 +353,7 @@ class Finder implements FinderInterface
         /** @var \StateMachine\Model\Entity\StateMachineProcess|null $stateMachineProcess */
         $stateMachineProcess = $this->queryContainer->queryProcessByStateMachineAndProcessName(
             $processDto->getStateMachineNameOrFail(),
-            $processDto->getProcessNameOrFail()
+            $processDto->getProcessNameOrFail(),
         )->first();
 
         return $stateMachineProcess;
@@ -371,7 +371,7 @@ class Finder implements FinderInterface
         $itemStateCollection = $this->queryContainer->queryItemsByIdStateMachineProcessAndItemStates(
             $processDto->getStateMachineNameOrFail(),
             $processDto->getProcessNameOrFail(),
-            $statesByFlag
+            $statesByFlag,
         )->all();
 
         return $itemStateCollection;
