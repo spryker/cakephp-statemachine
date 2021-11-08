@@ -111,7 +111,9 @@ class ConditionTest extends TestCase
         $sourceState = $this->createState('source state');
         $targetState = $this->createState('target state');
 
-        $transitions[] = $this->createTransition($sourceState, $targetState);
+        $transitions = [
+            $this->createTransition($sourceState, $targetState),
+        ];
 
         $processedTargetState = $condition->getTargetStatesFromTransitions(
             $transitions,
@@ -133,7 +135,9 @@ class ConditionTest extends TestCase
         $sourceState = $this->createState('source state');
         $targetState = $this->createState('target state');
 
-        $transitions[] = $this->createTransition($sourceState, $targetState);
+        $transitions = [
+            $this->createTransition($sourceState, $targetState),
+        ];
 
         $sourceState = $this->createState('initial source');
 

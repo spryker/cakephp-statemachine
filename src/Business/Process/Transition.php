@@ -7,15 +7,17 @@
 
 namespace StateMachine\Business\Process;
 
+use BadFunctionCallException;
+
 class Transition implements TransitionInterface
 {
     /**
-     * @var \StateMachine\Business\Process\EventInterface
+     * @var \StateMachine\Business\Process\EventInterface|null
      */
     protected $event;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $condition;
 
@@ -63,10 +65,16 @@ class Transition implements TransitionInterface
     }
 
     /**
+     * @throws \BadFunctionCallException
+     *
      * @return string
      */
     public function getCondition(): string
     {
+        if ($this->condition === null) {
+            throw new BadFunctionCallException('Make sure to check with hasCondition() first.');
+        }
+
         return $this->condition;
     }
 
@@ -75,7 +83,7 @@ class Transition implements TransitionInterface
      */
     public function hasCondition(): bool
     {
-        return isset($this->condition);
+        return $this->condition !== null;
     }
 
     /**
@@ -89,10 +97,16 @@ class Transition implements TransitionInterface
     }
 
     /**
+     * @throws \BadFunctionCallException
+     *
      * @return \StateMachine\Business\Process\EventInterface
      */
     public function getEvent(): EventInterface
     {
+        if ($this->event === null) {
+            throw new BadFunctionCallException('Make sure to check with hasEvent() first.');
+        }
+
         return $this->event;
     }
 
@@ -101,7 +115,7 @@ class Transition implements TransitionInterface
      */
     public function hasEvent(): bool
     {
-        return isset($this->event);
+        return $this->event !== null;
     }
 
     /**

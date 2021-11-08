@@ -18,6 +18,7 @@ trait FacadeAwareTrait
      */
     protected function getFacade(): StateMachineFacadeInterface
     {
+        /** @phpstan-var class-string<\StateMachine\Business\StateMachineFacadeInterface> $class */
         $class = Configure::read('StateMachine.facade') ?: StateMachineFacade::class;
 
         return new $class();

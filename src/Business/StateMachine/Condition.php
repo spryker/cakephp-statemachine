@@ -301,6 +301,7 @@ class Condition implements ConditionInterface
 
         $this->assertConditionIsSet($conditionString, $stateMachineHandler);
 
+        /** @var \StateMachine\Dependency\StateMachineConditionInterface $condition */
         $condition = $stateMachineHandler->getConditions()[$conditionString];
 
         return new $condition();

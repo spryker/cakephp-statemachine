@@ -16,6 +16,7 @@ trait FactoryTrait
      */
     public function getFactory(): PluginFactory
     {
+        /** @phpstan-var class-string<\StateMachine\PluginFactory> $class */
         $class = Configure::read('StateMachine.factory') ?: PluginFactory::class;
 
         return new $class();

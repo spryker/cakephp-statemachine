@@ -31,7 +31,7 @@ class StateMachineTimeout extends Entity
      * be mass assigned. For security purposes, it is advised to set '*' to false
      * (or remove it), and explicitly make individual fields accessible as needed.
      *
-     * @var array
+     * @var array<string, bool>
      */
     protected $_accessible = [
         'state_machine_item_state_id' => true,

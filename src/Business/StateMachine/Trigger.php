@@ -416,6 +416,7 @@ class Trigger implements TriggerInterface
 
         $this->assertCommandIsSet($commandString, $stateMachineHandler);
 
+        /** @var \StateMachine\Dependency\StateMachineCommandInterface $command */
         $command = $stateMachineHandler->getCommands()[$commandString];
 
         return new $command();

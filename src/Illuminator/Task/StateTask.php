@@ -28,7 +28,7 @@ class StateTask extends AbstractTask
     public const PREFIX = 'STATE_';
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     protected $_defaultConfig = [
         'visibility' => 'public',

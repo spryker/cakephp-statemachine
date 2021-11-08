@@ -7,6 +7,8 @@
 
 namespace StateMachine\Business\Process;
 
+use BadFunctionCallException;
+
 class Event implements EventInterface
 {
     /**
@@ -25,12 +27,12 @@ class Event implements EventInterface
     protected $onEnter = false;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $command;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $timeout;
 
@@ -68,10 +70,16 @@ class Event implements EventInterface
     }
 
     /**
+     * @throws \BadFunctionCallException
+     *
      * @return string
      */
     public function getCommand(): string
     {
+        if ($this->command === null) {
+            throw new BadFunctionCallException('Make sure to check with hasCommand() first.');
+        }
+
         return $this->command;
     }
 
@@ -80,7 +88,7 @@ class Event implements EventInterface
      */
     public function hasCommand(): bool
     {
-        return isset($this->command);
+        return $this->command !== null;
     }
 
     /**
@@ -187,10 +195,16 @@ class Event implements EventInterface
     }
 
     /**
+     * @throws \BadFunctionCallException
+     *
      * @return string
      */
     public function getTimeout(): string
     {
+        if ($this->timeout === null) {
+            throw new BadFunctionCallException('Make sure to check with hasTimeout() first.');
+        }
+
         return $this->timeout;
     }
 
@@ -199,6 +213,6 @@ class Event implements EventInterface
      */
     public function hasTimeout(): bool
     {
-        return isset($this->timeout);
+        return $this->timeout !== null;
     }
 }

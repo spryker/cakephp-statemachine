@@ -21,7 +21,7 @@
         "cakephp/migrations": "^3.0",
         "phpunit/phpunit": "^9.5",
         "spryker/code-sniffer": "@stable",
-        "phpstan/phpstan": "^0.12"
+        "phpstan/phpstan": "^1.0.0"
     },
     "autoload": {
         "psr-4": {
