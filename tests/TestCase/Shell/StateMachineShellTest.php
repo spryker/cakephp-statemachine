@@ -7,12 +7,12 @@
 
 namespace StateMachine\Test\TestCase\Shell;
 
-use App\StateMachine\DemoStateMachineHandler;
 use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
 use Cake\TestSuite\TestCase;
 use Shim\TestSuite\ConsoleOutput;
 use StateMachine\Shell\StateMachineShell;
+use TestApp\StateMachine\DemoStateMachineHandler;
 
 class StateMachineShellTest extends TestCase
 {

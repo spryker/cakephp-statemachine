@@ -5,14 +5,14 @@
  * Use of this software requires acceptance of the License Agreement. See LICENSE file.
  */
 
-namespace App\StateMachine;
+namespace TestApp\StateMachine;
 
-use App\StateMachine\Command\TestErrorStateMachineCommand;
-use App\StateMachine\Command\TestStateMachineCommand;
-use App\StateMachine\Condition\TestErrorStateMachineCondition;
-use App\StateMachine\Condition\TestTrueStateMachineCondition;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
+use TestApp\StateMachine\Command\TestErrorStateMachineCommand;
+use TestApp\StateMachine\Command\TestStateMachineCommand;
+use TestApp\StateMachine\Condition\TestErrorStateMachineCondition;
+use TestApp\StateMachine\Condition\TestTrueStateMachineCondition;
 
 /**
  * Mocked version

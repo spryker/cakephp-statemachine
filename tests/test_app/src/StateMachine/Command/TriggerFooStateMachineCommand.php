@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the License Agreement. See LICENSE file.
  */
 
-namespace App\StateMachine\Command;
+namespace TestApp\StateMachine\Command;
 
 use StateMachine\Dependency\StateMachineCommandInterface;
 use StateMachine\Dto\StateMachine\ItemDto;

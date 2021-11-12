@@ -7,8 +7,6 @@
 
 namespace StateMachine\Test\TestCase\Business\StateMachine;
 
-use App\StateMachine\Condition\TestFalseStateMachineCondition;
-use App\StateMachine\Condition\TestTrueStateMachineCondition;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Business\Logger\TransitionLogInterface;
@@ -34,6 +32,8 @@ use StateMachine\Model\Table\StateMachineItemStateLogsTable;
 use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
+use TestApp\StateMachine\Condition\TestFalseStateMachineCondition;
+use TestApp\StateMachine\Condition\TestTrueStateMachineCondition;
 
 class ConditionTest extends TestCase
 {

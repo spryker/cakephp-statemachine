@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the License Agreement. See LICENSE file.
  */
 
-namespace App\StateMachine\Condition;
+namespace TestApp\StateMachine\Condition;
 
 use InvalidArgumentException;
 use StateMachine\Dependency\StateMachineConditionInterface;

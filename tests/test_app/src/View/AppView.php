@@ -5,7 +5,7 @@
  * Use of this software requires acceptance of the License Agreement. See LICENSE file.
  */
 
-namespace App\View;
+namespace TestApp\View;
 
 use Cake\View\View;
 

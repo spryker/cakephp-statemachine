@@ -18,8 +18,6 @@ use StateMachine\Shell\StateMachineShell;
 class Plugin extends BasePlugin
 {
     /**
-     * Plugin name.
-     *
      * @var string
      */
     protected $name = 'StateMachine';
@@ -43,13 +41,23 @@ class Plugin extends BasePlugin
 
     /**
      * @param \Cake\Routing\RouteBuilder $routes The route builder to update.
+     *
      * @return void
      */
-    public function routes(RouteBuilder $routes): void {
+    public function routes(RouteBuilder $routes): void
+    {
         $routes->plugin('StateMachine', ['path' => '/state-machine'], function (RouteBuilder $routes): void {
             $routes->connect('/', ['controller' => 'StateMachine', 'action' => 'index']);
 
             $routes->fallbacks();
+        });
+
+        $routes->prefix('Admin', function (RouteBuilder $routes): void {
+            $routes->plugin('StateMachine', ['path' => '/state-machine'], function (RouteBuilder $routes): void {
+                $routes->connect('/', ['controller' => 'StateMachine', 'action' => 'index']);
+
+                $routes->fallbacks();
+            });
         });
     }
 

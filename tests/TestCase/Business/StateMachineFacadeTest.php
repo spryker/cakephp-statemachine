@@ -7,7 +7,6 @@
 
 namespace StateMachine\Test\TestCase\Business\Business;
 
-use App\StateMachine\TestStateMachineHandler;
 use Cake\Core\Configure;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\TableRegistry;
@@ -24,6 +23,7 @@ use StateMachine\Model\Table\StateMachineItemStatesTable;
 use StateMachine\Model\Table\StateMachineProcessesTable;
 use StateMachine\Model\Table\StateMachineTimeoutsTable;
 use StateMachine\Model\Table\StateMachineTransitionLogsTable;
+use TestApp\StateMachine\TestStateMachineHandler;
 
 class StateMachineFacadeTest extends TestCase
 {

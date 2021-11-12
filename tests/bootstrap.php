@@ -33,10 +33,13 @@ define('WWW_ROOT', TMP . 'webroot' . DS);
 require dirname(__DIR__) . '/vendor/autoload.php';
 require CORE_PATH . 'config/bootstrap.php';
 
+Cake\Core\Configure::write('debug', true);
+
 Cake\Core\Configure::write('App', [
-    'namespace' => 'App',
+    'namespace' => 'TestApp',
+    'encoding' => 'UTF-8',
     'paths' => [
-        'templates' => [ROOT . DS . 'tests' . DS . 'test_app' . DS . 'templates' . DS],
+        'templates' => [TESTS . 'test_app' . DS . 'templates' . DS],
     ],
 ]);
 
@@ -67,6 +70,11 @@ $cache = [
 
 Cake\Cache\Cache::setConfig($cache);
 
+class_alias(TestApp\Controller\AppController::class, 'App\Controller\AppController');
+class_alias(Cake\View\View::class, 'App\View\AppView');
+class_alias(TestApp\Application::class, 'App\Application');
+
+Cake\Core\Plugin::getCollection()->add(new \StateMachine\Plugin());
 Cake\Core\Plugin::getCollection()->add(new \Tools\Plugin());
 
 // Ensure default test connection is defined

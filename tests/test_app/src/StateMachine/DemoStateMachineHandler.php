@@ -5,12 +5,12 @@
  * Use of this software requires acceptance of the License Agreement. See LICENSE file.
  */
 
-namespace App\StateMachine;
+namespace TestApp\StateMachine;
 
-use App\StateMachine\Command\TriggerFooStateMachineCommand;
-use App\StateMachine\Condition\IsFooTriggeredStateMachineCondition;
 use StateMachine\Dependency\StateMachineHandlerInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
+use TestApp\StateMachine\Command\TriggerFooStateMachineCommand;
+use TestApp\StateMachine\Condition\IsFooTriggeredStateMachineCondition;
 
 /**
  * Real classes for controller test cases.

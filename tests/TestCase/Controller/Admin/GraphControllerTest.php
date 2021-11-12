@@ -7,10 +7,10 @@
 
 namespace StateMachine\Test\TestCase\Controller\Admin;
 
-use App\StateMachine\DemoStateMachineHandler;
 use Cake\Core\Configure;
 use Cake\TestSuite\IntegrationTestCase;
 use StateMachine\Controller\Admin\GraphController;
+use TestApp\StateMachine\DemoStateMachineHandler;
 
 /**
  * @uses \StateMachine\Controller\Admin\GraphController
