@@ -9,6 +9,7 @@ namespace StateMachine;
 
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
+use Cake\Routing\RouteBuilder;
 use StateMachine\Shell\StateMachineShell;
 
 /**
@@ -39,6 +40,18 @@ class Plugin extends BasePlugin
     protected $stateMachineCommandsList = [
         StateMachineShell::class,
     ];
+
+    /**
+     * @param \Cake\Routing\RouteBuilder $routes The route builder to update.
+     * @return void
+     */
+    public function routes(RouteBuilder $routes): void {
+        $routes->plugin('StateMachine', ['path' => '/state-machine'], function (RouteBuilder $routes): void {
+            $routes->connect('/', ['controller' => 'StateMachine', 'action' => 'index']);
+
+            $routes->fallbacks();
+        });
+    }
 
     /**
      * @inheritDoc
