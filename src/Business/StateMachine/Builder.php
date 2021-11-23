@@ -567,7 +567,7 @@ class Builder implements BuilderInterface
      * @param string $sourceName
      * @param \StateMachine\Business\Process\TransitionInterface $transition
      *
-     * @throws \StateMachineException
+     * @throws \StateMachine\Business\Exception\StateMachineException
      *
      * @return void
      */
