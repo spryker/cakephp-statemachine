@@ -65,7 +65,7 @@ trait CastTrait
      */
     protected function castString($string): string
     {
-        if (!is_scalar($string)) {
+        if ($string !== null && !is_scalar($string)) {
             throw new NotFoundException('The given string is not scalar: ' . Debugger::exportVar($string));
         }
 

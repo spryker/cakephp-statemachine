@@ -8,6 +8,7 @@
 namespace StateMachine\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use StateMachine\Controller\CastTrait;
 use StateMachine\Dto\StateMachine\ProcessDto;
@@ -57,6 +58,9 @@ class GraphController extends AppController
     {
         $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS));
         $stateMachine = $this->castString($this->request->getQuery(self::URL_PARAM_STATE_MACHINE));
+        if (!$processName || !$stateMachine) {
+            throw new NotFoundException('Missing state machine or process name.');
+        }
 
         $format = $this->assertString($this->request->getQuery(self::URL_PARAM_FORMAT));
         $fontSize = $this->assertInt($this->request->getQuery(self::URL_PARAM_FONT_SIZE));
