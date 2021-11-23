@@ -9,6 +9,7 @@ namespace StateMachine\Shell;
 
 use Cake\Console\ConsoleOptionParser;
 use Cake\Console\Shell;
+use Cake\Core\Configure;
 use Cake\Utility\Inflector;
 use StateMachine\FacadeAwareTrait;
 use StateMachine\StateMachineConfig;
@@ -46,7 +47,7 @@ class StateMachineShell extends Shell
         if (!is_dir($pathToXml)) {
             mkdir($pathToXml, 0770, true);
         }
-        $xml = $this->xml($processName);
+        $xml = $this->xml($stateMachine, $processName);
         file_put_contents($filePath, $xml);
         $this->out('- created ' . $filePath);
 
@@ -170,15 +171,20 @@ class StateMachineShell extends Shell
     }
 
     /**
+     * @param string $stateMachineName
      * @param string $processName
      *
      * @return string
      */
-    protected function xml(string $processName): string
+    protected function xml(string $stateMachineName, string $processName): string
     {
+        $namespace = Inflector::dasherize(Configure::read('App.namespace'));
+        $processSlug = Inflector::dasherize($stateMachineName) . '-01';
+        $url = '../../../vendor/spryker/cakephp-statemachine/config/state-machine-01.xsd';
+
         return <<<XML
 <?xml version="1.0"?>
-<statemachine xmlns="http://static.spryker.com/release-app/state-machine-01.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema">
+<statemachine xmlns="$namespace:$processSlug" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="$namespace:$processSlug $url">
 
     <process name="$processName" main="true">
         <states>
