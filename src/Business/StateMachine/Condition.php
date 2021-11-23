@@ -320,7 +320,7 @@ class Condition implements ConditionInterface
         if (!isset($stateMachineHandler->getConditions()[$conditionString])) {
             throw new ConditionNotFoundException(
                 sprintf(
-                    'Condition "%s" not registered in "%s" class. Please add it to getConditions() method.',
+                    'Condition `%s` not registered in `%s` class. Please add it to `getConditions()` method.',
                     $conditionString,
                     get_class($this->stateMachineHandlerResolver),
                 ),

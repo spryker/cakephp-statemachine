@@ -276,7 +276,7 @@ class Builder implements BuilderInterface
         if (!file_exists($pathToXml)) {
             throw new StateMachineException(
                 sprintf(
-                    'State machine XML file not found in "%s".',
+                    'State machine XML file not found in `%s`.',
                     $pathToXml,
                 ),
             );
@@ -567,6 +567,8 @@ class Builder implements BuilderInterface
      * @param string $sourceName
      * @param \StateMachine\Business\Process\TransitionInterface $transition
      *
+     * @throws \StateMachineException
+     *
      * @return void
      */
     protected function setTransitionSource(
@@ -574,7 +576,15 @@ class Builder implements BuilderInterface
         string $sourceName,
         TransitionInterface $transition
     ): void {
-        $sourceProcess = $stateToProcessMap[$sourceName];
+        $sourceProcess = $stateToProcessMap[$sourceName] ?? null;
+        if (!$sourceProcess) {
+            throw new StateMachineException(
+                sprintf(
+                    'No Process found for source `%s` Is the transition properly defined in XML definition file?',
+                    $sourceName,
+                ),
+            );
+        }
         $sourceState = $sourceProcess->getState($sourceName);
         $transition->setSourceState($sourceState);
         $sourceState->addOutgoingTransition($transition);
@@ -600,7 +610,7 @@ class Builder implements BuilderInterface
         if (!isset($stateToProcessMap[$targetStateName])) {
             throw new StateMachineException(
                 sprintf(
-                    'Target: "%s" does not exist from source: "%s"',
+                    'Target `%s` does not exist from source `%s`',
                     $targetStateName,
                     $sourceName,
                 ),
@@ -693,7 +703,7 @@ class Builder implements BuilderInterface
         if (!isset($eventMap[$eventName])) {
             throw new StateMachineException(
                 sprintf(
-                    'Event: "%s" does not exist from source: "%s"',
+                    'Event `%s` does not exist from source `%s`.',
                     $eventName,
                     $sourceName,
                 ),

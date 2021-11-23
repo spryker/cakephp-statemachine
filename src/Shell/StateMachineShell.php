@@ -41,7 +41,7 @@ class StateMachineShell extends Shell
         $pathToXml = $config->getPathToStateMachineXmlFiles() . $stateMachine . DS;
         $filePath = $pathToXml . $processName . '.xml';
         if (!$this->param('overwrite') && file_exists($filePath)) {
-            $this->abort(sprintf('State machine "%s" already exists. Use a different name.', $stateMachine));
+            $this->abort(sprintf('State machine `%s` already exists. Use a different name.', $stateMachine));
         }
 
         if (!is_dir($pathToXml)) {
@@ -109,7 +109,7 @@ class StateMachineShell extends Shell
     protected function validateStateMachineName(string $stateMachineName): void
     {
         if (!$this->getFacade()->stateMachineExists($stateMachineName)) {
-            $this->abort(sprintf('State machine "%s" was not found.', $stateMachineName));
+            $this->abort(sprintf('State machine `%s` was not found.', $stateMachineName));
         }
     }
 

@@ -285,7 +285,7 @@ class State implements StateInterface
 
         throw new StateMachineException(
             sprintf(
-                'There is no onEnter event for state "%s"',
+                'There is no `onEnter` event for state `%s`',
                 $this->getName(),
             ),
         );

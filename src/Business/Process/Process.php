@@ -171,7 +171,7 @@ class Process implements ProcessInterface
 
         throw new StateMachineException(
             sprintf(
-                'State "%s" not found in any of state machine processes. Is state defined in xml definition file?',
+                'State `%s` not found in any of state machine processes. Is state defined in XML definition file?',
                 $stateName,
             ),
         );

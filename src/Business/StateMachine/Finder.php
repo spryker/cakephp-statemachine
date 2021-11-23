@@ -307,7 +307,7 @@ class Finder implements FinderInterface
         if (!isset($processes[$processName])) {
             throw new StateMachineException(
                 sprintf(
-                    'Unknown process "%s" for state machine "%s".',
+                    'Unknown process `%s` for state machine `%s`.',
                     $processName,
                     'SM',
                 ),

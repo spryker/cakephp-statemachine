@@ -157,7 +157,7 @@ class Timeout implements TimeoutInterface
         if ($intervalSum === 0) {
             throw new StateMachineException(
                 sprintf(
-                    'Invalid format for timeout "%s"',
+                    'Invalid format for timeout `%s`.',
                     $timeout,
                 ),
             );

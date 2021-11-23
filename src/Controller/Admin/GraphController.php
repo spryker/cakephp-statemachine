@@ -52,6 +52,8 @@ class GraphController extends AppController
      *
      * It can also output in specific format (JPG, PDF, ...)
      *
+     * @throws \NotFoundException
+     *
      * @return \Cake\Http\Response
      */
     public function draw(): Response

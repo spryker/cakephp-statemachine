@@ -480,7 +480,7 @@ class Trigger implements TriggerInterface
         if (!$initialStateName) {
             throw new TriggerException(
                 sprintf(
-                    'Initial state name for process "%s" is not provided. You can provide it in %s::getInitialStateForProcess() method.',
+                    'Initial state name for process `%s` is not provided. You can provide it in `%s::getInitialStateForProcess()` method.',
                     $processName,
                     StateMachineHandlerInterface::class,
                 ),
@@ -501,7 +501,7 @@ class Trigger implements TriggerInterface
         if ($idStateMachineItemState === null) {
             throw new TriggerException(
                 sprintf(
-                    'Initial state "%s" could not be created.',
+                    'Initial state `%s` could not be created.',
                     $initialStateName,
                 ),
             );
@@ -520,7 +520,7 @@ class Trigger implements TriggerInterface
         if (!$idStateMachineProcess) {
             throw new TriggerException(
                 sprintf(
-                    'Process with name "%s" not found!',
+                    'Process with name `%s` not found!',
                     $idStateMachineProcess,
                 ),
             );
@@ -540,7 +540,7 @@ class Trigger implements TriggerInterface
         if (!isset($stateMachineHandler->getCommands()[$commandString])) {
             throw new CommandNotFoundException(
                 sprintf(
-                    'Command "%s" not registered in "%s" class. Please add it to getCommands() method.',
+                    'Command `%s` not registered in `%s` class. Please add it to `getCommands()` method.',
                     $commandString,
                     get_class($stateMachineHandler),
                 ),
