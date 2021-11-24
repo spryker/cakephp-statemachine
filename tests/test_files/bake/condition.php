@@ -1,10 +1,10 @@
 <?php
-namespace {{ namespace }};
+namespace TestApp\StateMachine\Condition;
 
 use StateMachine\Dependency\StateMachineConditionInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
-class {{ name }}Condition implements StateMachineConditionInterface
+class FooBarBazCondition implements StateMachineConditionInterface
 {
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto

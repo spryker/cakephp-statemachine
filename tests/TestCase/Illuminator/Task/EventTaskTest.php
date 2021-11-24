@@ -13,9 +13,9 @@ use IdeHelper\Annotator\AbstractAnnotator;
 use IdeHelper\Console\Io;
 use Shim\TestSuite\ConsoleOutput;
 use Shim\TestSuite\TestCase;
-use StateMachine\Illuminator\Task\StateTask;
+use StateMachine\Illuminator\Task\EventTask;
 
-class StateTaskTest extends TestCase
+class EventTaskTest extends TestCase
 {
     /**
      * @var \Shim\TestSuite\ConsoleOutput
@@ -77,22 +77,22 @@ class StateTaskTest extends TestCase
         $path = TESTS . 'test_app' . DS . 'src' . DS . 'StateMachine' . DS . 'DemoStateMachineHandler.php';
         $result = $task->run(file_get_contents($path), $path);
 
-        $this->assertTextContains('const STATE_NEW = \'new\';', $result);
-        $this->assertTextContains('const STATE_INVOICE_CREATED = \'invoice created\';', $result);
+        $this->assertTextContains('const EVENT_CREATE_INVOICE = \'create invoice\';', $result);
+        $this->assertTextContains('const EVENT_EXPORT_ORDER = \'export order\';', $result);
     }
 
     /**
      * @param array $params
      *
-     * @return \StateMachine\Illuminator\Task\StateTask
+     * @return \StateMachine\Illuminator\Task\EventTask
      */
-    protected function _getTask(array $params = []): StateTask
+    protected function _getTask(array $params = []): EventTask
     {
         $params += [
             AbstractAnnotator::CONFIG_DRY_RUN => true,
             AbstractAnnotator::CONFIG_VERBOSE => true,
         ];
 
-        return new StateTask($params);
+        return new EventTask($params);
     }
 }

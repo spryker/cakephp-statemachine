@@ -11,6 +11,7 @@ use Bake\Command\SimpleBakeCommand;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 
 /**
  * Command class for generating Condition class.
@@ -45,6 +46,93 @@ class BakeStateMachineConditionCommand extends SimpleBakeCommand
         $this->_name = $name;
 
         parent::bake($name, $args, $io);
+    }
+
+    /**
+     * Generate a test case.
+     *
+     * @param string $name The class to bake a test for.
+     * @param \Cake\Console\Arguments $args The console arguments
+     * @param \Cake\Console\ConsoleIo $io The console io
+     *
+     * @return void
+     */
+    public function bakeTest(string $name, Arguments $args, ConsoleIo $io): void
+    {
+        if ($args->getOption('no-test')) {
+            return;
+        }
+
+        $className = $name . 'Condition';
+        $io->out('Generating: ' . $className . ' test class');
+
+        $plugin = (string)$args->getOption('plugin');
+        $namespace = $plugin ? str_replace('/', DS, $plugin) : Configure::read('App.namespace');
+
+        $content = $this->generateTaskTestContent($className, $namespace);
+        $path = $plugin ? Plugin::path($plugin) : ROOT . DS;
+        $path .= 'tests/TestCase/StateMachine/Condition/' . $className . 'Test.php';
+
+        $io->createFile($path, $content, (bool)$args->getOption('force'));
+    }
+
+    /**
+     * @param string $name
+     * @param string $namespace
+     *
+     * @return string
+     */
+    protected function generateTaskTestContent(string $name, string $namespace): string
+    {
+        $taskClassNamespace = '\\StateMachine\\Condition';
+
+        $namespacePart = null;
+        if (strpos($name, '/') !== false) {
+            $parts = explode('/', $name);
+            $name = array_pop($parts);
+            $namespacePart = implode('\\', $parts);
+        }
+        if ($namespacePart) {
+            $taskClassNamespace .= '\\' . $namespacePart;
+        }
+
+        $taskClass = $namespace . $taskClassNamespace . '\\' . $name;
+        $testName = $name . 'Test';
+
+        $content = <<<TXT
+<?php
+
+namespace $namespace\Test\TestCase$taskClassNamespace;
+
+use Cake\TestSuite\TestCase;
+use $taskClass;
+
+class $testName extends TestCase
+{
+    /**
+     * @var array<string>
+     */
+    protected \$fixtures = [
+    ];
+
+    /**
+     * @return void
+     */
+    public function testRun(): void
+    {
+        \$condition = new $name();
+
+        //\$itemDto = new ItemDto();
+        //TODO
+
+        //\$result = \$condition->check(\$itemDto);
+        //\$this->assertTrue(\$result);
+    }
+}
+
+TXT;
+
+        return $content;
     }
 
     /**

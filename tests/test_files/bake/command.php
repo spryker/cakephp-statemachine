@@ -1,10 +1,10 @@
 <?php
-namespace {{ namespace }};
+namespace TestApp\StateMachine\Command;
 
 use StateMachine\Dependency\StateMachineCommandInterface;
 use StateMachine\Dto\StateMachine\ItemDto;
 
-class {{ name }}Command implements StateMachineCommandInterface
+class FooBarBazCommand implements StateMachineCommandInterface
 {
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto

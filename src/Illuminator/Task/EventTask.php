@@ -14,12 +14,12 @@ use StateMachine\StateMachineConfig;
 /**
  * Reads the states of the matching XML and sets the class constants here to be used inside code.
  */
-class StateTask extends StateMachineHandlerTask
+class EventTask extends StateMachineHandlerTask
 {
     /**
      * @var string
      */
-    public const PREFIX = 'STATE_';
+    public const PREFIX = 'EVENT_';
 
     /**
      * @param string $content
@@ -54,7 +54,7 @@ class StateTask extends StateMachineHandlerTask
         }
 
         $xml = Xml::build($pathToXml, ['readFile' => true]);
-        $states = $this->getElements(Xml::toArray($xml), 'state');
+        $elements = $this->getElements(Xml::toArray($xml), 'event');
 
         $file = $this->getFile('', $content);
 
@@ -66,7 +66,7 @@ class StateTask extends StateMachineHandlerTask
 
         $existingConstants = $this->getConstants($tokens, $tokens[$classIndex]['scope_opener'], $tokens[$classIndex]['scope_closer']);
         if ($existingConstants) {
-            $states = array_diff_key($states, $existingConstants);
+            $elements = array_diff_key($elements, $existingConstants);
             $existingConstant = array_pop($existingConstants);
             $index = $existingConstant['index'];
             $addToExisting = true;
@@ -78,6 +78,6 @@ class StateTask extends StateMachineHandlerTask
             $addToExisting = false;
         }
 
-        return $this->addClassConstants($file, $states, $index, $addToExisting, 0) ?: $content;
+        return $this->addClassConstants($file, $elements, $index, $addToExisting, 0) ?: $content;
     }
 }

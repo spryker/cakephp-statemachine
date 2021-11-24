@@ -482,13 +482,14 @@ If no map can be found, the identifiers will be just displayed as string.
 ## Illuminator StateTask
 
 If you installed the optional [IdeHelper](https://github.com/dereuromark/cakephp-ide-helper) plugin,
-you can use its Illuminator to auto-add class constants to the handler classes for all your states.
+you can use its Illuminator to auto-add class constants to the handler classes for all your states and events.
 
-Activate the task in your config as documented in IdeHelper:
+Activate the tasks in your config as documented in IdeHelper:
 ```php
     'IdeHelper' => [
         'illuminatorTasks' => [
             \StateMachine\Illuminator\Task\StateTask::class,
+            \StateMachine\Illuminator\Task\EventTask::class,
         ],
     ],
 ```
