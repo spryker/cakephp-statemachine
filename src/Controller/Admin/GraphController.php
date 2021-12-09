@@ -77,8 +77,8 @@ class GraphController extends AppController
         }
 
         $processDto = new ProcessDto();
-        $processDto->setStateMachineName($stateMachine);
-        $processDto->setProcessName($processName);
+        $processDto->setStateMachineNameOrFail($stateMachine);
+        $processDto->setProcessNameOrFail($processName);
 
         $process = $this->getFactory()
             ->createStateMachineBuilder()

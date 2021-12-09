@@ -288,8 +288,8 @@ class Finder implements FinderInterface
     protected function createProcessDto(string $stateMachineName, string $processName): ProcessDto
     {
         $processDto = new ProcessDto();
-        $processDto->setStateMachineName($stateMachineName);
-        $processDto->setProcessName($processName);
+        $processDto->setStateMachineNameOrFail($stateMachineName);
+        $processDto->setProcessNameOrFail($processName);
 
         return $processDto;
     }

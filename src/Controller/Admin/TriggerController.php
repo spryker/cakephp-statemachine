@@ -96,8 +96,8 @@ class TriggerController extends AppController
         $processName = $this->castString($this->request->getQuery(self::URL_PARAM_PROCESS));
 
         $processDto = new ProcessDto();
-        $processDto->setProcessName($processName);
-        $processDto->setStateMachineName($stateMachineName);
+        $processDto->setProcessNameOrFail($processName);
+        $processDto->setStateMachineNameOrFail($stateMachineName);
 
         $identifier = $this->castInt($this->request->getQuery(static::URL_PARAM_IDENTIFIER));
         $catchException = $this->assertBool($this->request->getQuery(static::URL_PARAM_CATCH));
