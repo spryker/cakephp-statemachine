@@ -212,6 +212,20 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	}
 
 	/**
+	 * @param int $identifier
+	 *
+	 * @throws \RuntimeException If value is not present.
+	 *
+	 * @return $this
+	 */
+	public function setIdentifierOrFail(int $identifier) {
+		$this->identifier = $identifier;
+		$this->_touchedFields[self::FIELD_IDENTIFIER] = true;
+
+		return $this;
+	}
+
+	/**
 	 * @return int|null
 	 */
 	public function getIdentifier(): ?int {
@@ -244,6 +258,20 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 * @return $this
 	 */
 	public function setIdStateMachineProcess(?int $idStateMachineProcess) {
+		$this->idStateMachineProcess = $idStateMachineProcess;
+		$this->_touchedFields[self::FIELD_ID_STATE_MACHINE_PROCESS] = true;
+
+		return $this;
+	}
+
+	/**
+	 * @param int $idStateMachineProcess
+	 *
+	 * @throws \RuntimeException If value is not present.
+	 *
+	 * @return $this
+	 */
+	public function setIdStateMachineProcessOrFail(int $idStateMachineProcess) {
 		$this->idStateMachineProcess = $idStateMachineProcess;
 		$this->_touchedFields[self::FIELD_ID_STATE_MACHINE_PROCESS] = true;
 
@@ -290,6 +318,20 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	}
 
 	/**
+	 * @param int $idItemState
+	 *
+	 * @throws \RuntimeException If value is not present.
+	 *
+	 * @return $this
+	 */
+	public function setIdItemStateOrFail(int $idItemState) {
+		$this->idItemState = $idItemState;
+		$this->_touchedFields[self::FIELD_ID_ITEM_STATE] = true;
+
+		return $this;
+	}
+
+	/**
 	 * @return int|null
 	 */
 	public function getIdItemState(): ?int {
@@ -322,6 +364,20 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 * @return $this
 	 */
 	public function setProcessName(?string $processName) {
+		$this->processName = $processName;
+		$this->_touchedFields[self::FIELD_PROCESS_NAME] = true;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $processName
+	 *
+	 * @throws \RuntimeException If value is not present.
+	 *
+	 * @return $this
+	 */
+	public function setProcessNameOrFail(string $processName) {
 		$this->processName = $processName;
 		$this->_touchedFields[self::FIELD_PROCESS_NAME] = true;
 
@@ -368,6 +424,20 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	}
 
 	/**
+	 * @param string $stateMachineName
+	 *
+	 * @throws \RuntimeException If value is not present.
+	 *
+	 * @return $this
+	 */
+	public function setStateMachineNameOrFail(string $stateMachineName) {
+		$this->stateMachineName = $stateMachineName;
+		$this->_touchedFields[self::FIELD_STATE_MACHINE_NAME] = true;
+
+		return $this;
+	}
+
+	/**
 	 * @return string|null
 	 */
 	public function getStateMachineName(): ?string {
@@ -400,6 +470,20 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 * @return $this
 	 */
 	public function setStateName(?string $stateName) {
+		$this->stateName = $stateName;
+		$this->_touchedFields[self::FIELD_STATE_NAME] = true;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $stateName
+	 *
+	 * @throws \RuntimeException If value is not present.
+	 *
+	 * @return $this
+	 */
+	public function setStateNameOrFail(string $stateName) {
 		$this->stateName = $stateName;
 		$this->_touchedFields[self::FIELD_STATE_NAME] = true;
 
@@ -446,6 +530,20 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	}
 
 	/**
+	 * @param string $eventName
+	 *
+	 * @throws \RuntimeException If value is not present.
+	 *
+	 * @return $this
+	 */
+	public function setEventNameOrFail(string $eventName) {
+		$this->eventName = $eventName;
+		$this->_touchedFields[self::FIELD_EVENT_NAME] = true;
+
+		return $this;
+	}
+
+	/**
 	 * @return string|null
 	 */
 	public function getEventName(): ?string {
@@ -478,6 +576,20 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 * @return $this
 	 */
 	public function setCreatedAt(?string $createdAt) {
+		$this->createdAt = $createdAt;
+		$this->_touchedFields[self::FIELD_CREATED_AT] = true;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $createdAt
+	 *
+	 * @throws \RuntimeException If value is not present.
+	 *
+	 * @return $this
+	 */
+	public function setCreatedAtOrFail(string $createdAt) {
 		$this->createdAt = $createdAt;
 		$this->_touchedFields[self::FIELD_CREATED_AT] = true;
 

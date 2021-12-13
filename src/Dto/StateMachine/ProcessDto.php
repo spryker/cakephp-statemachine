@@ -86,6 +86,20 @@ class ProcessDto extends \CakeDto\Dto\AbstractDto {
 	}
 
 	/**
+	 * @param string $processName
+	 *
+	 * @throws \RuntimeException If value is not present.
+	 *
+	 * @return $this
+	 */
+	public function setProcessNameOrFail(string $processName) {
+		$this->processName = $processName;
+		$this->_touchedFields[self::FIELD_PROCESS_NAME] = true;
+
+		return $this;
+	}
+
+	/**
 	 * @return string|null
 	 */
 	public function getProcessName(): ?string {
@@ -118,6 +132,20 @@ class ProcessDto extends \CakeDto\Dto\AbstractDto {
 	 * @return $this
 	 */
 	public function setStateMachineName(?string $stateMachineName) {
+		$this->stateMachineName = $stateMachineName;
+		$this->_touchedFields[self::FIELD_STATE_MACHINE_NAME] = true;
+
+		return $this;
+	}
+
+	/**
+	 * @param string $stateMachineName
+	 *
+	 * @throws \RuntimeException If value is not present.
+	 *
+	 * @return $this
+	 */
+	public function setStateMachineNameOrFail(string $stateMachineName) {
 		$this->stateMachineName = $stateMachineName;
 		$this->_touchedFields[self::FIELD_STATE_MACHINE_NAME] = true;
 
