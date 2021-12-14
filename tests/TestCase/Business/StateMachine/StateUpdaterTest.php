@@ -214,6 +214,15 @@ class StateUpdaterTest extends TestCase
     {
         $items = [];
 
+        $StateMachineItemStates = $this->getTableLocator()->get('StateMachine.StateMachineItemStates');
+        $data = [
+            'state_machine_process_id' => 1,
+            'name' => 'x',
+            'description' => 'Lorem ipsum dolor sit amet',
+        ];
+        $stateMachineItemState = $StateMachineItemStates->newEntity($data);
+        $StateMachineItemStates->saveOrFail($stateMachineItemState);
+
         $itemDto = new ItemDto();
         $itemDto->setProcessName('Test');
         $itemDto->setIdentifier('1');
@@ -221,6 +230,14 @@ class StateUpdaterTest extends TestCase
         $itemDto->setStateMachineName(static::TEST_STATE_MACHINE_NAME);
         $itemDto->setIdItemState(1);
         $items[] = $itemDto;
+
+        $data = [
+            'state_machine_process_id' => 1,
+            'name' => 'y',
+            'description' => 'Lorem ipsum dolor sit amet',
+        ];
+        $stateMachineItemState = $StateMachineItemStates->newEntity($data);
+        $StateMachineItemStates->saveOrFail($stateMachineItemState);
 
         $itemDto = new ItemDto();
         $itemDto->setProcessName('Test');
