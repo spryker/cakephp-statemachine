@@ -18,6 +18,7 @@
     },
     "require-dev": {
         "dereuromark/cakephp-ide-helper": "^1.0",
+        "cakephp/bake": "^2.5",
         "cakephp/migrations": "^3.0",
         "phpunit/phpunit": "^9.5",
         "spryker/code-sniffer": "@stable",
