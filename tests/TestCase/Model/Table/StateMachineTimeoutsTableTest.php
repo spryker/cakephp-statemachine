@@ -72,7 +72,7 @@ class StateMachineTimeoutsTableTest extends TestCase
     public function testFind(): void
     {
         $result = $this->StateMachineTimeouts->find()->first();
-        $this->assertTrue(!empty($result));
+        $this->assertTrue((bool)$result);
         $this->assertInstanceOf(StateMachineTimeout::class, $result);
     }
 

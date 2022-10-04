@@ -46,5 +46,10 @@
         "stan-tests": "vendor/bin/phpstan analyse -c tests/phpstan.neon",
         "cs-check": "vendor/bin/phpcs --colors --ignore=/config/Migrations/,/src/Dto/,/tests/test_app/templates/ src/ tests/ config/",
         "cs-fix": "vendor/bin/phpcbf --colors --ignore=/config/Migrations/,/src/Dto/,/tests/test_app/templates/ src/ tests/ config/"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

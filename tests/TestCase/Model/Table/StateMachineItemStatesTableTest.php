@@ -72,7 +72,7 @@ class StateMachineItemStatesTableTest extends TestCase
     public function testFind(): void
     {
         $result = $this->StateMachineItemStates->find()->first();
-        $this->assertTrue(!empty($result));
+        $this->assertTrue((bool)$result);
         $this->assertInstanceOf(StateMachineItemState::class, $result);
     }
 

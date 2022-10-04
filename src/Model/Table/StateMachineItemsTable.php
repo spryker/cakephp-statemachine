@@ -25,10 +25,10 @@ use Tools\Model\Table\Table;
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @property \StateMachine\Model\Table\StateMachineTransitionLogsTable&\Cake\ORM\Association\BelongsTo $StateMachineTransitionLogs
  * @method \StateMachine\Model\Entity\StateMachineItem newEmptyEntity()
- * @method \StateMachine\Model\Entity\StateMachineItem[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItem[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItem[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItem[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItem>|false saveMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItem> saveManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItem>|false deleteMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItem> deleteManyOrFail(iterable $entities, $options = [])
  */
 class StateMachineItemsTable extends Table
 {

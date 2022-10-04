@@ -70,7 +70,7 @@ class StateMachineTransitionLogsTableTest extends TestCase
     public function testFind(): void
     {
         $result = $this->StateMachineTransitionLogs->find()->first();
-        $this->assertTrue(!empty($result));
+        $this->assertTrue((bool)$result);
         $this->assertInstanceOf(StateMachineTransitionLog::class, $result);
     }
 

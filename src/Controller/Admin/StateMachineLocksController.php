@@ -13,7 +13,7 @@ use Cake\Http\Response;
 /**
  * @property \StateMachine\Model\Table\StateMachineLocksTable $StateMachineLocks
  *
- * @method \StateMachine\Model\Entity\StateMachineLock[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineLock> paginate($object = null, array $settings = [])
  */
 class StateMachineLocksController extends AppController
 {

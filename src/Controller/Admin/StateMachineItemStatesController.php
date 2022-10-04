@@ -13,7 +13,7 @@ use Cake\Http\Response;
 /**
  * @property \StateMachine\Model\Table\StateMachineItemStatesTable $StateMachineItemStates
  *
- * @method \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItemState> paginate($object = null, array $settings = [])
  */
 class StateMachineItemStatesController extends AppController
 {

@@ -363,11 +363,11 @@ class Finder implements FinderInterface
      * @param \StateMachine\Dto\StateMachine\ProcessDto $processDto
      * @param array $statesByFlag
      *
-     * @return \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\ORM\ResultSet
+     * @return \Cake\ORM\ResultSet<\StateMachine\Model\Entity\StateMachineItemState>
      */
     protected function getFlaggedStateMachineItems(ProcessDto $processDto, array $statesByFlag): ResultSet
     {
-        /** @var \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\ORM\ResultSet $itemStateCollection */
+        /** @var \Cake\ORM\ResultSet<\StateMachine\Model\Entity\StateMachineItemState> $itemStateCollection */
         $itemStateCollection = $this->queryContainer->queryItemsByIdStateMachineProcessAndItemStates(
             $processDto->getStateMachineNameOrFail(),
             $processDto->getProcessNameOrFail(),
