@@ -14,6 +14,5 @@ class FooBarBazCondition implements StateMachineConditionInterface
     public function check(ItemDto $itemDto): bool
     {
         // TODO: Implement check() method.
-        return true;
     }
 }
