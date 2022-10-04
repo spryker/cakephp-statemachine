@@ -1,12 +1,11 @@
 parameters:
     level: 1
     paths:
-        - tests/
+        - %rootDir%/../../../tests/
 
     bootstrapFiles:
         - %rootDir%/../../../tests/bootstrap.php
-    excludes_analyse:
+    excludePaths:
         - %rootDir%/../../../../src/Transfer/*
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
-    ignoreErrors:
