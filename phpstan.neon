@@ -5,8 +5,9 @@ parameters:
 
     bootstrapFiles:
         - %rootDir%/../../../tests/bootstrap.php
+        - %rootDir%/../../../tests/shim.php
     excludePaths:
-        - %rootDir%/../../../../src/Transfer/*
+        - %rootDir%/../../../src/Transfer/*
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
@@ -14,3 +15,4 @@ parameters:
         - '#Method .+::.+Table\(\) should return .+Table but returns Cake\\ORM\\Table.#'
         - '#Offset .+ does not exist on SimpleXMLElement\|null.#'
         - '#SimpleXMLElement.* does not accept string.#'
+        - '#Parameter \#1 \$length of function random_bytes expects int<1, max>, int given.#'

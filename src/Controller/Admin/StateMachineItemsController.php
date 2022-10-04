@@ -17,7 +17,7 @@ use StateMachine\Dto\StateMachine\ItemDto;
  *
  * @property \StateMachine\Model\Table\StateMachineItemsTable $StateMachineItems
  *
- * @method \StateMachine\Model\Entity\StateMachineItem[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItem> paginate($object = null, array $settings = [])
  */
 class StateMachineItemsController extends AppController
 {

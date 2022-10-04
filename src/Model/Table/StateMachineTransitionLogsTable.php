@@ -32,10 +32,10 @@ use Tools\Model\Table\Table;
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTransitionLog newEmptyEntity()
- * @method \StateMachine\Model\Entity\StateMachineTransitionLog[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTransitionLog[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTransitionLog[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTransitionLog[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineTransitionLog>|false saveMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineTransitionLog> saveManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineTransitionLog>|false deleteMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineTransitionLog> deleteManyOrFail(iterable $entities, $options = [])
  */
 class StateMachineTransitionLogsTable extends Table
 {

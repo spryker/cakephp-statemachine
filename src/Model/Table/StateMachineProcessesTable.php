@@ -28,10 +28,10 @@ use Tools\Model\Table\Table;
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \StateMachine\Model\Entity\StateMachineProcess saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineProcess newEmptyEntity()
- * @method \StateMachine\Model\Entity\StateMachineProcess[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineProcess[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineProcess[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineProcess[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineProcess>|false saveMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineProcess> saveManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineProcess>|false deleteMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineProcess> deleteManyOrFail(iterable $entities, $options = [])
  */
 class StateMachineProcessesTable extends Table
 {

@@ -24,10 +24,10 @@ use Tools\Model\Table\Table;
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \StateMachine\Model\Entity\StateMachineLock newEmptyEntity()
- * @method \StateMachine\Model\Entity\StateMachineLock[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineLock[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineLock[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineLock[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineLock>|false saveMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineLock> saveManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineLock>|false deleteMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineLock> deleteManyOrFail(iterable $entities, $options = [])
  */
 class StateMachineLocksTable extends Table
 {

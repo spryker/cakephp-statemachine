@@ -419,7 +419,7 @@ class Drawer implements DrawerInterface
      */
     protected function addEdgeElse(array $label): string
     {
-        if (!empty($label)) {
+        if ($label) {
             $label = implode($this->brLeft, $label);
         } else {
             $label = 'else';

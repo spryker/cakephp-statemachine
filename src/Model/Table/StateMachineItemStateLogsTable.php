@@ -26,10 +26,10 @@ use Tools\Model\Table\Table;
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  * @method \StateMachine\Model\Entity\StateMachineItemStateLog saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemStateLog newEmptyEntity()
- * @method \StateMachine\Model\Entity\StateMachineItemStateLog[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateLog[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateLog[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemStateLog[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItemStateLog>|false saveMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItemStateLog> saveManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItemStateLog>|false deleteMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItemStateLog> deleteManyOrFail(iterable $entities, $options = [])
  */
 class StateMachineItemStateLogsTable extends Table
 {

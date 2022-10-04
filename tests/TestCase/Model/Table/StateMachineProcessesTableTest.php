@@ -72,7 +72,7 @@ class StateMachineProcessesTableTest extends TestCase
     public function testFind(): void
     {
         $result = $this->StateMachineProcesses->find()->first();
-        $this->assertTrue(!empty($result));
+        $this->assertTrue((bool)$result);
         $this->assertInstanceOf(StateMachineProcess::class, $result);
     }
 

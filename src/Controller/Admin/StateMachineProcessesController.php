@@ -13,7 +13,7 @@ use Cake\Http\Response;
 /**
  * @property \StateMachine\Model\Table\StateMachineProcessesTable $StateMachineProcesses
  *
- * @method \StateMachine\Model\Entity\StateMachineProcess[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineProcess> paginate($object = null, array $settings = [])
  */
 class StateMachineProcessesController extends AppController
 {

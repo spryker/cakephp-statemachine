@@ -27,10 +27,10 @@ use Tools\Model\Table\Table;
  * @method \StateMachine\Model\Entity\StateMachineItemState findOrCreate($search, ?callable $callback = null, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemState saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineItemState newEmptyEntity()
- * @method \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineItemState[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItemState>|false saveMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItemState> saveManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItemState>|false deleteMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItemState> deleteManyOrFail(iterable $entities, $options = [])
  */
 class StateMachineItemStatesTable extends Table
 {

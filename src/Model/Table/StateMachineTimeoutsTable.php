@@ -26,10 +26,10 @@ use Tools\Model\Table\Table;
  * @method \StateMachine\Model\Entity\StateMachineTimeout findOrCreate($search, ?callable $callback = null, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTimeout saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
  * @method \StateMachine\Model\Entity\StateMachineTimeout newEmptyEntity()
- * @method \StateMachine\Model\Entity\StateMachineTimeout[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTimeout[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTimeout[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \StateMachine\Model\Entity\StateMachineTimeout[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineTimeout>|false saveMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineTimeout> saveManyOrFail(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineTimeout>|false deleteMany(iterable $entities, $options = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineTimeout> deleteManyOrFail(iterable $entities, $options = [])
  */
 class StateMachineTimeoutsTable extends Table
 {

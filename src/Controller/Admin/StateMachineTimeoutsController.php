@@ -13,7 +13,7 @@ use Cake\Http\Response;
 /**
  * @property \StateMachine\Model\Table\StateMachineTimeoutsTable $StateMachineTimeouts
  *
- * @method \StateMachine\Model\Entity\StateMachineTimeout[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineTimeout> paginate($object = null, array $settings = [])
  */
 class StateMachineTimeoutsController extends AppController
 {
