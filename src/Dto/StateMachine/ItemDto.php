@@ -72,7 +72,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	 * Some data is only for debugging for now.
 	 *
-	 * @var array
+	 * @var array<string, array<string, mixed>>
 	 */
 	protected $_metadata = [
 		'identifier' => [
@@ -174,7 +174,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	];
 
 	/**
-	* @var array
+	* @var array<string, array<string, string>>
 	*/
 	protected $_keyMap = [
 		'underscored' => [

@@ -16,3 +16,4 @@ parameters:
         - '#Offset .+ does not exist on SimpleXMLElement\|null.#'
         - '#SimpleXMLElement.* does not accept string.#'
         - '#Parameter \#1 \$length of function random_bytes expects int<1, max>, int given.#'
+        - '#Dead catch - Cake\\ORM\\Exception\\PersistenceFailedException is never thrown in the try block.#'
