@@ -48,6 +48,7 @@ class StateMachineInit extends AbstractMigration
                 'default' => null,
                 'limit' => 11,
                 'null' => false,
+                'signed' => false,
             ])
             ->addColumn('name', 'string', [
                 'default' => null,
@@ -70,6 +71,7 @@ class StateMachineInit extends AbstractMigration
                 'default' => null,
                 'limit' => 11,
                 'null' => false,
+                'signed' => false,
             ])
             ->addColumn('identifier', 'integer', [
                 'default' => null,
@@ -92,11 +94,13 @@ class StateMachineInit extends AbstractMigration
                 'default' => null,
                 'limit' => 11,
                 'null' => false,
+                'signed' => false,
             ])
             ->addColumn('state_machine_item_id', 'integer', [
                 'default' => null,
                 'limit' => 11,
                 'null' => false,
+                'signed' => false,
             ])
             ->addColumn('identifier', 'integer', [
                 'default' => null,
@@ -160,11 +164,13 @@ class StateMachineInit extends AbstractMigration
                 'default' => null,
                 'limit' => 11,
                 'null' => false,
+                'signed' => false,
             ])
             ->addColumn('state_machine_process_id', 'integer', [
                 'default' => null,
                 'limit' => 11,
                 'null' => false,
+                'signed' => false,
             ])
             ->addColumn('identifier', 'integer', [
                 'default' => null,
@@ -235,6 +241,7 @@ class StateMachineInit extends AbstractMigration
                 'default' => null,
                 'limit' => 11,
                 'null' => true,
+                'signed' => false,
             ])
             ->create();
 
