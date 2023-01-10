@@ -4,10 +4,14 @@
     <arg name="tab-width" value="4"/>
     <arg value="nps"/>
 
-    <rule ref="vendor/spryker/code-sniffer/Spryker/ruleset.xml"/>
     <file>src/</file>
     <file>config/</file>
     <file>tests/</file>
+
+    <exclude-pattern>/src/Dto/</exclude-pattern>
+    <exclude-pattern>/tests/test_app/templates/</exclude-pattern>
+
+    <rule ref="vendor/spryker/code-sniffer/Spryker/ruleset.xml"/>
 
     <!-- Too soon
     <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes"/>
@@ -18,6 +22,13 @@
     </rule>
     <rule ref="PSR2.Classes.PropertyDeclaration.Underscore">
         <severity>0</severity>
+    </rule>
+
+    <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+        <exclude-pattern>*/config/Migrations/*</exclude-pattern>
+    </rule>
+    <rule ref="Spryker.Classes.ClassFileName.NoMatch">
+        <exclude-pattern>*/config/Migrations/*</exclude-pattern>
     </rule>
 
 </ruleset>

@@ -3,7 +3,7 @@
 [![CI](https://github.com/spryker/cakephp-statemachine/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/spryker/cakephp-statemachine/actions/workflows/ci.yml)
 [![PHPStan level](https://img.shields.io/badge/style-level%208-brightgreen.svg?style=flat-square&label=phpstan)](https://github.com/phpstan/phpstan)
 [![Latest Stable Version](https://poser.pugx.org/spryker/cakephp-statemachine/v/stable.svg)](https://packagist.org/spryker/dereuromark/cakephp-statemachine)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg)](https://php.net/)
 
 StateMachine engine for CakePHP applications.
 
