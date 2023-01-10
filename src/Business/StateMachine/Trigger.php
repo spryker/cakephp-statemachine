@@ -49,7 +49,7 @@ class Trigger implements TriggerInterface
     /**
      * @var array
      */
-    protected $eventCounter = [];
+    protected array $eventCounter = [];
 
     /**
      * @var \StateMachine\Business\StateMachine\ConditionInterface

@@ -7,7 +7,7 @@
 
 namespace StateMachine\Business\StateMachine;
 
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use StateMachine\Business\Exception\StateMachineException;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Dto\StateMachine\ProcessDto;
@@ -26,7 +26,7 @@ class Persistence implements PersistenceInterface
     /**
      * @var array<\StateMachine\Model\Entity\StateMachineProcess>
      */
-    protected $processEntityBuffer = [];
+    protected array $processEntityBuffer = [];
 
     /**
      * @var array<\StateMachine\Model\Entity\StateMachineItemState>
@@ -349,7 +349,7 @@ class Persistence implements PersistenceInterface
         /** @var array<\StateMachine\Model\Entity\StateMachineTimeout> $stateMachineExpiredItems */
         $stateMachineExpiredItems = $this->stateMachineQueryContainer
             ->queryItemsWithExpiredTimeout(
-                new FrozenTime('now'),
+                new DateTime('now'),
                 $stateMachineName,
             )->all();
 
@@ -376,14 +376,14 @@ class Persistence implements PersistenceInterface
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
-     * @param \Cake\I18n\FrozenTime $timeoutDate
+     * @param \Cake\I18n\DateTime $timeoutDate
      * @param string $eventName
      *
      * @return \StateMachine\Model\Entity\StateMachineTimeout
      */
     public function saveStateMachineItemTimeout(
         ItemDto $itemDto,
-        FrozenTime $timeoutDate,
+        DateTime $timeoutDate,
         string $eventName
     ): StateMachineTimeout {
         $stateMachineItemTimeoutEntity = $this->stateMachineTimeoutsTable->newEmptyEntity();

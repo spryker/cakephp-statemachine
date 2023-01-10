@@ -48,7 +48,7 @@ class Drawer implements DrawerInterface
     /**
      * @var array
      */
-    protected $attributesProcess = [
+    protected array $attributesProcess = [
         'fontname' => 'Verdana',
         'fillcolor' => '#cfcfcf',
         'style' => 'filled',
@@ -60,7 +60,7 @@ class Drawer implements DrawerInterface
     /**
      * @var array
      */
-    protected $attributesState = [
+    protected array $attributesState = [
         'fontname' => 'Verdana',
         'fontsize' => 14,
         'style' => 'filled',
@@ -70,7 +70,7 @@ class Drawer implements DrawerInterface
     /**
      * @var array
      */
-    protected $attributesDiamond = [
+    protected array $attributesDiamond = [
         'fontname' => 'Verdana',
         'label' => '?',
         'shape' => 'diamond',
@@ -83,7 +83,7 @@ class Drawer implements DrawerInterface
     /**
      * @var array
      */
-    protected $attributesTransition = [
+    protected array $attributesTransition = [
         'fontname' => 'Verdana',
         'fontsize' => 12,
     ];

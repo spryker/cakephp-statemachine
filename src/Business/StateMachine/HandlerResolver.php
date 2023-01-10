@@ -15,7 +15,7 @@ class HandlerResolver implements HandlerResolverInterface
     /**
      * @var array<\StateMachine\Dependency\StateMachineHandlerInterface>
      */
-    protected $handlers = [];
+    protected array $handlers = [];
 
     /**
      * @param array<\StateMachine\Dependency\StateMachineHandlerInterface> $handlers

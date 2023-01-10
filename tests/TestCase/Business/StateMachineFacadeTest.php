@@ -8,7 +8,7 @@
 namespace StateMachine\Test\TestCase\Business\Business;
 
 use Cake\Core\Configure;
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use InvalidArgumentException;
@@ -85,7 +85,7 @@ class StateMachineFacadeTest extends TestCase
     /**
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'plugin.StateMachine.StateMachineItemStateLogs',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItemStates',
@@ -744,7 +744,7 @@ class StateMachineFacadeTest extends TestCase
             ])
             ->first();
 
-        $stateMachineItemEventTimeoutEntity->timeout = new FrozenTime('1985-07-01');
+        $stateMachineItemEventTimeoutEntity->timeout = new DateTime('1985-07-01');
         $this->StateMachineTimeouts->saveOrFail($stateMachineItemEventTimeoutEntity);
 
         $affectedItems = $stateMachineFacade->checkTimeouts(static::TESTING_SM);

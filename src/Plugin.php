@@ -18,24 +18,19 @@ use StateMachine\Shell\StateMachineShell;
 class Plugin extends BasePlugin
 {
     /**
-     * @var string
+     * @var bool
      */
-    protected $name = 'StateMachine';
+    protected bool $middlewareEnabled = false;
 
     /**
      * @var bool
      */
-    protected $middlewareEnabled = false;
-
-    /**
-     * @var bool
-     */
-    protected $bootstrapEnabled = false;
+    protected bool $bootstrapEnabled = false;
 
     /**
      * @var array<string>
      */
-    protected $stateMachineCommandsList = [
+    protected array $stateMachineCommandsList = [
         StateMachineShell::class,
     ];
 

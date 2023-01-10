@@ -100,3 +100,8 @@ Cake\Datasource\ConnectionManager::setConfig('test_database_log', [
     'quoteIdentifiers' => true,
     'cacheMetadata' => true,
 ]);
+
+if (env('FIXTURE_SCHEMA_METADATA')) {
+    $loader = new Cake\TestSuite\Fixture\SchemaLoader();
+    $loader->loadInternalFile(env('FIXTURE_SCHEMA_METADATA'));
+}

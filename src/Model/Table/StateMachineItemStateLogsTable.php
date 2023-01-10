@@ -67,7 +67,7 @@ class StateMachineItemStateLogsTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id');
+            ->allowEmptyString('id');
 
         $validator
             ->scalar('identifier')

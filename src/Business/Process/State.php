@@ -29,17 +29,17 @@ class State implements StateInterface
     /**
      * @var array
      */
-    protected $flags = [];
+    protected array $flags = [];
 
     /**
      * @var array<\StateMachine\Business\Process\TransitionInterface>
      */
-    protected $outgoingTransitions = [];
+    protected array $outgoingTransitions = [];
 
     /**
      * @var array<\StateMachine\Business\Process\TransitionInterface>
      */
-    protected $incomingTransitions = [];
+    protected array $incomingTransitions = [];
 
     /**
      * @param array<\StateMachine\Business\Process\TransitionInterface> $incomingTransitions

@@ -32,8 +32,8 @@
                 <td><?= $this->Time->nice($stateMachineProcess->created) ?></td>
                 <td><?= $this->Time->nice($stateMachineProcess->modified) ?></td>
                 <td class="actions">
-                <?= $this->Html->link($this->Format->icon('view'), ['action' => 'view', $stateMachineProcess->id], ['escapeTitle' => false]); ?>
-                <?= $this->Form->postLink($this->Format->icon('delete'), ['action' => 'delete', $stateMachineProcess->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineProcess->id)]); ?>
+                <?= $this->Html->link($this->Icon->render('view'), ['action' => 'view', $stateMachineProcess->id], ['escapeTitle' => false]); ?>
+                <?= $this->Form->postLink($this->Icon->render('delete'), ['action' => 'delete', $stateMachineProcess->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineProcess->id)]); ?>
                 </td>
             </tr>
             <?php endforeach; ?>

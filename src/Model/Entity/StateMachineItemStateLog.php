@@ -15,7 +15,7 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property int $state_machine_item_state_id
  * @property int $identifier
- * @property \Cake\I18n\FrozenTime|null $created
+ * @property \Cake\I18n\DateTime|null $created
  *
  * @property \StateMachine\Model\Entity\StateMachineItemState $state_machine_item_state
  */
@@ -30,7 +30,7 @@ class StateMachineItemStateLog extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'state_machine_item_state_id' => true,
         'identifier' => true,
         'created' => true,

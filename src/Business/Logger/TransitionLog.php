@@ -267,7 +267,7 @@ class TransitionLog implements TransitionLogInterface
      */
     protected function initStateMachineItemEntity(ItemDto $itemDto): StateMachineItem
     {
-        $stateMachineItemsTable = TableRegistry::get('StateMachine.StateMachineItems');
+        $stateMachineItemsTable = TableRegistry::getTableLocator()->get('StateMachine.StateMachineItems');
 
         /** @var \StateMachine\Model\Entity\StateMachineItem $stateMachineItem */
         $stateMachineItem = $stateMachineItemsTable->findOrCreate([

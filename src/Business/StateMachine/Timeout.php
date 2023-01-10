@@ -10,7 +10,7 @@ namespace StateMachine\Business\StateMachine;
 use Cake\Core\Configure;
 use Cake\Core\Exception\CakeException;
 use Cake\Event\EventDispatcherTrait;
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use DateInterval;
 use StateMachine\Business\Exception\StateMachineException;
 use StateMachine\Business\Logger\TransitionLogInterface;
@@ -24,14 +24,14 @@ class Timeout implements TimeoutInterface
     use EventDispatcherTrait;
 
     /**
-     * @var array<\Cake\I18n\FrozenTime>
+     * @var array<\Cake\I18n\DateTime>
      */
-    protected $eventToTimeoutBuffer = [];
+    protected array $eventToTimeoutBuffer = [];
 
     /**
      * @var array<\StateMachine\Business\Process\StateInterface>
      */
-    protected $stateIdToModelBuffer = [];
+    protected array $stateIdToModelBuffer = [];
 
     /**
      * @var \StateMachine\Business\StateMachine\PersistenceInterface
@@ -68,7 +68,7 @@ class Timeout implements TimeoutInterface
 
         $events = $targetState->getTimeoutEvents();
         $handledEvents = [];
-        $currentTime = new FrozenTime('now');
+        $currentTime = new DateTime('now');
         foreach ($events as $event) {
             if (in_array($event->getName(), $handledEvents, true)) {
                 continue;
@@ -105,14 +105,14 @@ class Timeout implements TimeoutInterface
     }
 
     /**
-     * @param \Cake\I18n\FrozenTime $currentTime
+     * @param \Cake\I18n\DateTime $currentTime
      * @param \StateMachine\Business\Process\EventInterface $event
      *
      * @throws \Cake\Core\Exception\CakeException
      *
-     * @return \Cake\I18n\FrozenTime
+     * @return \Cake\I18n\DateTime
      */
-    protected function calculateTimeoutDateFromEvent(FrozenTime $currentTime, EventInterface $event): FrozenTime
+    protected function calculateTimeoutDateFromEvent(DateTime $currentTime, EventInterface $event): DateTime
     {
         if (!isset($this->eventToTimeoutBuffer[$event->getName()])) {
             $timeout = $event->getTimeout();

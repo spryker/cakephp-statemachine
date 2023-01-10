@@ -73,7 +73,7 @@ class StateMachineTransitionLogsTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id');
+            ->allowEmptyString('id');
 
         $validator
             ->scalar('identifier')
@@ -84,7 +84,7 @@ class StateMachineTransitionLogsTable extends Table
         $validator
             ->boolean('locked')
             ->requirePresence('locked', 'create')
-            ->notEmpty('locked');
+            ->allowEmptyString('locked');
 
         $validator
             ->scalar('event')
@@ -94,7 +94,7 @@ class StateMachineTransitionLogsTable extends Table
         $validator
             ->scalar('params')
             //->maxLength('params')
-            ->allowEmpty('params');
+            ->allowEmptyString('params');
 
         $validator
             ->scalar('source_state')
@@ -119,7 +119,7 @@ class StateMachineTransitionLogsTable extends Table
         $validator
             ->boolean('is_error')
             ->requirePresence('is_error', 'create')
-            ->notEmpty('is_error');
+            ->notEmptyString('is_error');
 
         $validator
             ->scalar('error_message')
@@ -165,7 +165,7 @@ class StateMachineTransitionLogsTable extends Table
             $fields['state'] = $entity->target_state;
         }
 
-        $stateMachineItemsTable = TableRegistry::get('StateMachine.StateMachineItems');
+        $stateMachineItemsTable = TableRegistry::getTableLocator()->get('StateMachine.StateMachineItems');
         if (!$stateMachineItemsTable->updateAll($fields, ['id' => $id])) {
             throw new RuntimeException('Could not update row, StateMachineItem not found: ' . $id);
         }

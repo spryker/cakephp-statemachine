@@ -12,18 +12,11 @@ use Cake\TestSuite\Fixture\TestFixture;
 class StateMachineItemStateLogsFixture extends TestFixture
 {
     /**
-     * Table name
-     *
-     * @var string
-     */
-    public $table = 'state_machine_item_state_logs';
-
-    /**
      * Fields
      *
      * @var array
      */
-    public $fields = [
+    public array $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'state_machine_item_state_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'identifier' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],

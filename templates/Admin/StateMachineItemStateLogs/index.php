@@ -28,8 +28,8 @@
                 <td><?= h($stateMachineItemStateLog->identifier) ?></td>
                 <td><?= $this->Time->nice($stateMachineItemStateLog->created) ?></td>
                 <td class="actions">
-                <?= $this->Html->link($this->Format->icon('view'), ['action' => 'view', $stateMachineItemStateLog->id], ['escapeTitle' => false]); ?>
-                <?= $this->Form->postLink($this->Format->icon('delete'), ['action' => 'delete', $stateMachineItemStateLog->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItemStateLog->id)]); ?>
+                <?= $this->Html->link($this->Icon->render('view'), ['action' => 'view', $stateMachineItemStateLog->id], ['escapeTitle' => false]); ?>
+                <?= $this->Form->postLink($this->Icon->render('delete'), ['action' => 'delete', $stateMachineItemStateLog->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItemStateLog->id)]); ?>
                 </td>
             </tr>
             <?php endforeach; ?>

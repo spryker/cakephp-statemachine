@@ -7,7 +7,7 @@
 
 namespace StateMachine\Business\StateMachine;
 
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\Dto\StateMachine\ProcessDto;
 use StateMachine\Model\Entity\StateMachineTimeout;
@@ -88,14 +88,14 @@ interface PersistenceInterface
 
     /**
      * @param \StateMachine\Dto\StateMachine\ItemDto $itemDto
-     * @param \Cake\I18n\FrozenTime $timeoutDate
+     * @param \Cake\I18n\DateTime $timeoutDate
      * @param string $eventName
      *
      * @return \StateMachine\Model\Entity\StateMachineTimeout
      */
     public function saveStateMachineItemTimeout(
         ItemDto $itemDto,
-        FrozenTime $timeoutDate,
+        DateTime $timeoutDate,
         string $eventName
     ): StateMachineTimeout;
 

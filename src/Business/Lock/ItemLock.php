@@ -8,7 +8,7 @@
 namespace StateMachine\Business\Lock;
 
 use Cake\Core\Exception\CakeException;
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use Cake\ORM\Exception\PersistenceFailedException;
 use DateInterval;
 use StateMachine\Business\Exception\LockException;
@@ -97,16 +97,16 @@ class ItemLock implements ItemLockInterface
     public function clearLocks(): void
     {
         $this->queryContainer
-            ->queryLockedItemsByExpirationDate(new FrozenTime('now'))
+            ->queryLockedItemsByExpirationDate(new DateTime('now'))
             ->delete()->execute();
     }
 
     /**
      * @throws \Cake\Core\Exception\CakeException
      *
-     * @return \Cake\I18n\FrozenTime
+     * @return \Cake\I18n\DateTime
      */
-    protected function createExpirationDate(): FrozenTime
+    protected function createExpirationDate(): DateTime
     {
         $dateInterval = DateInterval::createFromDateString(
             $this->stateMachineConfig->getStateMachineItemLockExpirationInterval(),
@@ -119,7 +119,7 @@ class ItemLock implements ItemLockInterface
                 ),
             );
         }
-        $expirationDate = new FrozenTime();
+        $expirationDate = new DateTime();
         $expirationDate = $expirationDate->add($dateInterval);
 
         return $expirationDate;

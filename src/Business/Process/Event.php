@@ -19,7 +19,7 @@ class Event implements EventInterface
     /**
      * @var array<\StateMachine\Business\Process\TransitionInterface>
      */
-    protected $transitions = [];
+    protected array $transitions = [];
 
     /**
      * @var bool
