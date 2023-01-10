@@ -7,6 +7,7 @@
 
 namespace StateMachine\Business\Lock;
 
+use Cake\Core\Exception\CakeException;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\Exception\PersistenceFailedException;
 use DateInterval;
@@ -101,6 +102,8 @@ class ItemLock implements ItemLockInterface
     }
 
     /**
+     * @throws \Cake\Core\Exception\CakeException
+     *
      * @return \Cake\I18n\FrozenTime
      */
     protected function createExpirationDate(): FrozenTime
@@ -108,6 +111,14 @@ class ItemLock implements ItemLockInterface
         $dateInterval = DateInterval::createFromDateString(
             $this->stateMachineConfig->getStateMachineItemLockExpirationInterval(),
         );
+        if ($dateInterval === false) {
+            throw new CakeException(
+                sprintf(
+                    'Cannot create date from interval string `%s`',
+                    $this->stateMachineConfig->getStateMachineItemLockExpirationInterval(),
+                ),
+            );
+        }
         $expirationDate = new FrozenTime();
         $expirationDate = $expirationDate->add($dateInterval);
 

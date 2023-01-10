@@ -12,7 +12,7 @@ use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use StateMachine\Controller\CastTrait;
 use StateMachine\FactoryTrait;
-use Tools\Model\Table\Table;
+use StateMachine\Model\Table\Table;
 
 /**
  * @property \Cake\ORM\Table $StateMachine
@@ -120,7 +120,7 @@ class StateMachineController extends AppController
     /**
      * @param string $table
      *
-     * @return \Tools\Model\Table\Table
+     * @return \StateMachine\Model\Table\Table
      */
     protected function getTable(string $table): Table
     {

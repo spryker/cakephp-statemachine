@@ -10,7 +10,6 @@ namespace StateMachine\Model\Table;
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
 use StateMachine\Model\Entity\StateMachineItem;
-use Tools\Model\Table\Table;
 
 /**
  * @property \StateMachine\Model\Table\StateMachineItemStatesTable&\Cake\ORM\Association\BelongsTo $StateMachineItemStates

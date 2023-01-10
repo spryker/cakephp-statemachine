@@ -8,6 +8,7 @@
 namespace StateMachine\Business\StateMachine;
 
 use Cake\Core\Configure;
+use Cake\Core\Exception\CakeException;
 use Cake\Event\EventDispatcherTrait;
 use Cake\I18n\FrozenTime;
 use DateInterval;
@@ -107,6 +108,8 @@ class Timeout implements TimeoutInterface
      * @param \Cake\I18n\FrozenTime $currentTime
      * @param \StateMachine\Business\Process\EventInterface $event
      *
+     * @throws \Cake\Core\Exception\CakeException
+     *
      * @return \Cake\I18n\FrozenTime
      */
     protected function calculateTimeoutDateFromEvent(FrozenTime $currentTime, EventInterface $event): FrozenTime
@@ -114,6 +117,11 @@ class Timeout implements TimeoutInterface
         if (!isset($this->eventToTimeoutBuffer[$event->getName()])) {
             $timeout = $event->getTimeout();
             $interval = DateInterval::createFromDateString($timeout);
+            if ($interval === false) {
+                throw new CakeException(
+                    sprintf('Cannot create date from interval string `%s`', $timeout),
+                );
+            }
 
             $this->validateTimeout($interval, $timeout);
 
