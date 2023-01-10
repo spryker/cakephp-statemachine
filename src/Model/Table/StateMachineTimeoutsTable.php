@@ -9,7 +9,6 @@ namespace StateMachine\Model\Table;
 
 use Cake\ORM\RulesChecker;
 use Cake\Validation\Validator;
-use Tools\Model\Table\Table;
 
 /**
  * StateMachineTimeouts Model

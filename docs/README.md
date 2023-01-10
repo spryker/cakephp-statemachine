@@ -355,11 +355,19 @@ echo $this->Html->link($image, $url, ['escapeTitle' => false, 'target' => '_blan
 
 ### Admin backend
 
-If you want to use the admin CRUD backend, make sure to load the required helpers in your AppView:
+If you want to use the admin CRUD backend, make sure to load the required plugin and its helpers:
+```
+composer require dereuromark/cakephp-tools
+```
+and
 ```php
-$this->loadHelper('Tools.Format');
+$this->loadHelper('Tools');
 ```
 
+In your AppView load the helper:
+```php
+$this->addHelper('Tools.Format');
+```
 
 ## Versioning the State Machines
 The ideal case would be that after designing your state machines and you start using them in production environment,

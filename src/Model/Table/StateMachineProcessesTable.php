@@ -8,7 +8,6 @@
 namespace StateMachine\Model\Table;
 
 use Cake\Validation\Validator;
-use Tools\Model\Table\Table;
 
 /**
  * StateMachineProcesses Model

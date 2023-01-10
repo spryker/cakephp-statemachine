@@ -7,7 +7,7 @@
 
 namespace StateMachine\Model\Entity;
 
-use Tools\Model\Entity\Entity;
+use Cake\ORM\Entity;
 
 /**
  * StateMachineTimeout Entity

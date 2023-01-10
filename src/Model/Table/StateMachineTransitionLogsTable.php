@@ -14,7 +14,6 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use RuntimeException;
-use Tools\Model\Table\Table;
 
 /**
  * StateMachineTransitionLogs Model
