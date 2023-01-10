@@ -19,12 +19,12 @@ class Process implements ProcessInterface
     /**
      * @var array<\StateMachine\Business\Process\StateInterface>
      */
-    protected $states = [];
+    protected array $states = [];
 
     /**
      * @var array<\StateMachine\Business\Process\TransitionInterface>
      */
-    protected $transitions = [];
+    protected array $transitions = [];
 
     /**
      * @var bool
@@ -39,7 +39,7 @@ class Process implements ProcessInterface
     /**
      * @var array<\StateMachine\Business\Process\ProcessInterface>
      */
-    protected $subProcesses = [];
+    protected array $subProcesses = [];
 
     /**
      * @param array<\StateMachine\Business\Process\ProcessInterface> $subProcesses

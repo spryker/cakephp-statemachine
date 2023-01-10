@@ -7,7 +7,7 @@
 
 namespace StateMachine\Test\TestCase\Model\Table;
 
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Model\Table\StateMachineLocksTable;
@@ -29,7 +29,7 @@ class StateMachineLocksTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'plugin.StateMachine.StateMachineLocks',
     ];
 
@@ -64,7 +64,7 @@ class StateMachineLocksTableTest extends TestCase
     {
         $data = [
             'identifier' => 1,
-            'expires' => new FrozenTime('+1 minute'),
+            'expires' => new DateTime('+1 minute'),
         ];
         $item = $this->StateMachineLocks->newEntity($data);
         $this->StateMachineLocks->saveOrFail($item);

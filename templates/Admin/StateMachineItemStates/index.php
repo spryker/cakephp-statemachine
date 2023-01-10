@@ -29,8 +29,8 @@
                 <td><?= h($stateMachineItemState->name) ?></td>
                 <td><?= h($stateMachineItemState->description) ?></td>
                 <td class="actions">
-                <?= $this->Html->link($this->Format->icon('view'), ['action' => 'view', $stateMachineItemState->id], ['escapeTitle' => false]); ?>
-                <?= $this->Form->postLink($this->Format->icon('delete'), ['action' => 'delete', $stateMachineItemState->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItemState->id)]); ?>
+                <?= $this->Html->link($this->Icon->render('view'), ['action' => 'view', $stateMachineItemState->id], ['escapeTitle' => false]); ?>
+                <?= $this->Form->postLink($this->Icon->render('delete'), ['action' => 'delete', $stateMachineItemState->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItemState->id)]); ?>
                 </td>
             </tr>
             <?php endforeach; ?>

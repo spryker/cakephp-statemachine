@@ -47,8 +47,8 @@
                                 <td><?= h($stateMachineItemStates->name) ?></td>
                                 <td><?= h($stateMachineItemStates->description) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link($this->Format->icon('view'), ['controller' => 'StateMachineItemStates', 'action' => 'view', $stateMachineItemStates->id], ['escapeTitle' => false]); ?>
-                    <?= $this->Form->postLink($this->Format->icon('delete'), ['controller' => 'StateMachineItemStates', 'action' => 'delete', $stateMachineItemStates->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItemStates->id)]); ?>
+                    <?= $this->Html->link($this->Icon->render('view'), ['controller' => 'StateMachineItemStates', 'action' => 'view', $stateMachineItemStates->id], ['escapeTitle' => false]); ?>
+                    <?= $this->Form->postLink($this->Icon->render('delete'), ['controller' => 'StateMachineItemStates', 'action' => 'delete', $stateMachineItemStates->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItemStates->id)]); ?>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -75,8 +75,8 @@
                                 <td><?= h($stateMachineTimeouts->event) ?></td>
                                 <td><?= h($stateMachineTimeouts->timeout) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link($this->Format->icon('view'), ['controller' => 'StateMachineTimeouts', 'action' => 'view', $stateMachineTimeouts->id], ['escapeTitle' => false]); ?>
-                    <?= $this->Form->postLink($this->Format->icon('delete'), ['controller' => 'StateMachineTimeouts', 'action' => 'delete', $stateMachineTimeouts->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineTimeouts->id)]); ?>
+                    <?= $this->Html->link($this->Icon->render('view'), ['controller' => 'StateMachineTimeouts', 'action' => 'view', $stateMachineTimeouts->id], ['escapeTitle' => false]); ?>
+                    <?= $this->Form->postLink($this->Icon->render('delete'), ['controller' => 'StateMachineTimeouts', 'action' => 'delete', $stateMachineTimeouts->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineTimeouts->id)]); ?>
                 </td>
             </tr>
             <?php endforeach; ?>

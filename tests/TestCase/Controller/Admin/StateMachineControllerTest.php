@@ -9,20 +9,22 @@ namespace StateMachine\Test\TestCase\Controller\Admin;
 
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
-use Cake\TestSuite\IntegrationTestCase;
+use Cake\TestSuite\TestCase;
 use TestApp\StateMachine\DemoStateMachineHandler;
 
 /**
  * @uses \StateMachine\Controller\Admin\StateMachineController
  */
-class StateMachineControllerTest extends IntegrationTestCase
+class StateMachineControllerTest extends TestCase
 {
+    use \Cake\TestSuite\IntegrationTestTrait;
+
     /**
      * Fixtures
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'plugin.StateMachine.StateMachineItems',
         'plugin.StateMachine.StateMachineProcesses',
         'plugin.StateMachine.StateMachineItemStateLogs',
@@ -82,7 +84,7 @@ class StateMachineControllerTest extends IntegrationTestCase
     {
         $this->disableErrorHandlerMiddleware();
 
-        $stateMachineItemsTable = TableRegistry::get('StateMachine.StateMachineItems');
+        $stateMachineItemsTable = TableRegistry::getTableLocator()->get('StateMachine.StateMachineItems');
         $countBefore = $stateMachineItemsTable->find()->count();
         $this->assertSame(1, $countBefore);
 

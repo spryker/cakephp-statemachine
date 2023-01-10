@@ -19,7 +19,7 @@ use Cake\ORM\Entity;
  * @property string|null $process
  * @property string|null $state
  * @property int|null $state_machine_transition_log_id
- * @property \Cake\I18n\FrozenTime|null $created
+ * @property \Cake\I18n\DateTime|null $created
  * @property \StateMachine\Model\Entity\StateMachineTransitionLog $state_machine_transition_log !
  * @property array|null $url
  */
@@ -34,7 +34,7 @@ class StateMachineItem extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'id' => false,
         '*' => true,
     ];

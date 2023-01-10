@@ -7,7 +7,7 @@
 
 namespace StateMachine\Test\TestCase\Model\Table;
 
-use Cake\I18n\FrozenTime;
+use Cake\I18n\DateTime;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 use StateMachine\Model\Entity\StateMachineTimeout;
@@ -27,7 +27,7 @@ class StateMachineTimeoutsTableTest extends TestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'plugin.StateMachine.StateMachineTimeouts',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineProcesses',
@@ -86,7 +86,7 @@ class StateMachineTimeoutsTableTest extends TestCase
             'state_machine_process_id' => 1,
             'identifier' => 2,
             'event' => 'E',
-            'timeout' => new FrozenTime('+1 minute'),
+            'timeout' => new DateTime('+1 minute'),
         ];
         $item = $this->StateMachineTimeouts->newEntity($data);
         $this->StateMachineTimeouts->saveOrFail($item);

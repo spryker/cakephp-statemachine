@@ -76,7 +76,7 @@ class StateMachineProcessesTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id');
+            ->allowEmptyString('id');
 
         $validator
             ->scalar('name')

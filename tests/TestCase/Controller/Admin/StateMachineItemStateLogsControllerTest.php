@@ -7,19 +7,21 @@
 
 namespace StateMachine\Test\TestCase\Controller\Admin;
 
-use Cake\TestSuite\IntegrationTestCase;
+use Cake\TestSuite\TestCase;
 
 /**
  * @uses \StateMachine\Controller\Admin\StateMachineItemStateLogsController
  */
-class StateMachineItemStateLogsControllerTest extends IntegrationTestCase
+class StateMachineItemStateLogsControllerTest extends TestCase
 {
+    use \Cake\TestSuite\IntegrationTestTrait;
+
     /**
      * Fixtures
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'plugin.StateMachine.StateMachineItemStateLogs',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineProcesses',

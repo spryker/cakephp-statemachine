@@ -25,7 +25,7 @@ use Cake\ORM\Entity;
  * @property string|null $condition
  * @property bool $is_error
  * @property string|null $error_message
- * @property \Cake\I18n\FrozenTime|null $created
+ * @property \Cake\I18n\DateTime|null $created
  *
  * @property \StateMachine\Model\Entity\StateMachineProcess $state_machine_process
  */
@@ -40,7 +40,7 @@ class StateMachineTransitionLog extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'state_machine_process_id' => true,
         'identifier' => true,
         'locked' => true,

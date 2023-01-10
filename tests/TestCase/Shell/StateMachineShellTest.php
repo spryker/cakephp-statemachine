@@ -24,7 +24,7 @@ class StateMachineShellTest extends TestCase
     /**
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'plugin.StateMachine.StateMachineLocks',
         'plugin.StateMachine.StateMachineItemStates',
         'plugin.StateMachine.StateMachineItemStateLogs',

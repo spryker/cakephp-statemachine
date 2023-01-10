@@ -14,8 +14,8 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $identifier
- * @property \Cake\I18n\FrozenTime $expires
- * @property \Cake\I18n\FrozenTime|null $created
+ * @property \Cake\I18n\DateTime $expires
+ * @property \Cake\I18n\DateTime|null $created
  */
 class StateMachineLock extends Entity
 {
@@ -28,7 +28,7 @@ class StateMachineLock extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'identifier' => true,
         'expires' => true,
         'created' => true,

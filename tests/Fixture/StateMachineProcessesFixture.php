@@ -31,7 +31,7 @@ class StateMachineProcessesFixture extends TestFixture
      *
      * @var array
      */
-    public $fields = [
+    public array $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'name' => ['type' => 'string', 'length' => 90, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'state_machine' => ['type' => 'string', 'length' => 90, 'null' => false, 'default' => null, 'collate' => 'utf8_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
@@ -55,7 +55,7 @@ class StateMachineProcessesFixture extends TestFixture
      *
      * @var array
      */
-    public $records = [
+    public array $records = [
             [
                 'id' => 1,
                 'name' => self::PROCESS_NAME_1,

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace StateMachine\Test\TestCase\Command;
 
-use Cake\TestSuite\ConsoleIntegrationTestTrait;
+use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 use Shim\TestSuite\TestTrait;
 
@@ -37,7 +37,7 @@ class BakeStateMachineConditionCommandTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->useCommandRunner();
+        //$this->useCommandRunner();
 
         $this->removeFiles();
     }

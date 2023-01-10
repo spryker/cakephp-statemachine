@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace StateMachine\Test\TestCase\Command;
 
-use Cake\TestSuite\ConsoleIntegrationTestTrait;
+use Cake\Console\TestSuite\ConsoleIntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 use Shim\TestSuite\TestTrait;
 
@@ -24,12 +24,12 @@ class BakeStateMachineCommandCommandTest extends TestCase
     /**
      * @var string
      */
-    protected $filePath = APP . 'StateMachine' . DS . 'Command' . DS;
+    protected string $filePath = APP . 'StateMachine' . DS . 'Command' . DS;
 
     /**
      * @var string
      */
-    protected $testFilePath = ROOT . DS . 'tests' . DS . 'TestCase' . DS . 'StateMachine' . DS . 'Command' . DS;
+    protected string $testFilePath = ROOT . DS . 'tests' . DS . 'TestCase' . DS . 'StateMachine' . DS . 'Command' . DS;
 
     /**
      * @return void
@@ -37,7 +37,7 @@ class BakeStateMachineCommandCommandTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->useCommandRunner();
+        //$this->useCommandRunner();
 
         $this->removeFiles();
     }

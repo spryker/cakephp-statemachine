@@ -17,7 +17,7 @@ use Cake\ORM\Entity;
  * @property int $state_machine_process_id
  * @property int $identifier
  * @property string $event
- * @property \Cake\I18n\FrozenTime $timeout
+ * @property \Cake\I18n\DateTime $timeout
  *
  * @property \StateMachine\Model\Entity\StateMachineItemState $state_machine_item_state
  * @property \StateMachine\Model\Entity\StateMachineProcess $state_machine_process
@@ -33,7 +33,7 @@ class StateMachineTimeout extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'state_machine_item_state_id' => true,
         'state_machine_process_id' => true,
         'identifier' => true,
