@@ -359,9 +359,9 @@ If you want to use the admin CRUD backend, make sure to load the required plugin
 ```
 composer require dereuromark/cakephp-tools
 ```
-and
+In your Application.php:
 ```php
-$this->loadHelper('Tools');
+$this->loadPlugin('Tools');
 ```
 
 In your AppView load the helper:
