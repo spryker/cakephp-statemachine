@@ -10,7 +10,7 @@ namespace StateMachine\Model\Table;
 use Cake\Core\Exception\CakeException;
 use Cake\ORM\Table as CakeTable;
 
-class Table extends CakeTable
+abstract class Table extends CakeTable
 {
     /**
      * @throws \Cake\Core\Exception\CakeException
