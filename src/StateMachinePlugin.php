@@ -15,27 +15,27 @@ use StateMachine\Shell\StateMachineShell;
 /**
  * Plugin for StateMachine
  */
-class Plugin extends BasePlugin
+class StateMachinePlugin extends BasePlugin
 {
     /**
      * @var string
      */
-    protected $name = 'StateMachine';
+    protected string $name = 'StateMachine';
 
     /**
      * @var bool
      */
-    protected $middlewareEnabled = false;
+    protected bool $middlewareEnabled = false;
 
     /**
      * @var bool
      */
-    protected $bootstrapEnabled = false;
+    protected bool $bootstrapEnabled = false;
 
     /**
      * @var array<string>
      */
-    protected $stateMachineCommandsList = [
+    protected array $stateMachineCommandsList = [
         StateMachineShell::class,
     ];
 
