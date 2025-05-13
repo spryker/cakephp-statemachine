@@ -18,9 +18,9 @@ use StateMachine\Shell\StateMachineShell;
 class StateMachinePlugin extends BasePlugin
 {
     /**
-     * @var string
+     * @var string|null
      */
-    protected string $name = 'StateMachine';
+    protected ?string $name = 'StateMachine';
 
     /**
      * @var bool
