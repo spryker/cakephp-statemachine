@@ -40,7 +40,7 @@ class StateMachineTransitionLog extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'state_machine_process_id' => true,
         'identifier' => true,
         'locked' => true,

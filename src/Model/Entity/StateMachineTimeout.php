@@ -33,7 +33,7 @@ class StateMachineTimeout extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'state_machine_item_state_id' => true,
         'state_machine_process_id' => true,
         'identifier' => true,

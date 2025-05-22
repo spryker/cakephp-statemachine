@@ -28,7 +28,7 @@ class StateMachineLock extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'identifier' => true,
         'expires' => true,
         'created' => true,
