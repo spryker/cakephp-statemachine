@@ -70,7 +70,7 @@ class StateMachineTimeoutsTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id');
+            ->allowEmptyString('id');
 
         $validator
             ->scalar('identifier')
