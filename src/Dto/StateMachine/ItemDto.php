@@ -176,7 +176,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	* @var array<string, array<string, string>>
 	*/
-	protected $_keyMap = [
+	protected array $_keyMap = [
 		'underscored' => [
 			'identifier' => 'identifier',
 			'id_state_machine_process' => 'idStateMachineProcess',

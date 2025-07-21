@@ -62,7 +62,7 @@ class ProcessDto extends \CakeDto\Dto\AbstractDto {
 	/**
 	* @var array<string, array<string, string>>
 	*/
-	protected $_keyMap = [
+	protected array $_keyMap = [
 		'underscored' => [
 			'process_name' => 'processName',
 			'state_machine_name' => 'stateMachineName',
