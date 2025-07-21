@@ -32,7 +32,7 @@ class ProcessDto extends \CakeDto\Dto\AbstractDto {
 	 *
 	 * @var array<string, array<string, mixed>>
 	 */
-	protected $_metadata = [
+	protected array $_metadata = [
 		'processName' => [
 			'name' => 'processName',
 			'type' => 'string',

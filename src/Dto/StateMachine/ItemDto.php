@@ -74,7 +74,7 @@ class ItemDto extends \CakeDto\Dto\AbstractDto {
 	 *
 	 * @var array<string, array<string, mixed>>
 	 */
-	protected $_metadata = [
+	protected array $_metadata = [
 		'identifier' => [
 			'name' => 'identifier',
 			'type' => 'int',
