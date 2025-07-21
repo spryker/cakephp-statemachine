@@ -20,7 +20,7 @@ class StateMachineItemsControllerTest extends IntegrationTestCase
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'plugin.StateMachine.StateMachineTransitionLogs',
         'plugin.StateMachine.StateMachineItems',
         'plugin.StateMachine.StateMachineProcesses',
