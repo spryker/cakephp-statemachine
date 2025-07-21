@@ -16,7 +16,7 @@ class StateMachineItemStateLogsFixture extends TestFixture
      *
      * @var string
      */
-    public $table = 'state_machine_item_state_logs';
+    public string $table = 'state_machine_item_state_logs';
 
     /**
      * Fields
