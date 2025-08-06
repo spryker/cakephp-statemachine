@@ -9,7 +9,6 @@ namespace StateMachine\Model;
 
 use Cake\I18n\FrozenTime;
 use Cake\ORM\Query;
-use MongoDB\Driver\Query;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\FactoryTrait;
 
