@@ -7,7 +7,7 @@
 
 namespace StateMachine\Test\Fixture;
 
-use Cake\Test\Fixture\TestFixture;
+use Cake\TestSuite\Fixture\TestFixture;
 
 class StateMachineProcessesFixture extends TestFixture
 {
