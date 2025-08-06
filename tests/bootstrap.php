@@ -84,7 +84,7 @@ if (!getenv('db_class')) {
 Cake\Datasource\ConnectionManager::setConfig('test', [
     'className' => 'Cake\Database\Connection',
     'driver' => getenv('db_class') ?: null,
-    'dsn' => getenv('DB_URL') ?: null,
+    'url' => getenv('DB_URL') ?: null,
     'timezone' => 'UTC',
     'quoteIdentifiers' => true,
     'cacheMetadata' => true,
@@ -93,7 +93,7 @@ Cake\Datasource\ConnectionManager::setConfig('test', [
 Cake\Datasource\ConnectionManager::setConfig('test_database_log', [
     'className' => 'Cake\Database\Connection',
     'driver' => getenv('db_class') ?: null,
-    'dsn' => getenv('DB_URL') ?: null,
+    'url' => getenv('DB_URL') ?: null,
     'timezone' => 'UTC',
     'quoteIdentifiers' => true,
     'cacheMetadata' => true,
