@@ -86,44 +86,5 @@ if ($dbUrl) {
     \Cake\Datasource\ConnectionManager::setConfig('test', $config);
 }
 
-$tables = [];
-
-/**
- * @var \DirectoryIterator<\DirectoryIterator> $iterator
- */
-$iterator = new DirectoryIterator(__DIR__ . DS . 'Fixture');
-foreach ($iterator as $file) {
-    if (!preg_match('/(\w+)Fixture.php$/', (string)$file, $matches)) {
-        continue;
-    }
-
-    $name = $matches[1];
-    $tableName = null;
-    $class = ' StateMachine\\Test\\Fixture\\' . $name . 'Fixture';
-    try {
-        $fieldsObject = (new ReflectionClass($class))->getProperty('fields');
-        $tableObject = (new ReflectionClass($class))->getProperty('table');
-        $tableName = $tableObject->getDefaultValue();
-    } catch (ReflectionException $e) {
-        continue;
-    }
-
-    if (!$tableName) {
-        $tableName = \Cake\Utility\Inflector\Inflector::underscore($name);
-    }
-
-    $array = $fieldsObject->getDefaultValue();
-    $constraints = $array['_constraints'] ?? [];
-    $indexes = $array['_indexes'] ?? [];
-    unset($array['_constraints'], $array['_indexes'], $array['_options']);
-    $table = [
-        'table' => $tableName,
-        'columns' => $array,
-        'constraints' => $constraints,
-        'indexes' => $indexes,
-    ];
-    $tables[$tableName] = $table;
-}
-
 $loader = new \Cake\TestSuite\Fixture\SchemaLoader();
-$loader->loadInternalFile($tables);
+$loader->loadInternalFile('schema.php');
