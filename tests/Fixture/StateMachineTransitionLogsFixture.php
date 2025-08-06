@@ -7,7 +7,7 @@
 
 namespace StateMachine\Test\Fixture;
 
-use Cake\TestSuite\Fixture\TestFixture;
+use Cake\Test\Fixture\TestFixture;
 
 class StateMachineTransitionLogsFixture extends TestFixture
 {
