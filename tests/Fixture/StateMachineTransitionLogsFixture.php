@@ -51,23 +51,23 @@ class StateMachineTransitionLogsFixture extends TestFixture
      */
     public function init(): void
     {
-        $this->records = [
-            [
-                'id' => 1,
-                'state_machine_process_id' => 1,
-                'state_machine_item_id' => 1,
-                'identifier' => 1,
-                'locked' => 1,
-                'event' => 'Lorem ipsum dolor sit amet',
-                'params' => 'Lorem ipsum dolor sit amet',
-                'source_state' => 'Lorem ipsum dolor sit amet',
-                'target_state' => 'Lorem ipsum dolor sit amet',
-                'command' => 'Lorem ipsum dolor sit amet',
-                'condition' => 'Lorem ipsum dolor sit amet',
-                'is_error' => 1,
-                'error_message' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-                'created' => '2019-04-22 12:59:51',
-            ],
+//        $this->records = [
+//            [
+//                'id' => 1,
+//                'state_machine_process_id' => 1,
+//                'state_machine_item_id' => 1,
+//                'identifier' => 1,
+//                'locked' => 1,
+//                'event' => 'Lorem ipsum dolor sit amet',
+//                'params' => 'Lorem ipsum dolor sit amet',
+//                'source_state' => 'Lorem ipsum dolor sit amet',
+//                'target_state' => 'Lorem ipsum dolor sit amet',
+//                'command' => 'Lorem ipsum dolor sit amet',
+//                'condition' => 'Lorem ipsum dolor sit amet',
+//                'is_error' => 1,
+//                'error_message' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+//                'created' => '2019-04-22 12:59:51',
+//            ],
         ];
         parent::init();
     }

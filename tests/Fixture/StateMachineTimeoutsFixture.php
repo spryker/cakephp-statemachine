@@ -49,14 +49,14 @@ class StateMachineTimeoutsFixture extends TestFixture
     public function init(): void
     {
         $this->records = [
-            [
-                'id' => 1,
-                'state_machine_item_state_id' => 1,
-                'state_machine_process_id' => 1,
-                'identifier' => 1,
-                'event' => 'Lorem ipsum dolor sit amet',
-                'timeout' => '2019-04-22 12:59:50',
-            ],
+//            [
+//                'id' => 1,
+//                'state_machine_item_state_id' => 1,
+//                'state_machine_process_id' => 1,
+//                'identifier' => 1,
+//                'event' => 'Lorem ipsum dolor sit amet',
+//                'timeout' => '2019-04-22 12:59:50',
+//            ],
         ];
         parent::init();
     }
