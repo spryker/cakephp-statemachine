@@ -36,7 +36,7 @@ class StateMachineTransitionLogsFixture extends TestFixture
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-            'state_machine_item_id' => ['type' => 'foreign', 'columns' => ['state_machine_item_id'], 'references' => ['state_machine_items', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
+            'StateMachineTransitionLogsstate_machine_item_id' => ['type' => 'foreign', 'columns' => ['state_machine_item_id'], 'references' => ['state_machine_items', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',

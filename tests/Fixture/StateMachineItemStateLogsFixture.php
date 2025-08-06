@@ -33,7 +33,7 @@ class StateMachineItemStateLogsFixture extends TestFixture
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-            'state_machine_item_state_id' => ['type' => 'foreign', 'columns' => ['state_machine_item_state_id'], 'references' => ['state_machine_item_states', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
+            'state_machine_item_state_logs_state_machine_item_state_id' => ['type' => 'foreign', 'columns' => ['state_machine_item_state_id'], 'references' => ['state_machine_item_states', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',

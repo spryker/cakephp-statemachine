@@ -31,7 +31,7 @@ class StateMachineItemStatesFixture extends TestFixture
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
             'name' => ['type' => 'unique', 'columns' => ['name', 'state_machine_process_id'], 'length' => []],
-            'state_machine_process_id' => ['type' => 'foreign', 'columns' => ['state_machine_process_id'], 'references' => ['state_machine_processes', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
+            'state_machine_item_states_state_machine_process_id' => ['type' => 'foreign', 'columns' => ['state_machine_process_id'], 'references' => ['state_machine_processes', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',
