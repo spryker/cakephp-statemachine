@@ -30,58 +30,100 @@ define('CAKE', CORE_PATH . APP_DIR . DS);
 
 define('WWW_ROOT', TMP . 'webroot' . DS);
 
-//require dirname(__DIR__) . '/vendor/autoload.php';
-//require CORE_PATH . 'config/bootstrap.php';
-//
-//Cake\Core\Configure::write('debug', true);
-//
-//Cake\Core\Configure::write('App', [
-//    'namespace' => 'TestApp',
-//    'encoding' => 'UTF-8',
-//    'paths' => [
-//        'templates' => [TESTS . 'test_app' . DS . 'templates' . DS],
-//    ],
-//]);
-//
-//Cake\Core\Configure::write('debug', true);
-//
-//Cake\Core\Configure::write('Transltr.live', getenv('TRANSLTR_LIVE') ?: null);
-//
-//$cache = [
-//    'default' => [
-//        'className' => 'File',
-//    ],
-//    '_cake_core_' => [
-//        'className' => 'File',
-//        'prefix' => 'crud_myapp_cake_core_',
-//        'path' => CACHE . 'persistent/',
-//        'serialize' => true,
-//        'duration' => '+10 seconds',
-//    ],
-//    '_cake_model_' => [
-//        'className' => 'File',
-//        'prefix' => 'crud_my_app_cake_model_',
-//        'path' => CACHE . 'models/',
-//        'serialize' => 'File',
-//        'duration' => '+10 seconds',
-//    ],
-//];
-//
-//Cake\Cache\Cache::setConfig($cache);
-//
-//class_alias(TestApp\Controller\AppController::class, 'App\Controller\AppController');
-//class_alias(Cake\View\View::class, 'App\View\AppView');
-//class_alias(TestApp\Application::class, 'App\Application');
-//
-//Cake\Core\Plugin::getCollection()->add(new \StateMachine\StateMachinePlugin());
-//
-//
-//$dbUrl = getenv('DB_DSN') ?: getenv('DB_URL');
-//if ($dbUrl) {
-//    $config = [
-//        'url' => $dbUrl,
-//        'quoteIdentifiers' => true,
-//    ];
-//    \Cake\Datasource\ConnectionManager::drop('test');
-//    \Cake\Datasource\ConnectionManager::setConfig('test', $config);
-//}
+require dirname(__DIR__) . '/vendor/autoload.php';
+require CORE_PATH . 'config/bootstrap.php';
+
+Cake\Core\Configure::write('debug', true);
+
+Cake\Core\Configure::write('App', [
+    'namespace' => 'TestApp',
+    'encoding' => 'UTF-8',
+    'paths' => [
+        'templates' => [TESTS . 'test_app' . DS . 'templates' . DS],
+    ],
+]);
+
+Cake\Core\Configure::write('debug', true);
+
+Cake\Core\Configure::write('Transltr.live', getenv('TRANSLTR_LIVE') ?: null);
+
+$cache = [
+    'default' => [
+        'className' => 'File',
+    ],
+    '_cake_core_' => [
+        'className' => 'File',
+        'prefix' => 'crud_myapp_cake_core_',
+        'path' => CACHE . 'persistent/',
+        'serialize' => true,
+        'duration' => '+10 seconds',
+    ],
+    '_cake_model_' => [
+        'className' => 'File',
+        'prefix' => 'crud_my_app_cake_model_',
+        'path' => CACHE . 'models/',
+        'serialize' => 'File',
+        'duration' => '+10 seconds',
+    ],
+];
+
+Cake\Cache\Cache::setConfig($cache);
+
+class_alias(TestApp\Controller\AppController::class, 'App\Controller\AppController');
+class_alias(Cake\View\View::class, 'App\View\AppView');
+class_alias(TestApp\Application::class, 'App\Application');
+
+Cake\Core\Plugin::getCollection()->add(new \StateMachine\StateMachinePlugin());
+
+
+$dbUrl = getenv('DB_DSN') ?: getenv('DB_URL');
+if ($dbUrl) {
+    $config = [
+        'url' => $dbUrl,
+        'quoteIdentifiers' => true,
+    ];
+    \Cake\Datasource\ConnectionManager::drop('test');
+    \Cake\Datasource\ConnectionManager::setConfig('test', $config);
+}
+
+$tables = [];
+
+/**
+ * @var \DirectoryIterator<\DirectoryIterator> $iterator
+ */
+$iterator = new DirectoryIterator(__DIR__ . DS . 'Fixture');
+foreach ($iterator as $file) {
+    if (!preg_match('/(\w+)Fixture.php$/', (string)$file, $matches)) {
+        continue;
+    }
+
+    $name = $matches[1];
+    $tableName = null;
+    $class = ' StateMachine\\Test\\Fixture\\' . $name . 'Fixture';
+    try {
+        $fieldsObject = (new ReflectionClass($class))->getProperty('fields');
+        $tableObject = (new ReflectionClass($class))->getProperty('table');
+        $tableName = $tableObject->getDefaultValue();
+    } catch (ReflectionException $e) {
+        continue;
+    }
+
+    if (!$tableName) {
+        $tableName = \Cake\Utility\Inflector\Inflector::underscore($name);
+    }
+
+    $array = $fieldsObject->getDefaultValue();
+    $constraints = $array['_constraints'] ?? [];
+    $indexes = $array['_indexes'] ?? [];
+    unset($array['_constraints'], $array['_indexes'], $array['_options']);
+    $table = [
+        'table' => $tableName,
+        'columns' => $array,
+        'constraints' => $constraints,
+        'indexes' => $indexes,
+    ];
+    $tables[$tableName] = $table;
+}
+
+$loader = new \Cake\TestSuite\Fixture\SchemaLoader();
+$loader->loadInternalFile($tables);
