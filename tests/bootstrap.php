@@ -87,4 +87,4 @@ if ($dbUrl) {
 }
 
 $loader = new \Cake\TestSuite\Fixture\SchemaLoader();
-$loader->loadInternalFile('schema.php');
+$loader->loadInternalFile(TESTS . DS . 'schema.php');
