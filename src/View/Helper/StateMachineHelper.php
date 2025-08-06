@@ -18,7 +18,7 @@ class StateMachineHelper extends Helper
     /**
      * @var array
      */
-    protected $helpers = ['Html'];
+    protected array $helpers = ['Html'];
 
     /**
      * @param \StateMachine\Model\Entity\StateMachineItem $stateMachineItem
