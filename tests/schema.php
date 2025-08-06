@@ -16,7 +16,7 @@ foreach ($iterator as $file) {
 
 	$name = $matches[1];
 	$tableName = null;
-	$class = 'Statemachine\\Test\\Fixture\\' . $name . 'Fixture';
+	$class = ' StateMachine\\Test\\Fixture\\' . $name . 'Fixture';
 	try {
 		$fieldsObject = (new ReflectionClass($class))->getProperty('fields');
 		$tableObject = (new ReflectionClass($class))->getProperty('table');
