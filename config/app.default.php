@@ -1,10 +1,5 @@
 <?php
 
-/*
- * Load global functions for collections, translations, debugging etc.
- */
-require CAKE . 'functions.php';
-
 return [
     'StateMachine' => [
         'handlers' => [

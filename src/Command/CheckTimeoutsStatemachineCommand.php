@@ -13,7 +13,7 @@ class CheckTimeoutsStatemachineCommand extends Command
     use FacadeAwareTrait;
 
     public static function defaultName(): string {
-        return 'state_machine check_conditions';
+        return 'state_machine check_timeouts';
     }
 
     /**
