@@ -195,9 +195,9 @@ class QueryContainer implements QueryContainerInterface
      * @param \Cake\I18n\FrozenTime $expirationDate
      * @param bool $delete
      *
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query|\Cake\ORM\Query|\Cake\ORM\Query\DeleteQuery
      */
-    public function queryLockedItemsByExpirationDate(FrozenTime $expirationDate, bool $delete = false): Query
+    public function queryLockedItemsByExpirationDate(FrozenTime $expirationDate, bool $delete = false)
     {
         $stateMachineLocksTable = $this->getFactory()->createStateMachineLocksTable();
 
@@ -212,9 +212,9 @@ class QueryContainer implements QueryContainerInterface
      * @param string $identifier
      * @param bool $delete
      *
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query|\Cake\ORM\Query\DeleteQuery
      */
-    public function queryLockItemsByIdentifier(string $identifier, bool $delete = true): Query
+    public function queryLockItemsByIdentifier(string $identifier, bool $delete = true)
     {
         $stateMachineLocksTable = $this->getFactory()->createStateMachineLocksTable();
 

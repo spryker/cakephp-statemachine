@@ -87,17 +87,17 @@ interface QueryContainerInterface
      * @param \Cake\I18n\FrozenTime $expirationDate
      * @param bool $delete
      *
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query|\Cake\ORM\Query|\Cake\ORM\Query\DeleteQuery
      */
-    public function queryLockedItemsByExpirationDate(FrozenTime $expirationDate, bool $delete = false): Query;
+    public function queryLockedItemsByExpirationDate(FrozenTime $expirationDate, bool $delete = false);
 
     /**
      * @param string $identifier
      * @param bool $delete
      *
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query|\Cake\ORM\Query|\Cake\ORM\Query\DeleteQuery
      */
-    public function queryLockItemsByIdentifier(string $identifier, bool $delete = false): Query;
+    public function queryLockItemsByIdentifier(string $identifier, bool $delete = false);
 
     /**
      * @param string $processName
