@@ -25,7 +25,7 @@ abstract class StateMachineHandlerTask extends AbstractTask
     /**
      * @var array<string, mixed>
      */
-    protected $_defaultConfig = [
+    protected array $_defaultConfig = [
         'visibility' => 'public',
     ];
 
