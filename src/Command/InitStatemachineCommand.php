@@ -55,7 +55,7 @@ class InitStatemachineCommand extends Command
         $config = new StateMachineConfig();
         $pathToXml = $config->getPathToStateMachineXmlFiles() . $stateMachine . DS;
         $filePath = $pathToXml . $processName . '.xml';
-        if (!$io->getOption('overwrite') && file_exists($filePath)) {
+        if (!$args->getOption('overwrite') && file_exists($filePath)) {
             return $io->error(sprintf('State machine `%s` already exists. Use a different name.', $stateMachine));
         }
 

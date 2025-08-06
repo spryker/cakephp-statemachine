@@ -87,7 +87,7 @@ class StateMachineTimeoutsTable extends Table
         $validator
             ->dateTime('timeout')
             ->requirePresence('timeout', 'create')
-            ->notEmpty('timeout');
+            ->notEmptyString('timeout');
 
         return $validator;
     }
