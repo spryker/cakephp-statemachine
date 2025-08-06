@@ -45,8 +45,7 @@ Cake\Core\Configure::write('App', [
 
 Cake\Core\Configure::write('debug', true);
 
-Cake\Core\Configure::write('Yandex.key', env('YANDEX_KEY'));
-Cake\Core\Configure::write('Transltr.live', env('TRANSLTR_LIVE'));
+Cake\Core\Configure::write('Transltr.live', getenv('TRANSLTR_LIVE') ?: null);
 
 $cache = [
     'default' => [
