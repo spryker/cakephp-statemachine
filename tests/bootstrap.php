@@ -33,8 +33,6 @@ define('WWW_ROOT', TMP . 'webroot' . DS);
 require dirname(__DIR__) . '/vendor/autoload.php';
 require CORE_PATH . 'config/bootstrap.php';
 
-Cake\Core\Configure::write('debug', true);
-
 Cake\Core\Configure::write('App', [
     'namespace' => 'TestApp',
     'encoding' => 'UTF-8',
@@ -42,8 +40,6 @@ Cake\Core\Configure::write('App', [
         'templates' => [TESTS . 'test_app' . DS . 'templates' . DS],
     ],
 ]);
-
-Cake\Core\Configure::write('debug', true);
 
 Cake\Core\Configure::write('Transltr.live', getenv('TRANSLTR_LIVE') ?: null);
 
@@ -68,6 +64,7 @@ $cache = [
 ];
 
 Cake\Cache\Cache::setConfig($cache);
+Cake\Core\Configure::write('debug', true);
 
 class_alias(TestApp\Controller\AppController::class, 'App\Controller\AppController');
 class_alias(Cake\View\View::class, 'App\View\AppView');
@@ -84,6 +81,7 @@ if ($dbUrl) {
     ];
     \Cake\Datasource\ConnectionManager::drop('test');
     \Cake\Datasource\ConnectionManager::setConfig('test', $config);
+    \Cake\Datasource\ConnectionManager::setConfig('default', $config);
 }
 $loader = new \Cake\TestSuite\Fixture\SchemaLoader();
 $loader->loadInternalFile(TESTS . 'schema.php');
