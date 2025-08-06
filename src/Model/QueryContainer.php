@@ -9,6 +9,7 @@ namespace StateMachine\Model;
 
 use Cake\I18n\FrozenTime;
 use Cake\ORM\Query;
+use MongoDB\Driver\Query;
 use StateMachine\Dto\StateMachine\ItemDto;
 use StateMachine\FactoryTrait;
 
@@ -244,15 +245,16 @@ class QueryContainer implements QueryContainerInterface
     /**
      * @param int $identifier
      * @param int $idProcess
+     * @param bool $delete
      *
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query|\Cake\ORM\Query\DeleteQuery
      */
-    public function queryEventTimeoutByIdentifierAndFkProcess(int $identifier, int $idProcess): Query
+    public function queryEventTimeoutByIdentifierAndFkProcess(int $identifier, int $idProcess, bool $delete = false)
     {
         $stateMachineTimeoutsTable = $this->getFactory()->createStateMachineTimeoutsTable();
 
-        return $stateMachineTimeoutsTable
-            ->find()
+        $query = $delete ? $stateMachineTimeoutsTable->deleteQuery() : $stateMachineTimeoutsTable->find();
+        return $query
             ->where([
                 $stateMachineTimeoutsTable->aliasField('identifier') => $identifier,
                 $stateMachineTimeoutsTable->aliasField('state_machine_process_id') => $idProcess,

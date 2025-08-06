@@ -110,9 +110,9 @@ interface QueryContainerInterface
      * @param int $identifier
      * @param int $idProcess
      *
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query|\Cake\ORM\Query\DeleteQuery
      */
-    public function queryEventTimeoutByIdentifierAndFkProcess(int $identifier, int $idProcess): Query;
+    public function queryEventTimeoutByIdentifierAndFkProcess(int $identifier, int $idProcess, bool $delete = false);
 
     /**
      * @param string $stateMachineName
