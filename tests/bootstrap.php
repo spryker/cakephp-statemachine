@@ -75,9 +75,13 @@ class_alias(TestApp\Application::class, 'App\Application');
 
 Cake\Core\Plugin::getCollection()->add(new \StateMachine\StateMachinePlugin());
 
-// Ensure default test connection is defined
-if (!getenv('DB_URL')) {
-    putenv('DB_URL=sqlite:///:memory:');
-}
 
-\Cake\Datasource\ConnectionManager::setConfig('test', ['url' => getenv('DB_URL')]);
+$dbUrl = getenv('DB_DSN') ?: getenv('DB_URL');
+if ($dbUrl) {
+    $config = [
+        'url' => $dbUrl,
+        'quoteIdentifiers' => true,
+    ];
+    \Cake\Datasource\ConnectionManager::drop('test');
+    \Cake\Datasource\ConnectionManager::setConfig('test', $config);
+}
