@@ -51,7 +51,7 @@ class StateMachineTransitionLogsFixture extends TestFixture
      */
     public function init(): void
     {
-//        $this->records = [
+       $this->records = [
 //            [
 //                'id' => 1,
 //                'state_machine_process_id' => 1,
