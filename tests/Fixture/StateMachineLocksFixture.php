@@ -42,12 +42,12 @@ class StateMachineLocksFixture extends TestFixture
     public function init(): void
     {
         $this->records = [
-//            [
-//                'id' => 1,
-//                'identifier' => 'Lorem ipsum dolor sit amet',
-//                'expires' => '2019-04-02 11:35:48',
-//                'created' => '2019-04-02 11:35:48',
-//            ],
+            [
+                'id' => 1,
+                'identifier' => 'Lorem ipsum dolor sit amet',
+                'expires' => '2019-04-02 11:35:48',
+                'created' => '2019-04-02 11:35:48',
+            ],
         ];
         parent::init();
     }

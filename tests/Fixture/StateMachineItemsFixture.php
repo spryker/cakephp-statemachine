@@ -46,14 +46,14 @@ class StateMachineItemsFixture extends TestFixture
     public function init(): void
     {
         $this->records = [
-//            [
-//                'id' => 1,
-//                'identifier' => 1,
-//                'state_machine' => 'TestingSm',
-//                'process' => 'TestProcess',
-//                'state' => 'Init',
-//                'state_machine_transition_log_id' => 1,
-//            ],
+            [
+                'id' => 1,
+                'identifier' => 1,
+                'state_machine' => 'TestingSm',
+                'process' => 'TestProcess',
+                'state' => 'Init',
+                'state_machine_transition_log_id' => 1,
+            ],
         ];
         parent::init();
     }

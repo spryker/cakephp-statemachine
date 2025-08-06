@@ -56,12 +56,12 @@ class StateMachineProcessesFixture extends TestFixture
      * @var array
      */
     public array $records = [
-//            [
-//                'id' => 1,
-//                'name' => self::PROCESS_NAME_1,
-//                'state_machine' => self::DEFAULT_TEST_STATE_MACHINE_NAME,
-//                'created' => '2018-06-08 22:35:57',
-//                'modified' => '2018-06-08 22:35:57',
-//            ],
+            [
+                'id' => 1,
+                'name' => self::PROCESS_NAME_1,
+                'state_machine' => self::DEFAULT_TEST_STATE_MACHINE_NAME,
+                'created' => '2018-06-08 22:35:57',
+                'modified' => '2018-06-08 22:35:57',
+            ],
         ];
 }
