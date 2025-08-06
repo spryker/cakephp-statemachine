@@ -8,15 +8,18 @@
 namespace StateMachine\Test\TestCase\Controller\Admin;
 
 use Cake\Core\Configure;
-use Cake\TestSuite\IntegrationTestCase;
+use Cake\TestSuite\IntegrationTestTrait;
+use Cake\TestSuite\TestCase;
 use StateMachine\Controller\Admin\TriggerController;
 use TestApp\StateMachine\DemoStateMachineHandler;
 
 /**
  * @uses \StateMachine\Controller\Admin\TriggerController
  */
-class TriggerControllerTest extends IntegrationTestCase
+class TriggerControllerTest extends TestCase
 {
+    use IntegrationTestTrait;
+
     /**
      * Fixtures
      *

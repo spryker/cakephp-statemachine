@@ -7,13 +7,16 @@
 
 namespace StateMachine\Test\TestCase\Controller\Admin;
 
-use Cake\TestSuite\IntegrationTestCase;
+use Cake\TestSuite\IntegrationTestTrait;
+use Cake\TestSuite\TestCase;
 
 /**
  * @uses \StateMachine\Controller\Admin\StateMachineTransitionLogsController
  */
-class StateMachineTransitionLogsControllerTest extends IntegrationTestCase
+class StateMachineTransitionLogsControllerTest extends TestCase
 {
+    use IntegrationTestTrait;
+
     /**
      * Fixtures
      *

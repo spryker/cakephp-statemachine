@@ -10,13 +10,17 @@ namespace StateMachine\Test\TestCase\Controller\Admin;
 use Cake\Core\Configure;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\IntegrationTestCase;
+use Cake\TestSuite\IntegrationTestTrait;
+use Cake\TestSuite\TestCase;
 use TestApp\StateMachine\DemoStateMachineHandler;
 
 /**
  * @uses \StateMachine\Controller\Admin\StateMachineController
  */
-class StateMachineControllerTest extends IntegrationTestCase
+class StateMachineControllerTest extends TestCase
 {
+    use IntegrationTestTrait;
+
     /**
      * Fixtures
      *

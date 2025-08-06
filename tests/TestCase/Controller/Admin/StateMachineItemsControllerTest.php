@@ -8,13 +8,16 @@
 namespace StateMachine\Test\TestCase\Controller\Admin;
 
 use Cake\Core\Configure;
-use Cake\TestSuite\IntegrationTestCase;
+use Cake\TestSuite\IntegrationTestTrait;
+use Cake\TestSuite\TestCase;
 
 /**
  * @uses \StateMachine\Controller\Admin\StateMachineItemsController
  */
-class StateMachineItemsControllerTest extends IntegrationTestCase
+class StateMachineItemsControllerTest extends TestCase
 {
+    use IntegrationTestTrait;
+
     /**
      * Fixtures
      *
