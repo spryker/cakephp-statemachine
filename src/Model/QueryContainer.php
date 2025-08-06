@@ -202,7 +202,7 @@ class QueryContainer implements QueryContainerInterface
         $stateMachineLocksTable = $this->getFactory()->createStateMachineLocksTable();
 
         $query = $delete ? $stateMachineLocksTable->deleteQuery() : $stateMachineLocksTable->find();
-        return $$query
+        return $query
             ->where([
                 $stateMachineLocksTable->aliasField('expires') . ' <= ' => $expirationDate,
             ]);
