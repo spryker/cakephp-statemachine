@@ -165,7 +165,7 @@ class StateMachineTransitionLogsTable extends Table
             $fields['state'] = $entity->target_state;
         }
 
-        $stateMachineItemsTable = TableRegistry::get('StateMachine.StateMachineItems');
+        $stateMachineItemsTable = TableRegistry::getTableLocator()->get('StateMachine.StateMachineItems');
         if (!$stateMachineItemsTable->updateAll($fields, ['id' => $id])) {
             throw new RuntimeException('Could not update row, StateMachineItem not found: ' . $id);
         }

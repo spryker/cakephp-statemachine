@@ -86,7 +86,7 @@ class StateMachineControllerTest extends TestCase
     {
         $this->disableErrorHandlerMiddleware();
 
-        $stateMachineItemsTable = TableRegistry::get('StateMachine.StateMachineItems');
+        $stateMachineItemsTable = TableRegistry::getTableLocator->get('StateMachine.StateMachineItems');
         $countBefore = $stateMachineItemsTable->find()->count();
         $this->assertSame(1, $countBefore);
 

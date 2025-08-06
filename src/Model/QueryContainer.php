@@ -214,7 +214,7 @@ class QueryContainer implements QueryContainerInterface
      *
      * @return \Cake\ORM\Query|\Cake\ORM\Query\DeleteQuery
      */
-    public function queryLockItemsByIdentifier(string $identifier, bool $delete = true)
+    public function queryLockItemsByIdentifier(string $identifier, bool $delete = false)
     {
         $stateMachineLocksTable = $this->getFactory()->createStateMachineLocksTable();
 
