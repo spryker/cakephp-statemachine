@@ -76,25 +76,8 @@ class_alias(TestApp\Application::class, 'App\Application');
 Cake\Core\Plugin::getCollection()->add(new \StateMachine\StateMachinePlugin());
 
 // Ensure default test connection is defined
-if (!getenv('db_class')) {
-    putenv('db_class=Cake\Database\Driver\Sqlite');
-    putenv('db_dsn=sqlite::memory:');
+if (!getenv('DB_URL')) {
+    putenv('DB_URL=sqlite:///:memory:');
 }
 
-Cake\Datasource\ConnectionManager::setConfig('test', [
-    'className' => 'Cake\Database\Connection',
-    'driver' => getenv('db_class') ?: null,
-    'url' => getenv('DB_URL') ?: null,
-    'timezone' => 'UTC',
-    'quoteIdentifiers' => true,
-    'cacheMetadata' => true,
-]);
-
-Cake\Datasource\ConnectionManager::setConfig('test_database_log', [
-    'className' => 'Cake\Database\Connection',
-    'driver' => getenv('db_class') ?: null,
-    'url' => getenv('DB_URL') ?: null,
-    'timezone' => 'UTC',
-    'quoteIdentifiers' => true,
-    'cacheMetadata' => true,
-]);
+\Cake\Datasource\ConnectionManager::setConfig('test', ['url' => getenv('DB_URL')]);
