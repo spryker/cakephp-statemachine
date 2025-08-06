@@ -2,34 +2,34 @@
 /**
  * @license http://www.opensource.org/licenses/mit-license.php MIT License
  */
-//
-//if (!defined('DS')) {
-//    define('DS', DIRECTORY_SEPARATOR);
-//}
-//define('ROOT', dirname(__DIR__));
-//define('APP_DIR', 'src');
-//
-//define('APP', rtrim(sys_get_temp_dir(), DS) . DS . APP_DIR . DS);
-//if (!is_dir(APP)) {
-//    mkdir(APP, 0770, true);
-//}
-//
-//define('TMP', ROOT . DS . 'tmp' . DS);
-//if (!is_dir(TMP)) {
-//    mkdir(TMP, 0770, true);
-//}
-//define('TESTS', ROOT . DS . 'tests' . DS);
-//define('CONFIG', TESTS . 'config' . DS);
-//
-//define('LOGS', TMP . 'logs' . DS);
-//define('CACHE', TMP . 'cache' . DS);
-//
-//define('CAKE_CORE_INCLUDE_PATH', ROOT . '/vendor/cakephp/cakephp');
-//define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
-//define('CAKE', CORE_PATH . APP_DIR . DS);
-//
-//define('WWW_ROOT', TMP . 'webroot' . DS);
-//
+
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
+define('ROOT', dirname(__DIR__));
+define('APP_DIR', 'src');
+
+define('APP', rtrim(sys_get_temp_dir(), DS) . DS . APP_DIR . DS);
+if (!is_dir(APP)) {
+    mkdir(APP, 0770, true);
+}
+
+define('TMP', ROOT . DS . 'tmp' . DS);
+if (!is_dir(TMP)) {
+    mkdir(TMP, 0770, true);
+}
+define('TESTS', ROOT . DS . 'tests' . DS);
+define('CONFIG', TESTS . 'config' . DS);
+
+define('LOGS', TMP . 'logs' . DS);
+define('CACHE', TMP . 'cache' . DS);
+
+define('CAKE_CORE_INCLUDE_PATH', ROOT . '/vendor/cakephp/cakephp');
+define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
+define('CAKE', CORE_PATH . APP_DIR . DS);
+
+define('WWW_ROOT', TMP . 'webroot' . DS);
+
 //require dirname(__DIR__) . '/vendor/autoload.php';
 //require CORE_PATH . 'config/bootstrap.php';
 //
