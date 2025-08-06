@@ -85,7 +85,7 @@ if ($dbUrl) {
     \Cake\Datasource\ConnectionManager::drop('test');
     \Cake\Datasource\ConnectionManager::setConfig('test', $config);
 }
-$test = include TESTS . DS . 'schema.php';
+$test = include TESTS . 'schema.php';
 var_dump($test);
 $loader = new \Cake\TestSuite\Fixture\SchemaLoader();
 $loader->loadInternalFile(TESTS . DS . 'schema.php');
