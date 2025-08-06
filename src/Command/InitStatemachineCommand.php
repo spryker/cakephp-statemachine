@@ -46,6 +46,7 @@ class InitStatemachineCommand extends Command
 
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
+        /** @var string $stateMachineName */
         $stateMachineName = $args->getArgument('stateMachineName');
         $stateMachine = Inflector::camelize($stateMachineName);
 

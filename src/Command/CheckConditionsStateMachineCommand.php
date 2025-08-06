@@ -42,6 +42,7 @@ class CheckConditionsStateMachineCommand extends Command
 
     public function execute(Arguments $args, ConsoleIo $io): ?int
     {
+        /** @var string $stateMachine */
         $stateMachine = $args->getArgument('stateMachineName');
         if (!$this->getFacade()->stateMachineExists($stateMachine)) {
             return $io->error(sprintf('State machine `%s` was not found.', $stateMachine));
