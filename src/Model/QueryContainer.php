@@ -193,15 +193,16 @@ class QueryContainer implements QueryContainerInterface
 
     /**
      * @param \Cake\I18n\FrozenTime $expirationDate
+     * @param bool $delete
      *
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query|\Cake\ORM\Query|\Cake\ORM\Query\DeleteQuery
      */
-    public function queryLockedItemsByExpirationDate(FrozenTime $expirationDate): Query
+    public function queryLockedItemsByExpirationDate(FrozenTime $expirationDate, bool $delete = false)
     {
         $stateMachineLocksTable = $this->getFactory()->createStateMachineLocksTable();
 
-        return $stateMachineLocksTable
-            ->find()
+        $query = $delete ? $stateMachineLocksTable->deleteQuery() : $stateMachineLocksTable->find();
+        return $query
             ->where([
                 $stateMachineLocksTable->aliasField('expires') . ' <= ' => $expirationDate,
             ]);
@@ -209,15 +210,16 @@ class QueryContainer implements QueryContainerInterface
 
     /**
      * @param string $identifier
+     * @param bool $delete
      *
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query|\Cake\ORM\Query\DeleteQuery
      */
-    public function queryLockItemsByIdentifier(string $identifier): Query
+    public function queryLockItemsByIdentifier(string $identifier, bool $delete = false)
     {
         $stateMachineLocksTable = $this->getFactory()->createStateMachineLocksTable();
 
-        return $stateMachineLocksTable
-            ->find()
+        $query = $delete ? $stateMachineLocksTable->deleteQuery() : $stateMachineLocksTable->find();
+        return $query
             ->where([
                 $stateMachineLocksTable->aliasField('identifier') => $identifier,
             ]);
@@ -242,15 +244,16 @@ class QueryContainer implements QueryContainerInterface
     /**
      * @param int $identifier
      * @param int $idProcess
+     * @param bool $delete
      *
-     * @return \Cake\ORM\Query
+     * @return \Cake\ORM\Query|\Cake\ORM\Query\DeleteQuery
      */
-    public function queryEventTimeoutByIdentifierAndFkProcess(int $identifier, int $idProcess): Query
+    public function queryEventTimeoutByIdentifierAndFkProcess(int $identifier, int $idProcess, bool $delete = false)
     {
         $stateMachineTimeoutsTable = $this->getFactory()->createStateMachineTimeoutsTable();
 
-        return $stateMachineTimeoutsTable
-            ->find()
+        $query = $delete ? $stateMachineTimeoutsTable->deleteQuery() : $stateMachineTimeoutsTable->find();
+        return $query
             ->where([
                 $stateMachineTimeoutsTable->aliasField('identifier') => $identifier,
                 $stateMachineTimeoutsTable->aliasField('state_machine_process_id') => $idProcess,

@@ -8,21 +8,23 @@
 namespace StateMachine\Test\TestCase\Controller\Admin;
 
 use Cake\Core\Configure;
-use Cake\TestSuite\IntegrationTestCase;
+use Cake\TestSuite\IntegrationTestTrait;
+use Cake\TestSuite\TestCase;
 use StateMachine\Controller\Admin\GraphController;
 use TestApp\StateMachine\DemoStateMachineHandler;
 
 /**
  * @uses \StateMachine\Controller\Admin\GraphController
  */
-class GraphControllerTest extends IntegrationTestCase
+class GraphControllerTest extends TestCase
 {
+    use IntegrationTestTrait;
     /**
      * Fixtures
      *
      * @var array
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         'plugin.StateMachine.StateMachineProcesses',
     ];
 

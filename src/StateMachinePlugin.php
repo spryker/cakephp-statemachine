@@ -10,34 +10,35 @@ namespace StateMachine;
 use Cake\Console\CommandCollection;
 use Cake\Core\BasePlugin;
 use Cake\Routing\RouteBuilder;
-use StateMachine\Shell\StateMachineShell;
+use Queue\Command\AddCommand;
+use Queue\Command\InfoCommand;
+use Queue\Command\JobCommand;
+use Queue\Command\RunCommand;
+use Queue\Command\WorkerCommand;
+use StateMachine\Command\CheckConditionsStateMachineCommand;
+use StateMachine\Command\CheckTimeoutsStatemachineCommand;
+use StateMachine\Command\ClearLocksStatemachineCommand;
+use StateMachine\Command\InitStatemachineCommand;
 
 /**
  * Plugin for StateMachine
  */
-class Plugin extends BasePlugin
+class StateMachinePlugin extends BasePlugin
 {
     /**
-     * @var string
+     * @var string|null
      */
-    protected $name = 'StateMachine';
+    protected ?string $name = 'StateMachine';
 
     /**
      * @var bool
      */
-    protected $middlewareEnabled = false;
+    protected bool $middlewareEnabled = false;
 
     /**
      * @var bool
      */
-    protected $bootstrapEnabled = false;
-
-    /**
-     * @var array<string>
-     */
-    protected $stateMachineCommandsList = [
-        StateMachineShell::class,
-    ];
+    protected bool $bootstrapEnabled = false;
 
     /**
      * @param \Cake\Routing\RouteBuilder $routes The route builder to update.
@@ -72,20 +73,11 @@ class Plugin extends BasePlugin
             return $commands->addMany($commandList);
         }
 
-        $commandList = [];
-        foreach ($this->stateMachineCommandsList as $class) {
-            /** @var string $name */
-            $name = $class::defaultName();
-            // If the short name has been used, use the full name.
-            // This allows app commands to have name preference.
-            // and app commands to overwrite migration commands.
-            if (!$commands->has($name)) {
-                $commandList[$name] = $class;
-            }
-            // full name
-            $commandList['state_machine.' . $name] = $class;
-        }
+        $commands->add('state_machine check_conditions', CheckConditionsStateMachineCommand::class);
+        $commands->add('state_machine check_timeouts', CheckTimeoutsStatemachineCommand::class);
+        $commands->add('state_machine clear-locks', ClearLocksStatemachineCommand::class);
+        $commands->add('state_machine init', InitStatemachineCommand::class);
 
-        return $commands->addMany($commandList);
+        return $commands;
     }
 }

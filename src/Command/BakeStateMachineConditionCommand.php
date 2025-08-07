@@ -23,12 +23,12 @@ class BakeStateMachineConditionCommand extends SimpleBakeCommand
      *
      * @var string
      */
-    public $pathFragment = 'StateMachine/Condition/';
+    public string $pathFragment = 'StateMachine/Condition/';
 
     /**
      * @var string
      */
-    protected $_name;
+    protected string $_name;
 
     /**
      * @inheritDoc

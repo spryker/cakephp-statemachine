@@ -16,7 +16,7 @@ class StateMachineTransitionLogsFixture extends TestFixture
      *
      * @var array
      */
-    public $fields = [
+    public array $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'state_machine_process_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'state_machine_item_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
@@ -36,7 +36,7 @@ class StateMachineTransitionLogsFixture extends TestFixture
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-            'state_machine_item_id' => ['type' => 'foreign', 'columns' => ['state_machine_item_id'], 'references' => ['state_machine_items', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
+            'StateMachineTransitionLogsstate_machine_item_id' => ['type' => 'foreign', 'columns' => ['state_machine_item_id'], 'references' => ['state_machine_items', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',

@@ -30,7 +30,7 @@ class StateMachineItemStateLog extends Entity
      *
      * @var array<string, bool>
      */
-    protected $_accessible = [
+    protected array $_accessible = [
         'state_machine_item_state_id' => true,
         'identifier' => true,
         'created' => true,

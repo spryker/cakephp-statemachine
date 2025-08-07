@@ -19,7 +19,7 @@ class StateMachineTimeoutsFixture extends TestFixture
      *
      * @var array
      */
-    public $fields = [
+    public array $fields = [
         'id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'autoIncrement' => true, 'precision' => null],
         'state_machine_item_state_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'state_machine_process_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
@@ -32,8 +32,8 @@ class StateMachineTimeoutsFixture extends TestFixture
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
             'identifier' => ['type' => 'unique', 'columns' => ['identifier', 'state_machine_item_state_id'], 'length' => []],
-            'state_machine_process_id' => ['type' => 'foreign', 'columns' => ['state_machine_process_id'], 'references' => ['state_machine_processes', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
-            'state_machine_item_state_id' => ['type' => 'foreign', 'columns' => ['state_machine_item_state_id'], 'references' => ['state_machine_item_states', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
+            'tateMachineTimeoutsstate_machine_process_id' => ['type' => 'foreign', 'columns' => ['state_machine_process_id'], 'references' => ['state_machine_processes', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
+            'tateMachineTimeoutsstate_machine_item_state_id' => ['type' => 'foreign', 'columns' => ['state_machine_item_state_id'], 'references' => ['state_machine_item_states', 'id'], 'update' => 'restrict', 'delete' => 'cascade', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',

@@ -33,8 +33,6 @@ define('WWW_ROOT', TMP . 'webroot' . DS);
 require dirname(__DIR__) . '/vendor/autoload.php';
 require CORE_PATH . 'config/bootstrap.php';
 
-Cake\Core\Configure::write('debug', true);
-
 Cake\Core\Configure::write('App', [
     'namespace' => 'TestApp',
     'encoding' => 'UTF-8',
@@ -43,10 +41,7 @@ Cake\Core\Configure::write('App', [
     ],
 ]);
 
-Cake\Core\Configure::write('debug', true);
-
-Cake\Core\Configure::write('Yandex.key', env('YANDEX_KEY'));
-Cake\Core\Configure::write('Transltr.live', env('TRANSLTR_LIVE'));
+Cake\Core\Configure::write('Transltr.live', getenv('TRANSLTR_LIVE') ?: null);
 
 $cache = [
     'default' => [
@@ -69,34 +64,24 @@ $cache = [
 ];
 
 Cake\Cache\Cache::setConfig($cache);
+Cake\Core\Configure::write('debug', true);
 
 class_alias(TestApp\Controller\AppController::class, 'App\Controller\AppController');
 class_alias(Cake\View\View::class, 'App\View\AppView');
 class_alias(TestApp\Application::class, 'App\Application');
 
-Cake\Core\Plugin::getCollection()->add(new \StateMachine\Plugin());
-Cake\Core\Plugin::getCollection()->add(new \Tools\Plugin());
+Cake\Core\Plugin::getCollection()->add(new \StateMachine\StateMachinePlugin());
 
-// Ensure default test connection is defined
-if (!getenv('db_class')) {
-    putenv('db_class=Cake\Database\Driver\Sqlite');
-    putenv('db_dsn=sqlite::memory:');
+
+$dbUrl = getenv('DB_DSN') ?: getenv('DB_URL');
+if ($dbUrl) {
+    $config = [
+        'url' => $dbUrl,
+        'quoteIdentifiers' => true,
+    ];
+    \Cake\Datasource\ConnectionManager::drop('test');
+    \Cake\Datasource\ConnectionManager::setConfig('test', $config);
+    \Cake\Datasource\ConnectionManager::setConfig('default', $config);
 }
-
-Cake\Datasource\ConnectionManager::setConfig('test', [
-    'className' => 'Cake\Database\Connection',
-    'driver' => getenv('db_class') ?: null,
-    'dsn' => getenv('db_dsn') ?: null,
-    'timezone' => 'UTC',
-    'quoteIdentifiers' => true,
-    'cacheMetadata' => true,
-]);
-
-Cake\Datasource\ConnectionManager::setConfig('test_database_log', [
-    'className' => 'Cake\Database\Connection',
-    'driver' => getenv('db_class') ?: null,
-    'dsn' => getenv('db_dsn') ?: null,
-    'timezone' => 'UTC',
-    'quoteIdentifiers' => true,
-    'cacheMetadata' => true,
-]);
+$loader = new \Cake\TestSuite\Fixture\SchemaLoader();
+$loader->loadInternalFile(TESTS . 'schema.php');
