@@ -44,8 +44,8 @@
                 <td><?= $this->Format->yesNo($stateMachineTransitionLog->is_error) ?></td>
                 <td><?= $this->Time->nice($stateMachineTransitionLog->created) ?></td>
                 <td class="actions">
-                <?= $this->Html->link($this->Format->icon('view'), ['action' => 'view', $stateMachineTransitionLog->id], ['escapeTitle' => false]); ?>
-                <?= $this->Form->postLink($this->Format->icon('delete'), ['action' => 'delete', $stateMachineTransitionLog->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineTransitionLog->id)]); ?>
+                <?= $this->Html->link($this->Icon->render('view'), ['action' => 'view', $stateMachineTransitionLog->id], ['escapeTitle' => false]); ?>
+                <?= $this->Form->postLink($this->Icon->render('delete'), ['action' => 'delete', $stateMachineTransitionLog->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineTransitionLog->id)]); ?>
                 </td>
             </tr>
             <?php endforeach; ?>

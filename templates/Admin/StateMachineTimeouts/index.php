@@ -34,8 +34,8 @@
                 <td><?= h($stateMachineTimeout->event) ?></td>
                 <td><?= $this->Time->nice($stateMachineTimeout->timeout) ?></td>
                 <td class="actions">
-                <?= $this->Html->link($this->Format->icon('view'), ['action' => 'view', $stateMachineTimeout->id], ['escapeTitle' => false]); ?>
-                <?= $this->Form->postLink($this->Format->icon('delete'), ['action' => 'delete', $stateMachineTimeout->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineTimeout->id)]); ?>
+                <?= $this->Html->link($this->Icon->render('view'), ['action' => 'view', $stateMachineTimeout->id], ['escapeTitle' => false]); ?>
+                <?= $this->Form->postLink($this->Icon->render('delete'), ['action' => 'delete', $stateMachineTimeout->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineTimeout->id)]); ?>
                 </td>
             </tr>
             <?php endforeach; ?>
