@@ -11,12 +11,24 @@ use App\Controller\AppController;
 use Cake\Http\Response;
 
 /**
- * @property \StateMachine\Model\Table\StateMachineProcessesTable $StateMachineProcesses
- *
  * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineProcess> paginate($object = null, array $settings = [])
  */
 class StateMachineProcessesController extends AppController
 {
+    /**
+     * @var \StateMachine\Model\Table\StateMachineProcessesTable
+     */
+    protected $StateMachineProcesses;
+
+    /**
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->StateMachineProcesses = $this->fetchModel('StateMachine.StateMachineProcesses');
+    }
+
     /**
      * Index method
      *
@@ -24,7 +36,8 @@ class StateMachineProcessesController extends AppController
      */
     public function index()
     {
-        $stateMachineProcesses = $this->paginate();
+        $query = $this->StateMachineProcesses->find();
+        $stateMachineProcesses = $this->paginate($query);
 
         $this->set(compact('stateMachineProcesses'));
         $this->set('_serialize', ['stateMachineProcesses']);

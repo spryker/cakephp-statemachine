@@ -11,12 +11,24 @@ use App\Controller\AppController;
 use Cake\Http\Response;
 
 /**
- * @property \StateMachine\Model\Table\StateMachineItemStateLogsTable $StateMachineItemStateLogs
- *
  * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineItemStateLog> paginate($object = null, array $settings = [])
  */
 class StateMachineItemStateLogsController extends AppController
 {
+    /**
+     * @var \StateMachine\Model\Table\StateMachineItemStateLogsTable
+     */
+    protected $StateMachineItemStateLogs;
+
+    /**
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->StateMachineItemStateLogs = $this->fetchModel('StateMachine.StateMachineItemStateLogs');
+    }
+
     /**
      * Index method
      *
@@ -24,13 +36,8 @@ class StateMachineItemStateLogsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'order' => [
-                'id' => 'DESC',
-            ],
-            'contain' => ['StateMachineItemStates'],
-        ];
-        $stateMachineItemStateLogs = $this->paginate();
+        $query = $this->StateMachineItemStateLogs->find()->contain(['StateMachineItemStates'])->orderByDesc('id');
+        $stateMachineItemStateLogs = $this->paginate($query);
 
         $this->set(compact('stateMachineItemStateLogs'));
         $this->set('_serialize', ['stateMachineItemStateLogs']);

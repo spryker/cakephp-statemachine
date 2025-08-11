@@ -11,12 +11,24 @@ use App\Controller\AppController;
 use Cake\Http\Response;
 
 /**
- * @property \StateMachine\Model\Table\StateMachineTimeoutsTable $StateMachineTimeouts
- *
  * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineTimeout> paginate($object = null, array $settings = [])
  */
 class StateMachineTimeoutsController extends AppController
 {
+    /**
+     * @var \StateMachine\Model\Table\StateMachineTimeoutsTable
+     */
+    protected $StateMachineTimeouts;
+
+    /**
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->StateMachineTimeouts = $this->fetchModel('StateMachine.StateMachineTimeouts');
+    }
+
     /**
      * Index method
      *
@@ -24,10 +36,9 @@ class StateMachineTimeoutsController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['StateMachineItemStates', 'StateMachineProcesses'],
-        ];
-        $stateMachineTimeouts = $this->paginate();
+        $query = $this->StateMachineTimeouts->find()
+            ->contain(['StateMachineItemStates', 'StateMachineProcesses']);
+        $stateMachineTimeouts = $this->paginate($query);
 
         $this->set(compact('stateMachineTimeouts'));
         $this->set('_serialize', ['stateMachineTimeouts']);

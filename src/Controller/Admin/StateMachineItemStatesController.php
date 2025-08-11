@@ -18,6 +18,20 @@ use Cake\Http\Response;
 class StateMachineItemStatesController extends AppController
 {
     /**
+     * @var \StateMachine\Model\Table\StateMachineItemStatesTable
+     */
+    protected $StateMachineItemStates;
+
+    /**
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->StateMachineItemStates = $this->fetchModel('StateMachine.StateMachineItemStates');
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void
@@ -27,7 +41,8 @@ class StateMachineItemStatesController extends AppController
         $this->paginate = [
             'contain' => ['StateMachineProcesses'],
         ];
-        $stateMachineItemStates = $this->paginate();
+        $query = $this->StateMachineItemStates->find()->contain(['StateMachineProcesses']);
+        $stateMachineItemStates = $this->paginate($query);
 
         $this->set(compact('stateMachineItemStates'));
         $this->set('_serialize', ['stateMachineItemStates']);

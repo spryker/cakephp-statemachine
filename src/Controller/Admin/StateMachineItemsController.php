@@ -22,31 +22,40 @@ use StateMachine\Dto\StateMachine\ItemDto;
 class StateMachineItemsController extends AppController
 {
     /**
+     * @var \StateMachine\Model\Table\StateMachineItemsTable
+     */
+    protected $StateMachineItems;
+
+    /**
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->StateMachineItems = $this->fetchModel('StateMachine.StateMachineItems');
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void
      */
     public function index()
     {
-        $this->paginate = [
-            'order' => [
-                'state_machine_transition_log_id' => 'DESC',
-            ],
-            'contain' => [
-                'StateMachineTransitionLogs',
-            ],
-        ];
-
+        $query = $this->StateMachineItems->find()->contain(['StateMachineTransitionLogs'])->orderByDesc('state_machine_transition_log_id');
         $stateMachineName = $this->request->getQuery('state-machine');
+        $where = [];
         if ($stateMachineName) {
-            $this->paginate['conditions'] = ['state_machine' => $stateMachineName];
+            $where = ['state_machine' => $stateMachineName];
         }
         $stateName = $this->request->getQuery('state');
         if ($stateName) {
-            $this->paginate['conditions']['state'] = $stateName;
+            $where['state'] = $stateName;
         }
-
-        $stateMachineItems = $this->paginate($this->StateMachineItems);
+        if ($where) {
+            $query = $query->where($where);
+        }
+        $stateMachineItems = $this->paginate($query);
 
         $this->set(compact('stateMachineItems'));
     }
