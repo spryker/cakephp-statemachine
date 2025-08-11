@@ -11,12 +11,24 @@ use App\Controller\AppController;
 use Cake\Http\Response;
 
 /**
- * @property \StateMachine\Model\Table\StateMachineLocksTable $StateMachineLocks
- *
  * @method \Cake\Datasource\ResultSetInterface<\StateMachine\Model\Entity\StateMachineLock> paginate($object = null, array $settings = [])
  */
 class StateMachineLocksController extends AppController
 {
+    /**
+     * @var \StateMachine\Model\Table\StateMachineLocksTable
+     */
+    protected $StateMachineLocks;
+
+    /**
+     * @return void
+     */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->StateMachineLocks = $this->fetchModel('StateMachine.StateMachineLocks');
+    }
+
     /**
      * Index method
      *
@@ -24,7 +36,8 @@ class StateMachineLocksController extends AppController
      */
     public function index()
     {
-        $stateMachineLocks = $this->paginate();
+        $query = $this->StateMachineLocks->find();
+        $stateMachineLocks = $this->paginate($query);
 
         $this->set(compact('stateMachineLocks'));
     }
