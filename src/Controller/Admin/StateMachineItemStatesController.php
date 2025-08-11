@@ -38,9 +38,6 @@ class StateMachineItemStatesController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['StateMachineProcesses'],
-        ];
         $query = $this->StateMachineItemStates->find()->contain(['StateMachineProcesses']);
         $stateMachineItemStates = $this->paginate($query);
 
