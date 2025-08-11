@@ -32,9 +32,9 @@ use Cake\Core\Configure;
                 <td><?= h($stateMachineItem->state) ?></td>
                 <td><?= $stateMachineItem->state_machine_transition_log? $this->Time->nice($stateMachineItem->state_machine_transition_log->created) : 'n/a' ?></td>
                 <td class="actions">
-                <?= $this->Html->link($this->Format->icon('view'), ['action' => 'view', $stateMachineItem->id], ['escapeTitle' => false]); ?>
+                <?= $this->Html->link($this->Icon->render('view'), ['action' => 'view', $stateMachineItem->id], ['escapeTitle' => false]); ?>
                 <?php if (Configure::read('debug')) {
-                    echo $this->Form->postLink($this->Format->icon('delete'), ['action' => 'delete', $stateMachineItem->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItem->id)]);
+                    echo $this->Form->postLink($this->Icon->render('delete'), ['action' => 'delete', $stateMachineItem->id], ['escapeTitle' => false, 'confirm' => __('Are you sure you want to delete # {0}?', $stateMachineItem->id)]);
                 } ?>
                 </td>
             </tr>
