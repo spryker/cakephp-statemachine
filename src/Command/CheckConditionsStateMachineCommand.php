@@ -48,7 +48,7 @@ class CheckConditionsStateMachineCommand extends Command
             return $io->error(sprintf('State machine `%s` was not found.', $stateMachine));
         }
 
-        $affected = $this->getFacade()->checkTimeouts($stateMachine);
+        $affected = $this->getFacade()->checkConditions($stateMachine);
 
         $io->verbose('Affected: ' . $affected);
 
