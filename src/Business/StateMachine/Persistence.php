@@ -409,6 +409,7 @@ class Persistence implements PersistenceInterface
             ->queryEventTimeoutByIdentifierAndFkProcess(
                 $itemDto->getIdentifierOrFail(),
                 $itemDto->getIdStateMachineProcessOrFail(),
+                true,
             )->execute();
     }
 

@@ -13,7 +13,7 @@ class ClearLocksStatemachineCommand extends Command
     use FacadeAwareTrait;
 
     public static function defaultName(): string {
-        return 'state_machine clear-locks';
+        return 'state_machine clear_locks';
     }
 
     public function execute(Arguments $args, ConsoleIo $io): ?int
